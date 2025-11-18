@@ -1,0 +1,5 @@
+{
+  "name": "Finland Works!",
+  "description": "A standalone, local-first conversational assistant curated for starting life in Finland. Uses Gemini AI for context-aware advice while keeping data local.",
+  "requestFramePermissions": []
+}
