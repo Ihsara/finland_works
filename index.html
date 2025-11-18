@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      // Polyfill process.env for browser environment to support standard Gemini SDK usage
+      if (typeof process === 'undefined') {
+        window.process = { env: { API_KEY: '' } };
+      }
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Finland Works!</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -46,7 +52,8 @@
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "js-yaml": "https://aistudiocdn.com/js-yaml@^4.1.1"
+    "js-yaml": "https://aistudiocdn.com/js-yaml@^4.1.1",
+    "marked": "https://aistudiocdn.com/marked@^12.0.0"
   }
 }
 </script>

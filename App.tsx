@@ -5,6 +5,13 @@ import { AppView, Conversation, Message, Sender, UserProfile, DEFAULT_PROFILE_YA
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
+import { marked } from 'marked';
+
+// Configure marked options for basic GitHub Flavored Markdown support
+marked.use({
+  gfm: true,
+  breaks: true
+});
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.DASHBOARD);
@@ -23,10 +30,10 @@ const App: React.FC = () => {
 
   // Initialization
   useEffect(() => {
-    // Load API Key
-    const storedKey = Storage.getApiKey();
-    if (storedKey) {
-      setApiKey(storedKey);
+    // Load API Key from storage into process.env
+    const envKey = Storage.initializeEnv();
+    if (envKey) {
+      setApiKey(envKey);
     }
 
     // Load Profile
@@ -35,7 +42,7 @@ const App: React.FC = () => {
     setYamlInput(Storage.getProfileYaml());
 
     // Check for pending summaries on boot
-    processPendingSummaries(storedKey);
+    processPendingSummaries();
   }, []);
 
   // Auto-scroll chat
@@ -43,8 +50,8 @@ const App: React.FC = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentConversation?.messages, isTyping]);
 
-  const processPendingSummaries = async (key: string | null) => {
-    if (!key) return;
+  const processPendingSummaries = async () => {
+    // Key is already in process.env if initializeEnv worked
     const pendingIds = Storage.getPendingSummaries();
     if (pendingIds.length === 0) return;
 
@@ -54,7 +61,7 @@ const App: React.FC = () => {
       const conv = Storage.getConversation(id);
       if (conv && !conv.isSummarized && conv.messages.length > 0) {
         try {
-          const summary = await Gemini.summarizeConversation(key, conv.messages);
+          const summary = await Gemini.summarizeConversation(conv.messages);
           Storage.saveSummary(id, summary);
           Storage.removePendingSummary(id);
         } catch (e) {
@@ -69,8 +76,9 @@ const App: React.FC = () => {
 
   const handleSaveKey = () => {
     if (keyInput.trim().length > 10) {
-      Storage.saveApiKey(keyInput.trim());
-      setApiKey(keyInput.trim());
+      const newKey = keyInput.trim();
+      Storage.saveApiKey(newKey); // This also updates process.env.API_KEY
+      setApiKey(newKey);
     }
   };
 
@@ -87,7 +95,7 @@ const App: React.FC = () => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputText.trim() || !currentConversation || !apiKey || !profile) return;
+    if (!inputText.trim() || !currentConversation || !profile) return;
 
     const userMsg: Message = {
       id: uuidv4(),
@@ -106,7 +114,6 @@ const App: React.FC = () => {
 
     try {
       const responseText = await Gemini.sendMessageToGemini(
-        apiKey, 
         updatedMessages.slice(0, -1), // History excluding current
         userMsg.text, 
         profile
@@ -140,7 +147,7 @@ const App: React.FC = () => {
     if (shouldSummarize && apiKey) {
       try {
         setIsTyping(true); // Reuse typing indicator for loading
-        const summary = await Gemini.summarizeConversation(apiKey, currentConversation.messages);
+        const summary = await Gemini.summarizeConversation(currentConversation.messages);
         Storage.saveSummary(currentConversation.id, summary);
         alert("Summary saved to data/summary/");
       } catch (e) {
@@ -301,13 +308,19 @@ const App: React.FC = () => {
                 className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}
               >
                 <div 
-                  className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-5 py-4 text-sm leading-relaxed whitespace-pre-wrap shadow-sm
+                  className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm overflow-hidden
                     ${msg.sender === Sender.USER 
                       ? 'bg-gray-100 text-gray-900 rounded-tr-sm border border-gray-200' 
                       : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm'
                     }`}
                 >
-                  {msg.text}
+                   {/* Markdown Renderer */}
+                   <div 
+                      className={`prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0
+                        ${msg.sender === Sender.USER ? 'prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900' : ''}
+                      `}
+                      dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
+                   />
                 </div>
               </div>
             ))}
@@ -335,7 +348,7 @@ const App: React.FC = () => {
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Ask something about life in Finland..."
                 disabled={isTyping}
-                className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
+                className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
               />
               <button 
                 onClick={handleSendMessage}

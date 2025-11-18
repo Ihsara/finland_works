@@ -1,9 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { Message, Sender, UserProfile } from "../types";
 
+declare var process: { env: { API_KEY: string } };
+
 // Helper to initialize the AI client with the stored key
-const getClient = (apiKey: string) => {
-  return new GoogleGenAI({ apiKey });
+const getClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key not found in environment");
+  }
+  return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
 const SYSTEM_INSTRUCTION_BASE = `
@@ -32,18 +38,12 @@ export const createSystemInstruction = (profile: UserProfile): string => {
 };
 
 export const sendMessageToGemini = async (
-  apiKey: string,
   history: Message[],
   newMessage: string,
   profile: UserProfile
 ): Promise<string> => {
-  const ai = getClient(apiKey);
+  const ai = getClient();
   
-  // Convert internal message format to Gemini API format if needed, 
-  // but typically we just need the system instruction and the new message 
-  // in a "stateless" way or maintain chat object. 
-  // For this implementation, we will use the Chat helper.
-
   const systemInstruction = createSystemInstruction(profile);
 
   const chat = ai.chats.create({
@@ -71,10 +71,9 @@ export const sendMessageToGemini = async (
 };
 
 export const summarizeConversation = async (
-  apiKey: string,
   messages: Message[]
 ): Promise<string> => {
-  const ai = getClient(apiKey);
+  const ai = getClient();
   
   const transcript = messages.map(m => `${m.sender.toUpperCase()}: ${m.text}`).join('\n');
   const prompt = `

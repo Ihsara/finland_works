@@ -1,6 +1,9 @@
 import jsYaml from 'js-yaml';
 import { UserProfile, Conversation, DEFAULT_PROFILE_YAML } from '../types';
 
+// Polyfill declaration for TypeScript
+declare var process: { env: { API_KEY: string } };
+
 const PREFIX = 'fw_';
 const KEYS = {
   API_KEY: `${PREFIX}data/.env`,
@@ -11,12 +14,25 @@ const KEYS = {
 };
 
 // --- API Key Management ---
+
+// Initialize process.env.API_KEY from local storage
+export const initializeEnv = (): string | null => {
+  const stored = localStorage.getItem(KEYS.API_KEY);
+  if (stored) {
+    process.env.API_KEY = stored;
+    return stored;
+  }
+  return null;
+};
+
 export const getApiKey = (): string | null => {
   return localStorage.getItem(KEYS.API_KEY);
 };
 
 export const saveApiKey = (key: string): void => {
   localStorage.setItem(KEYS.API_KEY, key);
+  // Also update the runtime environment
+  process.env.API_KEY = key;
 };
 
 // --- Profile Management (YAML) ---
