@@ -6,6 +6,8 @@ import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
+import WikiView from './components/WikiView';
+import ProfileWizard from './components/ProfileWizard';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -164,6 +166,7 @@ const App: React.FC = () => {
     setView(AppView.DASHBOARD);
   };
 
+  // --- Profile Handling ---
   const handleSaveProfile = () => {
     try {
       Storage.saveProfileYaml(yamlInput);
@@ -175,11 +178,17 @@ const App: React.FC = () => {
   };
 
   const handleCreateNewProfile = () => {
-    const confirmMsg = "Create a new profile?\n\nThis will reset your personal information to a blank template. Your conversation history will remain, but new advice will be based on this new empty profile.";
+    const confirmMsg = "Start a new profile setup? This will replace your current settings.";
     if (window.confirm(confirmMsg)) {
-      setYamlInput(TEMPLATE_PROFILE_YAML);
-      setView(AppView.PROFILE);
+      setView(AppView.QUIZ);
     }
+  };
+
+  const handleWizardComplete = (yamlStr: string) => {
+    Storage.saveProfileYaml(yamlStr);
+    setProfile(Storage.getProfileObject());
+    setYamlInput(yamlStr);
+    setView(AppView.DASHBOARD);
   };
 
   const handleLoadDemoProfile = () => {
@@ -188,7 +197,6 @@ const App: React.FC = () => {
       Storage.saveProfileYaml(demoYaml); // Save immediately for better UX on "Load"
       setProfile(Storage.getProfileObject());
       setYamlInput(demoYaml);
-      // We don't necessarily need to switch view, just notify
       alert("Demo profile 'Gabriela' loaded!");
     }
   };
@@ -223,6 +231,25 @@ const App: React.FC = () => {
           </button>
           <p className="text-xs text-gray-400">Don't have a key? Get a free one from Google AI Studio.</p>
         </div>
+      </Layout>
+    );
+  }
+
+  if (view === AppView.WIKI) {
+    return (
+      <Layout>
+        <WikiView onClose={() => setView(AppView.DASHBOARD)} />
+      </Layout>
+    );
+  }
+
+  if (view === AppView.QUIZ) {
+    return (
+      <Layout>
+        <ProfileWizard 
+          onComplete={handleWizardComplete} 
+          onCancel={() => setView(AppView.DASHBOARD)} 
+        />
       </Layout>
     );
   }
@@ -403,18 +430,20 @@ const App: React.FC = () => {
         {/* Actions */}
         <div className="px-6 md:px-8 py-8 flex flex-col md:flex-row gap-4">
           <button 
-            onClick={() => alert("Quiz feature coming soon! For now, try asking a question.")}
-            className="flex-1 bg-gray-900 text-white h-24 rounded-xl flex items-center justify-center gap-3 font-medium hover:bg-black transition shadow-lg group"
+            onClick={() => setView(AppView.WIKI)}
+            className="flex-1 bg-blue-600 text-white h-24 rounded-xl flex items-center justify-center gap-3 font-medium hover:bg-blue-700 transition shadow-lg group overflow-hidden relative"
           >
-            <Icons.FileText className="w-5 h-5 text-gray-300 group-hover:text-white" />
-            Take the short quiz
+             {/* Decorative blob */}
+             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500 rounded-full opacity-50 group-hover:scale-110 transition duration-500"></div>
+            <Icons.Languages className="w-6 h-6 z-10" />
+            <span className="z-10 text-lg">What is even Finland?</span>
           </button>
           <button 
             onClick={startNewChat}
             className="flex-1 bg-white border border-gray-200 text-gray-900 h-24 rounded-xl flex items-center justify-center gap-3 font-medium hover:border-gray-300 hover:bg-gray-50 hover:shadow-md transition shadow-sm"
           >
             <Icons.MessageSquare className="w-5 h-5 text-blue-600" />
-            Ask a question
+            <span className="text-lg">Ask a question</span>
           </button>
         </div>
 

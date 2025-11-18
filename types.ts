@@ -3,7 +3,9 @@ export enum AppView {
   DASHBOARD = 'DASHBOARD',
   CHAT = 'CHAT',
   PROFILE = 'PROFILE',
-  SETTINGS = 'SETTINGS'
+  SETTINGS = 'SETTINGS',
+  QUIZ = 'QUIZ',
+  WIKI = 'WIKI'
 }
 
 export enum Sender {
