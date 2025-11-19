@@ -1,3 +1,4 @@
+
 // Enums
 export enum AppView {
   DASHBOARD = 'DASHBOARD',
@@ -30,7 +31,9 @@ export interface Conversation {
 }
 
 export interface UserProfile {
+  id: string; // Unique ID for the profile
   name: string;
+  residencePermitType: string;
   ageRange: string;
   originCountry: string;
   maritalStatus: string;
@@ -49,7 +52,9 @@ export interface UserProfile {
 
 // Default Profile Data (YAML Template)
 export const DEFAULT_PROFILE_YAML = `
+id: demo-gabriela
 name: Gabriela
+residencePermitType: Work-based (Specialist)
 ageRange: 26-35 years old
 originCountry: Brazil
 maritalStatus: Married, one child (4 years old)
@@ -73,7 +78,9 @@ challenges:
 `.trim();
 
 export const TEMPLATE_PROFILE_YAML = `
+id: [UUID]
 name: [Your Name]
+residencePermitType: [e.g. Work, Student, Family, EU Registration]
 ageRange: [e.g. 25-30]
 originCountry: [Country]
 maritalStatus: [Status]

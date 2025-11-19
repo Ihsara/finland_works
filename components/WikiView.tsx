@@ -1,74 +1,315 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
-import { WIKI_CONTENT, WikiArticle } from '../data/wikiContent';
+import { WIKI_CATEGORIES, WikiCategory, WikiArticle } from '../data/wikiContent';
 import { marked } from 'marked';
-import { AppView } from '../types';
+import { UserProfile } from '../types';
+import * as Storage from '../services/storageService';
+import { WikiProgressData } from '../services/storageService';
 
 interface WikiViewProps {
   onClose: () => void;
+  profile: UserProfile | null;
 }
 
-const WikiView: React.FC<WikiViewProps> = ({ onClose }) => {
-  const [activeArticle, setActiveArticle] = useState<WikiArticle>(WIKI_CONTENT[0]);
+const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
+  const [activeArticle, setActiveArticle] = useState<WikiArticle | null>(null);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true); // Open by default on mobile to show nav first
+  
+  // Progress State
+  const [progress, setProgress] = useState<WikiProgressData>({ 
+    items: {}, 
+    globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
+  });
 
-  // Helper to render icons dynamically
-  const renderIcon = (iconName: string) => {
-    const IconComponent = (Icons as any)[iconName] || Icons.FileText;
-    return <IconComponent className="w-5 h-5" />;
+  // Initialize
+  useEffect(() => {
+    // If on desktop, ensure menu is "closed" (logic handled by CSS media queries for layout, 
+    // but for state consistency let's keep it consistent).
+    // Actually, for this responsive design:
+    // Desktop: Sidebar always visible.
+    // Mobile: Sidebar is an overlay.
+    // We start with sidebar OPEN on mobile so user sees options, or CLOSED if they want to read?
+    // Best UX: If no article selected, show menu. If article selected, show content.
+    
+    if (!profile) {
+      if (WIKI_CATEGORIES.length > 0 && WIKI_CATEGORIES[0].articles.length > 0) {
+        setActiveArticle(WIKI_CATEGORIES[0].articles[0]);
+      }
+      const initialOpen: Record<string, boolean> = {};
+      WIKI_CATEGORIES.forEach(c => initialOpen[c.id] = true);
+      setOpenCategories(initialOpen);
+      setIsMobileMenuOpen(false); // Default to content if generic
+      return;
+    }
+
+    Storage.trackWikiSession(profile.id);
+    const savedProgress = Storage.getWikiProgress(profile.id);
+    setProgress(savedProgress);
+
+    const userTags = getUserTags(profile);
+    const initialOpen: Record<string, boolean> = {};
+    
+    WIKI_CATEGORIES.forEach(cat => {
+      const hasRelevant = cat.articles.some(a => 
+        a.tags.some(t => userTags.has(t) || t === 'mandatory')
+      );
+      if (hasRelevant || cat === WIKI_CATEGORIES[0]) {
+        initialOpen[cat.id] = true;
+      }
+    });
+    setOpenCategories(initialOpen);
+
+    // Auto-select first relevant article
+    let found = false;
+    for (const cat of WIKI_CATEGORIES) {
+        for (const art of cat.articles) {
+            const isRelevant = art.tags.some(t => userTags.has(t) || t === 'mandatory');
+            const isDone = savedProgress.items[art.id]?.status === 'done';
+            if (isRelevant && !isDone) {
+                setActiveArticle(art);
+                found = true;
+                break;
+            }
+        }
+        if (found) break;
+    }
+    if (!found && WIKI_CATEGORIES[0]?.articles[0]) {
+        setActiveArticle(WIKI_CATEGORIES[0].articles[0]);
+    }
+    
+    // On mobile, if we found an article, show it (hide menu).
+    // If on desktop, menu doesn't matter as it's side-by-side.
+    setIsMobileMenuOpen(false);
+
+  }, [profile]);
+
+  const getUserTags = (p: UserProfile): Set<string> => {
+    const tags = new Set<string>(['general']);
+    const permit = p.residencePermitType.toLowerCase();
+    if (permit.includes('student')) tags.add('student');
+    if (permit.includes('work') || permit.includes('specialist')) tags.add('worker');
+    const marital = p.maritalStatus.toLowerCase();
+    if (marital.includes('child') || marital.includes('family')) tags.add('family');
+    if (p.ageRange === '18-25') tags.add('youth');
+    tags.add('arrival');
+    return tags;
+  };
+
+  const handleToggleStatus = (status: 'done' | 'later') => {
+      if (!activeArticle || !profile) return;
+      const currentStatus = progress.items[activeArticle.id]?.status;
+      const newStatus = currentStatus === status ? undefined : status;
+      Storage.saveWikiArticleStatus(profile.id, activeArticle.id, newStatus);
+      setProgress(Storage.getWikiProgress(profile.id));
+  };
+
+  const toggleCategory = (catId: string) => {
+    setOpenCategories(prev => ({...prev, [catId]: !prev[catId]}));
+  };
+
+  const renderIcon = (iconName: string, className: string = "w-4 h-4") => {
+    const IconComponent = (Icons as any)[iconName] || Icons.FileText; 
+    return <IconComponent className={className} />;
+  };
+
+  const getCategoryProgress = (cat: WikiCategory) => {
+    if (!cat.articles.length) return 0;
+    const doneCount = cat.articles.filter(a => progress.items[a.id]?.status === 'done').length;
+    return Math.round((doneCount / cat.articles.length) * 100);
+  };
+
+  const getCurrentDisplayId = (article: WikiArticle) => {
+    for(let i=0; i<WIKI_CATEGORIES.length; i++) {
+        const cat = WIKI_CATEGORIES[i];
+        const idx = cat.articles.findIndex(a => a.id === article.id);
+        if (idx !== -1) return `${i+1}.${idx+1}`;
+    }
+    return "";
+  };
+
+  const handleArticleClick = (article: WikiArticle) => {
+    setActiveArticle(article);
+    setIsMobileMenuOpen(false); // Close menu on mobile when selection made
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white relative overflow-hidden">
       {/* Header */}
-      <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-white z-50 shadow-sm md:px-6 md:py-4">
         <div className="flex items-center gap-3">
-          <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
-            <Icons.Languages className="w-6 h-6" />
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+          >
+            {isMobileMenuOpen ? <Icons.ChevronDown className="w-6 h-6" /> : <Icons.MessageSquare className="w-6 h-6 rotate-90" />} 
+          </button>
+          
+          <div className="bg-black p-1.5 md:p-2 rounded-lg text-white shadow-sm">
+            <Icons.Languages className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="font-bold text-gray-900 text-xl">What is even Finland?</h2>
-            <p className="text-xs text-gray-500">Essential guide for newcomers</p>
+            <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight line-clamp-1">Finland Works!</h2>
+            <p className="text-[10px] md:text-xs text-gray-500 hidden sm:block">
+              {profile ? `Curated for ${profile.name}` : 'Essential guide'}
+            </p>
           </div>
         </div>
         <button 
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition"
+          className="text-gray-400 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition"
         >
           <Icons.X className="w-6 h-6" />
         </button>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-1/3 md:w-1/4 bg-gray-50 border-r border-gray-100 overflow-y-auto p-4 space-y-2">
-          {WIKI_CONTENT.map((article) => (
-            <button
-              key={article.id}
-              onClick={() => setActiveArticle(article)}
-              className={`w-full text-left p-3 rounded-lg flex items-center gap-3 transition ${
-                activeArticle.id === article.id 
-                  ? 'bg-white shadow-sm text-blue-600 border border-blue-100' 
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <span className={activeArticle.id === article.id ? 'text-blue-500' : 'text-gray-400'}>
-                {renderIcon(article.icon)}
-              </span>
-              <span className="text-sm font-medium hidden md:block">{article.title}</span>
-            </button>
-          ))}
+      <div className="flex flex-1 overflow-hidden relative">
+        
+        {/* Sidebar - Mobile Overlay & Desktop Static */}
+        <div className={`
+            absolute inset-0 z-40 bg-gray-50 flex flex-col transform transition-transform duration-300 ease-in-out
+            md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 md:flex
+            ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}>
+             <div className="p-4 space-y-6 overflow-y-auto h-full pb-20">
+                {WIKI_CATEGORIES.map((category, catIndex) => {
+                    const isOpen = openCategories[category.id];
+                    const catProgress = getCategoryProgress(category);
+                    const catNumber = catIndex + 1;
+
+                    return (
+                        <div key={category.id} className="select-none">
+                            <button 
+                                onClick={() => toggleCategory(category.id)}
+                                className="flex items-center justify-between w-full group mb-2"
+                            >
+                                <div className="flex items-center gap-2 font-bold text-gray-700 group-hover:text-black">
+                                    <span className="text-xs text-gray-400 font-mono w-4">{catNumber}.</span>
+                                    {renderIcon(category.icon as any, "w-4 h-4 text-gray-400 group-hover:text-gray-600")}
+                                    <span className="text-sm uppercase tracking-wide truncate">{category.title}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {catProgress > 0 && (
+                                        <span className="text-[10px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">
+                                            {catProgress}%
+                                        </span>
+                                    )}
+                                    {isOpen ? <Icons.ChevronDown className="w-4 h-4 text-gray-400"/> : <Icons.ChevronRight className="w-4 h-4 text-gray-400"/>}
+                                </div>
+                            </button>
+
+                            {isOpen && (
+                                <div className="pl-6 space-y-1 border-l-2 border-gray-200 ml-2">
+                                    {category.articles.map((article, artIndex) => {
+                                        const isActive = activeArticle?.id === article.id;
+                                        const itemData = progress.items[article.id];
+                                        const status = itemData?.status;
+                                        const numbering = `${catNumber}.${artIndex + 1}`;
+
+                                        return (
+                                            <button
+                                                key={article.id}
+                                                onClick={() => handleArticleClick(article)}
+                                                className={`w-full text-left px-3 py-3 md:py-2 rounded-md flex items-start gap-3 md:gap-2 transition text-sm ${
+                                                    isActive 
+                                                        ? 'bg-white shadow-sm text-blue-700 font-medium ring-1 ring-gray-100' 
+                                                        : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-900'
+                                                }`}
+                                            >
+                                                <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
+                                                    {status === 'done' ? (
+                                                        <Icons.CheckCircle className="w-4 h-4 text-green-500" />
+                                                    ) : status === 'later' ? (
+                                                        <Icons.Clock className="w-4 h-4 text-amber-500" />
+                                                    ) : (
+                                                        <span className="text-xs font-mono font-medium w-5 inline-block">{numbering}</span>
+                                                    )}
+                                                </span>
+                                                <span className="leading-snug">{article.title}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-10 bg-white">
-          <article className="prose prose-blue max-w-none prose-headings:font-bold prose-h1:text-3xl prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-img:rounded-xl">
-             <div dangerouslySetInnerHTML={{ __html: marked.parse(activeArticle.content) as string }} />
-          </article>
-          
-          <div className="mt-12 pt-6 border-t border-gray-100 flex justify-between text-sm text-gray-400">
-            <span>Was this helpful?</span>
-            <span className="italic">Finland Works! Guide</span>
-          </div>
+        {/* Main Content Area */}
+        <div className="flex-1 overflow-y-auto relative bg-white w-full">
+          {activeArticle ? (
+            <div className="max-w-3xl mx-auto p-6 md:p-12 pb-32 animate-in fade-in duration-300">
+                {/* Article Header */}
+                <div className="flex flex-col gap-6 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100">
+                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-sm font-mono text-blue-500 font-bold">
+                                Section {getCurrentDisplayId(activeArticle)}
+                            </span>
+                            <div className="flex flex-wrap gap-2">
+                                {activeArticle.tags.map(tag => (
+                                    <span key={tag} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-[10px] md:text-xs font-medium uppercase tracking-wide">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2 w-full md:w-auto">
+                            <button
+                                onClick={() => handleToggleStatus('later')}
+                                className={`flex-1 md:flex-none justify-center flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold transition border shadow-sm ${
+                                    progress.items[activeArticle.id]?.status === 'later'
+                                        ? 'bg-amber-50 border-amber-200 text-amber-700'
+                                        : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                                }`}
+                            >
+                                <Icons.Clock className="w-3 h-3" />
+                                {progress.items[activeArticle.id]?.status === 'later' ? 'Saved' : 'Later'}
+                            </button>
+
+                            <button
+                                onClick={() => handleToggleStatus('done')}
+                                className={`flex-1 md:flex-none justify-center flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition border shadow-sm ${
+                                    progress.items[activeArticle.id]?.status === 'done'
+                                        ? 'bg-green-50 border-green-200 text-green-700'
+                                        : 'bg-black border-black text-white hover:bg-gray-800'
+                                }`}
+                            >
+                                <Icons.CheckSquare className="w-3 h-3" />
+                                {progress.items[activeArticle.id]?.status === 'done' ? 'Completed' : 'Mark Done'}
+                            </button>
+                        </div>
+                     </div>
+                </div>
+                
+                {/* Markdown Content */}
+                <article className="prose prose-slate prose-sm md:prose-base max-w-none 
+                    prose-headings:font-bold prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
+                    prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
+                    prose-p:text-gray-700 prose-p:leading-relaxed
+                    prose-a:text-blue-600 hover:prose-a:text-blue-800 
+                    prose-li:marker:text-gray-300
+                    [&>ul]:pl-4 [&>ol]:pl-4">
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(activeArticle.content) as string }} />
+                </article>
+            </div>
+          ) : (
+             <div className="flex flex-col items-center justify-center h-full text-gray-400 p-4 text-center">
+                <Icons.FileText className="w-12 h-12 mb-4 opacity-20" />
+                <p>Select a topic from the menu to start reading.</p>
+                <button 
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium md:hidden"
+                >
+                    Open Menu
+                </button>
+             </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import { Icons } from './components/Icon';
-import { AppView, Conversation, Message, Sender, UserProfile, DEFAULT_PROFILE_YAML, TEMPLATE_PROFILE_YAML } from './types';
+import { AppView, Conversation, Message, Sender, UserProfile, DEFAULT_PROFILE_YAML } from './types';
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
 import WikiView from './components/WikiView';
 import ProfileWizard from './components/ProfileWizard';
+import jsYaml from 'js-yaml';
+import { getAllFlattenedArticles } from './data/wikiContent';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -18,7 +20,13 @@ marked.use({
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.DASHBOARD);
   const [apiKey, setApiKey] = useState<string | null>(null);
+  
+  // Multi-Profile State
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [allProfiles, setAllProfiles] = useState<UserProfile[]>([]);
+  
+  // Progress State
+  const [wikiStats, setWikiStats] = useState({ total: 0, done: 0, percentage: 0 });
   
   // Chat State
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
@@ -29,6 +37,7 @@ const App: React.FC = () => {
   // Profile Edit State
   const [yamlInput, setYamlInput] = useState('');
   const [keyInput, setKeyInput] = useState('');
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   // Initialization
   useEffect(() => {
@@ -38,14 +47,44 @@ const App: React.FC = () => {
       setApiKey(envKey);
     }
 
-    // Load Profile
-    const loadedProfile = Storage.getProfileObject();
-    setProfile(loadedProfile);
-    setYamlInput(Storage.getProfileYaml());
+    refreshProfiles();
 
     // Check for pending summaries on boot
     processPendingSummaries();
   }, []);
+
+  // Refresh stats whenever view changes to Dashboard or profile changes
+  useEffect(() => {
+    if (view === AppView.DASHBOARD && profile) {
+      calculateWikiStats(profile);
+    }
+  }, [view, profile]);
+
+  const calculateWikiStats = (currentProfile: UserProfile) => {
+    const progressData = Storage.getWikiProgress(currentProfile.id);
+    // Use flattened list for total count
+    const allArticles = getAllFlattenedArticles();
+    const total = allArticles.length;
+    const doneCount = Object.values(progressData.items).filter(item => item.status === 'done').length;
+    
+    setWikiStats({
+      total,
+      done: doneCount,
+      percentage: total === 0 ? 0 : Math.round((doneCount / total) * 100)
+    });
+  };
+
+  const refreshProfiles = () => {
+    const profiles = Storage.getAllProfiles();
+    setAllProfiles(profiles);
+    
+    const active = Storage.getActiveProfile();
+    setProfile(active);
+    if (active) {
+      setYamlInput(Storage.profileToYaml(active));
+      calculateWikiStats(active);
+    }
+  };
 
   // Auto-scroll chat
   useEffect(() => {
@@ -53,7 +92,6 @@ const App: React.FC = () => {
   }, [currentConversation?.messages, isTyping]);
 
   const processPendingSummaries = async () => {
-    // Key is already in process.env if initializeEnv worked
     const pendingIds = Storage.getPendingSummaries();
     if (pendingIds.length === 0) return;
 
@@ -70,7 +108,6 @@ const App: React.FC = () => {
           console.error(`Failed to summarize ${id}`, e);
         }
       } else {
-        // Clean up if invalid
         Storage.removePendingSummary(id);
       }
     }
@@ -79,7 +116,7 @@ const App: React.FC = () => {
   const handleSaveKey = () => {
     if (keyInput.trim().length > 10) {
       const newKey = keyInput.trim();
-      Storage.saveApiKey(newKey); // This also updates process.env.API_KEY
+      Storage.saveApiKey(newKey);
       setApiKey(newKey);
     }
   };
@@ -115,10 +152,18 @@ const App: React.FC = () => {
     setIsTyping(true);
 
     try {
+      // Get the latest Wiki progress to pass to context
+      const progress = Storage.getWikiProgress(profile.id);
+      
+      // Pass flattened articles for AI context
+      const allArticles = getAllFlattenedArticles();
+
       const responseText = await Gemini.sendMessageToGemini(
-        updatedMessages.slice(0, -1), // History excluding current
+        updatedMessages.slice(0, -1), 
         userMsg.text, 
-        profile
+        profile,
+        progress,
+        allArticles
       );
 
       const modelMsg: Message = {
@@ -148,12 +193,12 @@ const App: React.FC = () => {
 
     if (shouldSummarize && apiKey) {
       try {
-        setIsTyping(true); // Reuse typing indicator for loading
+        setIsTyping(true);
         const summary = await Gemini.summarizeConversation(currentConversation.messages);
         Storage.saveSummary(currentConversation.id, summary);
-        alert("Summary saved to data/summary/");
+        alert("Summary saved.");
       } catch (e) {
-        alert("Could not generate summary right now. We've flagged it to try again next time you open the app.");
+        alert("Could not generate summary right now. Flagged for later.");
         Storage.addPendingSummary(currentConversation.id);
       } finally {
         setIsTyping(false);
@@ -167,10 +212,17 @@ const App: React.FC = () => {
   };
 
   // --- Profile Handling ---
-  const handleSaveProfile = () => {
+  const handleSwitchProfile = (id: string) => {
+    Storage.setActiveProfileId(id);
+    refreshProfiles();
+    setIsProfileMenuOpen(false);
+  };
+
+  const handleSaveProfileEdit = () => {
     try {
-      Storage.saveProfileYaml(yamlInput);
-      setProfile(Storage.getProfileObject()); // Reload object
+      const updated = Storage.saveProfileFromYaml(yamlInput);
+      setProfile(updated);
+      refreshProfiles(); // Update list if name changed
       setView(AppView.DASHBOARD);
     } catch (e) {
       alert("Invalid YAML format.");
@@ -178,26 +230,24 @@ const App: React.FC = () => {
   };
 
   const handleCreateNewProfile = () => {
-    const confirmMsg = "Start a new profile setup? This will replace your current settings.";
-    if (window.confirm(confirmMsg)) {
-      setView(AppView.QUIZ);
-    }
+    setView(AppView.QUIZ);
   };
 
-  const handleWizardComplete = (yamlStr: string) => {
-    Storage.saveProfileYaml(yamlStr);
-    setProfile(Storage.getProfileObject());
-    setYamlInput(yamlStr);
+  const handleWizardComplete = (newProfile: UserProfile) => {
+    Storage.saveProfile(newProfile);
+    Storage.setActiveProfileId(newProfile.id);
+    refreshProfiles();
     setView(AppView.DASHBOARD);
   };
 
   const handleLoadDemoProfile = () => {
-    if (window.confirm("Load the demo 'Gabriela' profile? This will overwrite current changes.")) {
-      const demoYaml = DEFAULT_PROFILE_YAML;
-      Storage.saveProfileYaml(demoYaml); // Save immediately for better UX on "Load"
-      setProfile(Storage.getProfileObject());
-      setYamlInput(demoYaml);
-      alert("Demo profile 'Gabriela' loaded!");
+    if (window.confirm("Load the demo 'Gabriela' profile? This will create a new profile.")) {
+      const demoProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
+      demoProfile.id = uuidv4(); 
+      Storage.saveProfile(demoProfile);
+      Storage.setActiveProfileId(demoProfile.id);
+      refreshProfiles();
+      alert("Demo profile 'Gabriela' created!");
     }
   };
 
@@ -238,7 +288,10 @@ const App: React.FC = () => {
   if (view === AppView.WIKI) {
     return (
       <Layout>
-        <WikiView onClose={() => setView(AppView.DASHBOARD)} />
+        <WikiView 
+          profile={profile}
+          onClose={() => setView(AppView.DASHBOARD)} 
+        />
       </Layout>
     );
   }
@@ -258,18 +311,18 @@ const App: React.FC = () => {
     return (
       <Layout>
          <div className="flex flex-col h-full">
-          <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-xl font-bold flex items-center gap-2">
+          <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
+            <h2 className="text-lg md:text-xl font-bold flex items-center gap-2">
               <Icons.Edit3 className="w-5 h-5" /> Edit Profile (YAML)
             </h2>
             <button onClick={() => setView(AppView.DASHBOARD)} className="text-gray-500 hover:text-gray-700">
               <Icons.X className="w-6 h-6" />
             </button>
           </div>
-          <div className="flex-1 p-6 overflow-hidden flex flex-col">
+          <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <p className="text-sm text-gray-500">
-                Update your details here. This helps the AI provide better advice.
+                Update details for: <span className="font-bold text-black">{profile?.name}</span>
               </p>
               <button onClick={handleLoadDemoProfile} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
                  <Icons.User className="w-3 h-3" /> Load Demo Profile
@@ -283,12 +336,12 @@ const App: React.FC = () => {
               placeholder="name: ..."
             />
           </div>
-          <div className="p-6 border-t border-gray-100 bg-gray-50">
+          <div className="p-4 md:p-6 border-t border-gray-100 bg-gray-50">
              <button 
-              onClick={handleSaveProfile}
+              onClick={handleSaveProfileEdit}
               className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 flex items-center justify-center gap-2 shadow-md transition transform active:scale-[0.98]"
             >
-              <Icons.Save className="w-4 h-4" /> Save Profile
+              <Icons.Save className="w-4 h-4" /> Save Changes
             </button>
           </div>
         </div>
@@ -301,14 +354,14 @@ const App: React.FC = () => {
       <Layout>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
+          <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
                 FW
               </div>
               <div>
-                <h2 className="font-bold text-gray-900">Finland Works Assistant</h2>
-                <p className="text-xs text-green-600 flex items-center gap-1">
+                <h2 className="font-bold text-gray-900 text-sm md:text-base">Assistant</h2>
+                <p className="text-[10px] md:text-xs text-green-600 flex items-center gap-1">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
                 </p>
               </div>
@@ -317,12 +370,12 @@ const App: React.FC = () => {
               onClick={handleEndSession}
               className="text-sm text-gray-500 hover:text-red-600 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
             >
-              <Icons.LogOut className="w-4 h-4" /> End Session
+              <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">End Session</span>
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-white">
             {currentConversation.messages.length === 0 && (
               <div className="text-center text-gray-400 py-10">
                 <Icons.MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-20" />
@@ -335,13 +388,12 @@ const App: React.FC = () => {
                 className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}
               >
                 <div 
-                  className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm overflow-hidden
+                  className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden
                     ${msg.sender === Sender.USER 
                       ? 'bg-gray-100 text-gray-900 rounded-tr-sm border border-gray-200' 
                       : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm'
                     }`}
                 >
-                   {/* Markdown Renderer */}
                    <div 
                       className={`prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0
                         ${msg.sender === Sender.USER ? 'prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900' : ''}
@@ -366,14 +418,14 @@ const App: React.FC = () => {
           </div>
 
           {/* Input */}
-          <div className="p-6 border-t border-gray-100 bg-white">
+          <div className="p-4 md:p-6 border-t border-gray-100 bg-white">
             <div className="relative">
               <input
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Ask something about life in Finland..."
+                placeholder={`Ask something...`}
                 disabled={isTyping}
                 className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
               />
@@ -394,13 +446,13 @@ const App: React.FC = () => {
   // DASHBOARD VIEW
   return (
     <Layout>
-      <div className="flex flex-col h-full overflow-y-auto no-scrollbar">
+      <div className="flex flex-col h-full overflow-y-auto no-scrollbar bg-gray-50 md:bg-white">
         {/* Top Bar / Header */}
         <div className="p-6 md:p-8 border-b border-gray-100 bg-white">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">
-                        {profile?.name && profile.name !== '[Your Name]' ? `Moi, ${profile.name}!` : 'Moi! (Hi!)'}
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                        {profile?.name && profile.name !== '[Your Name]' ? `Moi, ${profile.name}!` : 'Moi!'}
                     </h1>
                     <p className="text-gray-600 text-sm mt-1">
                         {profile?.name && profile.name !== '[Your Name]' 
@@ -408,39 +460,70 @@ const App: React.FC = () => {
                             : "Let's set up your profile to get started."}
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 relative">
+                    {/* Profile Switcher */}
+                    <div className="relative">
+                      <button 
+                        onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                        className="flex items-center gap-2 px-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-200 transition shadow-sm"
+                      >
+                         <Icons.User className="w-3 h-3" />
+                         <span className="hidden sm:inline">Switch Profile</span>
+                      </button>
+                      
+                      {isProfileMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden">
+                           <div className="p-2 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                             Select User
+                           </div>
+                           <div className="max-h-48 overflow-y-auto">
+                              {allProfiles.map(p => (
+                                <button 
+                                  key={p.id}
+                                  onClick={() => handleSwitchProfile(p.id)}
+                                  className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center justify-between ${profile?.id === p.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
+                                >
+                                  {p.name}
+                                  {profile?.id === p.id && <Icons.CheckCircle className="w-3 h-3" />}
+                                </button>
+                              ))}
+                           </div>
+                        </div>
+                      )}
+                    </div>
+
                     <button 
                         onClick={handleCreateNewProfile}
-                        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition shadow-sm whitespace-nowrap"
+                        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition shadow-sm whitespace-nowrap"
                     >
                         <Icons.UserPlus className="w-3 h-3" />
-                        New Profile
+                        <span className="hidden sm:inline">New</span>
                     </button>
                     <button 
                          onClick={() => setView(AppView.PROFILE)}
-                         className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg text-xs font-medium hover:bg-gray-800 transition shadow-sm whitespace-nowrap"
+                         className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded-lg text-xs font-medium hover:bg-gray-800 transition shadow-sm whitespace-nowrap"
                     >
                         <Icons.Edit3 className="w-3 h-3" />
-                        Edit Profile
+                        <span className="hidden sm:inline">Edit</span>
                     </button>
                 </div>
             </div>
         </div>
 
         {/* Actions */}
-        <div className="px-6 md:px-8 py-8 flex flex-col md:flex-row gap-4">
+        <div className="px-4 md:px-8 py-6 flex flex-col md:flex-row gap-4">
           <button 
             onClick={() => setView(AppView.WIKI)}
-            className="flex-1 bg-blue-600 text-white h-24 rounded-xl flex items-center justify-center gap-3 font-medium hover:bg-blue-700 transition shadow-lg group overflow-hidden relative"
+            className="flex-1 bg-blue-600 text-white h-24 rounded-2xl flex items-center justify-center gap-3 font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200 group overflow-hidden relative"
           >
              {/* Decorative blob */}
              <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500 rounded-full opacity-50 group-hover:scale-110 transition duration-500"></div>
             <Icons.Languages className="w-6 h-6 z-10" />
-            <span className="z-10 text-lg">What is even Finland?</span>
+            <span className="z-10 text-lg">Open Finland Guide</span>
           </button>
           <button 
             onClick={startNewChat}
-            className="flex-1 bg-white border border-gray-200 text-gray-900 h-24 rounded-xl flex items-center justify-center gap-3 font-medium hover:border-gray-300 hover:bg-gray-50 hover:shadow-md transition shadow-sm"
+            className="flex-1 bg-white border border-gray-200 text-gray-900 h-24 rounded-2xl flex items-center justify-center gap-3 font-medium hover:border-gray-300 hover:bg-gray-50 hover:shadow-md transition shadow-sm"
           >
             <Icons.MessageSquare className="w-5 h-5 text-blue-600" />
             <span className="text-lg">Ask a question</span>
@@ -448,27 +531,32 @@ const App: React.FC = () => {
         </div>
 
         {/* Profile Summary Section */}
-        <div className="px-6 md:px-8 pb-8 flex-1">
-          <div className="bg-gray-50 rounded-2xl p-6 md:p-8 border border-gray-100 h-full">
+        <div className="px-4 md:px-8 pb-8 flex-1">
+          <div className="bg-white md:bg-gray-50 rounded-2xl p-4 md:p-8 border border-gray-100 md:border-0 shadow-sm md:shadow-none h-full">
              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">My Profile Overview</h2>
+                <h2 className="text-lg md:text-xl font-bold text-gray-900">My Profile Overview</h2>
                 <div className="flex items-center gap-2 text-sm">
-                  <div className="h-2 w-24 md:w-32 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500 w-[70%]"></div>
+                  <div className="h-2 w-20 md:w-32 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-green-500 transition-all duration-1000 ease-out" 
+                      style={{ width: `${wikiStats.percentage}%` }}
+                    ></div>
                   </div>
-                  <span className="font-bold text-gray-700 text-xs">70% complete</span>
+                  <span className="font-bold text-gray-700 text-xs">
+                    {wikiStats.percentage}%
+                  </span>
                 </div>
              </div>
 
              {/* User Card */}
              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6 transition hover:shadow-md">
                <div className="flex flex-col md:flex-row md:items-center gap-6">
-                  <div className="w-16 h-16 rounded-full bg-blue-100 overflow-hidden flex-shrink-0 flex items-center justify-center text-blue-500">
+                  <div className="w-16 h-16 rounded-full bg-blue-100 overflow-hidden flex-shrink-0 flex items-center justify-center text-blue-500 mx-auto md:mx-0">
                     <Icons.User className="w-8 h-8" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 text-center md:text-left">
                     <h3 className="text-lg font-bold mb-1">{profile?.name || 'New User'}</h3>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+                    <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-sm text-gray-600">
                          <span>{profile?.ageRange}</span>
                          <span className="text-gray-300">•</span>
                          <span>{profile?.originCountry}</span>

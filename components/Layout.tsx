@@ -6,12 +6,19 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden min-h-[600px] md:min-h-[700px] flex flex-col border border-gray-100">
+    <div className="fixed inset-0 bg-gray-100 md:flex md:items-center md:justify-center font-sans">
+      {/* 
+        App Container 
+        Mobile: Full width/height, no radius.
+        Desktop: Fixed max width, height, radius, shadow.
+      */}
+      <div className="w-full h-full md:h-[90vh] md:max-w-6xl bg-white md:rounded-3xl md:shadow-2xl md:border md:border-gray-200 flex flex-col overflow-hidden relative">
         {children}
       </div>
-      <div className="mt-4 text-xs text-gray-400">
-        Finland Works! • Local Data Storage • Gemini AI
+
+      {/* Desktop Footer Tagline */}
+      <div className="hidden md:block absolute bottom-4 text-[10px] text-gray-400 font-medium tracking-widest uppercase">
+        Finland Works! • Local • AI
       </div>
     </div>
   );

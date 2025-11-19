@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   User, 
@@ -14,7 +15,29 @@ import {
   CheckCircle,
   AlertCircle,
   Key,
-  UserPlus
+  UserPlus,
+  Heart,
+  Briefcase,
+  GraduationCap,
+  Sun,
+  Coffee,
+  ChevronDown,
+  ChevronRight,
+  CheckSquare,
+  Clock,
+  Bookmark,
+  Home,
+  Shield,
+  Fingerprint,
+  CreditCard,
+  ShieldAlert,
+  Percent,
+  Train,
+  Umbrella,
+  Stethoscope,
+  Syringe,
+  Users,
+  ThermometerSun
 } from 'lucide-react';
 
 export const Icons = {
@@ -32,5 +55,27 @@ export const Icons = {
   CheckCircle,
   AlertCircle,
   Key,
-  UserPlus
+  UserPlus,
+  Heart,
+  Briefcase,
+  GraduationCap,
+  Sun,
+  Coffee,
+  ChevronDown,
+  ChevronRight,
+  CheckSquare,
+  Clock,
+  Bookmark,
+  Home,
+  Shield,
+  Fingerprint,
+  CreditCard,
+  ShieldAlert,
+  Percent,
+  Train,
+  Umbrella,
+  Stethoscope,
+  Syringe,
+  Users,
+  ThermometerSun
 };
