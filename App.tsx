@@ -561,7 +561,9 @@ const App: React.FC = () => {
                     <Icons.User className="w-8 h-8" />
                   </div>
                   <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-lg font-bold mb-1">{profile?.name || 'New User'}</h3>
+                    <h3 className="text-lg font-bold mb-1 text-gray-900">
+                      {profile?.name && profile.name.trim() ? profile.name : 'New User'}
+                    </h3>
                     <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-sm text-gray-600">
                          <span>{profile?.ageRange}</span>
                          <span className="text-gray-300">•</span>

@@ -46,7 +46,8 @@ import {
   Handshake,
   Baby,
   Building2,
-  Siren
+  Siren,
+  LayoutGrid
 } from 'lucide-react';
 
 export const Icons = {
@@ -95,5 +96,6 @@ export const Icons = {
   Handshake,
   Baby,
   Building2,
-  Siren
+  Siren,
+  LayoutGrid
 };

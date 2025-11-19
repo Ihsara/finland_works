@@ -17,6 +17,12 @@ export interface WikiCategory {
   id: string;          // Semantic Category ID (e.g., 'bureaucracy')
   title: string;       // Group Title
   icon: keyof typeof Icons;
+  theme: {             // New visual theme properties
+    border: string;    // e.g. 'border-rose-500'
+    text: string;      // e.g. 'text-rose-600'
+    shadow: string;    // e.g. 'shadow-rose-100'
+    hoverBg: string;   // e.g. 'group-hover:bg-rose-50'
+  };
   articles: WikiArticle[];
 }
 
@@ -29,6 +35,12 @@ export const WIKI_CATEGORIES: WikiCategory[] = [
     id: 'asylum',
     title: 'Asylum & Protection',
     icon: 'Shield',
+    theme: { 
+      border: 'border-rose-500', 
+      text: 'text-rose-600', 
+      shadow: 'hover:shadow-rose-100',
+      hoverBg: 'group-hover:bg-rose-50'
+    },
     articles: [
       {
         id: 'asylum_arrival',
@@ -101,7 +113,13 @@ As an asylum seeker, you cannot work immediately. You must wait.
   {
     id: 'bureaucracy',
     title: 'Bureaucracy & Legal Foundation',
-    icon: 'Shield',
+    icon: 'Fingerprint',
+    theme: { 
+      border: 'border-slate-600', 
+      text: 'text-slate-700', 
+      shadow: 'hover:shadow-slate-100',
+      hoverBg: 'group-hover:bg-slate-50'
+    },
     articles: [
       {
         id: 'bureaucracy_dvv',
@@ -221,6 +239,12 @@ If you do not give your employer a tax card, they are legally required to deduct
     id: 'living',
     title: 'Living & Infrastructure',
     icon: 'Home',
+    theme: { 
+      border: 'border-orange-500', 
+      text: 'text-orange-600', 
+      shadow: 'hover:shadow-orange-100',
+      hoverBg: 'group-hover:bg-orange-50'
+    },
     articles: [
        {
         id: 'living_housing',
@@ -283,6 +307,12 @@ You are not a "student" until you have the digital card.
     id: 'health',
     title: 'Health & Well-being',
     icon: 'Heart',
+    theme: { 
+      border: 'border-emerald-500', 
+      text: 'text-emerald-600', 
+      shadow: 'hover:shadow-emerald-100',
+      hoverBg: 'group-hover:bg-emerald-50'
+    },
     articles: [
       {
         id: 'health_kela',
@@ -341,6 +371,12 @@ You are not a "student" until you have the digital card.
     id: 'work_study',
     title: 'Work & Study Life',
     icon: 'Briefcase',
+    theme: { 
+      border: 'border-indigo-600', 
+      text: 'text-indigo-600', 
+      shadow: 'hover:shadow-indigo-100',
+      hoverBg: 'group-hover:bg-indigo-50'
+    },
     articles: [
       {
         id: 'work_finding',
@@ -448,6 +484,12 @@ You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union
     id: 'outdoors',
     title: 'Nature & Outdoors',
     icon: 'TreePine',
+    theme: { 
+      border: 'border-lime-600', 
+      text: 'text-lime-700', 
+      shadow: 'hover:shadow-lime-100',
+      hoverBg: 'group-hover:bg-lime-50'
+    },
     articles: [
       {
         id: 'outdoors_everyman',
@@ -498,6 +540,12 @@ Using a Finnish wood stove involves a metal plate (damper) in the chimney.
     id: 'culture',
     title: 'Finnish Culture',
     icon: 'Coffee',
+    theme: { 
+      border: 'border-violet-500', 
+      text: 'text-violet-600', 
+      shadow: 'hover:shadow-violet-100',
+      hoverBg: 'group-hover:bg-violet-50'
+    },
     articles: [
       {
         id: 'culture_visiting',
