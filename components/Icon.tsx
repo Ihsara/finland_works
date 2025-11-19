@@ -42,7 +42,11 @@ import {
   Flame,
   Gift,
   Calendar,
-  TreePine
+  TreePine,
+  Handshake,
+  Baby,
+  Building2,
+  Siren
 } from 'lucide-react';
 
 export const Icons = {
@@ -87,5 +91,9 @@ export const Icons = {
   Flame,
   Gift,
   Calendar,
-  TreePine
+  TreePine,
+  Handshake,
+  Baby,
+  Building2,
+  Siren
 };

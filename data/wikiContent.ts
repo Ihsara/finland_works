@@ -26,6 +26,79 @@ export interface WikiCategory {
 
 export const WIKI_CATEGORIES: WikiCategory[] = [
   {
+    id: 'asylum',
+    title: 'Asylum & Protection',
+    icon: 'Shield',
+    articles: [
+      {
+        id: 'asylum_arrival',
+        title: 'Shelter & Reception Centers',
+        icon: 'Building2',
+        tags: ['refugee', 'asylum', 'arrival', 'mandatory'],
+        content: `
+# Reception Centers (Vastaanottokeskus) 🏢
+
+### Where do I live?
+When you seek asylum or temporary protection, you are registered at a reception center.
+*   **Housing:** You are offered a bed in a shared room. Families usually get their own room.
+*   **Private Accommodation:** You *can* live with friends/relatives, but you must pay the rent yourself. You still need to be registered at a specific reception center to get your money (vastaanottoraha) and health services.
+
+### Reception Allowance (Vastaanottoraha)
+*   If you have no money, you get a monthly allowance for food/clothes.
+*   **Condition:** You must participate in work or study activities organized by the center. If you refuse, they can cut your allowance.
+`
+      },
+      {
+        id: 'asylum_vulnerable',
+        title: 'Protections: Women, Kids, Elderly',
+        icon: 'Baby',
+        tags: ['refugee', 'asylum', 'family', 'women', 'elderly'],
+        content: `
+# Protection of Vulnerable Groups 🛡️
+
+Finland has very strict laws protecting individual rights. Your culture or religion does not override Finnish Law.
+
+### Women & Girls 👩
+*   **Bodily Autonomy:** You decide who touches you. Forced marriage and female genital mutilation (FGM) are serious crimes in Finland, punishable by prison.
+*   **Domestic Violence:** If your husband/partner hits you, it is a crime. You can get help from **Turvakoti** (Shelters for victims of violence) immediately. You do not need your husband's permission to leave.
+*   **Emergency Number:** 112.
+
+### Children (Lastensuojelu) 🧸
+*   **Physical Discipline:** It is **illegal** to hit, slap, or physically punish a child in Finland. Teachers and doctors are required by law to report it to Child Welfare Services.
+*   **Rights:** All children (asylum seekers included) have the right to go to school (peruskoulu).
+
+### The Elderly & Disabled ♿
+*   You are entitled to necessary care. If you have mobility issues, the reception center must organize suitable housing (e.g., first floor).
+`
+      },
+      {
+        id: 'asylum_work_rights',
+        title: 'Right to Work (Asylum)',
+        icon: 'Briefcase',
+        tags: ['refugee', 'asylum', 'worker'],
+        content: `
+# When can I work? ⏱️
+
+As an asylum seeker, you cannot work immediately. You must wait.
+
+### The 3-Month Rule
+*   If you presented a **valid passport** or official travel document to the Police/Border Guard when you applied.
+*   **Wait time:** 3 months from application date.
+
+### The 6-Month Rule
+*   If you **did not** have a valid passport when you applied.
+*   **Wait time:** 6 months.
+
+### Temporary Protection (Ukrainians)
+*   You have the right to work **immediately** once you receive your residence permit decision (or usually as soon as the application is registered). Check Migri for the latest "Temporary Protection" specifics.
+
+### Tax Card
+*   Once allowed to work, you MUST get a Tax Card from Vero, even for short jobs.
+`
+      }
+    ]
+  },
+  {
     id: 'bureaucracy',
     title: 'Bureaucracy & Legal Foundation',
     icon: 'Shield',
@@ -123,7 +196,7 @@ Banks are strict. To give you these codes, they often require:
         id: 'bureaucracy_tax',
         title: 'The Tax Card (Verokortti)',
         icon: 'Percent',
-        tags: ['worker', 'student', 'general'],
+        tags: ['worker', 'student', 'general', 'refugee'],
         content: `
 # The Tax Card (Verokortti) 🧾
 
@@ -215,7 +288,7 @@ You are not a "student" until you have the digital card.
         id: 'health_kela',
         title: 'Kela (Social Security)',
         icon: 'Umbrella',
-        tags: ['general', 'family'],
+        tags: ['general', 'family', 'refugee'],
         content: `
 # Kela 🏥
 
@@ -269,11 +342,76 @@ You are not a "student" until you have the digital card.
     title: 'Work & Study Life',
     icon: 'Briefcase',
     articles: [
+      {
+        id: 'work_finding',
+        title: 'Finding Jobs (Official)',
+        icon: 'Briefcase',
+        tags: ['worker', 'student', 'refugee'],
+        content: `
+# Official Job Hunting 🏛️
+
+### The "Surface" Market
+Only about 20-30% of jobs are advertised publicly.
+
+1.  **Työmarkkinatori (Job Market Finland):** The official government portal. You must register here as "unemployed job seeker" (työtön työnhakija) to get benefits.
+2.  **LinkedIn:** Essential for IT, Engineering, and Business. Profile must be in English and immaculate.
+3.  **Duunitori / Oikotie:** Major private job boards.
+
+### Internships (Harjoittelu)
+*   Often the best way in.
+*   **Kuntouttava työtoiminta:** Rehabilitative work activity (often for refugees/long-term unemployed) to learn language and culture.
+`
+      },
+      {
+        id: 'work_hidden',
+        title: 'Hidden Job Market & Networking',
+        icon: 'Handshake',
+        tags: ['worker', 'refugee', 'general'],
+        content: `
+# The Hidden Job Market (Piilotyöpaikat) 🕵️
+
+In Finland, employers hate risk. They prefer to hire someone they know, or someone *recommended* by someone they know. 
+**80% of jobs are filled without an ad.**
+
+### Networking Strategies
+1.  **Direct Contact:** Do not wait for an ad. Find a company you like. Find the "Foreman" (Työnjohtaja) or "Team Lead" on their website. Email them directly.
+2.  **Volunteering:** Red Cross, Sports Clubs, NGOs. You meet Finns here. When they trust you as a person, they might hire you as a worker.
+3.  **Face to Face:** In manual labor (construction, cleaning, restaurants), walking in and asking to speak to the manager still works.
+
+### Proving Your Worth
+*   Refugees/Immigrants often feel the need to "prove" they are good.
+*   **Portfolio:** Show, don't just tell. Photos of past work, code repositories, or a "trial day" offer can break barriers.
+`
+      },
+      {
+        id: 'work_culture_barriers',
+        title: 'Barriers: Racism & Reality',
+        icon: 'Siren',
+        tags: ['worker', 'refugee', 'culture'],
+        content: `
+# The Hard Truths: Racism & Reluctance 🚧
+
+It is important to be realistic. Finland has a very homogeneous working culture.
+
+### Name Discrimination
+*   Studies show that applicants with non-Finnish names need to send 2-4x more applications to get an interview.
+*   **Strategy:** Do not take rejections personally. It is a structural issue. Focus on volume and networking.
+
+### The "Finnish Required" Myth
+*   Many ads say "Fluent Finnish required" even if the job doesn't need it.
+*   **Apply anyway.** If your skills are perfect, they might make an exception.
+
+### "Sisu" in Job Hunting
+*   You will face rejection. You might face silence.
+*   **Reluctance:** Employers fear that a foreigner won't fit the team or will be "difficult" (paperwork).
+*   **The Fix:** Address this in your cover letter. "I have a valid permit, I am ready to start immediately, I am learning Finnish (Level A2)." Make it easy for them to say yes.
+`
+      },
        {
         id: 'work_unions',
         title: 'Unions & Unemployment',
         icon: 'Users',
-        tags: ['worker', 'student'],
+        tags: ['worker', 'student', 'refugee'],
         content: `
 # Unions & The Kassa 🛡️
 
