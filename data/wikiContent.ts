@@ -307,10 +307,110 @@ You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union
     ]
   },
   {
+    id: 'outdoors',
+    title: 'Nature & Outdoors',
+    icon: 'TreePine',
+    articles: [
+      {
+        id: 'outdoors_everyman',
+        title: 'Everyman\'s Rights (Camping)',
+        icon: 'Tent',
+        tags: ['culture', 'leisure', 'general'],
+        content: `
+# Jokamiehenoikeudet (Everyman's Rights) 🌲
+
+In Finland, nature belongs to everyone. You do not need permission to enjoy the forest, but you have responsibilities.
+
+### WHAT YOU CAN DO ✅
+*   **Walk, ski, cycle** essentially anywhere (except private gardens).
+*   **Pick wild berries and mushrooms** (Blueberries and Lingonberries are free gold!).
+*   **Temporary Camping:** You can sleep in a tent for 1-2 nights in the forest, as long as you are not near someone's house.
+
+### WHAT YOU CANNOT DO ❌
+*   **Disturb Privacy:** Do not walk close to private homes (pihapiiri). If you see a house, keep your distance.
+*   **Take Wood:** You cannot cut down trees or take fallen wood for a fire without the landowner's permission.
+*   **Litter:** What you bring in, you take out.
+*   **Disturb Animals:** especially during nesting season (Spring).
+`
+      },
+      {
+        id: 'outdoors_fire',
+        title: 'Fire Safety & Cottages',
+        icon: 'Flame',
+        tags: ['safety', 'general'],
+        content: `
+# Fire Safety & The "Pelti" 🔥
+
+### 1. Making Fire in Nature
+*   **Designated Spots:** Only make fires in built fireplaces (nuotiopaikka).
+*   **Metsäpalovaroitus (Forest Fire Warning):**
+    *   **CRITICAL:** If the weather service declares a forest fire warning, **ALL OPEN FIRE IS BANNED**. Even in designated pits.
+    *   Check status at **Ilmatieteenlaitos.fi** (FMI). Ignorance is not a valid excuse for burning down a forest.
+
+### 2. Cottage Etiquette: The Damper (Pelti)
+Using a Finnish wood stove involves a metal plate (damper) in the chimney.
+*   **OPEN IT:** Before lighting the fire. If you forget, the room fills with smoke.
+*   **CLOSE IT:** Only when the embers are **completely black/dead**.
+*   **THE DANGER:** Closing it too early (while embers are red) traps **Carbon Monoxide** inside. It is odorless and kills you in your sleep. When in doubt, leave it slightly open.
+`
+      }
+    ]
+  },
+  {
     id: 'culture',
     title: 'Finnish Culture',
     icon: 'Coffee',
     articles: [
+      {
+        id: 'culture_visiting',
+        title: 'Visiting a Finnish Home',
+        icon: 'Gift',
+        tags: ['culture', 'general'],
+        content: `
+# Visiting Etiquette ☕
+
+### 1. The Shoes 👞
+**Absolute Rule:** Take your shoes off at the door. Walking inside with street shoes is considered extremely dirty and rude.
+
+### 2. Punctuality ⏰
+*   If invited for 18:00, arrive at 18:00.
+*   18:05 is late. 17:50 is too early (the host is likely in their underwear/towel panic-cleaning).
+*   Do not show up unannounced. "Dropping by" is rare.
+
+### 3. Gifts 🎁
+It is polite to bring a small token.
+*   **Coffee:** A packet of *Juhla Mokka* is the standard currency of friendship.
+*   **Flowers:** Safe bet.
+*   **Alcohol:** A bottle of wine is acceptable for dinner parties.
+`
+      },
+      {
+        id: 'culture_celebrations',
+        title: 'Celebrations & Fireworks',
+        icon: 'Calendar',
+        tags: ['culture', 'leisure'],
+        content: `
+# Major Celebrations 🎉
+
+### Vappu (May 1st) 🎈
+*   The start of Spring (and usually rain/sleet).
+*   **Students:** Put on their overalls and white caps.
+*   **Picnic:** Everyone goes to the park (Kaivopuisto in Helsinki) regardless of weather. Drink "Sima" (mead) and eat "Munkki" (donuts).
+
+### Juhannus (Midsummer) ☀️
+*   Late June. The sun doesn't set.
+*   **Cities die:** Everyone leaves for a cottage (mökki).
+*   **Bonfires (Kokko):** Big fires are lit by the lake.
+
+### Fireworks & New Year (Uusivuosi) 🎆
+Finland has strict laws on explosives.
+*   **Selling:** Fireworks are sold in supermarkets **only between Dec 27 - Dec 31**.
+*   **Firing Time:** You are legally allowed to set them off **ONLY on Dec 31 from 18:00 to Jan 1 02:00**.
+*   **Safety Goggles:** Mandatory by law for the shooter AND spectators.
+*   **Zones:** Many city centers (like Helsinki center) completely ban personal fireworks. Check local news.
+*   **Etiquette:** Clean up your debris the next morning.
+`
+      },
        {
         id: 'culture_manners',
         title: 'Unspoken Rules',
@@ -321,8 +421,7 @@ You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union
 
 1.  **Silence is Gold:** We don't fill silence with small talk. It's comfortable.
 2.  **Personal Space:** At the bus stop, 2 meters distance is polite.
-3.  **Shoes:** TAKE THEM OFF. Never walk into a Finnish home with shoes on.
-4.  **Coffee:** We drink the most coffee in the world. "Kahvitauko" (coffee break) at work is sacred.
+3.  **Coffee:** We drink the most coffee in the world. "Kahvitauko" (coffee break) at work is sacred.
 `
       },
       {
@@ -333,10 +432,10 @@ You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union
         content: `
 # The Sauna 🧖
 
-*   It is not sexual. It is for cleaning and relaxing.
-*   Naked is normal.
-*   **Löyly:** The steam. Ask before throwing water if strangers are present (or just do it if the sauna is cold).
-*   **Birch Whisk (Vasta/Vihta):** Beating yourself with branches increases circulation. It's a good thing.
+*   **Nakedness:** It is not sexual. It is for cleaning and relaxing. Families go together. Strangers usually segregate by gender (public saunas), but mixed saunas exist (wear a swimsuit there).
+*   **Löyly:** The steam. Ask "Saisiko heittää löylyä?" (Can I throw water?) if others are present.
+*   **Vasta/Vihta:** Beating yourself with birch branches increases circulation. It smells amazing.
+*   **The Post-Sauna:** Cooling off outside (even in winter) is mandatory. A "Saunakalja" (Sauna beer) or cider is the traditional hydrator.
 `
       }
     ]

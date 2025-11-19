@@ -37,7 +37,12 @@ import {
   Stethoscope,
   Syringe,
   Users,
-  ThermometerSun
+  ThermometerSun,
+  Tent,
+  Flame,
+  Gift,
+  Calendar,
+  TreePine
 } from 'lucide-react';
 
 export const Icons = {
@@ -77,5 +82,10 @@ export const Icons = {
   Stethoscope,
   Syringe,
   Users,
-  ThermometerSun
+  ThermometerSun,
+  Tent,
+  Flame,
+  Gift,
+  Calendar,
+  TreePine
 };
