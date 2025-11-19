@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import { Icons } from './components/Icon';
@@ -41,10 +42,15 @@ const App: React.FC = () => {
 
   // Initialization
   useEffect(() => {
-    // Load API Key from storage into process.env
-    const envKey = Storage.initializeEnv();
-    if (envKey) {
-      setApiKey(envKey);
+    // 1. Load API Key from local storage (User Manual Input)
+    // initializeEnv returns the stored key AND sets it to process.env.API_KEY
+    const localKey = Storage.initializeEnv();
+    
+    if (localKey) {
+      setApiKey(localKey);
+    } else if (process.env.API_KEY) {
+      // 2. Fallback: If no local key, check if one was injected by the environment/build
+      setApiKey(process.env.API_KEY);
     }
 
     refreshProfiles();

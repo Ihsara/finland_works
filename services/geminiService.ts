@@ -8,7 +8,11 @@ declare var process: { env: { API_KEY: string } };
 
 // Helper to initialize the AI client with the stored key
 const getClient = () => {
+  // PRIORITY 1: Manually entered key from LocalStorage (User Override)
   const userKey = getApiKey();
+  
+  // PRIORITY 2: Environment variable (Deployment Config)
+  // If userKey exists, it takes precedence over the environment variable.
   const effectiveKey = userKey || process.env.API_KEY;
 
   if (!effectiveKey) {
