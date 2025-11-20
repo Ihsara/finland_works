@@ -40,7 +40,7 @@ const Logo = () => (
 
 const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, language, onLanguageSelect, initialData }) => {
   const [step, setStep] = useState(1);
-  const totalSteps = 16; // Increased from 10 to 16 to include psychological profiling
+  const totalSteps = 16; 
   const [showCountryList, setShowCountryList] = useState(false);
   const countryWrapperRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -83,7 +83,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             languageEnglish: initialData.languages?.find(l => l.language === 'English')?.level || '',
             aspirations: initialData.aspirations?.join(', ') || '',
             challenges: initialData.challenges?.join(', ') || '',
-            // New Fields Fallbacks
             finnishMotivation: initialData.finnishMotivation || '',
             cultureInterest: initialData.cultureInterest || '',
             confidenceLife: initialData.confidenceLife || '',
@@ -141,21 +140,17 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     }
   };
 
-  // Wrapper to handle automatic EU permit setting
   const handleCountrySelect = (country: string) => {
     const isEU = isEUCountry(country);
     setFormData(prev => ({ 
         ...prev, 
         originCountry: country,
-        // Auto-set permit if EU, otherwise keep existing or reset if it was EU before (optional, here keeping existing is safer unless it was specifically EU Reg)
         residencePermitType: isEU ? 'EU Registration' : (prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType)
     }));
     setShowCountryList(false);
   };
 
   const handleNext = () => {
-    // Step 4 is Country Selection.
-    // If user is from EU, we skip Step 5 (Permit) because we auto-set it to 'EU Registration'.
     if (step === 4 && isEUCountry(formData.originCountry)) {
        setStep(6);
        return;
@@ -166,7 +161,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const handleBack = () => {
-    // If we are on Step 6 and going back, and user is EU, skip Step 5 back to 4.
     if (step === 6 && isEUCountry(formData.originCountry)) {
         setStep(4);
         return;
@@ -177,7 +171,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const handleChange = (field: string, value: string) => {
     if (field === 'originCountry') {
-        // Real-time check if typing manually
         const isEU = isEUCountry(value);
         setFormData(prev => ({ 
             ...prev, 
@@ -191,7 +184,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const finishWizard = () => {
     const profile: UserProfile = {
-      id: initialData?.id || uuidv4(), // Preserve ID if editing
+      id: initialData?.id || uuidv4(),
       name: formData.name || 'Friend',
       ageRange: formData.ageRange || 'Unknown',
       originCountry: formData.originCountry || 'Abroad',
@@ -208,8 +201,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       profession: formData.profession || 'Job Seeker',
       aspirations: formData.aspirations.split(',').map(s => s.trim()).filter(s => s),
       challenges: formData.challenges.split(',').map(s => s.trim()).filter(s => s),
-      
-      // Save New Fields
       finnishMotivation: formData.finnishMotivation,
       cultureInterest: formData.cultureInterest,
       confidenceLife: formData.confidenceLife,
@@ -222,7 +213,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   // --- Render Helpers ---
   
-  // Refactored to accept objects with label & value to support localization
   const OptionGrid = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4">
       {options.map(opt => (
@@ -241,6 +231,115 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       ))}
     </div>
   );
+
+  // New 1-5 Scale Component for Psychological Questions
+  const LikertScale = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
+    // Map the text options to a 1-5 scale.
+    // If 3 options: Map to 1, 3, 5.
+    // If 4 options: Map to 1, 2, 4, 5.
+    
+    let valueMap: Record<number, string> = {};
+    
+    if (options.length === 3) {
+        valueMap = { 1: options[0].value, 3: options[1].value, 5: options[2].value };
+    } else if (options.length === 4) {
+        valueMap = { 1: options[0].value, 2: options[1].value, 4: options[2].value, 5: options[3].value };
+    } else {
+        // Fallback just in case, though current data is 3 or 4.
+        options.forEach((opt, idx) => {
+            // Map evenly across 1-5
+             const pos = Math.ceil(((idx + 1) / options.length) * 5);
+             valueMap[pos] = opt.value;
+        });
+    }
+
+    // Find active number based on current string value
+    const activeNum = Object.keys(valueMap).find(key => valueMap[parseInt(key)] === current);
+    const activeInt = activeNum ? parseInt(activeNum) : null;
+
+    // Handler: Click on a number. If that number has no direct map, find nearest or snap.
+    // Strategy: If user clicks "2" and only 1,3,5 exist -> Snap to 1 or 3? 
+    // Or better, just map 2 to option 0 (Low/Med) to allow "in-between" feeling but store clean data.
+    const handleNumberClick = (num: number) => {
+        // Simple snapping logic
+        if (valueMap[num]) {
+            onSelect(valueMap[num]);
+        } else {
+            // Snap to nearest populated key
+            const keys = Object.keys(valueMap).map(Number).sort((a,b) => a-b);
+            const nearest = keys.reduce((prev, curr) => Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev);
+            onSelect(valueMap[nearest]);
+        }
+    };
+
+    // Styling helpers
+    const getLabel = () => {
+        if (activeInt && valueMap[activeInt]) {
+            // Find the label in original options
+            const opt = options.find(o => o.value === valueMap[activeInt!]);
+            return opt ? opt.label : current;
+        }
+        return "Select a level";
+    };
+
+    const getColors = (num: number) => {
+        const colors = [
+            'bg-red-100 hover:bg-red-200 text-red-800 border-red-200',
+            'bg-orange-100 hover:bg-orange-200 text-orange-800 border-orange-200',
+            'bg-yellow-100 hover:bg-yellow-200 text-yellow-800 border-yellow-200',
+            'bg-lime-100 hover:bg-lime-200 text-lime-800 border-lime-200',
+            'bg-green-100 hover:bg-green-200 text-green-800 border-green-200',
+        ];
+        return colors[num - 1];
+    };
+    
+    const getActiveColors = (num: number) => {
+         const colors = [
+            'bg-red-500 text-white border-red-600 ring-red-300',
+            'bg-orange-500 text-white border-orange-600 ring-orange-300',
+            'bg-yellow-500 text-white border-yellow-600 ring-yellow-300',
+            'bg-lime-500 text-white border-lime-600 ring-lime-300',
+            'bg-green-500 text-white border-green-600 ring-green-300',
+        ];
+        return colors[num - 1];
+    };
+
+    return (
+        <div className="mt-8 select-none">
+            <div className="flex justify-between items-center gap-2 md:gap-4 px-2">
+                {[1, 2, 3, 4, 5].map((num) => {
+                    const isActive = activeInt === num;
+                    return (
+                        <button
+                            key={num}
+                            onClick={() => handleNumberClick(num)}
+                            className={`
+                                w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300 border-2 transform
+                                ${isActive 
+                                    ? `${getActiveColors(num)} scale-110 shadow-lg ring-4` 
+                                    : `${getColors(num)} scale-100 hover:scale-105 opacity-70 hover:opacity-100`
+                                }
+                            `}
+                        >
+                            {num}
+                        </button>
+                    );
+                })}
+            </div>
+            
+            {/* Dynamic Feedback Text */}
+            <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-100 text-center min-h-[100px] flex items-center justify-center shadow-inner transition-all duration-300">
+                 {current ? (
+                     <p className="text-lg md:text-xl font-medium text-gray-800 animate-in fade-in slide-in-from-bottom-2">
+                         {getLabel()}
+                     </p>
+                 ) : (
+                     <p className="text-gray-400 italic">Select a number from 1 (Low) to 5 (High)</p>
+                 )}
+            </div>
+        </div>
+    );
+  };
 
   // Dynamic Options Generators
   const getMaritalOptions = (lang: LanguageCode): OptionItem[] => [
@@ -292,10 +391,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   ];
 
   const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
-      { value: "Moderately interested", label: t('wizard_opt_cult_med', lang) },
       { value: "A little interested", label: t('wizard_opt_cult_low', lang) },
       { value: "Not sure yet", label: t('wizard_opt_cult_unsure', lang) },
+      { value: "Moderately interested", label: t('wizard_opt_cult_med', lang) },
+      { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
   ];
 
   const getConfidenceLifeOptions = (lang: LanguageCode): OptionItem[] => [
@@ -568,14 +667,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
         );
-      // NEW STEPS START HERE
+      // NEW STEPS - UPDATED TO USE LIKERT SCALE
       case 11: // Motivation
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step11_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getMotivationOptions(language)}
                 current={formData.finnishMotivation}
                 onSelect={(v) => handleChange('finnishMotivation', v)}
@@ -588,7 +687,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step12_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getCultureOptions(language)}
                 current={formData.cultureInterest}
                 onSelect={(v) => handleChange('cultureInterest', v)}
@@ -601,7 +700,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getConfidenceLifeOptions(language)}
                 current={formData.confidenceLife}
                 onSelect={(v) => handleChange('confidenceLife', v)}
@@ -614,7 +713,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step14_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getConfidenceCareerOptions(language)}
                 current={formData.confidenceCareer}
                 onSelect={(v) => handleChange('confidenceCareer', v)}
@@ -627,14 +726,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step15_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getInfoLevelOptions(language)}
                 current={formData.infoLevel}
                 onSelect={(v) => handleChange('infoLevel', v)}
              />
           </div>
         );
-      case 16: // Excitement
+      case 16: // Excitement - Remains OptionGrid as it is categorical, not linear
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -712,7 +811,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             <Icons.ArrowLeft className="w-4 h-4" /> {t('wizard_btn_prev', language)}
           </button>
           
-          {/* Finish Early Button - Only show after Step 1 */}
           {step > 1 && step < totalSteps && (
             <button
                onClick={finishWizard}
