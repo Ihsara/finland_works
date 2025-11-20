@@ -143,9 +143,9 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                         onClick={() => toggleCategory(category.id)}
                         className={`flex items-center justify-between w-full group ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
                     >
-                        <div className="flex items-center gap-3 font-bold text-gray-700 group-hover:text-black">
-                            <span className="text-xs text-gray-400 font-mono w-5">{catNumber}.</span>
-                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-400 group-hover:text-gray-600")}
+                        <div className="flex items-center gap-3 font-bold text-gray-800 group-hover:text-black">
+                            <span className="text-xs text-gray-500 font-mono w-5">{catNumber}.</span>
+                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 group-hover:text-gray-700")}
                             <span className="text-sm uppercase tracking-wide truncate">{category.title}</span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                                     {catProgress}%
                                 </span>
                             )}
-                            {isOpen ? <Icons.ChevronDown className="w-4 h-4 text-gray-400"/> : <Icons.ChevronRight className="w-4 h-4 text-gray-400"/>}
+                            {isOpen ? <Icons.ChevronDown className="w-4 h-4 text-gray-500"/> : <Icons.ChevronRight className="w-4 h-4 text-gray-500"/>}
                         </div>
                     </button>
 
@@ -173,10 +173,10 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                                         className={`w-full text-left px-3 py-3 rounded-md flex items-start gap-3 transition text-sm ${
                                             isActive && isSidebar
                                                 ? 'bg-white shadow-sm text-blue-700 font-medium ring-1 ring-gray-100' 
-                                                : 'text-gray-600 hover:bg-gray-100/50 hover:text-gray-900'
+                                                : 'text-gray-700 hover:bg-gray-100/50 hover:text-gray-900'
                                         }`}
                                     >
-                                        <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
+                                        <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-500'}`}>
                                             {status === 'done' ? (
                                                 <Icons.CheckCircle className="w-4 h-4 text-green-500" />
                                             ) : status === 'later' ? (
@@ -218,7 +218,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
           </div>
           <div>
             <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight line-clamp-1">Finland Works!</h2>
-            <p className="text-[10px] md:text-xs text-gray-500 hidden sm:block">
+            <p className="text-[10px] md:text-xs text-gray-600 hidden sm:block">
               {profile ? `Curated for ${profile.name}` : 'Essential guide'}
             </p>
           </div>
@@ -266,7 +266,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
                          <h3 className="text-2xl font-bold text-gray-900">Explore Categories</h3>
-                         <p className="text-gray-500 mt-2">Select a topic to dive into the details.</p>
+                         <p className="text-gray-600 mt-2">Select a topic to dive into the details.</p>
                      </div>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
                         {wikiCategories.map((category) => {
@@ -328,7 +328,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
                         <h3 className="text-2xl font-bold text-gray-900">Full Index</h3>
-                        <p className="text-gray-500 mt-1">Browse all topics below.</p>
+                        <p className="text-gray-600 mt-1">Browse all topics below.</p>
                     </div>
                     {renderCategoryList(false)}
                 </div>

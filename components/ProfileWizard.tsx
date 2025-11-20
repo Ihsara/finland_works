@@ -219,7 +219,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">What would you like to be called?</h2>
-              <p className="text-gray-500 mt-2">Enter your own name or choose</p>
+              <p className="text-gray-600 mt-2">Enter your own name or choose</p>
             </div>
             <input 
               type="text" 
@@ -241,7 +241,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">How old are you?</h2>
-              <p className="text-gray-500 mt-2">Enter an exact age or choose an age range</p>
+              <p className="text-gray-600 mt-2">Enter an exact age or choose an age range</p>
             </div>
             <input 
               type="text" 
@@ -292,8 +292,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
-               <h2 className="text-2xl font-bold text-gray-900">Where is 'home' currently?</h2>
-               <p className="text-gray-500 mt-2">Select your country of origin</p>
+               <h2 className="text-2xl font-bold text-gray-900">Where do you come from?</h2>
+               <p className="text-gray-600 mt-2">Select your country of origin</p>
             </div>
             <div className="relative" ref={countryWrapperRef}>
                <input 
@@ -325,7 +325,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                       </button>
                     ))
                   ) : (
-                    <div className="px-4 py-3 text-sm text-gray-400 italic">No matches found</div>
+                    <div className="px-4 py-3 text-sm text-gray-600 italic">No matches found</div>
                   )}
                 </div>
               )}
@@ -381,7 +381,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">What is your profession?</h2>
-                <p className="text-gray-500 mt-2">Or what job are you looking for?</p>
+                <p className="text-gray-600 mt-2">Or what job are you looking for?</p>
              </div>
              <input 
                 type="text" 
@@ -461,9 +461,9 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
           <div className="flex items-center gap-3">
              <button 
                onClick={onCancel} 
-               className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-black hover:shadow-md hover:scale-[1.02] transition-all duration-200 text-sm font-bold tracking-tight"
+               className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-gray-900 text-gray-900 shadow-sm hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 text-sm font-bold tracking-tight"
              >
-               <Icons.MessageSquare className="w-4 h-4 text-gray-500" /> 
+               <Icons.MessageSquare className="w-4 h-4 text-gray-900" /> 
                Ask a question
              </button>
 

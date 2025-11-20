@@ -350,7 +350,7 @@ const App: React.FC = () => {
             <Icons.Key className="w-8 h-8 text-blue-600" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome to Finland Works!</h1>
-          <p className="text-gray-600 max-w-md">
+          <p className="text-gray-700 max-w-md">
             To ensure your privacy, this app runs locally. Please provide your Google Gemini API Key to start. 
             This key is stored only on your device in <code className="bg-gray-100 px-1 rounded">data/.env</code>.
           </p>
@@ -368,7 +368,7 @@ const App: React.FC = () => {
           >
             Save & Continue
           </button>
-          <p className="text-xs text-gray-400">Don't have a key? Get a free one from Google AI Studio.</p>
+          <p className="text-xs text-gray-500">Don't have a key? Get a free one from Google AI Studio.</p>
         </div>
       </Layout>
     );
@@ -386,13 +386,13 @@ const App: React.FC = () => {
                       >
                           <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.flag}</span>
                           <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.name || 'Language'}</span> 
-                          <Icons.Languages className="w-4 h-4 text-gray-500" />
+                          <Icons.Languages className="w-4 h-4 text-gray-600" />
                       </div>
                       
                       {/* Language Popup */}
                       {isLangMenuOpen && (
                         <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="p-2 bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-500 uppercase tracking-wider text-center">
+                            <div className="p-2 bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-600 uppercase tracking-wider text-center">
                                 Select Language
                             </div>
                             <div className="max-h-80 overflow-y-auto">
@@ -408,7 +408,7 @@ const App: React.FC = () => {
                                   <span className="text-xl flex-shrink-0">{lang.flag}</span>
                                   <div className="flex flex-col leading-tight flex-1">
                                     <span className="font-medium">{lang.nativeName}</span>
-                                    <span className="text-[10px] text-gray-500">{lang.name}</span>
+                                    <span className="text-[10px] text-gray-600">{lang.name}</span>
                                   </div>
                                   {language === lang.code && <Icons.CheckCircle className="w-4 h-4" />}
                                 </button>
@@ -421,7 +421,7 @@ const App: React.FC = () => {
                   {/* Main Content */}
                   <div className="max-w-xl w-full text-center">
                       <h1 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">{t('landing_welcome', language)}</h1>
-                      <p className="text-xl text-gray-600 mb-12 font-light">{t('landing_subtitle', language)}</p>
+                      <p className="text-xl text-gray-700 mb-12 font-light">{t('landing_subtitle', language)}</p>
 
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                           <button 
@@ -450,17 +450,17 @@ const App: React.FC = () => {
 
                   {/* Footer Area: Clear Cache & Sample Profile */}
                   <div className="absolute bottom-6 flex flex-col items-center">
-                       <div className="flex gap-4 text-xs text-gray-400 items-center">
+                       <div className="flex gap-4 text-xs text-gray-500 items-center">
                           <button 
                               onClick={() => handleLoadDemoProfile(false)} 
-                              className="hover:text-gray-600 underline underline-offset-2 p-2 cursor-pointer"
+                              className="hover:text-gray-700 underline underline-offset-2 p-2 cursor-pointer"
                           >
                               {t('landing_load_sample', language)}
                           </button>
                           <span>•</span>
                           <button 
                               onClick={handleResetData} 
-                              className="hover:text-red-600 text-gray-400 transition-colors p-2 cursor-pointer"
+                              className="hover:text-red-700 text-gray-500 transition-colors p-2 cursor-pointer"
                           >
                               {t('landing_erase', language)}
                           </button>
@@ -505,21 +505,21 @@ const App: React.FC = () => {
             <h2 className="text-lg md:text-xl font-bold flex items-center gap-2">
               <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile', language)} (YAML)
             </h2>
-            <button onClick={() => setView(AppView.PROFILE)} className="text-gray-500 hover:text-gray-700">
+            <button onClick={() => setView(AppView.PROFILE)} className="text-gray-600 hover:text-gray-800">
               <Icons.X className="w-6 h-6" />
             </button>
           </div>
           <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col">
             <div className="flex justify-between items-center mb-4">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600">
                 Update details for: <span className="font-bold text-black">{profile?.name}</span>
               </p>
-              <button onClick={() => handleLoadDemoProfile(false)} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+              <button onClick={() => handleLoadDemoProfile(false)} className="text-xs text-blue-700 hover:underline flex items-center gap-1">
                  <Icons.User className="w-3 h-3" /> Load Demo
               </button>
             </div>
             <textarea 
-              className="flex-1 w-full font-mono text-sm p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:outline-none resize-none shadow-inner"
+              className="flex-1 w-full font-mono text-sm p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:outline-none resize-none shadow-inner text-gray-900"
               value={yamlInput}
               onChange={(e) => setYamlInput(e.target.value)}
               spellCheck={false}
@@ -551,14 +551,14 @@ const App: React.FC = () => {
               </div>
               <div>
                 <h2 className="font-bold text-gray-900 text-sm md:text-base">{t('chat_header_assistant', language)}</h2>
-                <p className="text-[10px] md:text-xs text-green-600 flex items-center gap-1">
+                <p className="text-[10px] md:text-xs text-green-700 flex items-center gap-1">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
                 </p>
               </div>
             </div>
             <button 
               onClick={handleEndSession}
-              className="text-sm text-gray-500 hover:text-red-600 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
+              className="text-sm text-gray-700 hover:text-red-700 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
             >
               <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
             </button>
@@ -567,7 +567,7 @@ const App: React.FC = () => {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-white">
             {currentConversation.messages.length === 0 && (
-              <div className="text-center text-gray-400 py-10">
+              <div className="text-center text-gray-500 py-10">
                 <Icons.MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-20" />
                 <p>Start the conversation by asking a question below.</p>
               </div>
@@ -581,12 +581,12 @@ const App: React.FC = () => {
                   className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden
                     ${msg.sender === Sender.USER 
                       ? 'bg-gray-100 text-gray-900 rounded-tr-sm border border-gray-200' 
-                      : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm'
+                      : 'bg-white border border-gray-200 text-gray-900 rounded-tl-sm'
                     }`}
                 >
                    <div 
                       className={`prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0
-                        ${msg.sender === Sender.USER ? 'prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900' : ''}
+                        ${msg.sender === Sender.USER ? 'prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900' : 'prose-headings:text-gray-900 prose-p:text-gray-900'}
                       `}
                       dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
                    />
@@ -597,9 +597,9 @@ const App: React.FC = () => {
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-75"></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-150"></div>
                   </div>
                 </div>
               </div>
@@ -617,7 +617,7 @@ const App: React.FC = () => {
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder={t('chat_placeholder', language)}
                 disabled={isTyping}
-                className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
+                className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
               />
               <button 
                 onClick={handleSendMessage}
@@ -642,7 +642,7 @@ const App: React.FC = () => {
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-20">
              <button 
                onClick={() => setView(AppView.DASHBOARD)} 
-               className="flex items-center gap-2 text-gray-600 hover:text-black transition font-medium px-3 py-2 hover:bg-gray-50 rounded-lg"
+               className="flex items-center gap-2 text-gray-800 hover:text-black transition font-medium px-3 py-2 hover:bg-gray-50 rounded-lg"
              >
                <Icons.ArrowLeft className="w-5 h-5" />
                <span>Back to Dashboard</span>
@@ -651,7 +651,7 @@ const App: React.FC = () => {
              <div className="flex items-center gap-2 relative">
                  <button 
                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                   className="text-xs font-bold text-gray-500 hover:text-black flex items-center gap-1 uppercase tracking-wide bg-gray-50 px-3 py-1.5 rounded-full"
+                   className="text-xs font-bold text-gray-700 hover:text-black flex items-center gap-1 uppercase tracking-wide bg-gray-50 px-3 py-1.5 rounded-full"
                  >
                    Switch Profile <Icons.ChevronDown className="w-3 h-3" />
                  </button>
@@ -691,7 +691,7 @@ const App: React.FC = () => {
                         className="w-full h-full object-cover"
                       />
                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-300">
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
                         <Icons.User className="w-12 h-12" />
                       </div>
                    )}
@@ -699,10 +699,10 @@ const App: React.FC = () => {
                 
                 <div className="flex-1 flex flex-col justify-center">
                    <h1 className="text-4xl font-bold text-gray-900 mb-2">{profile?.name || 'Guest'}</h1>
-                   <div className="text-gray-600 space-y-1">
-                      <p className="flex items-center gap-2"><Icons.Calendar className="w-4 h-4 opacity-50"/> {profile?.ageRange || 'Age unknown'}</p>
-                      <p className="flex items-center gap-2"><Icons.Home className="w-4 h-4 opacity-50"/> {profile?.originCountry || 'Unknown Origin'}</p>
-                      <p className="flex items-center gap-2"><Icons.Heart className="w-4 h-4 opacity-50"/> {profile?.maritalStatus || 'Unknown Status'}</p>
+                   <div className="text-gray-700 space-y-1">
+                      <p className="flex items-center gap-2"><Icons.Calendar className="w-4 h-4 opacity-70"/> {profile?.ageRange || 'Age unknown'}</p>
+                      <p className="flex items-center gap-2"><Icons.Home className="w-4 h-4 opacity-70"/> {profile?.originCountry || 'Unknown Origin'}</p>
+                      <p className="flex items-center gap-2"><Icons.Heart className="w-4 h-4 opacity-70"/> {profile?.maritalStatus || 'Unknown Status'}</p>
                    </div>
                 </div>
 
@@ -713,7 +713,7 @@ const App: React.FC = () => {
                     <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
                        <div className="h-full bg-black rounded-full transition-all duration-1000 ease-out" style={{ width: `${profileCompleteness}%` }}></div>
                     </div>
-                    <p className="text-xs text-gray-500">Answer a few more questions for better advice</p>
+                    <p className="text-xs text-gray-700">Answer a few more questions for better advice</p>
                     <button 
                        onClick={handleEditProfileVisual}
                        className="bg-white border border-gray-200 text-black py-2 px-4 rounded-lg font-bold text-sm hover:bg-gray-100 transition shadow-sm"
@@ -734,8 +734,8 @@ const App: React.FC = () => {
                         <Icons.BookMarked className="w-6 h-6" />
                       </div>
                       <div className="text-left">
-                        <span className="block text-lg font-bold">My Guide</span>
-                        <span className="text-sm text-gray-500">Recommended articles</span>
+                        <span className="block text-lg font-bold text-gray-900">My Guide</span>
+                        <span className="text-sm text-gray-600">Recommended articles</span>
                       </div>
                    </div>
                    <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
@@ -746,8 +746,8 @@ const App: React.FC = () => {
                         <Icons.Rocket className="w-6 h-6" />
                       </div>
                       <div className="text-left">
-                        <span className="block text-lg font-bold">My Plan</span>
-                        <span className="text-sm text-gray-500">Coming soon</span>
+                        <span className="block text-lg font-bold text-gray-900">My Plan</span>
+                        <span className="text-sm text-gray-600">Coming soon</span>
                       </div>
                    </div>
                    <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
@@ -758,40 +758,40 @@ const App: React.FC = () => {
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Languages */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group">
-                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.Languages className="w-5 h-5"/> Languages</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.Languages className="w-5 h-5"/> Languages</h3>
                    <div className="space-y-3">
                       {(profile?.languages && profile.languages.length > 0) ? (
                         profile.languages.map((l, i) => (
                           <div key={i} className="flex flex-col pb-2 border-b border-gray-200 last:border-0">
-                             <span className="font-bold text-black">{l.language}</span>
-                             <span className="text-sm text-gray-600">{l.level}</span>
+                             <span className="font-bold text-gray-800">{l.language}</span>
+                             <span className="text-sm text-gray-700">{l.level}</span>
                           </div>
                         ))
                       ) : (
-                        <p className="text-gray-400 text-sm italic">No languages specified.</p>
+                        <p className="text-gray-500 text-sm italic">No languages specified.</p>
                       )}
                    </div>
                 </div>
 
                 {/* Education */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group">
-                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.GraduationCap className="w-5 h-5"/> Skills</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.GraduationCap className="w-5 h-5"/> Skills</h3>
                    <div className="space-y-4">
                       <div>
-                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-500">Education</h4>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">Education</h4>
                         <p className="text-gray-800 font-medium">
                           {profile?.education?.degree || 'Not specified'} 
                           {profile?.education?.field ? ` in ${profile.education.field}` : ''}
                         </p>
                       </div>
                       <div>
-                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-500">Profession</h4>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">Profession</h4>
                         <p className="text-gray-800 font-medium">{profile?.profession || 'Not specified'}</p>
                       </div>
                    </div>
@@ -799,28 +799,28 @@ const App: React.FC = () => {
 
                 {/* Narrative - Full Width */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group md:col-span-2">
-                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.User className="w-5 h-5"/> Personal Narrative</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.User className="w-5 h-5"/> Personal Narrative</h3>
                    <div className="space-y-6">
                       <div>
                          <h4 className="font-bold text-black mb-2">Aspirations</h4>
-                         <ul className="list-disc pl-5 space-y-1 text-gray-600">
+                         <ul className="list-disc pl-5 space-y-1 text-gray-700">
                             {(profile?.aspirations && profile.aspirations.length > 0) ? (
                                 profile.aspirations.map((a, i) => <li key={i}>{a}</li>)
                             ) : (
-                                <li className="text-gray-400 italic list-none ml-[-1rem]">No aspirations listed yet.</li>
+                                <li className="text-gray-500 italic list-none ml-[-1rem]">No aspirations listed yet.</li>
                             )}
                          </ul>
                       </div>
                       <div>
                          <h4 className="font-bold text-black mb-2">Fears / challenges</h4>
-                         <ul className="list-disc pl-5 space-y-1 text-gray-600">
+                         <ul className="list-disc pl-5 space-y-1 text-gray-700">
                             {(profile?.challenges && profile.challenges.length > 0) ? (
                                 profile.challenges.map((a, i) => <li key={i}>{a}</li>)
                             ) : (
-                                <li className="text-gray-400 italic list-none ml-[-1rem]">No challenges listed yet.</li>
+                                <li className="text-gray-500 italic list-none ml-[-1rem]">No challenges listed yet.</li>
                             )}
                          </ul>
                       </div>
@@ -870,7 +870,7 @@ const App: React.FC = () => {
              <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
                Welcome back, {profile?.name?.split(' ')[0] || 'Friend'}!
              </h1>
-             <p className="text-xl text-gray-600 mb-12 font-light">
+             <p className="text-xl text-gray-800 mb-12 font-light">
                {profileCompleteness < 100 
                   ? "Answer a few more questions to get better job advice."
                   : "Your profile is looking great. How can I help today?"}
