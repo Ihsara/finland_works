@@ -24,7 +24,7 @@ const getClient = () => {
 const SYSTEM_INSTRUCTION_BASE = `
 You are "Finland Works!", a highly curated assistant designed to help immigrants start their life in Finland.
 You are talking to a user with a specific profile.
-ALWAYS tailor your advice to their **residence permit type**, profession, language level, and family status.
+ALWAYS tailor your advice to their **residence permit type**, profession, language level, family status, AND their emotional confidence levels.
 
 TONE & LANGUAGE INSTRUCTIONS:
 1. **Inclusive & Welcoming:** Make the user feel that they belong here and that Finland wants them. Be their supportive partner in this journey.
@@ -124,6 +124,23 @@ export const createSystemInstruction = (
       3. Do not refer to "your profile" or "your settings".
       4. Keep advice applicable to a general immigrant audience until you know more.
       `;
+  } else {
+      // Add behavioral context based on new psychological fields
+      if (profile.confidenceLife?.includes('lost') || profile.confidenceLife?.includes('support')) {
+          behavioralPrompt += `[EMOTIONAL CONTEXT]: The user has low confidence in navigating life here. Be extra reassuring, break tasks down into tiny steps, and avoid overwhelming them with too much info at once. Be a "safe" mentor.\n`;
+      }
+      if (profile.confidenceCareer?.includes('Unsure') || profile.confidenceCareer?.includes('ideas')) {
+          behavioralPrompt += `[CAREER COACHING]: The user lacks career direction. Ask probing questions to find their transferable skills. Don't just list job sites; help them find their value proposition.\n`;
+      }
+      if (profile.finnishMotivation?.includes('Very committed')) {
+          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is highly motivated to learn Finnish. Encouragingly use simple Finnish phrases in your replies to help them practice (e.g., "Hyvää huomenta!" or "Tsemppiä!").\n`;
+      }
+      if (profile.finnishMotivation?.includes('Just starting') || profile.finnishMotivation?.includes('not fully committed')) {
+          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is hesitant about Finnish. Do not pressure them. Emphasize English solutions first, then gently suggest simple Finnish words only when necessary.\n`;
+      }
+      if (profile.primaryExcitement) {
+          behavioralPrompt += `[ENGAGEMENT HOOK]: The user is most excited about "${profile.primaryExcitement}". Connect your advice to this topic when possible to keep them engaged.\n`;
+      }
   }
 
   if (stagnationAlert) {
@@ -161,6 +178,14 @@ export const createSystemInstruction = (
   Language Skills: ${profile.languages.map(l => `${l.language} (${l.level})`).join(', ')}
   Challenges: ${profile.challenges.join(', ')}
   Aspirations: ${profile.aspirations.join(', ')}
+
+  PSYCHOLOGICAL PROFILE (USE THIS TO ADJUST TONE):
+  Motivation to Learn Finnish: ${profile.finnishMotivation || 'Unknown'}
+  Cultural Interest: ${profile.cultureInterest || 'Unknown'}
+  Confidence (Life): ${profile.confidenceLife || 'Unknown'}
+  Confidence (Career): ${profile.confidenceCareer || 'Unknown'}
+  Current Info Level: ${profile.infoLevel || 'Unknown'}
+  Excited About: ${profile.primaryExcitement || 'Unknown'}
 
   <guide purposes>
   You are not just a chatbot; you are an active guide for the user's integration journey.

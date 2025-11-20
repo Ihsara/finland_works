@@ -4,7 +4,7 @@
   line-height: 1.5;
   font-weight: 400;
   
-  /* Color synthesis */
+  /* Color synthesis - Force Light Mode Defaults */
   color-scheme: light;
   background-color: #F3F4F6; /* gray-100 */
 }
@@ -19,6 +19,10 @@ body {
   /* Improve text rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* CRITICAL: Enforce Dark Text on White Background Global Default */
+  color: #111827; /* gray-900 */
+  background-color: #ffffff;
 }
 
 /* App Root Container */

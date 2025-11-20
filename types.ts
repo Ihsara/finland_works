@@ -60,6 +60,14 @@ export interface UserProfile {
   profession: string;
   aspirations: string[];
   challenges: string[];
+  
+  // New Psychological/Contextual Fields
+  finnishMotivation?: string;
+  cultureInterest?: string;
+  confidenceLife?: string;
+  confidenceCareer?: string;
+  infoLevel?: string;
+  primaryExcitement?: string;
 }
 
 // Default Profile Data (YAML Template)
@@ -87,6 +95,12 @@ aspirations:
 challenges:
   - Feels underqualified due to language barriers
   - Doesn't know where to find professional networks
+finnishMotivation: I’m motivated but need structure
+cultureInterest: Very interested – I want to integrate deeply
+confidenceLife: I’m somewhat confident but need support
+confidenceCareer: I have some ideas but need direction
+infoLevel: Somewhat informed
+primaryExcitement: Nature, culture, and lifestyle
 `.trim();
 
 export const TEMPLATE_PROFILE_YAML = `
@@ -111,6 +125,12 @@ aspirations:
 challenges:
   - [Challenge 1]
   - [Challenge 2]
+finnishMotivation: [e.g. Very committed]
+cultureInterest: [e.g. Very interested]
+confidenceLife: [e.g. I feel lost]
+confidenceCareer: [e.g. Unsure where to start]
+infoLevel: [e.g. Not informed at all]
+primaryExcitement: [e.g. Quality of life]
 `.trim();
 
 export const GUEST_PROFILE: UserProfile = {

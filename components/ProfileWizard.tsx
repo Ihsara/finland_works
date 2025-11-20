@@ -40,7 +40,7 @@ const Logo = () => (
 
 const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, language, onLanguageSelect, initialData }) => {
   const [step, setStep] = useState(1);
-  const totalSteps = 10;
+  const totalSteps = 16; // Increased from 10 to 16 to include psychological profiling
   const [showCountryList, setShowCountryList] = useState(false);
   const countryWrapperRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -57,7 +57,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     languageFinnish: '',
     languageEnglish: '',
     aspirations: '',
-    challenges: ''
+    challenges: '',
+    // New Fields
+    finnishMotivation: '',
+    cultureInterest: '',
+    confidenceLife: '',
+    confidenceCareer: '',
+    infoLevel: '',
+    primaryExcitement: ''
   });
 
   // Pre-fill data if editing
@@ -75,7 +82,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             languageFinnish: initialData.languages?.find(l => l.language === 'Finnish')?.level || '',
             languageEnglish: initialData.languages?.find(l => l.language === 'English')?.level || '',
             aspirations: initialData.aspirations?.join(', ') || '',
-            challenges: initialData.challenges?.join(', ') || ''
+            challenges: initialData.challenges?.join(', ') || '',
+            // New Fields Fallbacks
+            finnishMotivation: initialData.finnishMotivation || '',
+            cultureInterest: initialData.cultureInterest || '',
+            confidenceLife: initialData.confidenceLife || '',
+            confidenceCareer: initialData.confidenceCareer || '',
+            infoLevel: initialData.infoLevel || '',
+            primaryExcitement: initialData.primaryExcitement || ''
         });
     }
   }, [initialData]);
@@ -193,7 +207,15 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       },
       profession: formData.profession || 'Job Seeker',
       aspirations: formData.aspirations.split(',').map(s => s.trim()).filter(s => s),
-      challenges: formData.challenges.split(',').map(s => s.trim()).filter(s => s)
+      challenges: formData.challenges.split(',').map(s => s.trim()).filter(s => s),
+      
+      // Save New Fields
+      finnishMotivation: formData.finnishMotivation,
+      cultureInterest: formData.cultureInterest,
+      confidenceLife: formData.confidenceLife,
+      confidenceCareer: formData.confidenceCareer,
+      infoLevel: formData.infoLevel,
+      primaryExcitement: formData.primaryExcitement
     };
     onComplete(profile);
   };
@@ -202,17 +224,18 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   
   // Refactored to accept objects with label & value to support localization
   const OptionGrid = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4">
       {options.map(opt => (
         <button
           key={opt.value}
           onClick={() => onSelect(opt.value)}
-          className={`p-4 rounded-xl border text-sm font-medium transition-all duration-200 ${
+          className={`p-4 rounded-xl border text-sm font-medium transition-all duration-200 text-left flex items-center ${
             current === opt.value 
-              ? 'border-black ring-1 ring-black text-gray-900 text-black bg-gray-50 shadow-sm' 
+              ? 'border-black ring-1 ring-black text-gray-900 bg-gray-50 shadow-sm' 
               : 'border-gray-200 text-gray-900 hover:border-gray-300 hover:shadow-sm'
           }`}
         >
+          {current === opt.value && <Icons.CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-black" />}
           {opt.label}
         </button>
       ))}
@@ -261,6 +284,47 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     { value: "Native/Fluent", label: t('wizard_opt_lang_en_fluent', lang) }
   ];
 
+  // --- New Questions Options ---
+  const getMotivationOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Just starting", label: t('wizard_opt_mot_low', lang) },
+      { value: "Needs structure", label: t('wizard_opt_mot_med', lang) },
+      { value: "Very committed", label: t('wizard_opt_mot_high', lang) },
+  ];
+
+  const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
+      { value: "Moderately interested", label: t('wizard_opt_cult_med', lang) },
+      { value: "A little interested", label: t('wizard_opt_cult_low', lang) },
+      { value: "Not sure yet", label: t('wizard_opt_cult_unsure', lang) },
+  ];
+
+  const getConfidenceLifeOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Lost", label: t('wizard_opt_conf_life_low', lang) },
+      { value: "Somewhat confident", label: t('wizard_opt_conf_life_med', lang) },
+      { value: "Quite confident", label: t('wizard_opt_conf_life_high', lang) },
+  ];
+
+  const getConfidenceCareerOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Unsure where to start", label: t('wizard_opt_conf_career_low', lang) },
+      { value: "Have ideas", label: t('wizard_opt_conf_career_med', lang) },
+      { value: "Confident", label: t('wizard_opt_conf_career_high', lang) },
+  ];
+
+  const getInfoLevelOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Not informed", label: t('wizard_opt_info_none', lang) },
+      { value: "Somewhat informed", label: t('wizard_opt_info_some', lang) },
+      { value: "Informed", label: t('wizard_opt_info_yes', lang) },
+      { value: "Very informed", label: t('wizard_opt_info_high', lang) },
+  ];
+
+  const getExcitementOptions = (lang: LanguageCode): OptionItem[] => [
+      { value: "Career opportunities", label: t('wizard_opt_excite_career', lang) },
+      { value: "Quality of life", label: t('wizard_opt_excite_life', lang) },
+      { value: "Nature and culture", label: t('wizard_opt_excite_nature', lang) },
+      { value: "Education", label: t('wizard_opt_excite_edu', lang) },
+      { value: "Still figuring it out", label: t('wizard_opt_excite_idk', lang) },
+  ];
+
   const renderStepContent = () => {
     switch(step) {
       case 1: // Name
@@ -278,14 +342,24 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               onChange={(e) => handleChange('name', e.target.value)}
               autoFocus
             />
-            <OptionGrid 
-              options={[
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+              {[
                 "Darth Vader", "Minerva McGonagall", "Winston Churchill", 
                 "Daenerys Targaryen", "Sherlock Holmes", "Wonder Woman"
-              ].map(v => ({ label: v, value: v }))}
-              current={formData.name}
-              onSelect={(val) => handleChange('name', val)}
-            />
+              ].map(v => (
+                  <button
+                    key={v}
+                    onClick={() => handleChange('name', v)}
+                    className={`p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 ${
+                      formData.name === v
+                        ? 'border-black ring-1 ring-black text-gray-900 bg-gray-50 shadow-sm' 
+                        : 'border-gray-200 text-gray-900 hover:border-gray-300'
+                    }`}
+                  >
+                    {v}
+                  </button>
+              ))}
+            </div>
           </div>
         );
       case 2: // Age
@@ -302,7 +376,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               value={formData.ageRange}
               onChange={(e) => handleChange('ageRange', e.target.value)}
             />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-2 gap-3 mt-4">
                {["18–25", "26–35", "36–50", "51+"].map(opt => (
                 <button
                   key={opt}
@@ -389,10 +463,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                  <button
                    key={opt.value}
                    onClick={() => handleChange('residencePermitType', opt.value)}
-                   className={`p-4 text-left rounded-xl border font-medium transition-all ${
+                   className={`p-4 text-left rounded-xl border font-medium transition-all flex items-center ${
                      formData.residencePermitType === opt.value ? 'border-black ring-1 ring-black bg-gray-50 text-black' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
                    }`}
                  >
+                   {formData.residencePermitType === opt.value && <Icons.CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-black" />}
                    {opt.label}
                  </button>
                ))}
@@ -493,6 +568,85 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
         );
+      // NEW STEPS START HERE
+      case 11: // Motivation
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step11_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getMotivationOptions(language)}
+                current={formData.finnishMotivation}
+                onSelect={(v) => handleChange('finnishMotivation', v)}
+             />
+          </div>
+        );
+      case 12: // Cultural Interest
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step12_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getCultureOptions(language)}
+                current={formData.cultureInterest}
+                onSelect={(v) => handleChange('cultureInterest', v)}
+             />
+          </div>
+        );
+      case 13: // Confidence Life
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getConfidenceLifeOptions(language)}
+                current={formData.confidenceLife}
+                onSelect={(v) => handleChange('confidenceLife', v)}
+             />
+          </div>
+        );
+      case 14: // Confidence Career
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step14_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getConfidenceCareerOptions(language)}
+                current={formData.confidenceCareer}
+                onSelect={(v) => handleChange('confidenceCareer', v)}
+             />
+          </div>
+        );
+      case 15: // Info Level
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step15_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getInfoLevelOptions(language)}
+                current={formData.infoLevel}
+                onSelect={(v) => handleChange('infoLevel', v)}
+             />
+          </div>
+        );
+      case 16: // Excitement
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step16_title', language)}</h2>
+             </div>
+             <OptionGrid 
+                options={getExcitementOptions(language)}
+                current={formData.primaryExcitement}
+                onSelect={(v) => handleChange('primaryExcitement', v)}
+             />
+          </div>
+        );
       default: return null;
     }
   };
@@ -545,7 +699,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
        </div>
 
        {/* FOOTER NAV */}
-       <div className="p-6 md:p-8 max-w-3xl mx-auto w-full flex gap-4">
+       <div className="p-6 md:p-8 max-w-3xl mx-auto w-full flex gap-4 items-center">
           <button 
             onClick={handleBack}
             disabled={step === 1}
@@ -558,9 +712,19 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             <Icons.ArrowLeft className="w-4 h-4" /> {t('wizard_btn_prev', language)}
           </button>
           
+          {/* Finish Early Button - Only show after Step 1 */}
+          {step > 1 && step < totalSteps && (
+            <button
+               onClick={finishWizard}
+               className="hidden sm:block px-4 py-3 text-sm text-gray-500 underline hover:text-gray-900 ml-auto mr-4"
+            >
+               {t('wizard_btn_finish_early', language)}
+            </button>
+          )}
+
           <button 
             onClick={handleNext}
-            className="px-8 py-3 rounded-full bg-black text-white font-medium hover:bg-gray-800 transition shadow-lg flex items-center gap-2 ml-auto"
+            className={`px-8 py-3 rounded-full bg-black text-white font-medium hover:bg-gray-800 transition shadow-lg flex items-center gap-2 ${step < totalSteps && step <= 1 ? 'ml-auto' : ''}`}
           >
             {step === totalSteps ? t('wizard_btn_submit', language) : t('wizard_btn_next', language)}
             {step !== totalSteps && <Icons.ArrowRight className="w-4 h-4" />}

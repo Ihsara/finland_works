@@ -407,12 +407,14 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
                         </div>
                         
                         {/* Markdown Content */}
-                        <article className="prose prose-slate prose-sm md:prose-base max-w-none 
-                            prose-headings:font-bold prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
+                        {/* CRITICAL: Added text-gray-900 and explicitly overrode prose colors to prevent invisible text */}
+                        <article className="prose prose-slate prose-sm md:prose-base max-w-none text-gray-900
+                            prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
                             prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
-                            prose-p:text-gray-700 prose-p:leading-relaxed
+                            prose-p:text-gray-800 prose-p:leading-relaxed
                             prose-a:text-blue-600 hover:prose-a:text-blue-800 
-                            prose-li:marker:text-gray-300
+                            prose-li:text-gray-800 prose-li:marker:text-gray-500
+                            prose-strong:text-gray-900
                             [&>ul]:pl-4 [&>ol]:pl-4">
                             <div dangerouslySetInnerHTML={{ __html: marked.parse(activeArticle.content) as string }} />
                         </article>
