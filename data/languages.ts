@@ -137,6 +137,8 @@ export type TranslationKey =
   | 'wizard_step7_desc'
   | 'wizard_step7_placeholder'
   | 'wizard_step8_title'
+  | 'wizard_lbl_finnish_level'
+  | 'wizard_lbl_finnish_motivation'
   | 'wizard_opt_lang_none'
   | 'wizard_opt_lang_basics'
   | 'wizard_opt_lang_inter'
@@ -151,10 +153,13 @@ export type TranslationKey =
   | 'wizard_step10_aspirations_placeholder'
   | 'wizard_step10_challenges_label'
   | 'wizard_step10_challenges_placeholder'
-  | 'wizard_step11_title'
-  | 'wizard_opt_mot_low'
-  | 'wizard_opt_mot_med'
-  | 'wizard_opt_mot_high'
+  
+  // New Scale Keys
+  | 'wizard_scale_1_motivation'
+  | 'wizard_scale_5_motivation'
+  | 'wizard_scale_1_career'
+  | 'wizard_scale_5_career'
+  
   | 'wizard_step12_title'
   | 'wizard_opt_cult_high'
   | 'wizard_opt_cult_med'
@@ -165,9 +170,6 @@ export type TranslationKey =
   | 'wizard_opt_conf_life_med'
   | 'wizard_opt_conf_life_high'
   | 'wizard_step14_title'
-  | 'wizard_opt_conf_career_low'
-  | 'wizard_opt_conf_career_med'
-  | 'wizard_opt_conf_career_high'
   | 'wizard_step15_title'
   | 'wizard_opt_info_none'
   | 'wizard_opt_info_some'
@@ -268,7 +270,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_pair_title: "Partnered Up",
     wizard_marital_pair_desc: "Married or partnered",
     wizard_marital_secret_title: "It's a Mystery",
-    wizard_marital_secret_desc: "I prefer not to say",
+    wizard_marital_secret_desc: "It's complicated / secret",
 
     wizard_step4_title: "Where do you come from?",
     wizard_step4_desc: "Select your origin",
@@ -309,11 +311,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step7_title: "What is your profession?",
     wizard_step7_desc: "Or what job are you looking for?",
     wizard_step7_placeholder: "e.g. Nurse, Welder, Developer",
-    wizard_step8_title: "Finnish Language Level",
+    wizard_step8_title: "Finnish Language",
+    wizard_lbl_finnish_level: "Current Level",
+    wizard_lbl_finnish_motivation: "Motivation to Learn",
     wizard_opt_lang_none: "None yet",
     wizard_opt_lang_basics: "Basics (A1)",
     wizard_opt_lang_inter: "Intermediate (A2-B1)",
     wizard_opt_lang_fluent: "Fluent (B2+)",
+    
+    wizard_scale_1_motivation: "Low / None",
+    wizard_scale_5_motivation: "Very High",
+    
     wizard_step9_title: "English Language Level",
     wizard_opt_lang_en_none: "None",
     wizard_opt_lang_en_basic: "Basic",
@@ -325,11 +333,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Challenges",
     wizard_step10_challenges_placeholder: "Any specific worries?",
     
-    // New Questions
-    wizard_step11_title: "Motivation to learn Finnish",
-    wizard_opt_mot_low: "Just starting, not fully committed yet",
-    wizard_opt_mot_med: "I’m motivated but need structure",
-    wizard_opt_mot_high: "Very committed and ready to study actively",
+    wizard_scale_1_career: "I don't know anything",
+    wizard_scale_5_career: "I know what to do",
 
     wizard_step12_title: "How interested are you in Finnish culture & everyday life?",
     wizard_opt_cult_high: "Very interested – I want to integrate deeply",
@@ -342,11 +347,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_conf_life_med: "I’m somewhat confident but need support",
     wizard_opt_conf_life_high: "I’m quite confident and looking for advanced info",
 
-    wizard_step14_title: "How confident do you feel exploring career paths in Finland?",
-    wizard_opt_conf_career_low: "I’m unsure where to start",
-    wizard_opt_conf_career_med: "I have some ideas but need direction",
-    wizard_opt_conf_career_high: "I’m confident and ready to take action",
-
+    wizard_step14_title: "Confidence in Job Hunting",
+    
     wizard_step15_title: "How informed do you feel about living and working in Finland?",
     wizard_opt_info_none: "Not informed at all",
     wizard_opt_info_some: "Somewhat informed",
@@ -478,11 +480,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step7_title: "Nghề nghiệp của bạn?",
     wizard_step7_desc: "Hoặc công việc bạn đang tìm kiếm?",
     wizard_step7_placeholder: "ví dụ: Y tá, Thợ hàn, Lập trình viên",
-    wizard_step8_title: "Trình độ tiếng Phần Lan",
+    wizard_step8_title: "Tiếng Phần Lan",
+    wizard_lbl_finnish_level: "Trình độ",
+    wizard_lbl_finnish_motivation: "Động lực học tập",
     wizard_opt_lang_none: "Chưa biết gì",
     wizard_opt_lang_basics: "Cơ bản (A1)",
     wizard_opt_lang_inter: "Trung cấp (A2-B1)",
     wizard_opt_lang_fluent: "Thành thạo (B2+)",
+
+    wizard_scale_1_motivation: "Thấp",
+    wizard_scale_5_motivation: "Rất cao",
+
     wizard_step9_title: "Trình độ tiếng Anh",
     wizard_opt_lang_en_none: "Không",
     wizard_opt_lang_en_basic: "Cơ bản",
@@ -493,10 +501,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_aspirations_placeholder: "Bạn hy vọng đạt được điều gì?",
     wizard_step10_challenges_label: "Thử thách",
     wizard_step10_challenges_placeholder: "Bạn có lo lắng điều gì không?",
-    wizard_step11_title: "Động lực học tiếng Phần của bạn?",
-    wizard_opt_mot_low: "Mới bắt đầu, chưa cam kết",
-    wizard_opt_mot_med: "Có động lực nhưng cần lộ trình",
-    wizard_opt_mot_high: "Rất quyết tâm học tập",
+    
     wizard_step12_title: "Bạn quan tâm văn hóa Phần Lan thế nào?",
     wizard_opt_cult_high: "Rất quan tâm – Muốn hòa nhập sâu",
     wizard_opt_cult_med: "Khá quan tâm",
@@ -506,10 +511,11 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_conf_life_low: "Tôi cảm thấy lạc lõng",
     wizard_opt_conf_life_med: "Khá tự tin nhưng cần hỗ trợ",
     wizard_opt_conf_life_high: "Rất tự tin",
-    wizard_step14_title: "Bạn tự tin thế nào về tìm việc?",
-    wizard_opt_conf_career_low: "Không biết bắt đầu từ đâu",
-    wizard_opt_conf_career_med: "Có ý tưởng nhưng cần hướng dẫn",
-    wizard_opt_conf_career_high: "Tự tin và sẵn sàng hành động",
+    wizard_step14_title: "Tự tin tìm việc?",
+    
+    wizard_scale_1_career: "Mù tịt",
+    wizard_scale_5_career: "Biết rõ cần làm gì",
+
     wizard_step15_title: "Bạn nắm thông tin về Phần Lan thế nào?",
     wizard_opt_info_none: "Chưa biết gì",
     wizard_opt_info_some: "Biết sơ sơ",
@@ -640,11 +646,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step7_title: "Qual sua profissão?",
     wizard_step7_desc: "Ou que trabalho você procura?",
     wizard_step7_placeholder: "ex: Enfermeiro, Soldador, Dev",
-    wizard_step8_title: "Nível de Finlandês",
+    wizard_step8_title: "Idioma Finlandês",
+    wizard_lbl_finnish_level: "Nível Atual",
+    wizard_lbl_finnish_motivation: "Motivação para Aprender",
     wizard_opt_lang_none: "Nenhum",
     wizard_opt_lang_basics: "Básico (A1)",
     wizard_opt_lang_inter: "Intermediário (A2-B1)",
     wizard_opt_lang_fluent: "Fluente (B2+)",
+
+    wizard_scale_1_motivation: "Baixa",
+    wizard_scale_5_motivation: "Muito Alta",
+
     wizard_step9_title: "Nível de Inglês",
     wizard_opt_lang_en_none: "Nenhum",
     wizard_opt_lang_en_basic: "Básico",
@@ -655,10 +667,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_aspirations_placeholder: "O que você espera alcançar?",
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
-    wizard_step11_title: "Sua motivação para aprender finlandês?",
-    wizard_opt_mot_low: "Só começando, sem compromisso sério",
-    wizard_opt_mot_med: "Motivado, mas preciso de estrutura",
-    wizard_opt_mot_high: "Muito comprometido a estudar",
+    
     wizard_step12_title: "Interesse na cultura finlandesa?",
     wizard_opt_cult_high: "Muito interessado – Quero me integrar",
     wizard_opt_cult_med: "Moderadamente interessado",
@@ -668,10 +677,11 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_conf_life_low: "Me sinto perdido",
     wizard_opt_conf_life_med: "Um pouco confiante",
     wizard_opt_conf_life_high: "Muito confiante",
-    wizard_step14_title: "Confiança para procurar emprego?",
-    wizard_opt_conf_career_low: "Não sei por onde começar",
-    wizard_opt_conf_career_med: "Tenho ideias mas preciso de direção",
-    wizard_opt_conf_career_high: "Confiante e pronto para agir",
+    wizard_step14_title: "Confiança na busca por emprego",
+
+    wizard_scale_1_career: "Não sei nada",
+    wizard_scale_5_career: "Sei o que fazer",
+
     wizard_step15_title: "Quão informado você está?",
     wizard_opt_info_none: "Nada informado",
     wizard_opt_info_some: "Um pouco informado",
@@ -802,11 +812,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step7_title: "Qual a tua profissão?",
     wizard_step7_desc: "Ou que trabalho procuras?",
     wizard_step7_placeholder: "ex: Enfermeiro, Soldador, Dev",
-    wizard_step8_title: "Nível de Finlandês",
+    wizard_step8_title: "Língua Finlandesa",
+    wizard_lbl_finnish_level: "Nível Atual",
+    wizard_lbl_finnish_motivation: "Motivação para Aprender",
     wizard_opt_lang_none: "Nenhum",
     wizard_opt_lang_basics: "Básico (A1)",
     wizard_opt_lang_inter: "Intermédio (A2-B1)",
     wizard_opt_lang_fluent: "Fluente (B2+)",
+
+    wizard_scale_1_motivation: "Baixa",
+    wizard_scale_5_motivation: "Muito Alta",
+
     wizard_step9_title: "Nível de Inglês",
     wizard_opt_lang_en_none: "Nenhum",
     wizard_opt_lang_en_basic: "Básico",
@@ -817,10 +833,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_aspirations_placeholder: "O que esperas alcançar?",
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
-    wizard_step11_title: "A tua motivação para aprender finlandês?",
-    wizard_opt_mot_low: "Só a começar, sem compromisso sério",
-    wizard_opt_mot_med: "Motivado, mas preciso de estrutura",
-    wizard_opt_mot_high: "Muito comprometido a estudar",
+    
     wizard_step12_title: "Interesse na cultura finlandesa?",
     wizard_opt_cult_high: "Muito interessado – Quero integrar-me",
     wizard_opt_cult_med: "Moderadamente interessado",
@@ -830,10 +843,11 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_conf_life_low: "Sinto-me perdido",
     wizard_opt_conf_life_med: "Um pouco confiante",
     wizard_opt_conf_life_high: "Muito confiante",
-    wizard_step14_title: "Confiança para procurar emprego?",
-    wizard_opt_conf_career_low: "Não sei por onde começar",
-    wizard_opt_conf_career_med: "Tenho ideias mas preciso de direção",
-    wizard_opt_conf_career_high: "Confiante e pronto para agir",
+    wizard_step14_title: "Confiança na procura de emprego",
+
+    wizard_scale_1_career: "Não sei nada",
+    wizard_scale_5_career: "Sei o que fazer",
+
     wizard_step15_title: "Quão informado estás?",
     wizard_opt_info_none: "Nada informado",
     wizard_opt_info_some: "Um pouco informado",
@@ -965,11 +979,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step7_title: "Ваша профессия?",
     wizard_step7_desc: "Или какую работу ищете?",
     wizard_step7_placeholder: "напр. Медсестра, Сварщик, Программист",
-    wizard_step8_title: "Уровень финского",
+    wizard_step8_title: "Финский язык",
+    wizard_lbl_finnish_level: "Текущий уровень",
+    wizard_lbl_finnish_motivation: "Мотивация учить",
     wizard_opt_lang_none: "Нулевой",
     wizard_opt_lang_basics: "Базовый (A1)",
     wizard_opt_lang_inter: "Средний (A2-B1)",
     wizard_opt_lang_fluent: "Свободный (B2+)",
+
+    wizard_scale_1_motivation: "Нет",
+    wizard_scale_5_motivation: "Очень высокая",
+
     wizard_step9_title: "Уровень английского",
     wizard_opt_lang_en_none: "Нулевой",
     wizard_opt_lang_en_basic: "Базовый",
@@ -980,10 +1000,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_aspirations_placeholder: "Ваши цели...",
     wizard_step10_challenges_label: "Проблемы",
     wizard_step10_challenges_placeholder: "Что вас беспокоит?",
-    wizard_step11_title: "Мотивация учить финский?",
-    wizard_opt_mot_low: "Только начинаю, не уверен",
-    wizard_opt_mot_med: "Мотивирован, но нужен план",
-    wizard_opt_mot_high: "Готов активно учиться",
+    
     wizard_step12_title: "Интерес к финской культуре?",
     wizard_opt_cult_high: "Очень интересно – хочу интегрироваться",
     wizard_opt_cult_med: "Умеренно интересно",
@@ -993,10 +1010,11 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_conf_life_low: "Чувствую себя потерянным",
     wizard_opt_conf_life_med: "Немного уверен, нужна поддержка",
     wizard_opt_conf_life_high: "Уверен в себе",
-    wizard_step14_title: "Уверенность в поиске работы?",
-    wizard_opt_conf_career_low: "Не знаю с чего начать",
-    wizard_opt_conf_career_med: "Есть идеи, нужно направление",
-    wizard_opt_conf_career_high: "Уверен и готов действовать",
+    wizard_step14_title: "Уверенность в поиске работы",
+    
+    wizard_scale_1_career: "Не знаю ничего",
+    wizard_scale_5_career: "Знаю что делать",
+
     wizard_step15_title: "Насколько вы информированы?",
     wizard_opt_info_none: "Вообще не знаю",
     wizard_opt_info_some: "Немного знаю",
