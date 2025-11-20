@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { COUNTRIES, isEUCountry } from '../data/countries';
 import { SUPPORTED_LANGUAGES, t } from '../data/languages';
 import { LanguageSelector } from './LanguageSelector';
+import { generateNickname } from '../data/nicknameData';
 
 interface ProfileWizardProps {
   onComplete: (profile: UserProfile) => void;
@@ -182,6 +183,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     }
   };
 
+  const handleGenerateName = () => {
+      const nickname = generateNickname(language);
+      handleChange('name', nickname);
+  };
+
   const finishWizard = () => {
     const profile: UserProfile = {
       id: initialData?.id || uuidv4(),
@@ -232,22 +238,19 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     </div>
   );
 
-  // New 1-5 Scale Component for Psychological Questions
+  // Revised Likert Scale with Inline Text Labels
   const LikertScale = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
     // Map the text options to a 1-5 scale.
-    // If 3 options: Map to 1, 3, 5.
-    // If 4 options: Map to 1, 2, 4, 5.
-    
     let valueMap: Record<number, string> = {};
     
     if (options.length === 3) {
         valueMap = { 1: options[0].value, 3: options[1].value, 5: options[2].value };
     } else if (options.length === 4) {
-        valueMap = { 1: options[0].value, 2: options[1].value, 4: options[2].value, 5: options[3].value };
+        // For Language: 1=None, 2=Basic, 3=Inter, 5=Fluent (Skip 4 to show gap to fluency)
+        valueMap = { 1: options[0].value, 2: options[1].value, 3: options[2].value, 5: options[3].value };
     } else {
-        // Fallback just in case, though current data is 3 or 4.
+        // Fallback
         options.forEach((opt, idx) => {
-            // Map evenly across 1-5
              const pos = Math.ceil(((idx + 1) / options.length) * 5);
              valueMap[pos] = opt.value;
         });
@@ -257,29 +260,15 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     const activeNum = Object.keys(valueMap).find(key => valueMap[parseInt(key)] === current);
     const activeInt = activeNum ? parseInt(activeNum) : null;
 
-    // Handler: Click on a number. If that number has no direct map, find nearest or snap.
-    // Strategy: If user clicks "2" and only 1,3,5 exist -> Snap to 1 or 3? 
-    // Or better, just map 2 to option 0 (Low/Med) to allow "in-between" feeling but store clean data.
     const handleNumberClick = (num: number) => {
-        // Simple snapping logic
         if (valueMap[num]) {
             onSelect(valueMap[num]);
         } else {
-            // Snap to nearest populated key
+            // Snap to nearest populated key if clicking an empty slot
             const keys = Object.keys(valueMap).map(Number).sort((a,b) => a-b);
             const nearest = keys.reduce((prev, curr) => Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev);
             onSelect(valueMap[nearest]);
         }
-    };
-
-    // Styling helpers
-    const getLabel = () => {
-        if (activeInt && valueMap[activeInt]) {
-            // Find the label in original options
-            const opt = options.find(o => o.value === valueMap[activeInt!]);
-            return opt ? opt.label : current;
-        }
-        return "Select a level";
     };
 
     const getColors = (num: number) => {
@@ -304,9 +293,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         return colors[num - 1];
     };
 
+    // Labels to display under 1, 3, 5
+    const lowLabel = options[0]?.label;
+    const midLabel = options.length > 2 ? options[Math.floor((options.length - 1) / 2)]?.label : options[1]?.label;
+    const highLabel = options[options.length - 1]?.label;
+
     return (
         <div className="mt-8 select-none">
-            <div className="flex justify-between items-center gap-2 md:gap-4 px-2">
+            <div className="flex justify-between items-center gap-2 md:gap-4 px-4">
                 {[1, 2, 3, 4, 5].map((num) => {
                     const isActive = activeInt === num;
                     return (
@@ -314,7 +308,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                             key={num}
                             onClick={() => handleNumberClick(num)}
                             className={`
-                                w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300 border-2 transform
+                                w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300 border-2 transform relative z-10
                                 ${isActive 
                                     ? `${getActiveColors(num)} scale-110 shadow-lg ring-4` 
                                     : `${getColors(num)} scale-100 hover:scale-105 opacity-70 hover:opacity-100`
@@ -327,30 +321,81 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                 })}
             </div>
             
-            {/* Dynamic Feedback Text */}
-            <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-100 text-center min-h-[100px] flex items-center justify-center shadow-inner transition-all duration-300">
-                 {current ? (
-                     <p className="text-lg md:text-xl font-medium text-gray-800 animate-in fade-in slide-in-from-bottom-2">
-                         {getLabel()}
-                     </p>
-                 ) : (
-                     <p className="text-gray-400 italic">Select a number from 1 (Low) to 5 (High)</p>
-                 )}
+            {/* Inline Labels Under the scale */}
+            <div className="flex justify-between mt-3 text-xs md:text-sm font-medium text-gray-500 px-2">
+                 <span className="w-1/3 text-left leading-tight">{lowLabel}</span>
+                 <span className="w-1/3 text-center leading-tight">{midLabel}</span>
+                 <span className="w-1/3 text-right leading-tight">{highLabel}</span>
             </div>
         </div>
     );
   };
 
-  // Dynamic Options Generators
-  const getMaritalOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "Single", label: t('wizard_opt_single', lang) },
-    { value: "Married", label: t('wizard_opt_married', lang) },
-    { value: "Partnered", label: t('wizard_opt_partnered', lang) },
-    { value: "Divorced", label: t('wizard_opt_divorced', lang) },
-    { value: "Widowed", label: t('wizard_opt_widowed', lang) },
-    { value: "Prefer not to say", label: t('wizard_opt_prefer_no', lang) }
-  ];
+  // Visual Marital Selector
+  const MaritalSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
+    const options = [
+        { 
+            id: 'Solo', 
+            value: "Solo (Single/Divorced/Widowed)",
+            title: t('wizard_marital_solo_title', language),
+            desc: t('wizard_marital_solo_desc', language),
+            icon: Icons.User,
+            color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
+        },
+        { 
+            id: 'Partnered', 
+            value: "Partnered (Married/Cohabiting)",
+            title: t('wizard_marital_pair_title', language),
+            desc: t('wizard_marital_pair_desc', language),
+            icon: Icons.Users,
+            color: 'bg-pink-100 text-pink-600 border-pink-200 hover:bg-pink-200'
+        },
+        { 
+            id: 'Secret', 
+            value: "Prefer not to say",
+            title: t('wizard_marital_secret_title', language),
+            desc: t('wizard_marital_secret_desc', language),
+            icon: Icons.Ghost,
+            color: 'bg-purple-100 text-purple-600 border-purple-200 hover:bg-purple-200'
+        }
+    ];
 
+    return (
+        <div className="grid grid-cols-1 gap-4 mt-6">
+            {options.map(opt => {
+                 const isSelected = current === opt.value;
+                 return (
+                    <button
+                        key={opt.id}
+                        onClick={() => onSelect(opt.value)}
+                        className={`
+                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                            ${isSelected 
+                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                            }
+                        `}
+                    >
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                            <opt.icon className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                            <p className="text-gray-500 text-sm">{opt.desc}</p>
+                        </div>
+                        {isSelected && (
+                             <div className="ml-auto">
+                                <Icons.CheckCircle className="w-6 h-6 text-black" />
+                             </div>
+                        )}
+                    </button>
+                 );
+            })}
+        </div>
+    );
+  };
+
+  // Dynamic Options Generators
   const getPermitOptions = (lang: LanguageCode): OptionItem[] => [
     { value: "Work-based", label: t('wizard_opt_work', lang) },
     { value: "Student", label: t('wizard_opt_student', lang) },
@@ -392,7 +437,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
       { value: "A little interested", label: t('wizard_opt_cult_low', lang) },
-      { value: "Not sure yet", label: t('wizard_opt_cult_unsure', lang) },
       { value: "Moderately interested", label: t('wizard_opt_cult_med', lang) },
       { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
   ];
@@ -412,7 +456,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   const getInfoLevelOptions = (lang: LanguageCode): OptionItem[] => [
       { value: "Not informed", label: t('wizard_opt_info_none', lang) },
       { value: "Somewhat informed", label: t('wizard_opt_info_some', lang) },
-      { value: "Informed", label: t('wizard_opt_info_yes', lang) },
       { value: "Very informed", label: t('wizard_opt_info_high', lang) },
   ];
 
@@ -433,32 +476,28 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               <h2 className="text-2xl font-bold text-gray-900">{t('wizard_title_name', language)}</h2>
               <p className="text-gray-600 mt-2">{t('wizard_desc_name', language)}</p>
             </div>
-            <input 
-              type="text" 
-              className="w-full p-4 bg-gray-100 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-gray-900"
-              placeholder={t('wizard_placeholder_name', language)}
-              value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
-              autoFocus
-            />
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-              {[
-                "Darth Vader", "Minerva McGonagall", "Winston Churchill", 
-                "Daenerys Targaryen", "Sherlock Holmes", "Wonder Woman"
-              ].map(v => (
-                  <button
-                    key={v}
-                    onClick={() => handleChange('name', v)}
-                    className={`p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 ${
-                      formData.name === v
-                        ? 'border-black ring-1 ring-black text-gray-900 bg-gray-50 shadow-sm' 
-                        : 'border-gray-200 text-gray-900 hover:border-gray-300'
-                    }`}
-                  >
-                    {v}
-                  </button>
-              ))}
+            <div className="relative">
+                <input 
+                  type="text" 
+                  className="w-full p-4 bg-gray-100 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-gray-900"
+                  placeholder={t('wizard_placeholder_name', language)}
+                  value={formData.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                  autoFocus
+                />
+                <button
+                  onClick={handleGenerateName}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border border-gray-200 hover:border-black hover:bg-gray-50 text-gray-900 text-xs sm:text-sm font-bold py-2 px-4 rounded-lg shadow-sm transition-all"
+                >
+                  <span className="flex items-center gap-2">
+                    <Icons.Zap className="w-3 h-3" /> 
+                    {t('wizard_btn_generate_name', language)}
+                  </span>
+                </button>
             </div>
+            <p className="text-xs text-gray-500 italic">
+                {t('wizard_nickname_hint', language)}
+            </p>
           </div>
         );
       case 2: // Age
@@ -492,14 +531,13 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             </div>
           </div>
         );
-      case 3: // Marital
+      case 3: // Marital (REPLACED WITH VISUAL SELECTOR)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step3_title', language)}</h2>
             </div>
-            <OptionGrid 
-                options={getMaritalOptions(language)}
+            <MaritalSelector 
                 current={formData.maritalStatus}
                 onSelect={(v) => handleChange('maritalStatus', v)}
             />
@@ -613,26 +651,26 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               />
            </div>
          );
-      case 8: // Finnish
+      case 8: // Finnish (UPDATED TO LIKERT)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step8_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getFinnishLevelOptions(language)}
                 current={formData.languageFinnish}
                 onSelect={(v) => handleChange('languageFinnish', v)}
              />
           </div>
         );
-      case 9: // English
+      case 9: // English (UPDATED TO LIKERT)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step9_title', language)}</h2>
              </div>
-             <OptionGrid 
+             <LikertScale 
                 options={getEnglishLevelOptions(language)}
                 current={formData.languageEnglish}
                 onSelect={(v) => handleChange('languageEnglish', v)}
@@ -667,7 +705,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
         );
-      // NEW STEPS - UPDATED TO USE LIKERT SCALE
+      // NEW STEPS
       case 11: // Motivation
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
@@ -733,7 +771,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 16: // Excitement - Remains OptionGrid as it is categorical, not linear
+      case 16: // Excitement - Remains OptionGrid
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -777,7 +815,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
        {/* PROGRESS & TITLE AREA */}
        <div className="px-6 md:px-8 mb-8 max-w-3xl mx-auto w-full">
           <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-             <h1 className="text-4xl font-black tracking-tight text-gray-900">Quiz</h1>
+             <h1 className="text-4xl font-black tracking-tight text-gray-900">{t('wizard_header_quiz', language)}</h1>
              <div className="flex items-center gap-4 flex-1 w-full">
                 <span className="text-sm font-bold whitespace-nowrap w-8 text-right">{step}/{totalSteps}</span>
                 <div className="h-2 bg-gray-100 rounded-full w-full overflow-hidden">
@@ -789,6 +827,18 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
        </div>
+
+       {/* ACKNOWLEDGEMENT RIBBON */}
+       {formData.name.trim().length > 0 && (
+         <div className="px-6 md:px-8 mb-6 max-w-3xl mx-auto w-full animate-in fade-in slide-in-from-top-2 duration-500">
+           <div className="bg-blue-50 border border-blue-100 text-blue-800 px-4 py-3 rounded-xl flex items-center gap-3 shadow-sm">
+              <div className="bg-white p-1.5 rounded-full shadow-sm text-lg">👋</div>
+              <span className="font-medium text-sm md:text-base">
+                {t('wizard_ribbon_greeting', language, { name: formData.name })}
+              </span>
+           </div>
+         </div>
+       )}
 
        {/* MAIN CONTENT */}
        <div className="flex-1 px-6 md:px-8 overflow-y-auto pb-32">

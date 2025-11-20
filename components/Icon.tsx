@@ -55,7 +55,10 @@ import {
   Scale,
   Map,
   Zap,
-  Target
+  Target,
+  Ghost,
+  Cat,
+  ScanFace
 } from 'lucide-react';
 
 export const Icons = {
@@ -113,5 +116,8 @@ export const Icons = {
   Scale,
   Map,
   Zap,
-  Target
+  Target,
+  Ghost,
+  Cat,
+  ScanFace
 };

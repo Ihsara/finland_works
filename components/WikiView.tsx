@@ -388,7 +388,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
                                         }`}
                                     >
                                         <Icons.Clock className="w-3 h-3" />
-                                        {progress.items[activeArticle.id]?.status === 'later' ? 'Saved' : 'Later'}
+                                        {progress.items[activeArticle.id]?.status === 'later' ? t('wiki_btn_saved', language) : t('wiki_btn_later', language)}
                                     </button>
 
                                     <button
@@ -400,7 +400,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
                                         }`}
                                     >
                                         <Icons.CheckSquare className="w-3 h-3" />
-                                        {progress.items[activeArticle.id]?.status === 'done' ? 'Completed' : 'Mark Done'}
+                                        {progress.items[activeArticle.id]?.status === 'done' ? t('wiki_btn_completed', language) : t('wiki_btn_mark_done', language)}
                                     </button>
                                 </div>
                             </div>
