@@ -93,6 +93,19 @@ export type TranslationKey =
   | 'wizard_step4_desc'
   | 'wizard_step4_placeholder'
   | 'wizard_step4_no_match'
+  // New Region Keys
+  | 'wizard_btn_search_country'
+  | 'wizard_btn_select_region'
+  | 'wizard_region_europe'
+  | 'wizard_region_americas'
+  | 'wizard_region_asia'
+  | 'wizard_region_africa'
+  | 'wizard_region_oceania'
+  | 'wizard_region_middle_east'
+  | 'wizard_eu_question'
+  | 'wizard_eu_yes'
+  | 'wizard_eu_no'
+  
   | 'wizard_step5_title'
   | 'wizard_opt_work'
   | 'wizard_opt_student'
@@ -225,7 +238,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_desc_name: "Enter your own name or choose",
     wizard_placeholder_name: "Your name",
     wizard_step2_title: "How old are you?",
-    wizard_step2_desc: "Enter an exact age or choose an age range",
+    wizard_step2_desc: "Select your age group",
     wizard_step2_placeholder: "Your age (e.g. 29)",
     wizard_step3_title: "What's your marital status?",
     
@@ -238,9 +251,23 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_secret_desc: "I prefer not to say",
 
     wizard_step4_title: "Where do you come from?",
-    wizard_step4_desc: "Select your country of origin",
+    wizard_step4_desc: "Select your origin",
     wizard_step4_placeholder: "Start typing country name...",
     wizard_step4_no_match: "No matches found",
+    
+    // Region
+    wizard_btn_search_country: "Search Country",
+    wizard_btn_select_region: "Select Region",
+    wizard_region_europe: "Europe",
+    wizard_region_americas: "Americas",
+    wizard_region_asia: "Asia",
+    wizard_region_africa: "Africa",
+    wizard_region_oceania: "Oceania",
+    wizard_region_middle_east: "Middle East",
+    wizard_eu_question: "Are you a citizen of an EU/EEA country?",
+    wizard_eu_yes: "Yes, EU/EEA Citizen",
+    wizard_eu_no: "No, Non-EU Citizen",
+
     wizard_step5_title: "What is your Residence Permit type?",
     wizard_opt_work: "Work-based",
     wizard_opt_student: "Student",
@@ -372,7 +399,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_desc_name: "Nhập tên hoặc chọn biệt danh",
     wizard_placeholder_name: "Tên của bạn",
     wizard_step2_title: "Bạn bao nhiêu tuổi?",
-    wizard_step2_desc: "Nhập tuổi chính xác hoặc chọn khoảng",
+    wizard_step2_desc: "Chọn nhóm tuổi của bạn",
     wizard_step2_placeholder: "Tuổi (ví dụ 29)",
     wizard_step3_title: "Tình trạng hôn nhân?",
     
@@ -384,9 +411,22 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_secret_desc: "Tôi không muốn nói",
 
     wizard_step4_title: "Bạn đến từ đâu?",
-    wizard_step4_desc: "Chọn quốc gia xuất xứ",
+    wizard_step4_desc: "Chọn nguồn gốc của bạn",
     wizard_step4_placeholder: "Nhập tên quốc gia...",
     wizard_step4_no_match: "Không tìm thấy",
+    
+    wizard_btn_search_country: "Tìm Quốc Gia",
+    wizard_btn_select_region: "Chọn Khu Vực",
+    wizard_region_europe: "Châu Âu",
+    wizard_region_americas: "Châu Mỹ",
+    wizard_region_asia: "Châu Á",
+    wizard_region_africa: "Châu Phi",
+    wizard_region_oceania: "Châu Đại Dương",
+    wizard_region_middle_east: "Trung Đông",
+    wizard_eu_question: "Bạn có quốc tịch EU/EEA không?",
+    wizard_eu_yes: "Có, Công dân EU",
+    wizard_eu_no: "Không, Ngoài EU",
+
     wizard_step5_title: "Loại Giấy phép Cư trú?",
     wizard_opt_work: "Dựa trên công việc",
     wizard_opt_student: "Sinh viên",
@@ -511,7 +551,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_desc_name: "Digite seu nome ou escolha um apelido",
     wizard_placeholder_name: "Seu nome",
     wizard_step2_title: "Qual sua idade?",
-    wizard_step2_desc: "Idade exata ou faixa etária",
+    wizard_step2_desc: "Selecione sua faixa etária",
     wizard_step2_placeholder: "Sua idade (ex: 29)",
     wizard_step3_title: "Estado civil?",
 
@@ -523,9 +563,22 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_secret_desc: "Prefiro não dizer",
 
     wizard_step4_title: "De onde você vem?",
-    wizard_step4_desc: "Selecione seu país de origem",
+    wizard_step4_desc: "Selecione sua origem",
     wizard_step4_placeholder: "Digite o nome do país...",
     wizard_step4_no_match: "Nenhum resultado",
+
+    wizard_btn_search_country: "Buscar País",
+    wizard_btn_select_region: "Selecionar Região",
+    wizard_region_europe: "Europa",
+    wizard_region_americas: "Américas",
+    wizard_region_asia: "Ásia",
+    wizard_region_africa: "África",
+    wizard_region_oceania: "Oceania",
+    wizard_region_middle_east: "Oriente Médio",
+    wizard_eu_question: "Você é cidadão da UE/EEE?",
+    wizard_eu_yes: "Sim, Cidadão UE",
+    wizard_eu_no: "Não, Cidadão Não-UE",
+
     wizard_step5_title: "Tipo de Permissão de Residência?",
     wizard_opt_work: "Trabalho",
     wizard_opt_student: "Estudante",
@@ -650,7 +703,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_desc_name: "Introduz o teu nome ou escolhe",
     wizard_placeholder_name: "O teu nome",
     wizard_step2_title: "Qual a tua idade?",
-    wizard_step2_desc: "Idade exata ou faixa etária",
+    wizard_step2_desc: "Seleciona a tua faixa etária",
     wizard_step2_placeholder: "A tua idade (ex: 29)",
     wizard_step3_title: "Estado civil?",
     
@@ -662,9 +715,22 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_secret_desc: "Prefiro não dizer",
 
     wizard_step4_title: "De onde vens?",
-    wizard_step4_desc: "Seleciona o teu país de origem",
+    wizard_step4_desc: "Seleciona a tua origem",
     wizard_step4_placeholder: "Escreve o nome do país...",
     wizard_step4_no_match: "Sem resultados",
+
+    wizard_btn_search_country: "Procurar País",
+    wizard_btn_select_region: "Selecionar Região",
+    wizard_region_europe: "Europa",
+    wizard_region_americas: "Américas",
+    wizard_region_asia: "Ásia",
+    wizard_region_africa: "África",
+    wizard_region_oceania: "Oceânia",
+    wizard_region_middle_east: "Médio Oriente",
+    wizard_eu_question: "És cidadão da UE/EEE?",
+    wizard_eu_yes: "Sim, Cidadão UE",
+    wizard_eu_no: "Não, Cidadão Não-UE",
+
     wizard_step5_title: "Tipo de Autorização de Residência?",
     wizard_opt_work: "Trabalho",
     wizard_opt_student: "Estudante",
@@ -736,6 +802,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_load_sample: "Загрузить пример (Габриэла)",
     landing_erase: "Сброс данных",
     landing_add_key: "Добавить ключ API",
+    landing_choose_lang: "Выберите язык",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
     dash_subtitle: "С возвращением к вашему гиду по Финляндии.",
@@ -789,7 +856,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_desc_name: "Введите имя или выберите ник",
     wizard_placeholder_name: "Ваше имя",
     wizard_step2_title: "Сколько вам лет?",
-    wizard_step2_desc: "Укажите точный возраст или диапазон",
+    wizard_step2_desc: "Выберите возрастную группу",
     wizard_step2_placeholder: "Возраст (напр. 29)",
     wizard_step3_title: "Семейное положение?",
     
@@ -804,6 +871,19 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step4_desc: "Выберите страну происхождения",
     wizard_step4_placeholder: "Начните вводить страну...",
     wizard_step4_no_match: "Не найдено",
+
+    wizard_btn_search_country: "Поиск страны",
+    wizard_btn_select_region: "Выбор региона",
+    wizard_region_europe: "Европа",
+    wizard_region_americas: "Америка",
+    wizard_region_asia: "Азия",
+    wizard_region_africa: "Африка",
+    wizard_region_oceania: "Океания",
+    wizard_region_middle_east: "Ближний Восток",
+    wizard_eu_question: "Вы гражданин ЕС/ЕЭЗ?",
+    wizard_eu_yes: "Да, гражданин ЕС",
+    wizard_eu_no: "Нет, не ЕС",
+
     wizard_step5_title: "Тип вида на жительство?",
     wizard_opt_work: "Рабочий",
     wizard_opt_student: "Студенческий",

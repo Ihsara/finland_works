@@ -58,7 +58,13 @@ import {
   Target,
   Ghost,
   Cat,
-  ScanFace
+  ScanFace,
+  Landmark,
+  Mountain,
+  Waves,
+  Euro,
+  Flag,
+  BookOpen
 } from 'lucide-react';
 
 export const Icons = {
@@ -119,5 +125,11 @@ export const Icons = {
   Target,
   Ghost,
   Cat,
-  ScanFace
+  ScanFace,
+  Landmark,
+  Mountain,
+  Waves,
+  Euro,
+  Flag,
+  BookOpen
 };
