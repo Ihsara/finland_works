@@ -165,6 +165,12 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const handleNext = () => {
+    // Auto-generate name if empty on Step 1
+    if (step === 1 && !formData.name.trim()) {
+        const nickname = generateNickname(language);
+        setFormData(prev => ({ ...prev, name: nickname }));
+    }
+
     // Check special conditions for step skipping logic
     // If step is 4 (Marital) and EU citizen -> Skip Step 5 (Permit) -> Go to 6 (English)
     if (step === 4 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
@@ -236,7 +242,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         originCountry: isCitizen ? 'Region: Europe (EU/EEA)' : 'Region: Europe (Non-EU)',
         residencePermitType: isCitizen ? 'EU Registration' : ''
       }));
-      setIsEuropeSelected(false); 
+      // Removed setIsEuropeSelected(false) so the UI doesn't disappear before transitioning
       // Auto-advance
       setTimeout(() => {
          handleNext();
@@ -462,17 +468,20 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
              {/* Conditional EU Question */}
              {isEuropeSelected && (
-                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 bg-blue-50 p-6 rounded-2xl border border-blue-100 text-center">
-                     <h3 className="text-xl font-bold text-blue-900 mb-6 flex flex-col items-center gap-3">
-                         <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <Icons.Flag className="w-8 h-8" />
+                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 bg-blue-50 p-6 md:p-8 rounded-3xl border-2 border-blue-100 text-center mt-6 relative overflow-hidden">
+                     {/* Background decoration */}
+                     <div className="absolute top-0 left-0 w-full h-2 bg-blue-200/50"></div>
+                     
+                     <h3 className="text-2xl font-black text-blue-900 mb-8 flex flex-col items-center gap-4 relative z-10">
+                         <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-sm border-4 border-blue-100">
+                            <Icons.Flag className="w-12 h-12 fill-current" />
                          </div>
                          {t('wizard_eu_question', language)}
                      </h3>
-                     <div className="flex gap-4">
+                     <div className="flex gap-4 justify-center max-w-md mx-auto relative z-10">
                          <button 
                             onClick={() => handleEuropeCitizenSelect(true)}
-                            className={`flex-1 py-4 px-6 rounded-xl border-2 font-bold text-lg transition hover:scale-105 active:scale-95
+                            className={`flex-1 py-5 px-6 rounded-xl border-2 font-bold text-xl transition hover:scale-105 active:scale-95
                                 ${formData.residencePermitType === 'EU Registration' 
                                     ? 'bg-blue-600 text-white border-blue-600 shadow-md' 
                                     : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'
@@ -483,7 +492,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                          </button>
                          <button 
                             onClick={() => handleEuropeCitizenSelect(false)}
-                            className={`flex-1 py-4 px-6 rounded-xl border-2 font-bold text-lg transition hover:scale-105 active:scale-95
+                            className={`flex-1 py-5 px-6 rounded-xl border-2 font-bold text-xl transition hover:scale-105 active:scale-95
                                 ${formData.originCountry.includes('Non-EU')
                                     ? 'bg-gray-800 text-white border-gray-800 shadow-md' 
                                     : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
@@ -914,9 +923,9 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <Logo />
           </div>
           <div className="flex items-center gap-3">
-             {/* Personal Greeting Pill - Added "Right next to" Ask button */}
+             {/* Personal Greeting Pill - Refined style */}
              {formData.name.trim().length > 0 && (
-                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-800 font-bold text-sm border border-blue-100 animate-in fade-in slide-in-from-right-4 duration-500 mr-2">
+                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-gray-900 font-bold text-sm border border-gray-200 animate-in fade-in slide-in-from-right-4 duration-500 mr-2">
                     <span className="text-lg">👋</span>
                     {t('wizard_greeting_short', language, { name: formData.name.split(' ')[0] })}
                  </div>
