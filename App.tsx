@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import { Icons } from './components/Icon';
@@ -881,13 +880,23 @@ const App: React.FC = () => {
              </p>
 
              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <button 
-                   onClick={() => setView(AppView.QUIZ)}
-                   className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
-                >
-                   <Icons.CheckSquare className="w-5 h-5" /> 
-                   {t('landing_btn_quiz', language)}
-                </button>
+                {profileCompleteness === 100 ? (
+                    <button 
+                       onClick={() => setView(AppView.WIKI)}
+                       className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
+                    >
+                       <Icons.BookMarked className="w-5 h-5" /> 
+                       {t('dash_btn_guide', language)}
+                    </button>
+                ) : (
+                    <button 
+                       onClick={() => setView(AppView.QUIZ)}
+                       className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
+                    >
+                       <Icons.CheckSquare className="w-5 h-5" /> 
+                       {t('landing_btn_quiz', language)}
+                    </button>
+                )}
                 <button 
                    onClick={startNewChat}
                    className="flex items-center justify-center gap-3 bg-white text-black border border-gray-300 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-sm min-w-[260px]"

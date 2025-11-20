@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Icons } from './Icon';
 import { UserProfile, LanguageCode } from '../types';
@@ -487,7 +486,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                              onLanguageSelect(lang.code, lang.supported);
                              setIsLangMenuOpen(false);
                           }}
-                          className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-50 ${!lang.supported ? 'opacity-50' : ''}`}
+                          className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-50 text-gray-900 ${!lang.supported ? 'opacity-50' : ''}`}
                         >
                           <span className="text-xl">{lang.flag}</span>
                           <span className="text-sm font-medium">{lang.nativeName}</span>
