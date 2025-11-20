@@ -116,10 +116,13 @@ export type TranslationKey =
   | 'wizard_eu_no'
   
   | 'wizard_step5_title'
-  | 'wizard_opt_rights_full'
-  | 'wizard_opt_rights_work'
-  | 'wizard_opt_rights_student'
-  | 'wizard_opt_rights_none'
+  // New Permit Cards
+  | 'wizard_permit_full_title'
+  | 'wizard_permit_full_desc'
+  | 'wizard_permit_restricted_title'
+  | 'wizard_permit_restricted_desc'
+  | 'wizard_permit_student_title'
+  | 'wizard_permit_student_desc'
 
   | 'wizard_step6_title'
   | 'wizard_step6_field_label'
@@ -286,11 +289,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_no: "No",
 
     // Step 5: Work Rights
-    wizard_step5_title: "What kind of work does your residence permit allow?",
-    wizard_opt_rights_full: "Unlimited (Family/Permanent/Asylum)",
-    wizard_opt_rights_work: "Restricted to specific field (Work Permit)",
-    wizard_opt_rights_student: "Student (Limited hours)",
-    wizard_opt_rights_none: "No working rights (Visitor)",
+    wizard_step5_title: "Working Rights & Permit",
+    wizard_permit_full_title: "Unlimited Rights",
+    wizard_permit_full_desc: "Permanent, Family, EU, or Finnish Degree",
+    wizard_permit_restricted_title: "Sector Restricted",
+    wizard_permit_restricted_desc: "Work Permit tied to a specific field/employer",
+    wizard_permit_student_title: "Student Permit",
+    wizard_permit_student_desc: "Limited hours allowed alongside studies",
 
     wizard_step6_title: "Highest Education Level",
     wizard_step6_field_label: "Field of Study (Optional)",
@@ -454,10 +459,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_no: "Không",
 
     wizard_step5_title: "Giấy phép cư trú của bạn cho phép làm việc gì?",
-    wizard_opt_rights_full: "Không giới hạn (Gia đình/Vĩnh trú/Tị nạn)",
-    wizard_opt_rights_work: "Giới hạn ngành nghề (Giấy phép lao động)",
-    wizard_opt_rights_student: "Sinh viên (Giờ làm hạn chế)",
-    wizard_opt_rights_none: "Không được phép làm việc (Du lịch)",
+    wizard_permit_full_title: "Không giới hạn",
+    wizard_permit_full_desc: "Vĩnh trú, Gia đình, EU hoặc Bằng cấp Phần Lan",
+    wizard_permit_restricted_title: "Giới hạn ngành",
+    wizard_permit_restricted_desc: "Giấy phép lao động theo ngành/công ty",
+    wizard_permit_student_title: "Sinh viên",
+    wizard_permit_student_desc: "Giờ làm việc hạn chế",
 
     wizard_step6_title: "Trình độ học vấn cao nhất",
     wizard_step6_field_label: "Ngành học (Tùy chọn)",
@@ -614,10 +621,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_no: "Não",
 
     wizard_step5_title: "Que tipo de trabalho seu visto permite?",
-    wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
-    wizard_opt_rights_work: "Restrito à área (Visto de Trabalho)",
-    wizard_opt_rights_student: "Estudante (Horas limitadas)",
-    wizard_opt_rights_none: "Sem direito a trabalho (Visitante)",
+    wizard_permit_full_title: "Ilimitado",
+    wizard_permit_full_desc: "Permanente, Família, UE, ou Curso Sup. Finlandês",
+    wizard_permit_restricted_title: "Restrito à Área",
+    wizard_permit_restricted_desc: "Visto de trabalho atrelado a setor/empresa",
+    wizard_permit_student_title: "Estudante",
+    wizard_permit_student_desc: "Horas limitadas durante estudos",
 
     wizard_step6_title: "Nível de Escolaridade",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
@@ -774,10 +783,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_no: "Não",
 
     wizard_step5_title: "Que trabalho permite a tua autorização?",
-    wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
-    wizard_opt_rights_work: "Restrito à área (Visto de Trabalho)",
-    wizard_opt_rights_student: "Estudante (Horas limitadas)",
-    wizard_opt_rights_none: "Sem direito a trabalho (Visitante)",
+    wizard_permit_full_title: "Ilimitado",
+    wizard_permit_full_desc: "Permanente, Família, UE, ou Curso Sup. Finlandês",
+    wizard_permit_restricted_title: "Restrito à Área",
+    wizard_permit_restricted_desc: "Visto de trabalho atrelado a setor/empresa",
+    wizard_permit_student_title: "Estudante",
+    wizard_permit_student_desc: "Horas limitadas durante estudos",
 
     wizard_step6_title: "Nível de Escolaridade",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
@@ -935,10 +946,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_no: "Нет",
 
     wizard_step5_title: "Какую работу позволяет ваш ВНЖ?",
-    wizard_opt_rights_full: "Без ограничений (Семья/ПМЖ/Убежище)",
-    wizard_opt_rights_work: "Только конкретная сфера (Рабочий ВНЖ)",
-    wizard_opt_rights_student: "Студент (Ограниченные часы)",
-    wizard_opt_rights_none: "Без права на работу (Турист)",
+    wizard_permit_full_title: "Без ограничений",
+    wizard_permit_full_desc: "ПМЖ, Семья, ЕС или Финский диплом",
+    wizard_permit_restricted_title: "Ограниченный",
+    wizard_permit_restricted_desc: "Рабочий ВНЖ с привязкой к сфере",
+    wizard_permit_student_title: "Студент",
+    wizard_permit_student_desc: "Ограниченные часы работы",
 
     wizard_step6_title: "Образование",
     wizard_step6_field_label: "Специальность (необязательно)",

@@ -49,6 +49,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   // Origin Logic
   const [originInputMode, setOriginInputMode] = useState<'search' | 'region'>('search');
   const [isEuropeSelected, setIsEuropeSelected] = useState(false);
+  const [activeSection, setActiveSection] = useState<'origin' | 'eu'>('origin');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -96,9 +97,13 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             primaryExcitement: initialData.primaryExcitement || ''
         });
         
-        // Determine Origin Mode
+        // Determine Origin Mode & Accordion state
         if (initialData.originCountry && initialData.originCountry.startsWith('Region:')) {
            setOriginInputMode('region');
+           if (initialData.originCountry.includes('Europe')) {
+               setIsEuropeSelected(true);
+               setActiveSection('eu');
+           }
         }
     }
   }, [initialData]);
@@ -220,13 +225,15 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const handleRegionSelect = (regionKey: string, label: string) => {
       if (regionKey === 'europe') {
-          setIsEuropeSelected(true); // Show conditional question
+          setIsEuropeSelected(true); 
+          setActiveSection('eu'); // Collapse Origin, Open EU Status
+          // Also set origin temporarily so we know it's Europe
+          setFormData(prev => ({ ...prev, originCountry: `Region: ${label}` }));
       } else {
           setIsEuropeSelected(false);
           setFormData(prev => ({ 
             ...prev, 
             originCountry: `Region: ${label}`,
-            // Reset permit type if it was EU before but now user picked Asia etc.
             residencePermitType: prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType
           }));
           // Auto-advance
@@ -242,8 +249,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         originCountry: isCitizen ? 'Region: Europe (EU/EEA)' : 'Region: Europe (Non-EU)',
         residencePermitType: isCitizen ? 'EU Registration' : ''
       }));
-      // Removed setIsEuropeSelected(false) so the UI doesn't disappear before transitioning
-      // Auto-advance
+      
       setTimeout(() => {
          handleNext();
       }, 350);
@@ -429,6 +435,70 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     );
   };
 
+  // Visual Permit Selector (New)
+  const PermitSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
+      const options = [
+        {
+            id: 'Unlimited',
+            value: "Unlimited (Family/Permanent/Asylum)",
+            title: t('wizard_permit_full_title', language),
+            desc: t('wizard_permit_full_desc', language),
+            icon: Icons.CheckCircle,
+            color: 'bg-green-100 text-green-600 border-green-200 hover:bg-green-200'
+        },
+        {
+            id: 'Restricted',
+            value: "Work-based (Restricted)",
+            title: t('wizard_permit_restricted_title', language),
+            desc: t('wizard_permit_restricted_desc', language),
+            icon: Icons.Building2,
+            color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
+        },
+        {
+            id: 'Student',
+            value: "Student",
+            title: t('wizard_permit_student_title', language),
+            desc: t('wizard_permit_student_desc', language),
+            icon: Icons.GraduationCap,
+            color: 'bg-orange-100 text-orange-600 border-orange-200 hover:bg-orange-200'
+        }
+      ];
+
+      return (
+        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            {options.map(opt => {
+                 const isSelected = current === opt.value;
+                 return (
+                    <button
+                        key={opt.id}
+                        onClick={() => onSelect(opt.value)}
+                        className={`
+                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                            ${isSelected 
+                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                            }
+                        `}
+                    >
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                            <opt.icon className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                            <p className="text-gray-500 text-sm">{opt.desc}</p>
+                        </div>
+                        {isSelected && (
+                             <div className="ml-auto">
+                                <Icons.CheckCircle className="w-6 h-6 text-black" />
+                             </div>
+                        )}
+                    </button>
+                 );
+            })}
+        </div>
+    );
+  };
+
   // Visual Region Selector
   const RegionGrid = () => {
       const regions = [
@@ -437,11 +507,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
           { id: 'asia', label: t('wizard_region_asia', language), icon: Icons.Mountain, color: 'text-red-600 bg-red-50 border-red-200' },
           { id: 'africa', label: t('wizard_region_africa', language), icon: Icons.Sun, color: 'text-orange-600 bg-orange-50 border-orange-200' },
           { id: 'oceania', label: t('wizard_region_oceania', language), icon: Icons.Waves, color: 'text-cyan-600 bg-cyan-50 border-cyan-200' },
-          { id: 'middle_east', label: t('wizard_region_middle_east', language), icon: Icons.Ghost, color: 'text-purple-600 bg-purple-50 border-purple-200' }, // Placeholder icon
+          { id: 'middle_east', label: t('wizard_region_middle_east', language), icon: Icons.Ghost, color: 'text-purple-600 bg-purple-50 border-purple-200' }, 
       ];
 
       return (
-          <div className="space-y-6">
              <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
                  {regions.map(r => {
                      const isSelected = formData.originCountry.includes(r.label) || (r.id === 'europe' && isEuropeSelected);
@@ -465,56 +534,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                      );
                  })}
              </div>
-
-             {/* Conditional EU Question */}
-             {isEuropeSelected && (
-                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 bg-blue-50 p-6 md:p-8 rounded-3xl border-2 border-blue-100 text-center mt-6 relative overflow-hidden">
-                     {/* Background decoration */}
-                     <div className="absolute top-0 left-0 w-full h-2 bg-blue-200/50"></div>
-                     
-                     <h3 className="text-2xl font-black text-blue-900 mb-8 flex flex-col items-center gap-4 relative z-10">
-                         <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-sm border-4 border-blue-100">
-                            <Icons.Flag className="w-12 h-12 fill-current" />
-                         </div>
-                         {t('wizard_eu_question', language)}
-                     </h3>
-                     <div className="flex gap-4 justify-center max-w-md mx-auto relative z-10">
-                         <button 
-                            onClick={() => handleEuropeCitizenSelect(true)}
-                            className={`flex-1 py-5 px-6 rounded-xl border-2 font-bold text-xl transition hover:scale-105 active:scale-95
-                                ${formData.residencePermitType === 'EU Registration' 
-                                    ? 'bg-blue-600 text-white border-blue-600 shadow-md' 
-                                    : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'
-                                }
-                            `}
-                         >
-                            {t('wizard_eu_yes', language)}
-                         </button>
-                         <button 
-                            onClick={() => handleEuropeCitizenSelect(false)}
-                            className={`flex-1 py-5 px-6 rounded-xl border-2 font-bold text-xl transition hover:scale-105 active:scale-95
-                                ${formData.originCountry.includes('Non-EU')
-                                    ? 'bg-gray-800 text-white border-gray-800 shadow-md' 
-                                    : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
-                                }
-                            `}
-                         >
-                            {t('wizard_eu_no', language)}
-                         </button>
-                     </div>
-                 </div>
-             )}
-          </div>
       );
   };
 
   // Dynamic Options Generators
-  const getPermitOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "Unlimited (Family/Permanent/Asylum)", label: t('wizard_opt_rights_full', lang) },
-    { value: "Work-based (Restricted)", label: t('wizard_opt_rights_work', lang) },
-    { value: "Student", label: t('wizard_opt_rights_student', lang) },
-    { value: "Visitor / No Right", label: t('wizard_opt_rights_none', lang) }
-  ];
+  // Removed getPermitOptions in favor of PermitSelector component
 
   const getEducationOptions = (lang: LanguageCode): OptionItem[] => [
     { value: "High School", label: t('wizard_opt_hs', lang) },
@@ -610,75 +634,141 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             </p>
           </div>
         );
-      case 2: // Origin (IDENTITY/ROOTS) - Moved from 4
+      case 2: // Origin (IDENTITY/ROOTS) - Refactored to Accordions
         return (
-          <div className="space-y-6 animate-in fade-in duration-500">
+          <div className="space-y-4 animate-in fade-in duration-500">
             <div>
                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step4_title', language)}</h2>
-               <p className="text-gray-600 mt-2">{t('wizard_step4_desc', language)}</p>
+               <p className="text-gray-600 mt-2 mb-4">{t('wizard_step4_desc', language)}</p>
             </div>
 
-            {/* Toggle Mode Switch */}
-            <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
-                <button 
-                  onClick={() => setOriginInputMode('search')}
-                  className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${
-                    originInputMode === 'search' ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                   {t('wizard_btn_search_country', language)}
-                </button>
-                <button 
-                  onClick={() => setOriginInputMode('region')}
-                  className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${
-                    originInputMode === 'region' ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                   {t('wizard_btn_select_region', language)}
-                </button>
-            </div>
-
-            {originInputMode === 'search' ? (
-                <div className="relative" ref={countryWrapperRef}>
-                   <input 
-                    type="text" 
-                    className="w-full p-4 bg-gray-100 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-gray-900"
-                    placeholder={t('wizard_step4_placeholder', language)}
-                    value={formData.originCountry.startsWith('Region:') ? '' : formData.originCountry}
-                    onChange={(e) => {
-                      handleChange('originCountry', e.target.value);
-                      setShowCountryList(true);
-                    }}
-                    onFocus={() => setShowCountryList(true)}
-                    onKeyDown={handleKeyDown}
-                  />
-                  {showCountryList && (
-                    <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in duration-200">
-                      <div className="max-h-60 overflow-y-auto">
-                        {filteredCountries.length > 0 ? (
-                          filteredCountries.map((country, index) => (
-                            <button
-                              type="button"
-                              key={country}
-                              onMouseDown={(e) => e.preventDefault()}
-                              onClick={() => handleCountrySelect(country)}
-                              className={`w-full text-left px-4 py-3 text-sm transition border-b border-gray-50 last:border-0 block
-                                ${index === highlightedIndex ? 'bg-gray-100 text-black' : 'hover:bg-gray-50 text-gray-700'}
-                              `}
-                            >
-                              {country}
-                            </button>
-                          ))
-                        ) : (
-                          <div className="px-4 py-3 text-sm text-gray-600 italic">{t('wizard_step4_no_match', language)}</div>
-                        )}
-                      </div>
+            {/* Accordion 1: Origin Selection */}
+            <div className={`border rounded-2xl overflow-hidden transition-all duration-500 ${activeSection === 'origin' ? 'border-black shadow-md bg-white' : 'border-gray-200 bg-gray-50'}`}>
+                 <button 
+                    onClick={() => setActiveSection(activeSection === 'origin' ? 'eu' : 'origin')}
+                    className="w-full flex items-center justify-between p-5 text-left"
+                 >
+                    <div className="flex items-center gap-3">
+                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeSection === 'origin' ? 'bg-black text-white' : 'bg-gray-200 text-gray-500'}`}>
+                             <Icons.Map className="w-4 h-4" />
+                         </div>
+                         <span className="font-bold text-gray-900 text-lg">
+                             {formData.originCountry || t('wizard_step4_desc', language)}
+                         </span>
                     </div>
-                  )}
+                    {activeSection === 'origin' ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
+                 </button>
+
+                 {activeSection === 'origin' && (
+                     <div className="p-5 pt-0 border-t border-gray-100 animate-in slide-in-from-top-2">
+                        {/* Tabs */}
+                        <div className="flex bg-gray-100 p-1 rounded-lg mb-4 mt-4">
+                            <button 
+                            onClick={() => setOriginInputMode('search')}
+                            className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${
+                                originInputMode === 'search' ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                            >
+                            {t('wizard_btn_search_country', language)}
+                            </button>
+                            <button 
+                            onClick={() => setOriginInputMode('region')}
+                            className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${
+                                originInputMode === 'region' ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                            >
+                            {t('wizard_btn_select_region', language)}
+                            </button>
+                        </div>
+
+                        {originInputMode === 'search' ? (
+                            <div className="relative" ref={countryWrapperRef}>
+                                <input 
+                                    type="text" 
+                                    className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black focus:outline-none text-gray-900"
+                                    placeholder={t('wizard_step4_placeholder', language)}
+                                    value={formData.originCountry.startsWith('Region:') ? '' : formData.originCountry}
+                                    onChange={(e) => {
+                                        handleChange('originCountry', e.target.value);
+                                        setShowCountryList(true);
+                                    }}
+                                    onFocus={() => setShowCountryList(true)}
+                                    onKeyDown={handleKeyDown}
+                                />
+                                {showCountryList && (
+                                    <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in duration-200">
+                                    <div className="max-h-60 overflow-y-auto">
+                                        {filteredCountries.length > 0 ? (
+                                        filteredCountries.map((country, index) => (
+                                            <button
+                                            type="button"
+                                            key={country}
+                                            onMouseDown={(e) => e.preventDefault()}
+                                            onClick={() => handleCountrySelect(country)}
+                                            className={`w-full text-left px-4 py-3 text-sm transition border-b border-gray-50 last:border-0 block
+                                                ${index === highlightedIndex ? 'bg-gray-100 text-black' : 'hover:bg-gray-50 text-gray-700'}
+                                            `}
+                                            >
+                                            {country}
+                                            </button>
+                                        ))
+                                        ) : (
+                                        <div className="px-4 py-3 text-sm text-gray-600 italic">{t('wizard_step4_no_match', language)}</div>
+                                        )}
+                                    </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <RegionGrid />
+                        )}
+                     </div>
+                 )}
+            </div>
+
+            {/* Accordion 2: EU Status (Collapsed by default, expands if Europe selected) */}
+            {isEuropeSelected && (
+                <div className={`border rounded-2xl overflow-hidden transition-all duration-500 ${activeSection === 'eu' ? 'border-blue-500 shadow-md bg-blue-50' : 'border-gray-200 bg-gray-50'}`}>
+                    {/* If expanded, show the question row directly. If collapsed, show summary */}
+                    <div className="p-5 flex items-center justify-between min-h-[80px]">
+                         <div className="flex items-center gap-3">
+                             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeSection === 'eu' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                <Icons.Flag className="w-4 h-4" />
+                             </div>
+                             <span className={`font-bold text-lg ${activeSection === 'eu' ? 'text-blue-900' : 'text-gray-500'}`}>
+                                 {t('wizard_eu_question', language)}
+                             </span>
+                         </div>
+                         
+                         {/* Compact Switch Toggle */}
+                         {activeSection === 'eu' && (
+                             <div className="flex bg-white rounded-full p-1 shadow-sm border border-blue-200">
+                                 <button
+                                     onClick={() => handleEuropeCitizenSelect(true)}
+                                     className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                                         formData.residencePermitType === 'EU Registration' 
+                                         ? 'bg-blue-600 text-white shadow-md' 
+                                         : 'text-gray-500 hover:bg-gray-100'
+                                     }`}
+                                 >
+                                     {t('wizard_eu_yes', language)}
+                                 </button>
+                                 <button
+                                     onClick={() => handleEuropeCitizenSelect(false)}
+                                     className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                                         formData.originCountry.includes('Non-EU')
+                                         ? 'bg-gray-800 text-white shadow-md' 
+                                         : 'text-gray-500 hover:bg-gray-100'
+                                     }`}
+                                 >
+                                     {t('wizard_eu_no', language)}
+                                 </button>
+                             </div>
+                         )}
+                    </div>
                 </div>
-            ) : (
-                <RegionGrid />
             )}
+
           </div>
         );
       case 3: // Age (DEMOGRAPHICS) - Moved from 2
@@ -723,20 +813,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             <div>
                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step5_title', language)}</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-               {getPermitOptions(language).map(opt => (
-                 <button
-                   key={opt.value}
-                   onClick={() => handleSelectionNext('residencePermitType', opt.value)}
-                   className={`p-4 text-left rounded-xl border font-medium transition-all flex items-center ${
-                     formData.residencePermitType === opt.value ? 'border-black ring-1 ring-black bg-gray-50 text-black' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
-                   }`}
-                 >
-                   {formData.residencePermitType === opt.value && <Icons.CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-black" />}
-                   {opt.label}
-                 </button>
-               ))}
-            </div>
+            <PermitSelector 
+                current={formData.residencePermitType}
+                onSelect={(v) => handleSelectionNext('residencePermitType', v)}
+            />
           </div>
         );
       case 6: // English (SKILLS) - Moved from 9
