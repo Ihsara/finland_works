@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
 import { getWikiCategories, WikiCategory, WikiArticle } from '../data/wikiContent';
@@ -306,6 +307,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                                         transition-transform duration-300 ease-out
                                         ${category.theme.hoverBg} backdrop-blur-sm
                                         border-t ${category.theme.border}
+                                        rounded-b-[2rem]
                                     `}>
                                         <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text}`}>
                                             {category.title}

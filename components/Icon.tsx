@@ -50,7 +50,12 @@ import {
   Siren,
   LayoutGrid,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  Globe,
+  Scale,
+  Map,
+  Zap,
+  Target
 } from 'lucide-react';
 
 export const Icons = {
@@ -103,5 +108,10 @@ export const Icons = {
   Siren,
   LayoutGrid,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  Globe,
+  Scale,
+  Map,
+  Zap,
+  Target
 };

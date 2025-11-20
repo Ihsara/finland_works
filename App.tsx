@@ -858,13 +858,17 @@ const App: React.FC = () => {
 
         <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full animate-in fade-in duration-700">
              <div className="mb-8 relative">
-                <div className="w-24 h-24 rounded-full bg-gray-100 mx-auto overflow-hidden mb-4 border-4 border-white shadow-lg">
+                <button
+                    onClick={() => setView(AppView.PROFILE)} 
+                    className="w-24 h-24 block rounded-full bg-gray-100 mx-auto overflow-hidden mb-4 border-4 border-white shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300 cursor-pointer"
+                    title="View Profile"
+                >
                     <img 
                         src={getAvatarUrl(profile)} 
                         alt="Avatar" 
                         className="w-full h-full object-cover"
                     />
-                </div>
+                </button>
              </div>
 
              <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">

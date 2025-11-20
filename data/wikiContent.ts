@@ -34,88 +34,9 @@ export interface WikiCategory {
 // We define the ENGLISH content as the master source. 
 const WIKI_EN: WikiCategory[] = [
   {
-    id: 'asylum',
-    title: 'Asylum & Protection',
-    icon: 'Shield',
-    theme: { 
-      border: 'border-rose-500', 
-      text: 'text-rose-600', 
-      shadow: 'hover:shadow-rose-100',
-      hoverBg: 'group-hover:bg-rose-50'
-    },
-    articles: [
-      {
-        id: 'asylum_arrival',
-        title: 'Shelter & Reception Centers',
-        icon: 'Building2',
-        tags: ['refugee', 'asylum', 'arrival', 'mandatory'],
-        content: `
-# Reception Centers (Vastaanottokeskus) 🏢
-
-### Where do I live?
-When you seek asylum or temporary protection, you are registered at a reception center.
-*   **Housing:** You are offered a bed in a shared room. Families usually get their own room.
-*   **Private Accommodation:** You *can* live with friends/relatives, but you must pay the rent yourself. You still need to be registered at a specific reception center to get your money (vastaanottoraha) and health services.
-
-### Reception Allowance (Vastaanottoraha)
-*   If you have no money, you get a monthly allowance for food/clothes.
-*   **Condition:** You must participate in work or study activities organized by the center. If you refuse, they can cut your allowance.
-`
-      },
-      {
-        id: 'asylum_vulnerable',
-        title: 'Protections: Women, Kids, Elderly',
-        icon: 'Baby',
-        tags: ['refugee', 'asylum', 'family', 'women', 'elderly'],
-        content: `
-# Protection of Vulnerable Groups 🛡️
-
-Finland has very strict laws protecting individual rights. Your culture or religion does not override Finnish Law.
-
-### Women & Girls 👩
-*   **Bodily Autonomy:** You decide who touches you. Forced marriage and female genital mutilation (FGM) are serious crimes in Finland, punishable by prison.
-*   **Domestic Violence:** If your husband/partner hits you, it is a crime. You can get help from **Turvakoti** (Shelters for victims of violence) immediately. You do not need your husband's permission to leave.
-*   **Emergency Number:** 112.
-
-### Children (Lastensuojelu) 🧸
-*   **Physical Discipline:** It is **illegal** to hit, slap, or physically punish a child in Finland. Teachers and doctors are required by law to report it to Child Welfare Services.
-*   **Rights:** All children (asylum seekers included) have the right to go to school (peruskoulu).
-
-### The Elderly & Disabled ♿
-*   You are entitled to necessary care. If you have mobility issues, the reception center must organize suitable housing (e.g., first floor).
-`
-      },
-      {
-        id: 'asylum_work_rights',
-        title: 'Right to Work (Asylum)',
-        icon: 'Briefcase',
-        tags: ['refugee', 'asylum', 'worker'],
-        content: `
-# When can I work? ⏱️
-
-As an asylum seeker, you cannot work immediately. You must wait.
-
-### The 3-Month Rule
-*   If you presented a **valid passport** or official travel document to the Police/Border Guard when you applied.
-*   **Wait time:** 3 months from application date.
-
-### The 6-Month Rule
-*   If you **did not** have a valid passport when you applied.
-*   **Wait time:** 6 months.
-
-### Temporary Protection (Ukrainians)
-*   You have the right to work **immediately** once you receive your residence permit decision (or usually as soon as the application is registered). Check Migri for the latest "Temporary Protection" specifics.
-
-### Tax Card
-*   Once allowed to work, you MUST get a Tax Card from Vero, even for short jobs.
-`
-      }
-    ]
-  },
-  {
-    id: 'bureaucracy',
+    id: 'foundation',
     title: 'Bureaucracy & Legal Foundation',
-    icon: 'Fingerprint',
+    icon: 'Building2',
     theme: { 
       border: 'border-slate-600', 
       text: 'text-slate-700', 
@@ -171,22 +92,22 @@ If you move (even to the building next door), you **must** notify DVV/Migri.
 `
       },
       {
-        id: 'bureaucracy_police_id',
-        title: 'The Police & Official ID',
-        icon: 'ShieldAlert',
-        tags: ['general', 'arrival', 'mandatory'],
+        id: 'bureaucracy_asylum',
+        title: 'Asylum & Protection Basics',
+        icon: 'Shield',
+        tags: ['refugee', 'asylum', 'arrival'],
         content: `
-# The Police (Poliisi) 👮
+# Reception Centers (Vastaanottokeskus) 🏢
 
-### The Confusion
-Your Residence Permit card is **NOT** an official ID for banking identification purposes ("Strong Electronic Identification"). It proves you can live here, but banks often reject it for opening the "full" digital package.
+### Where do I live?
+When you seek asylum or temporary protection, you are registered at a reception center.
+*   **Housing:** You are offered a bed in a shared room. Families usually get their own room.
+*   **Private Accommodation:** You *can* live with friends/relatives, but you must pay the rent yourself. You still need to be registered at a specific reception center to get your money (vastaanottoraha) and health services.
 
-### The Solution
-You need a **Finnish ID Card** (Henkilökortti) issued by the Police.
-1.  Go to a photographer (get the code sent to the Police server electronically).
-2.  Apply online via Poliisi.fi or visit the station.
-3.  **Cost:** ~€50-60.
-4.  **Why:** This card allows you to log in to government services if your bank creates issues with foreign passports.
+### Right to Work (Asylum)
+*   **3-Month Rule:** If you presented a valid passport when applying.
+*   **6-Month Rule:** If you did not have a passport.
+*   **Temporary Protection (Ukraine):** Immediate right to work.
 `
       },
       {
@@ -206,173 +127,89 @@ This is the "Key to the Kingdom".
 Banks are strict. To give you these codes, they often require:
 1.  Finnish Personal ID (DVV).
 2.  Finnish Address.
-3.  Passport + Residence Permit + Finnish ID Card (sometimes).
-4.  A reason for the account (Job contract / Study certificate).
+3.  Passport + Residence Permit + Finnish ID Card (Policet).
 
 **Advice:** Do not leave the bank until you understand exactly what document is missing. Be persistent.
 `
-      },
-      {
-        id: 'bureaucracy_tax',
-        title: 'The Tax Card (Verokortti)',
-        icon: 'Percent',
-        tags: ['worker', 'student', 'general', 'refugee'],
-        content: `
-# The Tax Card (Verokortti) 🧾
-
-### The Scary Rule
-If you do not give your employer a tax card, they are legally required to deduct **60%** of your salary.
-
-### The Easy Fix
-1.  Go to **Vero.fi** -> MyTax (OmaVero).
-2.  Order a tax card. It takes 5 minutes.
-3.  Send the PDF to your boss.
-
-### How it works
-*   You estimate your income for the year (e.g., €30,000).
-*   Vero gives you a percentage (e.g., 18%).
-*   If you earn *more* than the limit, the percentage jumps ("Additional percentage").
-*   **Tip:** Estimate slightly too high. You will get the extra money back next December as a "Tax Refund" (Veronpalautus).
-`
       }
     ]
   },
   {
-    id: 'living',
-    title: 'Living & Infrastructure',
-    icon: 'Home',
+    id: 'job_search',
+    title: 'Job Search & Applications',
+    icon: 'Briefcase',
     theme: { 
-      border: 'border-orange-500', 
-      text: 'text-orange-600', 
-      shadow: 'hover:shadow-orange-100',
-      hoverBg: 'group-hover:bg-orange-50'
-    },
-    articles: [
-       {
-        id: 'living_housing',
-        title: 'Housing & Contracts',
-        icon: 'Home',
-        tags: ['student', 'general', 'arrival'],
-        content: `
-# Housing 🏠
-
-### Student Housing (HOAS, TOAS, TYS)
-*   **Cost:** 50% cheaper than private market.
-*   **Solu (Shared):** Own room, shared kitchen/toilet. Cheap, social, character-building.
-*   **Timing:** Apply 4 months early. August is chaos.
-
-### Private Market (Oikotie, Vuokraovi)
-*   **Deposit (Vuokravakuus):** Usually 1-2 months' rent.
-*   **Home Insurance (Kotivakuutus):** Mandatory. You cannot get the keys without it.
-*   **Electricity:** You must make your own electricity contract. Compare prices!
-`
-      },
-      {
-        id: 'living_transport',
-        title: 'Public Transport',
-        icon: 'Train',
-        tags: ['student', 'youth', 'general'],
-        content: `
-# Moving Around 🚌
-
-### Student Discounts (The Magic Cards)
-You are not a "student" until you have the digital card.
-1.  **Frank / Kide.app:** Download these.
-2.  **VR (Trains):** -30% to -50%.
-3.  **HSL / Local Bus:** -45% on monthly tickets.
-
-### Zones (ABC)
-*   Helsinki area is divided into zones. You cannot buy a "Zone B" ticket if you travel from A to B. You need "AB".
-*   **The Fine:** €80 if you are caught without a ticket. Inspectors are ninjas.
-`
-      },
-       {
-        id: 'living_seasons',
-        title: 'Surviving the Seasons',
-        icon: 'Sun',
-        tags: ['culture', 'general'],
-        content: `
-# Surviving the Elements ❄️
-
-### Kaamos (Polar Night)
-*   Nov-Jan. The sun barely rises.
-*   **Survival:** Vitamin D supplements are mandatory. Bright light lamps help. Go outside at noon.
-
-### Winter Clothing
-*   **Layers:** Base layer (Merino wool) + Mid layer (Fleece) + Shell (Wind/Waterproof).
-*   **Shoes:** Traction is key. Ice is slippery.
-`
-      }
-    ]
-  },
-  {
-    id: 'health',
-    title: 'Health & Well-being',
-    icon: 'Heart',
-    theme: { 
-      border: 'border-emerald-500', 
-      text: 'text-emerald-600', 
-      shadow: 'hover:shadow-emerald-100',
-      hoverBg: 'group-hover:bg-emerald-50'
+      border: 'border-blue-600', 
+      text: 'text-blue-600', 
+      shadow: 'hover:shadow-blue-100',
+      hoverBg: 'group-hover:bg-blue-50'
     },
     articles: [
       {
-        id: 'health_kela',
-        title: 'Kela (Social Security)',
-        icon: 'Umbrella',
-        tags: ['general', 'family', 'refugee'],
-        content: `
-# Kela 🏥
-
-*   **Myth:** "I moved here, so Kela pays me." -> **False.**
-*   **Reality:** Benefits are residence-based. You must apply for a **Kela Card**.
-*   **European Health Insurance Card (EHIC):** If you are from EU, use your home country's card for immediate necessary treatment until you get into the Finnish system.
-`
-      },
-      {
-        id: 'health_services',
-        title: 'Public vs. Occupational Health',
-        icon: 'Stethoscope',
+        id: 'job_market_overview',
+        title: 'Job Market Overview',
+        icon: 'LayoutGrid',
         tags: ['worker', 'general'],
         content: `
-# Where to go when sick? 🤒
+# The Finnish Job Market 📊
 
-### 1. Occupational Health (Työterveys) - BEST
-*   If you work, your boss pays for this (Terveystalo, Mehiläinen, etc.).
-*   **Fast.** You get a doctor in hours. Use this first!
+### The "Hidden" Market
+*   **Fact:** Approx. 70-80% of jobs in Finland are never advertised publicly. They are filled through internal transfers, networks, or direct headhunting.
+*   **Conclusion:** If you only apply to public ads on LinkedIn/Oikotie, you are fighting for the smallest slice of the pie against the highest number of people.
 
-### 2. Student Health (YTHS) - GOOD
-*   For University students.
-*   Very cheap, but you must pay the "Healthcare Fee" to Kela once per term proactively.
-
-### 3. Public Health Station (Terveysasema) - OK
-*   Cheap (~€20).
-*   Queues can be long. Call at 8:00 AM sharp to get a time.
+### Growing Sectors
+1.  **ICT & Tech:** High demand, English often sufficient.
+2.  **Health & Social Care:** Massive shortage (Nurses, Practical Nurses), but requires fluent Finnish/Swedish.
+3.  **CleanTech & Energy:** Hydrogen, wind power, battery technology.
+4.  **Service & Tourism:** Lapland season (Winter) and Helsinki summer.
 `
       },
       {
-        id: 'health_vaccines',
-        title: 'Vaccinations & Nature',
-        icon: 'Syringe',
-        tags: ['health', 'family', 'general'],
+        id: 'job_cv_standards',
+        title: 'The Finnish CV Style',
+        icon: 'FileText',
+        tags: ['worker', 'student', 'mandatory'],
         content: `
-# Vaccinations 💉
+# The One-Page CV Standard 📄
 
-### The TBE Danger (Ticks/Punkki) 🕷️
-*   Finland has ticks in the grass/forests. They carry TBE (Brain inflammation) and Lyme disease.
-*   **Risk Areas:** Coast, Archipelago, Lakeland.
-*   **Vaccine:** TBE vaccine ("Punkkirokotus") is highly recommended if you like nature. It costs money (~€40/dose) unless you live in a high-risk zone.
+Finnish recruiters value efficiency. Do not send a 5-page academic CV unless applying for a PhD.
 
-### General
-*   Influenza vaccines are often free for risk groups or provided by employers in the fall.
+### Essentials
+1.  **Photo:** Yes, it is standard here. Professional, smiling, neutral background.
+2.  **Length:** Maximum 2 pages. Ideally 1 page.
+3.  **Structure:** 
+    *   **Profile/Summary:** 3 sentences at the top. Who you are, what you offer.
+    *   **Key Skills:** Bullet points (e.g., "Java", "Project Management", "B2 Sales").
+    *   **Experience:** Reverse chronological. Focus on *results*, not just duties.
+
+### The "Gap" Fear
+Finns dislike unexplained gaps. If you were unemployed for a year, mention "Sabbatical", "Full-time Studies", or "Parental Leave". Do not leave it blank.
+`
+      },
+      {
+        id: 'job_cover_letter',
+        title: 'The Cover Letter',
+        icon: 'Edit3',
+        tags: ['worker', 'student'],
+        content: `
+# Cover Letter Strategy ✍️
+
+### Do not repeat your CV
+The cover letter answers: "Why do you want *this* job?" and "Why do you fit *this* team?"
+
+### Finnish Style: Direct & Honest
+*   **Avoid:** "I am a passionate, enthusiastic ninja superstar." (Too much fluff).
+*   **Use:** "I have 5 years of experience in X. I noticed your company uses tool Y. I used tool Y in my previous project to achieve Z."
+*   **Length:** Max 1 page. 3-4 paragraphs.
+*   **Salary Request:** If the ad asks for a "Palkkatoive", you **MUST** include a number. "According to TES" (Collective Agreement) is a safe answer for blue-collar jobs. For specialists, give a range.
 `
       }
     ]
   },
   {
-    id: 'work_study',
-    title: 'Work & Study Life',
-    icon: 'Briefcase',
+    id: 'recruitment',
+    title: 'Recruitment Process',
+    icon: 'Users',
     theme: { 
       border: 'border-indigo-600', 
       text: 'text-indigo-600', 
@@ -381,50 +218,126 @@ You are not a "student" until you have the digital card.
     },
     articles: [
       {
-        id: 'work_finding',
-        title: 'Finding Jobs (Official)',
-        icon: 'Briefcase',
-        tags: ['worker', 'student', 'refugee'],
+        id: 'recruitment_interviews',
+        title: 'Finnish Interview Style',
+        icon: 'MessageSquare',
+        tags: ['worker', 'general'],
         content: `
-# Official Job Hunting 🏛️
+# The Interview: Brutal Honesty 🤝
 
-### The "Surface" Market
-Only about 20-30% of jobs are advertised publicly.
+### The Tone
+Finnish interviews are often less formal than US/UK ones, but very structured.
+*   **Small Talk:** Very brief. Weather, traffic, then straight to business.
+*   **Honesty:** If asked "What is your weakness?", do not say "I work too hard." Say a real weakness and how you manage it. Finns have a built-in radar for BS.
 
-1.  **Työmarkkinatori (Job Market Finland):** The official government portal. You must register here as "unemployed job seeker" (työtön työnhakija) to get benefits.
-2.  **LinkedIn:** Essential for IT, Engineering, and Business. Profile must be in English and immaculate.
-3.  **Duunitori / Oikotie:** Major private job boards.
-
-### Internships (Harjoittelu)
-*   Often the best way in.
-*   **Kuntouttava työtoiminta:** Rehabilitative work activity (often for refugees/long-term unemployed) to learn language and culture.
+### Silence is Okay
+If you answer a question and the recruiter stays silent, **do not panic**. They are processing or writing notes. Do not ramble to fill the silence. Wait.
 `
       },
       {
-        id: 'work_hidden',
-        title: 'Hidden Job Market & Networking',
-        icon: 'Handshake',
-        tags: ['worker', 'refugee', 'general'],
+        id: 'recruitment_tests',
+        title: 'Psychological Tests',
+        icon: 'CheckSquare',
+        tags: ['worker', 'specialist'],
         content: `
-# The Hidden Job Market (Piilotyöpaikat) 🕵️
+# Suitability Assessments (Soveltuvuusarviointi) 🧠
 
-In Finland, employers hate risk. They prefer to hire someone they know, or someone *recommended* by someone they know. 
-**80% of jobs are filled without an ad.**
+For specialist and management roles, it is standard to send top candidates to an external psychologist.
 
-### Networking Strategies
-1.  **Direct Contact:** Do not wait for an ad. Find a company you like. Find the "Foreman" (Työnjohtaja) or "Team Lead" on their website. Email them directly.
-2.  **Volunteering:** Red Cross, Sports Clubs, NGOs. You meet Finns here. When they trust you as a person, they might hire you as a worker.
-3.  **Face to Face:** In manual labor (construction, cleaning, restaurants), walking in and asking to speak to the manager still works.
-
-### Proving Your Worth
-*   Refugees/Immigrants often feel the need to "prove" they are good.
-*   **Portfolio:** Show, don't just tell. Photos of past work, code repositories, or a "trial day" offer can break barriers.
+1.  **Logic Tests:** Patterns, math, verbal logic.
+2.  **Personality Tests:** Hundreds of questions. Be consistent.
+3.  **The Interview:** A psychologist will grill you on your life history, motivation, and stress handling.
+*   **Tip:** Be yourself. These tests are designed to catch people "faking good."
 `
-      },
+      }
+    ]
+  },
+  {
+    id: 'networking',
+    title: 'Networking & Hidden Jobs',
+    icon: 'Handshake',
+    theme: { 
+      border: 'border-violet-600', 
+      text: 'text-violet-600', 
+      shadow: 'hover:shadow-violet-100',
+      hoverBg: 'group-hover:bg-violet-50'
+    },
+    articles: [
       {
-        id: 'work_culture_barriers',
-        title: 'Barriers: Racism & Reality',
+        id: 'networking_reality',
+        title: 'How Hiring Really Works',
         icon: 'Siren',
+        tags: ['worker', 'general'],
+        content: `
+# The Trust Economy 🔗
+
+Finland is a small country. "Everyone knows everyone" is not a joke.
+Employers fear **risk**. Hiring a foreigner is seen as a "risk" (language, culture, paperwork).
+**Networking reduces risk.** If someone inside the company vouches for you, you skip the line.
+
+### Direct Contact (Open Applications)
+*   Don't wait for an ad.
+*   Find the **Head of Department** or **Team Lead** on the company site (NOT HR).
+*   Email them directly: "I am X. I do Y. I can solve problem Z for you. Can we have coffee?"
+`
+      },
+      {
+        id: 'networking_linkedin',
+        title: 'LinkedIn Strategy',
+        icon: 'Globe',
+        tags: ['worker', 'student'],
+        content: `
+# LinkedIn in Finland 🌐
+
+It is essential for white-collar jobs.
+1.  **Location:** Set it to "Helsinki" (or your Finnish city), not your home country. Recruiters filter by location.
+2.  **Keywords:** Use the English AND Finnish job titles in your bio (e.g., "Software Engineer / Ohjelmistokehittäjä").
+3.  **Activity:** Commenting on others' posts is more visible than posting your own. Engage with Finnish content (even in English).
+`
+      }
+    ]
+  },
+  {
+    id: 'work_culture',
+    title: 'Work Culture',
+    icon: 'Coffee',
+    theme: { 
+      border: 'border-emerald-600', 
+      text: 'text-emerald-600', 
+      shadow: 'hover:shadow-emerald-100',
+      hoverBg: 'group-hover:bg-emerald-50'
+    },
+    articles: [
+      {
+        id: 'culture_essentials',
+        title: 'Trust & Autonomy',
+        icon: 'Shield',
+        tags: ['culture', 'worker'],
+        content: `
+# No Micromanagement 🙅‍♂️
+
+*   **Trust:** Your boss expects you to work. They will not stand behind your shoulder.
+*   **Autonomy:** If you see a problem, fix it or suggest a fix. Do not wait for permission for every tiny step.
+*   **Punctuality:** If the meeting starts at 09:00, you are there at 08:59. 09:05 is rude.
+`
+      },
+      {
+        id: 'culture_hierarchy',
+        title: 'Flat Hierarchy',
+        icon: 'Users',
+        tags: ['culture', 'worker'],
+        content: `
+# First-Name Basis 👋
+
+*   **The CEO:** You call them "Pekka" or "Sanna". No "Mr. CEO" or "Sir".
+*   **Coffee Table:** In the break room, the CEO sits with the interns. This is the best place to network internally.
+*   **Speaking Up:** It is okay to disagree with the boss in a meeting, provided you are polite and constructive.
+`
+      },
+      {
+        id: 'culture_barriers',
+        title: 'Barriers: Racism & Reality',
+        icon: 'AlertCircle',
         tags: ['worker', 'refugee', 'culture'],
         content: `
 # The Hard Truths: Racism & Reluctance 🚧
@@ -438,54 +351,203 @@ It is important to be realistic. Finland has a very homogeneous working culture.
 ### The "Finnish Required" Myth
 *   Many ads say "Fluent Finnish required" even if the job doesn't need it.
 *   **Apply anyway.** If your skills are perfect, they might make an exception.
-
-### "Sisu" in Job Hunting
-*   You will face rejection. You might face silence.
-*   **Reluctance:** Employers fear that a foreigner won't fit the team or will be "difficult" (paperwork).
-*   **The Fix:** Address this in your cover letter. "I have a valid permit, I am ready to start immediately, I am learning Finnish (Level A2)." Make it easy for them to say yes.
-`
-      },
-       {
-        id: 'work_unions',
-        title: 'Unions & Unemployment',
-        icon: 'Users',
-        tags: ['worker', 'student', 'refugee'],
-        content: `
-# Unions & The Kassa 🛡️
-
-### The Secret
-Basic unemployment money from Kela is low.
-**Earnings-related allowance** is high.
-
-### How to get it
-You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union) **while you are working**.
-*   If you lose your job, the fund pays you a % of your previous salary.
-*   If you join *after* you lose your job, it is too late.
-`
-      },
-      {
-        id: 'study_culture',
-        title: 'Student Culture',
-        icon: 'GraduationCap',
-        tags: ['student', 'youth'],
-        content: `
-# Student Life 🎓
-
-### Haalarit (Overalls)
-*   The uniform of the student. Color depends on your major.
-*   **Patches:** You earn them at parties. Sew them on by hand. Never wash the overalls.
-
-### Time
-*   **Academic Quarter:** "10:00" usually means class starts at 10:15.
-*   **Lecturers:** You call them by their first name. No "Professor Sir".
+*   **Pro Tip:** Write the first sentence of your application in Finnish (even if simple) to show effort. "Opiskelen suomea" (I am learning Finnish).
 `
       }
     ]
   },
   {
-    id: 'outdoors',
-    title: 'Nature & Outdoors',
-    icon: 'TreePine',
+    id: 'work_rights',
+    title: 'Work Rights & Unions',
+    icon: 'Scale',
+    theme: { 
+      border: 'border-red-600', 
+      text: 'text-red-600', 
+      shadow: 'hover:shadow-red-100',
+      hoverBg: 'group-hover:bg-red-50'
+    },
+    articles: [
+       {
+        id: 'rights_basics',
+        title: 'Employee Rights',
+        icon: 'FileText',
+        tags: ['worker', 'mandatory'],
+        content: `
+# Know Your Rights 📜
+
+Finland does not have a universal minimum wage law. Wages are defined by **TES (Työehtosopimus)** - The Collective Agreement of your sector.
+
+*   **Probation Period (Koeaika):** Max 6 months. You can be fired (or quit) with no notice.
+*   **Working Hours:** Usually 37.5 or 40 hours/week. Overtime MUST be paid (usually +50% or +100%).
+*   **Holidays:** You earn ~2-2.5 days of holiday for every month you work.
+`
+      },
+      {
+        id: 'rights_unions',
+        title: 'Unions & Unemployment',
+        icon: 'Umbrella',
+        tags: ['worker', 'student', 'refugee'],
+        content: `
+# The Union & The Kassa 🛡️
+
+### The Secret
+Basic unemployment money from Kela is low (approx €800/mo taxable).
+**Earnings-related allowance** is much higher (based on your salary).
+
+### How to get it
+You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a specific Union) **while you are working**.
+*   **Cost:** Usually €60–€100 per year.
+*   **Rule:** You typically need to work and be a member for 26 weeks (approx 6 months) to qualify.
+*   **If you get fired:** The fund pays you for up to 300-400 days.
+`
+      },
+      {
+        id: 'rights_health',
+        title: 'Occupational Health',
+        icon: 'Stethoscope',
+        tags: ['worker', 'health'],
+        content: `
+# Työterveys (Occupational Health) 🩺
+
+If you have a contract, your employer **must** provide preventative healthcare.
+Most employers also provide medical care (GP visits).
+
+*   **Where:** Private clinics (Terveystalo, Mehiläinen, Pihlajalinna).
+*   **Cost:** Free for you.
+*   **Speed:** You get a doctor same-day. Use this instead of the public health center when you are employed.
+`
+      }
+    ]
+  },
+  {
+    id: 'learning_finnish',
+    title: 'Learning Finnish',
+    icon: 'Languages',
+    theme: { 
+      border: 'border-cyan-600', 
+      text: 'text-cyan-600', 
+      shadow: 'hover:shadow-cyan-100',
+      hoverBg: 'group-hover:bg-cyan-50'
+    },
+    articles: [
+      {
+        id: 'lang_workplace',
+        title: 'Workplace Finnish',
+        icon: 'MessageSquare',
+        tags: ['language', 'worker'],
+        content: `
+# Is English Enough? 🇬🇧
+
+*   **Tech/IT:** Often yes.
+*   **Everything else:** Usually no.
+
+Even if the job is in English, the "coffee table talk" is in Finnish. If you don't learn, you will feel isolated socially.
+**The "Puhukieli" (Spoken Language) Problem:**
+Textbooks teach: "Minä olen..." (I am).
+Real people say: "Mä oon..."
+Be prepared that real life sounds different than Duolingo.
+`
+      },
+      {
+        id: 'lang_roadmap',
+        title: 'Roadmap A1-B1',
+        icon: 'Map',
+        tags: ['language', 'education'],
+        content: `
+# The Roadmap to B1 (Functional) 🗺️
+
+B1 is the magic level. It is where you can handle bad situations (doctor, police, Kela) without an interpreter. It is often required for Citizenship.
+
+1.  **A1 (Basics):** Duolingo / Folk High Schools (Kansalaisopisto).
+2.  **A2 (Basic Interaction):** Intensive courses. Integration training (Kotoutumiskoulutus) via TE Office.
+3.  **B1 (Independent):** YKI Test preparation. You need to consume media (Yle Uutiset Selkosuomeksi - News in Simple Finnish).
+`
+      }
+    ]
+  },
+  {
+    id: 'work_life',
+    title: 'Work-Life Balance',
+    icon: 'Sun',
+    theme: { 
+      border: 'border-orange-500', 
+      text: 'text-orange-600', 
+      shadow: 'hover:shadow-orange-100',
+      hoverBg: 'group-hover:bg-orange-50'
+    },
+    articles: [
+      {
+        id: 'life_rhythm',
+        title: 'Lifestyle & Nature',
+        icon: 'TreePine',
+        tags: ['culture', 'general'],
+        content: `
+# The 4 PM Exodus 🕓
+
+*   Finns work hard, but they leave on time. Staying late is not seen as "committed", it is seen as "inefficient" or "bad planning".
+*   **Nature:** Use **Jokamiehenoikeudet** (Everyman's Rights). You can walk in any forest and pick berries. It is the primary mental health tool here.
+`
+      },
+      {
+        id: 'life_family',
+        title: 'Family & Work',
+        icon: 'Baby',
+        tags: ['family', 'worker'],
+        content: `
+# Finland is for Families 👨‍👩‍👧‍👦
+
+*   **Parental Leave:** Generous and can be shared between parents. Dads taking months off is normal and encouraged.
+*   **Daycare (Päiväkoti):** Heavily subsidized. Your child has a *subjective right* to daycare, even if you are unemployed.
+*   **Sick Kids:** If your child (under 10) is sick, you have the right to stay home (temporary care leave). Your boss cannot fire you for this.
+`
+      }
+    ]
+  },
+  {
+    id: 'entrepreneurship',
+    title: 'Entrepreneurship',
+    icon: 'Rocket',
+    theme: { 
+      border: 'border-pink-600', 
+      text: 'text-pink-600', 
+      shadow: 'hover:shadow-pink-100',
+      hoverBg: 'group-hover:bg-pink-50'
+    },
+    articles: [
+      {
+        id: 'ent_toiminimi',
+        title: 'Starting a Business (Toiminimi)',
+        icon: 'Briefcase',
+        tags: ['worker', 'business'],
+        content: `
+# Freelancing & Toiminimi 💼
+
+If you can't find a job, create one.
+*   **Toiminimi (Private Trader):** The simplest form. You are personally liable. Good for consultants, cleaners, designers.
+*   **Starttiraha (Startup Grant):** TE Office can pay you ~€700/month for 6-12 months to support you while you start. **Critical:** You must apply *before* you register the company.
+`
+      },
+      {
+        id: 'ent_light',
+        title: 'Light Entrepreneurship',
+        icon: 'Zap',
+        tags: ['worker', 'business'],
+        content: `
+# Kevytyrittäjyys (Light Entrepreneurship) ⚡
+
+Want to bill a client but hate paperwork?
+Services like **Ukko.fi** or **Free.fi** allow you to invoice without a company ID (Y-tunnus).
+*   **Pros:** They handle taxes and insurance. No bureaucracy.
+*   **Cons:** They take a cut (5-7%).
+*   **Status:** You are technically "employed" by them or a "entrepreneur" depending on the contract. Check how this affects your unemployment benefits!
+`
+      }
+    ]
+  },
+  {
+    id: 'volunteering',
+    title: 'Volunteering & Internships',
+    icon: 'Heart',
     theme: { 
       border: 'border-lime-600', 
       text: 'text-lime-700', 
@@ -494,136 +556,75 @@ You must join an **Unemployment Fund (Työttömyyskassa)** (e.g., YTK or a Union
     },
     articles: [
       {
-        id: 'outdoors_everyman',
-        title: 'Everyman\'s Rights (Camping)',
-        icon: 'Tent',
-        tags: ['culture', 'leisure', 'general'],
+        id: 'vol_networking',
+        title: 'Volunteering',
+        icon: 'Heart',
+        tags: ['culture', 'general'],
         content: `
-# Jokamiehenoikeudet (Everyman's Rights) 🌲
+# Networking via Doing 🤝
 
-In Finland, nature belongs to everyone. You do not need permission to enjoy the forest, but you have responsibilities.
-
-### WHAT YOU CAN DO ✅
-*   **Walk, ski, cycle** essentially anywhere (except private gardens).
-*   **Pick wild berries and mushrooms** (Blueberries and Lingonberries are free gold!).
-*   **Temporary Camping:** You can sleep in a tent for 1-2 nights in the forest, as long as you are not near someone's house.
-
-### WHAT YOU CANNOT DO ❌
-*   **Disturb Privacy:** Do not walk close to private homes (pihapiiri). If you see a house, keep your distance.
-*   **Take Wood:** You cannot cut down trees or take fallen wood for a fire without the landowner's permission.
-*   **Litter:** What you bring in, you take out.
-*   **Disturb Animals:** especially during nesting season (Spring).
+You can't network by asking for things. You network by giving.
+*   **Events:** Slush, Nordic Business Forum (Apply as volunteer).
+*   **NGOs:** Red Cross, Mannerheim League.
+*   **Why:** Finns trust people they have "done something" with. If they see you work hard for free, they trust you will work hard for money.
 `
       },
       {
-        id: 'outdoors_fire',
-        title: 'Fire Safety & Cottages',
-        icon: 'Flame',
-        tags: ['safety', 'general'],
+        id: 'vol_internship',
+        title: 'Internships & Työkokeilu',
+        icon: 'GraduationCap',
+        tags: ['worker', 'student'],
         content: `
-# Fire Safety & The "Pelti" 🔥
+# Työkokeilu (Work Trial) 🛠️
 
-### 1. Making Fire in Nature
-*   **Designated Spots:** Only make fires in built fireplaces (nuotiopaikka).
-*   **Metsäpalovaroitus (Forest Fire Warning):**
-    *   **CRITICAL:** If the weather service declares a forest fire warning, **ALL OPEN FIRE IS BANNED**. Even in designated pits.
-    *   Check status at **Ilmatieteenlaitos.fi** (FMI). Ignorance is not a valid excuse for burning down a forest.
-
-### 2. Cottage Etiquette: The Damper (Pelti)
-Using a Finnish wood stove involves a metal plate (damper) in the chimney.
-*   **OPEN IT:** Before lighting the fire. If you forget, the room fills with smoke.
-*   **CLOSE IT:** Only when the embers are **completely black/dead**.
-*   **THE DANGER:** Closing it too early (while embers are red) traps **Carbon Monoxide** inside. It is odorless and kills you in your sleep. When in doubt, leave it slightly open.
+A program via the TE Office.
+*   **Deal:** You work for a company for 1-6 months. The company pays you nothing. You get your unemployment benefit + €9/day expense allowance.
+*   **Why do it?** It gets your foot in the door. It proves your skills. Many immigrants get hired after the trial.
+*   **Warning:** Don't let companies exploit you for free labor forever. There must be a path to a job.
 `
       }
     ]
   },
   {
-    id: 'culture',
-    title: 'Finnish Culture',
-    icon: 'Coffee',
+    id: 'plan',
+    title: 'Your Employment Plan',
+    icon: 'CheckCircle',
     theme: { 
-      border: 'border-violet-500', 
-      text: 'text-violet-600', 
-      shadow: 'hover:shadow-violet-100',
-      hoverBg: 'group-hover:bg-violet-50'
+      border: 'border-gray-800', 
+      text: 'text-gray-900', 
+      shadow: 'hover:shadow-gray-200',
+      hoverBg: 'group-hover:bg-gray-100'
     },
     articles: [
       {
-        id: 'culture_visiting',
-        title: 'Visiting a Finnish Home',
-        icon: 'Gift',
-        tags: ['culture', 'general'],
+        id: 'plan_te',
+        title: 'The TE-Office Plan',
+        icon: 'FileText',
+        tags: ['worker', 'mandatory', 'unemployed'],
         content: `
-# Visiting Etiquette ☕
+# The Integration Plan (Kotoutumissuunnitelma) 📝
 
-### 1. The Shoes 👞
-**Absolute Rule:** Take your shoes off at the door. Walking inside with street shoes is considered extremely dirty and rude.
-
-### 2. Punctuality ⏰
-*   If invited for 18:00, arrive at 18:00.
-*   18:05 is late. 17:50 is too early (the host is likely in their underwear/towel panic-cleaning).
-*   Do not show up unannounced. "Dropping by" is rare.
-
-### 3. Gifts 🎁
-It is polite to bring a small token.
-*   **Coffee:** A packet of *Juhla Mokka* is the standard currency of friendship.
-*   **Flowers:** Safe bet.
-*   **Alcohol:** A bottle of wine is acceptable for dinner parties.
+If you are an unemployed immigrant, TE Office will make a plan with you.
+*   **The Deal:** If you follow the plan (e.g., attend Finnish course 20h/week), you get higher integration allowance.
+*   **The Trap:** If you miss classes or refuse an internship offered by them, they cut your money.
+*   **Review:** The plan is reviewed every 6 months. Be active. Demand the training you need.
 `
       },
       {
-        id: 'culture_celebrations',
-        title: 'Celebrations & Fireworks',
-        icon: 'Calendar',
-        tags: ['culture', 'leisure'],
+        id: 'plan_personal',
+        title: 'Personal Strategy',
+        icon: 'Target',
+        tags: ['worker', 'general'],
         content: `
-# Major Celebrations 🎉
+# Your Strategy 🎯
 
-### Vappu (May 1st) 🎈
-*   The start of Spring (and usually rain/sleet).
-*   **Students:** Put on their overalls and white caps.
-*   **Picnic:** Everyone goes to the park (Kaivopuisto in Helsinki) regardless of weather. Drink "Sima" (mead) and eat "Munkki" (donuts).
-
-### Juhannus (Midsummer) ☀️
-*   Late June. The sun doesn't set.
-*   **Cities die:** Everyone leaves for a cottage (mökki).
-*   **Bonfires (Kokko):** Big fires are lit by the lake.
-
-### Fireworks & New Year (Uusivuosi) 🎆
-Finland has strict laws on explosives.
-*   **Selling:** Fireworks are sold in supermarkets **only between Dec 27 - Dec 31**.
-*   **Firing Time:** You are legally allowed to set them off **ONLY on Dec 31 from 18:00 to Jan 1 02:00**.
-*   **Safety Goggles:** Mandatory by law for the shooter AND spectators.
-*   **Zones:** Many city centers (like Helsinki center) completely ban personal fireworks. Check local news.
-*   **Etiquette:** Clean up your debris the next morning.
-`
-      },
-       {
-        id: 'culture_manners',
-        title: 'Unspoken Rules',
-        icon: 'Coffee',
-        tags: ['culture', 'general'],
-        content: `
-# Unspoken Rules 🤫
-
-1.  **Silence is Gold:** We don't fill silence with small talk. It's comfortable.
-2.  **Personal Space:** At the bus stop, 2 meters distance is polite.
-3.  **Coffee:** We drink the most coffee in the world. "Kahvitauko" (coffee break) at work is sacred.
-`
-      },
-      {
-        id: 'culture_sauna',
-        title: 'The Sauna Protocol',
-        icon: 'ThermometerSun',
-        tags: ['culture', 'general'],
-        content: `
-# The Sauna 🧖
-
-*   **Nakedness:** It is not sexual. It is for cleaning and relaxing. Families go together. Strangers usually segregate by gender (public saunas), but mixed saunas exist (wear a swimsuit there).
-*   **Löyly:** The steam. Ask "Saisiko heittää löylyä?" (Can I throw water?) if others are present.
-*   **Vasta/Vihta:** Beating yourself with birch branches increases circulation. It smells amazing.
-*   **The Post-Sauna:** Cooling off outside (even in winter) is mandatory. A "Saunakalja" (Sauna beer) or cider is the traditional hydrator.
+1.  **Define the Goal:** "I want to be a Junior Dev in Helsinki."
+2.  **Gap Analysis:** "I have the coding skills, but no network and no Finnish."
+3.  **Action:** 
+    *   Morning: Apply to 1 job (Quality over Quantity).
+    *   Afternoon: Learn Finnish (1h).
+    *   Weekly: Attend 1 meetup or contact 1 new person.
+4.  **Track:** Use Excel or Trello. Job hunting is a project. Manage it like one.
 `
       }
     ]

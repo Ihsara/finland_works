@@ -309,24 +309,26 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                 onKeyDown={handleKeyDown}
               />
               {showCountryList && (
-                <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl max-h-60 overflow-y-auto animate-in fade-in duration-200">
-                  {filteredCountries.length > 0 ? (
-                    filteredCountries.map((country, index) => (
-                      <button
-                        type="button"
-                        key={country}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => handleCountrySelect(country)}
-                        className={`w-full text-left px-4 py-3 text-sm transition border-b border-gray-50 last:border-0 block
-                          ${index === highlightedIndex ? 'bg-gray-100 text-black' : 'hover:bg-gray-50 text-gray-700'}
-                        `}
-                      >
-                        {country}
-                      </button>
-                    ))
-                  ) : (
-                    <div className="px-4 py-3 text-sm text-gray-600 italic">No matches found</div>
-                  )}
+                <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in duration-200">
+                  <div className="max-h-60 overflow-y-auto">
+                    {filteredCountries.length > 0 ? (
+                      filteredCountries.map((country, index) => (
+                        <button
+                          type="button"
+                          key={country}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => handleCountrySelect(country)}
+                          className={`w-full text-left px-4 py-3 text-sm transition border-b border-gray-50 last:border-0 block
+                            ${index === highlightedIndex ? 'bg-gray-100 text-black' : 'hover:bg-gray-50 text-gray-700'}
+                          `}
+                        >
+                          {country}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-sm text-gray-600 italic">No matches found</div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
