@@ -15,11 +15,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="w-full h-full md:h-[90vh] md:max-w-6xl bg-white md:rounded-3xl md:shadow-2xl md:border md:border-gray-200 flex flex-col overflow-hidden relative">
         {children}
       </div>
-
-      {/* Desktop Footer Tagline */}
-      <div className="hidden md:block absolute bottom-4 text-[10px] text-gray-400 font-medium tracking-widest uppercase">
-        Finland Works! • Local • AI
-      </div>
     </div>
   );
 };

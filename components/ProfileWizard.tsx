@@ -463,7 +463,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                onClick={onCancel} 
                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 hover:bg-gray-50 text-sm font-medium transition"
              >
-               <Icons.MessageSquare className="w-4 h-4" /> Ask a question
+               <Icons.MessageSquare className="w-4 h-4" /> I have a question
              </button>
 
              {/* Language Selector */}

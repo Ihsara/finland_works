@@ -331,6 +331,16 @@ const App: React.FC = () => {
       }
   };
 
+  // --- HELPER: Avatar URL Generator ---
+  const getAvatarUrl = (p: UserProfile | null) => {
+    const name = p?.name || 'Guest';
+    const extraSeed = (p?.originCountry || '') + (p?.ageRange || '');
+    // We use 'micah' style for a friendlier, more artistic vibe.
+    // We combine name + country + age to ensure diversity in the seed.
+    const seed = encodeURIComponent(name + extraSeed);
+    return `https://api.dicebear.com/9.x/micah/svg?seed=${seed}&backgroundColor=transparent`;
+  };
+
   // --- RENDERERS ---
 
   if (!apiKey) {
@@ -440,8 +450,8 @@ const App: React.FC = () => {
                   </div>
 
                   {/* Footer Area: Clear Cache & Sample Profile */}
-                  <div className="absolute bottom-8 flex flex-col items-center gap-3">
-                       <div className="flex gap-6 text-xs text-gray-400 items-center">
+                  <div className="absolute bottom-6 flex flex-col items-center">
+                       <div className="flex gap-4 text-xs text-gray-400 items-center">
                           <button 
                               onClick={() => handleLoadDemoProfile(false)} 
                               className="hover:text-gray-600 underline underline-offset-2 p-2 cursor-pointer"
@@ -669,9 +679,9 @@ const App: React.FC = () => {
           <div className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
              {/* Top Section: Avatar + Info + Progress */}
              <div className="flex flex-col md:flex-row gap-8 mb-10">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-50 flex-shrink-0 border-4 border-white shadow-sm">
                   <img 
-                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name || 'User'}`} 
+                     src={getAvatarUrl(profile)} 
                      alt="Avatar" 
                      className="w-full h-full object-cover"
                   />
@@ -792,7 +802,13 @@ const App: React.FC = () => {
                onClick={() => setView(AppView.PROFILE)}
                className="p-1 hover:opacity-70 transition"
              >
-                <Icons.User className="w-6 h-6 text-black" />
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200">
+                    <img 
+                        src={getAvatarUrl(profile)} 
+                        alt="Avatar" 
+                        className="w-full h-full object-cover"
+                    />
+                </div>
              </button>
         </div>
 
@@ -809,13 +825,13 @@ const App: React.FC = () => {
                    onClick={() => setView(AppView.QUIZ)}
                    className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
                 >
-                   <Icons.CheckSquare className="w-5 h-5" /> Take the short quiz
+                   <Icons.CheckSquare className="w-5 h-5" /> {t('landing_btn_quiz', language)}
                 </button>
                 <button 
                    onClick={startNewChat}
                    className="flex items-center justify-center gap-3 bg-white text-black border border-gray-300 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-sm min-w-[260px]"
                 >
-                   <Icons.MessageSquare className="w-5 h-5" /> Ask a question
+                   <Icons.MessageSquare className="w-5 h-5" /> {t('landing_btn_ask', language)}
                 </button>
              </div>
         </div>
