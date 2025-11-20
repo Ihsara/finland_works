@@ -308,17 +308,36 @@ const App: React.FC = () => {
   };
 
   const handleLoadDemoProfile = (silent: boolean = false) => {
-    if (!silent && !window.confirm("Load the demo 'Gabriela' profile? This will create a new profile.")) return;
+    // Instant Load: No confirmation dialog for smoother "Demo" experience
     
     try {
-      const demoProfile = Storage.createDemoProfile();
-      Storage.setActiveProfileId(demoProfile.id);
-      refreshProfiles();
-      if(!silent) alert("Demo profile 'Gabriela' created!");
-      setView(AppView.DASHBOARD);
+      // 1. Refresh profiles (getAllProfiles internal logic ensures 'demo-gabriela' exists)
+      const profiles = Storage.getAllProfiles();
+      
+      // 2. Try to switch to the standard demo profile
+      let targetProfile = profiles.find(p => p.id === 'demo-gabriela');
+      
+      if (!targetProfile) {
+         // Fallback: Create a new demo profile if the standard one is missing for some reason
+         try {
+             targetProfile = Storage.createDemoProfile();
+         } catch (e) {
+             console.error("Failed to create demo profile", e);
+             if (!silent) alert("Could not load the sample profile.");
+             return;
+         }
+      }
+
+      // 3. Activate and Transition
+      if (targetProfile) {
+        Storage.setActiveProfileId(targetProfile.id);
+        refreshProfiles();
+        setView(AppView.DASHBOARD);
+      }
+      
     } catch (e) {
       console.error("Error loading demo profile:", e);
-      if(!silent) alert("Sorry, could not create the demo profile.");
+      if(!silent) alert("Sorry, could not load the demo profile.");
     }
   };
 
@@ -430,6 +449,13 @@ const App: React.FC = () => {
                               className="hover:text-red-700 text-gray-500 transition-colors p-2 cursor-pointer"
                           >
                               {t('landing_erase', language)}
+                          </button>
+                          <span>•</span>
+                          <button 
+                              onClick={() => setApiKey(null)} 
+                              className="hover:text-gray-700 text-gray-500 transition-colors p-2 cursor-pointer"
+                          >
+                              {t('landing_add_key', language)}
                           </button>
                       </div>
                   </div>

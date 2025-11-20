@@ -18,6 +18,7 @@ export type TranslationKey =
   | 'landing_btn_ask'
   | 'landing_load_sample'
   | 'landing_erase'
+  | 'landing_add_key'
   | 'landing_choose_lang'
   | 'dash_greeting'
   | 'dash_greeting_guest'
@@ -125,6 +126,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_ask: "Start a conversation",
     landing_load_sample: "Load Sample (Gabriela)",
     landing_erase: "Erase Cache",
+    landing_add_key: "Add Gemini API Key",
     landing_choose_lang: "Choose Language",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
@@ -231,6 +233,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_ask: "Bắt đầu trò chuyện",
     landing_load_sample: "Tải mẫu (Gabriela)",
     landing_erase: "Xóa bộ nhớ đệm",
+    landing_add_key: "Thêm khóa API Gemini",
     landing_choose_lang: "Chọn ngôn ngữ",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
@@ -337,6 +340,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_ask: "Iniciar conversa",
     landing_load_sample: "Carregar Exemplo (Gabriela)",
     landing_erase: "Limpar Cache",
+    landing_add_key: "Adicionar Chave API Gemini",
     landing_choose_lang: "Escolher Idioma",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
@@ -443,6 +447,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_ask: "Iniciar conversa",
     landing_load_sample: "Carregar Exemplo (Gabriela)",
     landing_erase: "Limpar Cache",
+    landing_add_key: "Adicionar Chave API Gemini",
     landing_choose_lang: "Escolher Idioma",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
@@ -549,6 +554,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_ask: "Начать разговор",
     landing_load_sample: "Загрузить пример (Gabriela)",
     landing_erase: "Очистить кэш",
+    landing_add_key: "Добавить ключ Gemini API",
     landing_choose_lang: "Выбрать язык",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
