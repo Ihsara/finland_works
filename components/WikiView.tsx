@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
 import { getWikiCategories, WikiCategory, WikiArticle } from '../data/wikiContent';
@@ -7,16 +6,19 @@ import { marked } from 'marked';
 import { UserProfile, LanguageCode } from '../types';
 import * as Storage from '../services/storageService';
 import { WikiProgressData } from '../services/storageService';
+import { LanguageSelector } from './LanguageSelector';
+import { t } from '../data/languages';
 
 interface WikiViewProps {
   onClose: () => void;
   profile: UserProfile | null;
   language: LanguageCode;
+  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
 }
 
 type ViewMode = 'list' | 'icons';
 
-const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
+const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLanguageSelect }) => {
   const [activeArticle, setActiveArticle] = useState<WikiArticle | null>(null);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -214,13 +216,16 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
             </button>
           )}
           
-          <div className="bg-black p-1.5 md:p-2 rounded-lg text-white shadow-sm">
-            <Icons.Languages className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight line-clamp-1">Finland Works!</h2>
-            <p className="text-[10px] md:text-xs text-gray-600 hidden sm:block">
-              {profile ? `Curated for ${profile.name}` : 'Essential guide'}
+          <LanguageSelector 
+             currentLanguage={language} 
+             onSelect={onLanguageSelect}
+             className="mr-1"
+          />
+          
+          <div className="hidden sm:block">
+            <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight line-clamp-1">{t('wiki_header_title', language)}</h2>
+            <p className="text-[10px] md:text-xs text-gray-600">
+              {profile ? t('wiki_header_subtitle', language, { name: profile.name }) : 'Essential guide'}
             </p>
           </div>
         </div>
@@ -234,7 +239,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                     (viewMode === 'list' || activeArticle) ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
                     }`}
                 >
-                    <Icons.FileText className="w-3 h-3" /> List
+                    <Icons.FileText className="w-3 h-3" /> {t('wiki_nav_list', language)}
                 </button>
                 <button
                     onClick={handleSwitchToIcons}
@@ -242,7 +247,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
                     (viewMode === 'icons' && !activeArticle) ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
                     }`}
                 >
-                    <Icons.LayoutGrid className="w-3 h-3" /> Icons
+                    <Icons.LayoutGrid className="w-3 h-3" /> {t('wiki_nav_icons', language)}
                 </button>
             </div>
 
@@ -266,8 +271,8 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
             <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in fade-in zoom-in-95 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
-                         <h3 className="text-2xl font-bold text-gray-900">Explore Categories</h3>
-                         <p className="text-gray-600 mt-2">Select a topic to dive into the details.</p>
+                         <h3 className="text-2xl font-bold text-gray-900">{t('wiki_explore_cats', language)}</h3>
+                         <p className="text-gray-600 mt-2">{t('wiki_explore_subtitle', language)}</p>
                      </div>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
                         {wikiCategories.map((category) => {
@@ -329,8 +334,8 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
              <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
-                        <h3 className="text-2xl font-bold text-gray-900">Full Index</h3>
-                        <p className="text-gray-600 mt-1">Browse all topics below.</p>
+                        <h3 className="text-2xl font-bold text-gray-900">{t('wiki_full_index', language)}</h3>
+                        <p className="text-gray-600 mt-1">{t('wiki_full_index_subtitle', language)}</p>
                     </div>
                     {renderCategoryList(false)}
                 </div>

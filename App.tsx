@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import { Icons } from './components/Icon';
@@ -10,6 +11,7 @@ import WikiView from './components/WikiView';
 import ProfileWizard from './components/ProfileWizard';
 import { getAllFlattenedArticles } from './data/wikiContent';
 import { t, SUPPORTED_LANGUAGES } from './data/languages';
+import { LanguageSelector } from './components/LanguageSelector';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -24,7 +26,6 @@ const App: React.FC = () => {
   
   // Language State
   const [language, setLanguage] = useState<LanguageCode>('en');
-  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   
   // Multi-Profile State
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -161,12 +162,10 @@ const App: React.FC = () => {
     if (supported) {
       setLanguage(code);
       localStorage.setItem('fw_language', code);
-      setIsLangMenuOpen(false);
     } else {
       alert(`We are working on ${code.toUpperCase()} support! Defaulting to English for now.`);
       setLanguage('en');
       localStorage.setItem('fw_language', 'en');
-      setIsLangMenuOpen(false);
     }
   };
 
@@ -378,43 +377,12 @@ const App: React.FC = () => {
           <Layout>
               <div className="flex flex-col items-center justify-center h-full p-8 relative bg-white">
                   {/* Top Right: Language Selector */}
-                  <div className="absolute top-8 right-8">
-                      <div 
-                        onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                        className="flex items-center gap-2 text-sm font-medium text-gray-900 cursor-pointer hover:opacity-70 bg-gray-100 px-3 py-2 rounded-lg"
-                      >
-                          <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.flag}</span>
-                          <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.name || 'Language'}</span> 
-                          <Icons.Languages className="w-4 h-4 text-gray-600" />
-                      </div>
-                      
-                      {/* Language Popup */}
-                      {isLangMenuOpen && (
-                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="p-2 bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-600 uppercase tracking-wider text-center">
-                                Select Language
-                            </div>
-                            <div className="max-h-80 overflow-y-auto">
-                              {SUPPORTED_LANGUAGES.map(lang => (
-                                <button 
-                                  key={lang.code}
-                                  onClick={() => handleLanguageSelect(lang.code, lang.supported)}
-                                  className={`w-full px-4 py-3 text-left flex items-center gap-3 border-b border-gray-50 last:border-0 hover:bg-gray-50
-                                    ${!lang.supported ? 'opacity-50 bg-gray-50' : ''}
-                                    ${language === lang.code ? 'bg-blue-50 text-blue-700' : 'text-gray-900'}
-                                  `}
-                                >
-                                  <span className="text-xl flex-shrink-0">{lang.flag}</span>
-                                  <div className="flex flex-col leading-tight flex-1">
-                                    <span className="font-medium">{lang.nativeName}</span>
-                                    <span className="text-[10px] text-gray-600">{lang.name}</span>
-                                  </div>
-                                  {language === lang.code && <Icons.CheckCircle className="w-4 h-4" />}
-                                </button>
-                              ))}
-                            </div>
-                        </div>
-                      )}
+                  <div className="absolute top-8 right-8 z-50">
+                      <LanguageSelector 
+                        currentLanguage={language} 
+                        onSelect={handleLanguageSelect} 
+                        className="min-w-[140px]"
+                      />
                   </div>
 
                   {/* Main Content */}
@@ -477,6 +445,7 @@ const App: React.FC = () => {
           profile={profile}
           onClose={() => setView(AppView.PROFILE)} // Back to Profile
           language={language}
+          onLanguageSelect={handleLanguageSelect}
         />
       </Layout>
     );
@@ -500,13 +469,18 @@ const App: React.FC = () => {
     return (
       <Layout>
          <div className="flex flex-col h-full">
-          <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-lg md:text-xl font-bold flex items-center gap-2">
-              <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile', language)} (YAML)
-            </h2>
-            <button onClick={() => setView(AppView.PROFILE)} className="text-gray-600 hover:text-gray-800">
-              <Icons.X className="w-6 h-6" />
-            </button>
+          <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center bg-white z-50">
+             <div className="flex items-center gap-3">
+                <h2 className="text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900">
+                  <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile', language)} (YAML)
+                </h2>
+             </div>
+             <div className="flex items-center gap-3">
+                <LanguageSelector currentLanguage={language} onSelect={handleLanguageSelect} />
+                <button onClick={() => setView(AppView.PROFILE)} className="text-gray-600 hover:text-gray-800">
+                  <Icons.X className="w-6 h-6" />
+                </button>
+             </div>
           </div>
           <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col">
             <div className="flex justify-between items-center mb-4">
@@ -555,12 +529,15 @@ const App: React.FC = () => {
                 </p>
               </div>
             </div>
-            <button 
-              onClick={handleEndSession}
-              className="text-sm text-gray-700 hover:text-red-700 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
-            >
-              <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
-            </button>
+            <div className="flex items-center gap-3">
+                <LanguageSelector currentLanguage={language} onSelect={handleLanguageSelect} className="hidden sm:block" />
+                <button 
+                  onClick={handleEndSession}
+                  className="text-sm text-gray-700 hover:text-red-700 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
+                >
+                  <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
+                </button>
+            </div>
           </div>
 
           {/* Messages */}
@@ -639,43 +616,49 @@ const App: React.FC = () => {
         <div className="flex flex-col h-full bg-white overflow-y-auto">
           {/* New Robust Header */}
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-20">
-             <button 
-               onClick={() => setView(AppView.DASHBOARD)} 
-               className="flex items-center gap-2 text-gray-800 hover:text-black transition font-medium px-3 py-2 hover:bg-gray-50 rounded-lg"
-             >
-               <Icons.ArrowLeft className="w-5 h-5" />
-               <span>Back to Dashboard</span>
-             </button>
-             
-             <div className="flex items-center gap-2 relative">
+             <div className="flex items-center gap-3">
                  <button 
-                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                   className="text-xs font-bold text-gray-700 hover:text-black flex items-center gap-1 uppercase tracking-wide bg-gray-50 px-3 py-1.5 rounded-full"
+                   onClick={() => setView(AppView.DASHBOARD)} 
+                   className="flex items-center gap-2 text-gray-800 hover:text-black transition font-medium px-3 py-2 hover:bg-gray-50 rounded-lg"
                  >
-                   Switch Profile <Icons.ChevronDown className="w-3 h-3" />
+                   <Icons.ArrowLeft className="w-5 h-5" />
+                   <span className="hidden sm:inline">{t('btn_back_dashboard', language)}</span>
                  </button>
-                 {isProfileMenuOpen && (
-                        <div className="absolute right-0 top-10 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95">
-                           <div className="max-h-64 overflow-y-auto">
-                              {allProfiles.map(p => (
-                                <button 
-                                  key={p.id}
-                                  onClick={() => handleSwitchProfile(p.id)}
-                                  className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 flex items-center justify-between border-b border-gray-50 last:border-0 ${profile?.id === p.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
-                                >
-                                  <span className="font-medium">{p.name}</span>
-                                  {profile?.id === p.id && <Icons.CheckCircle className="w-3 h-3" />}
-                                </button>
-                              ))}
-                              <button 
-                                onClick={handleCreateNewProfile}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 text-blue-600 font-bold flex items-center gap-2"
-                              >
-                                <Icons.UserPlus className="w-4 h-4" /> New Profile
-                              </button>
-                           </div>
-                        </div>
-                  )}
+             </div>
+             
+             <div className="flex items-center gap-3 relative">
+                 <LanguageSelector currentLanguage={language} onSelect={handleLanguageSelect} />
+                 
+                 <div className="relative">
+                    <button 
+                      onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                      className="text-xs font-bold text-gray-700 hover:text-black flex items-center gap-1 uppercase tracking-wide bg-gray-50 px-3 py-2 rounded-full border border-gray-100"
+                    >
+                      {t('dash_switch_profile', language)} <Icons.ChevronDown className="w-3 h-3" />
+                    </button>
+                    {isProfileMenuOpen && (
+                            <div className="absolute right-0 top-10 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95">
+                              <div className="max-h-64 overflow-y-auto">
+                                  {allProfiles.map(p => (
+                                    <button 
+                                      key={p.id}
+                                      onClick={() => handleSwitchProfile(p.id)}
+                                      className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 flex items-center justify-between border-b border-gray-50 last:border-0 ${profile?.id === p.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
+                                    >
+                                      <span className="font-medium">{p.name}</span>
+                                      {profile?.id === p.id && <Icons.CheckCircle className="w-3 h-3" />}
+                                    </button>
+                                  ))}
+                                  <button 
+                                    onClick={handleCreateNewProfile}
+                                    className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 text-blue-600 font-bold flex items-center gap-2"
+                                  >
+                                    <Icons.UserPlus className="w-4 h-4" /> {t('dash_new_profile', language)}
+                                  </button>
+                              </div>
+                            </div>
+                      )}
+                 </div>
              </div>
           </div>
 
@@ -707,17 +690,17 @@ const App: React.FC = () => {
 
                 <div className="w-full md:w-72 flex flex-col justify-center gap-3 bg-gray-50 p-5 rounded-xl">
                     <div className="flex justify-between items-end">
-                       <span className="text-sm font-bold text-black">{profileCompleteness}% complete</span>
+                       <span className="text-sm font-bold text-black">{t('profile_completeness', language, { percentage: profileCompleteness.toString() })}</span>
                     </div>
                     <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
                        <div className="h-full bg-black rounded-full transition-all duration-1000 ease-out" style={{ width: `${profileCompleteness}%` }}></div>
                     </div>
-                    <p className="text-xs text-gray-700">Answer a few more questions for better advice</p>
+                    <p className="text-xs text-gray-700">{t('profile_completeness_hint', language)}</p>
                     <button 
                        onClick={handleEditProfileVisual}
                        className="bg-white border border-gray-200 text-black py-2 px-4 rounded-lg font-bold text-sm hover:bg-gray-100 transition shadow-sm"
                     >
-                      {profileCompleteness === 100 ? 'Update Profile' : 'Continue the Quiz'}
+                      {profileCompleteness === 100 ? t('profile_btn_update', language) : t('profile_btn_continue', language)}
                     </button>
                 </div>
              </div>
@@ -733,8 +716,8 @@ const App: React.FC = () => {
                         <Icons.BookMarked className="w-6 h-6" />
                       </div>
                       <div className="text-left">
-                        <span className="block text-lg font-bold text-gray-900">My Guide</span>
-                        <span className="text-sm text-gray-600">Recommended articles</span>
+                        <span className="block text-lg font-bold text-gray-900">{t('profile_btn_guide', language)}</span>
+                        <span className="text-sm text-gray-600">{t('profile_btn_guide_desc', language)}</span>
                       </div>
                    </div>
                    <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
@@ -745,8 +728,8 @@ const App: React.FC = () => {
                         <Icons.Rocket className="w-6 h-6" />
                       </div>
                       <div className="text-left">
-                        <span className="block text-lg font-bold text-gray-900">My Plan</span>
-                        <span className="text-sm text-gray-600">Coming soon</span>
+                        <span className="block text-lg font-bold text-gray-900">{t('profile_btn_plan', language)}</span>
+                        <span className="text-sm text-gray-600">{t('profile_btn_plan_desc', language)}</span>
                       </div>
                    </div>
                    <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
@@ -758,9 +741,9 @@ const App: React.FC = () => {
                 {/* Languages */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group">
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
-                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                      <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.Languages className="w-5 h-5"/> Languages</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.Languages className="w-5 h-5"/> {t('profile_sect_languages', language)}</h3>
                    <div className="space-y-3">
                       {(profile?.languages && profile.languages.length > 0) ? (
                         profile.languages.map((l, i) => (
@@ -778,19 +761,19 @@ const App: React.FC = () => {
                 {/* Education */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group">
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
-                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                      <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.GraduationCap className="w-5 h-5"/> Skills</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.GraduationCap className="w-5 h-5"/> {t('profile_sect_skills', language)}</h3>
                    <div className="space-y-4">
                       <div>
-                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">Education</h4>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">{t('profile_label_education', language)}</h4>
                         <p className="text-gray-800 font-medium">
                           {profile?.education?.degree || 'Not specified'} 
                           {profile?.education?.field ? ` in ${profile.education.field}` : ''}
                         </p>
                       </div>
                       <div>
-                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">Profession</h4>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-600">{t('profile_label_profession', language)}</h4>
                         <p className="text-gray-800 font-medium">{profile?.profession || 'Not specified'}</p>
                       </div>
                    </div>
@@ -799,12 +782,12 @@ const App: React.FC = () => {
                 {/* Narrative - Full Width */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group md:col-span-2">
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-black transition">
-                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                      <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
                    </button>
-                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.User className="w-5 h-5"/> Personal Narrative</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900"><Icons.User className="w-5 h-5"/> {t('profile_sect_narrative', language)}</h3>
                    <div className="space-y-6">
                       <div>
-                         <h4 className="font-bold text-black mb-2">Aspirations</h4>
+                         <h4 className="font-bold text-black mb-2">{t('profile_label_aspirations', language)}</h4>
                          <ul className="list-disc pl-5 space-y-1 text-gray-700">
                             {(profile?.aspirations && profile.aspirations.length > 0) ? (
                                 profile.aspirations.map((a, i) => <li key={i}>{a}</li>)
@@ -814,7 +797,7 @@ const App: React.FC = () => {
                          </ul>
                       </div>
                       <div>
-                         <h4 className="font-bold text-black mb-2">Fears / challenges</h4>
+                         <h4 className="font-bold text-black mb-2">{t('profile_label_challenges', language)}</h4>
                          <ul className="list-disc pl-5 space-y-1 text-gray-700">
                             {(profile?.challenges && profile.challenges.length > 0) ? (
                                 profile.challenges.map((a, i) => <li key={i}>{a}</li>)
@@ -837,7 +820,9 @@ const App: React.FC = () => {
     <Layout>
       <div className="flex flex-col h-full bg-white">
         {/* Simple Header */}
-        <div className="p-6 flex justify-end">
+        <div className="p-6 flex justify-between items-center">
+             <LanguageSelector currentLanguage={language} onSelect={handleLanguageSelect} />
+
              <button 
                onClick={() => setView(AppView.PROFILE)}
                className="p-1 hover:scale-105 transition transform duration-200 group relative"
@@ -871,12 +856,15 @@ const App: React.FC = () => {
              </div>
 
              <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
-               Welcome back, {profile?.name?.split(' ')[0] || 'Friend'}!
+               {profile ? t('dash_greeting', language, { name: profile.name?.split(' ')[0] || 'Friend' }) : t('dash_greeting_guest', language)}
              </h1>
              <p className="text-xl text-gray-800 mb-12 font-light">
-               {profileCompleteness < 100 
-                  ? "Answer a few more questions to get better job advice."
-                  : "Your profile is looking great. How can I help today?"}
+               {profileCompleteness < 100 && profile
+                  ? t('profile_completeness_hint', language)
+                  : profile 
+                    ? t('dash_subtitle', language)
+                    : t('dash_subtitle_guest', language)
+                }
              </p>
 
              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
