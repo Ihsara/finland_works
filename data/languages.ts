@@ -107,12 +107,11 @@ export type TranslationKey =
   | 'wizard_eu_no'
   
   | 'wizard_step5_title'
-  | 'wizard_opt_work'
-  | 'wizard_opt_student'
-  | 'wizard_opt_family'
-  | 'wizard_opt_eu'
-  | 'wizard_opt_protection'
-  | 'wizard_opt_visitor'
+  | 'wizard_opt_rights_full'
+  | 'wizard_opt_rights_work'
+  | 'wizard_opt_rights_student'
+  | 'wizard_opt_rights_none'
+
   | 'wizard_step6_title'
   | 'wizard_step6_field_label'
   | 'wizard_step6_field_placeholder'
@@ -268,13 +267,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Yes, EU/EEA Citizen",
     wizard_eu_no: "No, Non-EU Citizen",
 
-    wizard_step5_title: "What is your Residence Permit type?",
-    wizard_opt_work: "Work-based",
-    wizard_opt_student: "Student",
-    wizard_opt_family: "Family Ties",
-    wizard_opt_eu: "EU Registration",
-    wizard_opt_protection: "International Protection",
-    wizard_opt_visitor: "Visitor / Other",
+    // Step 5: Work Rights
+    wizard_step5_title: "What kind of work does your residence permit allow?",
+    wizard_opt_rights_full: "Unlimited (Family/Permanent/Asylum)",
+    wizard_opt_rights_work: "Restricted to specific field (Work Permit)",
+    wizard_opt_rights_student: "Student (Limited hours)",
+    wizard_opt_rights_none: "No working rights (Visitor)",
+
     wizard_step6_title: "Highest Education Level",
     wizard_step6_field_label: "Field of Study (Optional)",
     wizard_step6_field_placeholder: "e.g. Engineering, Arts",
@@ -304,7 +303,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_placeholder: "Any specific worries?",
     
     // New Questions
-    wizard_step11_title: "How motivated are you to learn Finnish?",
+    wizard_step11_title: "Motivation to learn Finnish",
     wizard_opt_mot_low: "Just starting, not fully committed yet",
     wizard_opt_mot_med: "I’m motivated but need structure",
     wizard_opt_mot_high: "Very committed and ready to study actively",
@@ -427,13 +426,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Có, Công dân EU",
     wizard_eu_no: "Không, Ngoài EU",
 
-    wizard_step5_title: "Loại Giấy phép Cư trú?",
-    wizard_opt_work: "Dựa trên công việc",
-    wizard_opt_student: "Sinh viên",
-    wizard_opt_family: "Đoàn tụ gia đình",
-    wizard_opt_eu: "Đăng ký EU",
-    wizard_opt_protection: "Bảo hộ quốc tế",
-    wizard_opt_visitor: "Du khách / Khác",
+    wizard_step5_title: "Giấy phép cư trú của bạn cho phép làm việc gì?",
+    wizard_opt_rights_full: "Không giới hạn (Gia đình/Vĩnh trú/Tị nạn)",
+    wizard_opt_rights_work: "Giới hạn ngành nghề (Giấy phép lao động)",
+    wizard_opt_rights_student: "Sinh viên (Giờ làm hạn chế)",
+    wizard_opt_rights_none: "Không được phép làm việc (Du lịch)",
+
     wizard_step6_title: "Trình độ học vấn cao nhất",
     wizard_step6_field_label: "Ngành học (Tùy chọn)",
     wizard_step6_field_placeholder: "ví dụ: Kỹ thuật, Nghệ thuật",
@@ -579,13 +577,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Sim, Cidadão UE",
     wizard_eu_no: "Não, Cidadão Não-UE",
 
-    wizard_step5_title: "Tipo de Permissão de Residência?",
-    wizard_opt_work: "Trabalho",
-    wizard_opt_student: "Estudante",
-    wizard_opt_family: "Laços Familiares",
-    wizard_opt_eu: "Registro UE",
-    wizard_opt_protection: "Proteção Internacional",
-    wizard_opt_visitor: "Visitante / Outro",
+    wizard_step5_title: "Que tipo de trabalho seu visto permite?",
+    wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
+    wizard_opt_rights_work: "Restrito à área (Visto de Trabalho)",
+    wizard_opt_rights_student: "Estudante (Horas limitadas)",
+    wizard_opt_rights_none: "Sem direito a trabalho (Visitante)",
+
     wizard_step6_title: "Nível de Escolaridade",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
     wizard_step6_field_placeholder: "ex: Engenharia, Artes",
@@ -731,13 +728,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Sim, Cidadão UE",
     wizard_eu_no: "Não, Cidadão Não-UE",
 
-    wizard_step5_title: "Tipo de Autorização de Residência?",
-    wizard_opt_work: "Trabalho",
-    wizard_opt_student: "Estudante",
-    wizard_opt_family: "Laços Familiares",
-    wizard_opt_eu: "Registo UE",
-    wizard_opt_protection: "Proteção Internacional",
-    wizard_opt_visitor: "Visitante / Outro",
+    wizard_step5_title: "Que trabalho permite a tua autorização?",
+    wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
+    wizard_opt_rights_work: "Restrito à área (Visto de Trabalho)",
+    wizard_opt_rights_student: "Estudante (Horas limitadas)",
+    wizard_opt_rights_none: "Sem direito a trabalho (Visitante)",
+
     wizard_step6_title: "Nível de Escolaridade",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
     wizard_step6_field_placeholder: "ex: Engenharia, Artes",
@@ -884,13 +880,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Да, гражданин ЕС",
     wizard_eu_no: "Нет, не ЕС",
 
-    wizard_step5_title: "Тип вида на жительство?",
-    wizard_opt_work: "Рабочий",
-    wizard_opt_student: "Студенческий",
-    wizard_opt_family: "Семейные связи",
-    wizard_opt_eu: "Регистрация ЕС",
-    wizard_opt_protection: "Международная защита",
-    wizard_opt_visitor: "Турист / Другое",
+    wizard_step5_title: "Какую работу позволяет ваш ВНЖ?",
+    wizard_opt_rights_full: "Без ограничений (Семья/ПМЖ/Убежище)",
+    wizard_opt_rights_work: "Только конкретная сфера (Рабочий ВНЖ)",
+    wizard_opt_rights_student: "Студент (Ограниченные часы)",
+    wizard_opt_rights_none: "Без права на работу (Турист)",
+
     wizard_step6_title: "Образование",
     wizard_step6_field_label: "Специальность (необязательно)",
     wizard_step6_field_placeholder: "напр. Инженерия, Искусство",

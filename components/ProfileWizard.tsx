@@ -275,96 +275,59 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     </div>
   );
 
-  // Revised Likert Scale with Inline Text Labels
-  const LikertScale = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
-    // Map the text options to a 1-5 scale.
-    let valueMap: Record<number, string> = {};
-    
-    if (options.length === 3) {
-        valueMap = { 1: options[0].value, 3: options[1].value, 5: options[2].value };
-    } else if (options.length === 4) {
-        // For Language: 1=None, 2=Basic, 3=Inter, 5=Fluent (Skip 4 to show gap to fluency)
-        valueMap = { 1: options[0].value, 2: options[1].value, 3: options[2].value, 5: options[3].value };
-    } else {
-        // Fallback
-        options.forEach((opt, idx) => {
-             const pos = Math.ceil(((idx + 1) / options.length) * 5);
-             valueMap[pos] = opt.value;
-        });
-    }
-
-    // Find active number based on current string value
-    const activeNum = Object.keys(valueMap).find(key => valueMap[parseInt(key)] === current);
-    const activeInt = activeNum ? parseInt(activeNum) : null;
-
-    const handleNumberClick = (num: number) => {
-        if (valueMap[num]) {
-            onSelect(valueMap[num]);
-        } else {
-            // Snap to nearest populated key if clicking an empty slot
-            const keys = Object.keys(valueMap).map(Number).sort((a,b) => a-b);
-            const nearest = keys.reduce((prev, curr) => Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev);
-            onSelect(valueMap[nearest]);
-        }
-    };
-
-    const getColors = (num: number) => {
-        const colors = [
-            'bg-red-100 hover:bg-red-200 text-red-800 border-red-200',
-            'bg-orange-100 hover:bg-orange-200 text-orange-800 border-orange-200',
-            'bg-yellow-100 hover:bg-yellow-200 text-yellow-800 border-yellow-200',
-            'bg-lime-100 hover:bg-lime-200 text-lime-800 border-lime-200',
-            'bg-green-100 hover:bg-green-200 text-green-800 border-green-200',
-        ];
-        return colors[num - 1];
-    };
-    
-    const getActiveColors = (num: number) => {
-         const colors = [
-            'bg-red-500 text-white border-red-600 ring-red-300',
-            'bg-orange-500 text-white border-orange-600 ring-orange-300',
-            'bg-yellow-500 text-white border-yellow-600 ring-yellow-300',
-            'bg-lime-500 text-white border-lime-600 ring-lime-300',
-            'bg-green-500 text-white border-green-600 ring-green-300',
-        ];
-        return colors[num - 1];
-    };
-
-    // Labels to display under 1, 3, 5
-    const lowLabel = options[0]?.label;
-    const midLabel = options.length > 2 ? options[Math.floor((options.length - 1) / 2)]?.label : options[1]?.label;
-    const highLabel = options[options.length - 1]?.label;
-
+  // Replaces LikertScale with a Progressive Grid that uses colors for scales
+  const ProgressiveSelector = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
     return (
-        <div className="mt-8 select-none">
-            <div className="flex justify-between items-center gap-2 md:gap-4 px-4">
-                {[1, 2, 3, 4, 5].map((num) => {
-                    const isActive = activeInt === num;
-                    return (
-                        <button
-                            key={num}
-                            onClick={() => handleNumberClick(num)}
-                            className={`
-                                w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300 border-2 transform relative z-10
-                                ${isActive 
-                                    ? `${getActiveColors(num)} scale-110 shadow-lg ring-4` 
-                                    : `${getColors(num)} scale-100 hover:scale-105 opacity-70 hover:opacity-100`
-                                }
-                            `}
-                        >
-                            {num}
-                        </button>
-                    );
-                })}
-            </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+        {options.map((opt, idx) => {
+            const isSelected = current === opt.value;
             
-            {/* Inline Labels Under the scale */}
-            <div className="flex justify-between mt-3 text-xs md:text-sm font-medium text-gray-500 px-2">
-                 <span className="w-1/3 text-left leading-tight">{lowLabel}</span>
-                 <span className="w-1/3 text-center leading-tight">{midLabel}</span>
-                 <span className="w-1/3 text-right leading-tight">{highLabel}</span>
-            </div>
-        </div>
+            // Calculate color based on position
+            // 0 -> Red, Middle -> Yellow, End -> Green
+            const position = idx / (options.length - 1 || 1); // 0 to 1
+            
+            let baseColorClass = 'border-gray-200 hover:border-gray-300 text-gray-700 bg-white';
+            let selectedColorClass = 'ring-1 shadow-md text-black';
+            let iconColor = 'text-gray-400';
+            
+            // Define color stops logic
+            if (position <= 0.25) {
+                // Red/Orange (Low)
+                 if (isSelected) selectedColorClass += ' border-red-500 ring-red-500 bg-red-50';
+                 iconColor = isSelected ? 'text-red-600' : 'text-gray-300';
+            } else if (position <= 0.75) {
+                // Yellow/Orange (Mid)
+                 if (isSelected) selectedColorClass += ' border-yellow-500 ring-yellow-500 bg-yellow-50';
+                 iconColor = isSelected ? 'text-yellow-600' : 'text-gray-300';
+            } else {
+                // Green (High)
+                 if (isSelected) selectedColorClass += ' border-green-500 ring-green-500 bg-green-50';
+                 iconColor = isSelected ? 'text-green-600' : 'text-gray-300';
+            }
+
+            return (
+                <button
+                    key={opt.value}
+                    onClick={() => onSelect(opt.value)}
+                    className={`
+                        relative p-4 rounded-xl border-2 text-left transition-all duration-200 group
+                        ${isSelected ? selectedColorClass : baseColorClass}
+                    `}
+                >
+                    <div className="flex items-center justify-between w-full">
+                        <span className={`font-medium ${isSelected ? 'font-bold' : ''}`}>{opt.label}</span>
+                        {isSelected && <Icons.CheckCircle className={`w-5 h-5 ${iconColor}`} />}
+                    </div>
+                    {/* Glow effect for selected */}
+                    {isSelected && (
+                         <div className={`absolute inset-0 rounded-xl opacity-20 ${
+                            position <= 0.25 ? 'bg-red-400' : (position <= 0.75 ? 'bg-yellow-400' : 'bg-green-400')
+                         } blur-sm -z-10`}></div>
+                    )}
+                </button>
+            );
+        })}
+      </div>
     );
   };
 
@@ -508,12 +471,12 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   // Dynamic Options Generators
   const getPermitOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "Work-based", label: t('wizard_opt_work', lang) },
-    { value: "Student", label: t('wizard_opt_student', lang) },
-    { value: "Family Ties", label: t('wizard_opt_family', lang) },
-    { value: "EU Registration", label: t('wizard_opt_eu', lang) },
-    { value: "International Protection", label: t('wizard_opt_protection', lang) },
-    { value: "Visitor / Other", label: t('wizard_opt_visitor', lang) }
+    // Mapped to values that preserve backend keywords ('work', 'student') where possible, 
+    // or use descriptive strings for 'Full Rights'.
+    { value: "Unlimited (Family/Permanent/Asylum)", label: t('wizard_opt_rights_full', lang) },
+    { value: "Work-based (Restricted)", label: t('wizard_opt_rights_work', lang) },
+    { value: "Student", label: t('wizard_opt_rights_student', lang) },
+    { value: "Visitor / No Right", label: t('wizard_opt_rights_none', lang) }
   ];
 
   const getEducationOptions = (lang: LanguageCode): OptionItem[] => [
@@ -718,7 +681,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             )}
           </div>
         );
-      case 5: // Permit
+      case 5: // Permit - WORK RIGHTS QUESTION
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
@@ -780,26 +743,26 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               />
            </div>
          );
-      case 8: // Finnish (Likert)
+      case 8: // Finnish
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step8_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getFinnishLevelOptions(language)}
                 current={formData.languageFinnish}
                 onSelect={(v) => handleChange('languageFinnish', v)}
              />
           </div>
         );
-      case 9: // English (Likert)
+      case 9: // English
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step9_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getEnglishLevelOptions(language)}
                 current={formData.languageEnglish}
                 onSelect={(v) => handleChange('languageEnglish', v)}
@@ -841,7 +804,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step11_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getMotivationOptions(language)}
                 current={formData.finnishMotivation}
                 onSelect={(v) => handleChange('finnishMotivation', v)}
@@ -854,7 +817,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step12_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getCultureOptions(language)}
                 current={formData.cultureInterest}
                 onSelect={(v) => handleChange('cultureInterest', v)}
@@ -867,7 +830,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getConfidenceLifeOptions(language)}
                 current={formData.confidenceLife}
                 onSelect={(v) => handleChange('confidenceLife', v)}
@@ -880,7 +843,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step14_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getConfidenceCareerOptions(language)}
                 current={formData.confidenceCareer}
                 onSelect={(v) => handleChange('confidenceCareer', v)}
@@ -893,7 +856,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step15_title', language)}</h2>
              </div>
-             <LikertScale 
+             <ProgressiveSelector 
                 options={getInfoLevelOptions(language)}
                 current={formData.infoLevel}
                 onSelect={(v) => handleChange('infoLevel', v)}
