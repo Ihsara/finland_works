@@ -67,6 +67,15 @@ export type TranslationKey =
   | 'wiki_btn_completed'
   | 'wiki_btn_mark_done'
   | 'wizard_header_quiz'
+  | 'wizard_greeting_short'
+  | 'wizard_title_init'
+  | 'wizard_title_custom'
+  | 'wizard_phase_identity'
+  | 'wizard_phase_demo'
+  | 'wizard_phase_status'
+  | 'wizard_phase_skills'
+  | 'wizard_phase_mindset'
+  | 'wizard_phase_vision'
   | 'wizard_nickname_hint'
   | 'wizard_btn_ask'
   | 'wizard_btn_next'
@@ -225,6 +234,15 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Completed",
     wiki_btn_mark_done: "Mark Done",
     wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Hi, {name}!",
+    wizard_title_init: "Create Your Profile",
+    wizard_title_custom: "{name}'s Journey",
+    wizard_phase_identity: "PHASE 1: IDENTITY",
+    wizard_phase_demo: "PHASE 2: BACKGROUND",
+    wizard_phase_status: "PHASE 3: STATUS",
+    wizard_phase_skills: "PHASE 4: SKILLS",
+    wizard_phase_mindset: "PHASE 5: MINDSET",
+    wizard_phase_vision: "PHASE 6: VISION",
     wizard_nickname_hint: "* You can use a generated nickname to stay anonymous.",
     wizard_btn_ask: "Ask a question",
     wizard_btn_next: "Next",
@@ -263,9 +281,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_region_africa: "Africa",
     wizard_region_oceania: "Oceania",
     wizard_region_middle_east: "Middle East",
-    wizard_eu_question: "Are you a citizen of an EU/EEA country?",
-    wizard_eu_yes: "Yes, EU/EEA Citizen",
-    wizard_eu_no: "No, Non-EU Citizen",
+    wizard_eu_question: "EU/EEA Citizen?",
+    wizard_eu_yes: "Yes",
+    wizard_eu_no: "No",
 
     // Step 5: Work Rights
     wizard_step5_title: "What kind of work does your residence permit allow?",
@@ -386,6 +404,15 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Đã xong",
     wiki_btn_mark_done: "Đánh dấu xong",
     wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Chào, {name}!",
+    wizard_title_init: "Tạo Hồ Sơ",
+    wizard_title_custom: "Hành trình của {name}",
+    wizard_phase_identity: "PHẦN 1: DANH TÍNH",
+    wizard_phase_demo: "PHẦN 2: THÔNG TIN CƠ BẢN",
+    wizard_phase_status: "PHẦN 3: TRẠNG THÁI",
+    wizard_phase_skills: "PHẦN 4: KỸ NĂNG",
+    wizard_phase_mindset: "PHẦN 5: TƯ DUY",
+    wizard_phase_vision: "PHẦN 6: TẦM NHÌN",
     wizard_nickname_hint: "* Bạn có thể dùng biệt danh để ẩn danh.",
     wizard_btn_ask: "Đặt câu hỏi",
     wizard_btn_next: "Tiếp theo",
@@ -422,9 +449,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_region_africa: "Châu Phi",
     wizard_region_oceania: "Châu Đại Dương",
     wizard_region_middle_east: "Trung Đông",
-    wizard_eu_question: "Bạn có quốc tịch EU/EEA không?",
-    wizard_eu_yes: "Có, Công dân EU",
-    wizard_eu_no: "Không, Ngoài EU",
+    wizard_eu_question: "Công dân EU/EEA?",
+    wizard_eu_yes: "Có",
+    wizard_eu_no: "Không",
 
     wizard_step5_title: "Giấy phép cư trú của bạn cho phép làm việc gì?",
     wizard_opt_rights_full: "Không giới hạn (Gia đình/Vĩnh trú/Tị nạn)",
@@ -537,6 +564,15 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
     wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Olá, {name}!",
+    wizard_title_init: "Criar Perfil",
+    wizard_title_custom: "Jornada de {name}",
+    wizard_phase_identity: "FASE 1: IDENTIDADE",
+    wizard_phase_demo: "FASE 2: HISTÓRICO",
+    wizard_phase_status: "FASE 3: STATUS",
+    wizard_phase_skills: "FASE 4: HABILIDADES",
+    wizard_phase_mindset: "FASE 5: MINDSET",
+    wizard_phase_vision: "FASE 6: VISÃO",
     wizard_nickname_hint: "* Você pode usar um apelido para anonimato.",
     wizard_btn_ask: "Fazer pergunta",
     wizard_btn_next: "Próximo",
@@ -573,9 +609,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_region_africa: "África",
     wizard_region_oceania: "Oceania",
     wizard_region_middle_east: "Oriente Médio",
-    wizard_eu_question: "Você é cidadão da UE/EEE?",
-    wizard_eu_yes: "Sim, Cidadão UE",
-    wizard_eu_no: "Não, Cidadão Não-UE",
+    wizard_eu_question: "Cidadão da UE/EEE?",
+    wizard_eu_yes: "Sim",
+    wizard_eu_no: "Não",
 
     wizard_step5_title: "Que tipo de trabalho seu visto permite?",
     wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
@@ -688,6 +724,15 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
     wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Olá, {name}!",
+    wizard_title_init: "Criar Perfil",
+    wizard_title_custom: "Jornada de {name}",
+    wizard_phase_identity: "FASE 1: IDENTIDADE",
+    wizard_phase_demo: "FASE 2: HISTÓRICO",
+    wizard_phase_status: "FASE 3: STATUS",
+    wizard_phase_skills: "FASE 4: COMPETÊNCIAS",
+    wizard_phase_mindset: "FASE 5: MINDSET",
+    wizard_phase_vision: "FASE 6: VISÃO",
     wizard_nickname_hint: "* Podes usar uma alcunha para anonimato.",
     wizard_btn_ask: "Fazer pergunta",
     wizard_btn_next: "Seguinte",
@@ -724,9 +769,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_region_africa: "África",
     wizard_region_oceania: "Oceânia",
     wizard_region_middle_east: "Médio Oriente",
-    wizard_eu_question: "És cidadão da UE/EEE?",
-    wizard_eu_yes: "Sim, Cidadão UE",
-    wizard_eu_no: "Não, Cidadão Não-UE",
+    wizard_eu_question: "Cidadão da UE/EEE?",
+    wizard_eu_yes: "Sim",
+    wizard_eu_no: "Não",
 
     wizard_step5_title: "Que trabalho permite a tua autorização?",
     wizard_opt_rights_full: "Ilimitado (Família/Permanente/Asilo)",
@@ -840,6 +885,15 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Готово",
     wiki_btn_mark_done: "Завершить",
     wizard_header_quiz: "Опрос",
+    wizard_greeting_short: "Привет, {name}!",
+    wizard_title_init: "Создать профиль",
+    wizard_title_custom: "Путь {name}",
+    wizard_phase_identity: "ЭТАП 1: ЛИЧНОСТЬ",
+    wizard_phase_demo: "ЭТАП 2: ДЕМОГРАФИЯ",
+    wizard_phase_status: "ЭТАП 3: СТАТУС",
+    wizard_phase_skills: "ЭТАП 4: НАВЫКИ",
+    wizard_phase_mindset: "ЭТАП 5: НАСТРОЙ",
+    wizard_phase_vision: "ЭТАП 6: ВИДЕНИЕ",
     wizard_nickname_hint: "* Вы можете использовать ник для анонимности.",
     wizard_btn_ask: "Задать вопрос",
     wizard_btn_next: "Далее",
@@ -876,9 +930,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_region_africa: "Африка",
     wizard_region_oceania: "Океания",
     wizard_region_middle_east: "Ближний Восток",
-    wizard_eu_question: "Вы гражданин ЕС/ЕЭЗ?",
-    wizard_eu_yes: "Да, гражданин ЕС",
-    wizard_eu_no: "Нет, не ЕС",
+    wizard_eu_question: "Гражданин ЕС/ЕЭЗ?",
+    wizard_eu_yes: "Да",
+    wizard_eu_no: "Нет",
 
     wizard_step5_title: "Какую работу позволяет ваш ВНЖ?",
     wizard_opt_rights_full: "Без ограничений (Семья/ПМЖ/Убежище)",

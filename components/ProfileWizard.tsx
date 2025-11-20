@@ -46,7 +46,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   const countryWrapperRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
 
-  // Step 4 Origin Logic
+  // Origin Logic
   const [originInputMode, setOriginInputMode] = useState<'search' | 'region'>('search');
   const [isEuropeSelected, setIsEuropeSelected] = useState(false);
 
@@ -158,12 +158,16 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         residencePermitType: isEU ? 'EU Registration' : (prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType)
     }));
     setShowCountryList(false);
+    // Auto-advance with delay
+    setTimeout(() => {
+        handleNext();
+    }, 350);
   };
 
   const handleNext = () => {
     // Check special conditions for step skipping logic
+    // If step is 4 (Marital) and EU citizen -> Skip Step 5 (Permit) -> Go to 6 (English)
     if (step === 4 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
-       // Skip Permit Question if EU Citizen
        setStep(6);
        return;
     }
@@ -173,6 +177,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const handleBack = () => {
+    // If at Step 6 (English) and EU citizen -> Back to 4 (Marital) -> Skipping 5
     if (step === 6 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
         setStep(4);
         return;
@@ -194,6 +199,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     }
   };
 
+  // Helper for auto-advance selections
+  const handleSelectionNext = (field: string, value: string) => {
+    handleChange(field, value);
+    setTimeout(() => {
+        handleNext();
+    }, 350);
+  };
+
   const handleGenerateName = () => {
       const nickname = generateNickname(language);
       handleChange('name', nickname);
@@ -210,6 +223,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             // Reset permit type if it was EU before but now user picked Asia etc.
             residencePermitType: prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType
           }));
+          // Auto-advance
+          setTimeout(() => {
+             handleNext();
+          }, 350);
       }
   };
 
@@ -219,10 +236,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         originCountry: isCitizen ? 'Region: Europe (EU/EEA)' : 'Region: Europe (Non-EU)',
         residencePermitType: isCitizen ? 'EU Registration' : ''
       }));
-      // Move to next step handled by Main Wizard logic via "Next" or manual invoke if we want auto-advance
-      // Here we just update state, user clicks Next.
-      setIsEuropeSelected(false); // Close sub-menu to show selection state if we want, or just keep it open.
-      // Better UX: Keep visual feedback.
+      setIsEuropeSelected(false); 
+      // Auto-advance
+      setTimeout(() => {
+         handleNext();
+      }, 350);
   };
 
   const finishWizard = () => {
@@ -254,10 +272,20 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     onComplete(profile);
   };
 
+  // --- Logic: Get Act/Phase Title ---
+  const getPhaseTitle = () => {
+      if (step <= 1) return t('wizard_phase_identity', language);
+      if (step <= 4) return t('wizard_phase_demo', language);
+      if (step === 5) return t('wizard_phase_status', language);
+      if (step <= 9) return t('wizard_phase_skills', language);
+      if (step <= 15) return t('wizard_phase_mindset', language);
+      return t('wizard_phase_vision', language);
+  };
+
   // --- Render Helpers ---
   
   const OptionGrid = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
       {options.map(opt => (
         <button
           key={opt.value}
@@ -361,7 +389,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     ];
 
     return (
-        <div className="grid grid-cols-1 gap-4 mt-6">
+        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {options.map(opt => {
                  const isSelected = current === opt.value;
                  return (
@@ -408,7 +436,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
       return (
           <div className="space-y-6">
-             <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
                  {regions.map(r => {
                      const isSelected = formData.originCountry.includes(r.label) || (r.id === 'europe' && isEuropeSelected);
                      return (
@@ -434,33 +462,35 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
              {/* Conditional EU Question */}
              {isEuropeSelected && (
-                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 bg-blue-50 p-6 rounded-2xl border border-blue-100">
-                     <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
-                         <Icons.Flag className="w-5 h-5" />
+                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 bg-blue-50 p-6 rounded-2xl border border-blue-100 text-center">
+                     <h3 className="text-xl font-bold text-blue-900 mb-6 flex flex-col items-center gap-3">
+                         <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
+                            <Icons.Flag className="w-8 h-8" />
+                         </div>
                          {t('wizard_eu_question', language)}
                      </h3>
-                     <div className="flex flex-col sm:flex-row gap-3">
+                     <div className="flex gap-4">
                          <button 
                             onClick={() => handleEuropeCitizenSelect(true)}
-                            className={`flex-1 p-4 rounded-xl border-2 font-bold text-sm flex items-center justify-center gap-2 transition
+                            className={`flex-1 py-4 px-6 rounded-xl border-2 font-bold text-lg transition hover:scale-105 active:scale-95
                                 ${formData.residencePermitType === 'EU Registration' 
                                     ? 'bg-blue-600 text-white border-blue-600 shadow-md' 
                                     : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50'
                                 }
                             `}
                          >
-                            <Icons.Euro className="w-4 h-4" /> {t('wizard_eu_yes', language)}
+                            {t('wizard_eu_yes', language)}
                          </button>
                          <button 
                             onClick={() => handleEuropeCitizenSelect(false)}
-                            className={`flex-1 p-4 rounded-xl border-2 font-bold text-sm flex items-center justify-center gap-2 transition
+                            className={`flex-1 py-4 px-6 rounded-xl border-2 font-bold text-lg transition hover:scale-105 active:scale-95
                                 ${formData.originCountry.includes('Non-EU')
                                     ? 'bg-gray-800 text-white border-gray-800 shadow-md' 
                                     : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
                                 }
                             `}
                          >
-                            <Icons.BookOpen className="w-4 h-4" /> {t('wizard_eu_no', language)}
+                            {t('wizard_eu_no', language)}
                          </button>
                      </div>
                  </div>
@@ -471,8 +501,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   // Dynamic Options Generators
   const getPermitOptions = (lang: LanguageCode): OptionItem[] => [
-    // Mapped to values that preserve backend keywords ('work', 'student') where possible, 
-    // or use descriptive strings for 'Full Rights'.
     { value: "Unlimited (Family/Permanent/Asylum)", label: t('wizard_opt_rights_full', lang) },
     { value: "Work-based (Restricted)", label: t('wizard_opt_rights_work', lang) },
     { value: "Student", label: t('wizard_opt_rights_student', lang) },
@@ -502,7 +530,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     { value: "Native/Fluent", label: t('wizard_opt_lang_en_fluent', lang) }
   ];
 
-  // --- New Questions Options ---
   const getMotivationOptions = (lang: LanguageCode): OptionItem[] => [
       { value: "Just starting", label: t('wizard_opt_mot_low', lang) },
       { value: "Needs structure", label: t('wizard_opt_mot_med', lang) },
@@ -543,7 +570,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const renderStepContent = () => {
     switch(step) {
-      case 1: // Name
+      case 1: // Name (IDENTITY)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
@@ -574,43 +601,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             </p>
           </div>
         );
-      case 2: // Age
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step2_title', language)}</h2>
-              <p className="text-gray-600 mt-2">{t('wizard_step2_desc', language)}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
-               {["18–25", "26–35", "36–50", "51+"].map(opt => (
-                <button
-                  key={opt}
-                  onClick={() => handleChange('ageRange', opt)}
-                  className={`p-6 rounded-xl border font-medium text-lg transition-all ${
-                    formData.ageRange === opt 
-                    ? 'border-black ring-1 ring-black bg-gray-50 text-black' 
-                    : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
-                  }`}
-                >
-                  {opt}
-                </button>
-               ))}
-            </div>
-          </div>
-        );
-      case 3: // Marital
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step3_title', language)}</h2>
-            </div>
-            <MaritalSelector 
-                current={formData.maritalStatus}
-                onSelect={(v) => handleChange('maritalStatus', v)}
-            />
-          </div>
-        );
-      case 4: // Nationality (Dual Mode)
+      case 2: // Origin (IDENTITY/ROOTS) - Moved from 4
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
@@ -681,7 +672,43 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             )}
           </div>
         );
-      case 5: // Permit - WORK RIGHTS QUESTION
+      case 3: // Age (DEMOGRAPHICS) - Moved from 2
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step2_title', language)}</h2>
+              <p className="text-gray-600 mt-2">{t('wizard_step2_desc', language)}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+               {["18–25", "26–35", "36–50", "51+"].map(opt => (
+                <button
+                  key={opt}
+                  onClick={() => handleSelectionNext('ageRange', opt)}
+                  className={`p-6 rounded-xl border font-medium text-lg transition-all ${
+                    formData.ageRange === opt 
+                    ? 'border-black ring-1 ring-black bg-gray-50 text-black' 
+                    : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
+                  }`}
+                >
+                  {opt}
+                </button>
+               ))}
+            </div>
+          </div>
+        );
+      case 4: // Marital (FAMILY) - Moved from 3
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step3_title', language)}</h2>
+            </div>
+            <MaritalSelector 
+                current={formData.maritalStatus}
+                onSelect={(v) => handleSelectionNext('maritalStatus', v)}
+            />
+          </div>
+        );
+      case 5: // Permit (STATUS) - Remains 5 (Logic skips this if EU)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
@@ -691,7 +718,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                {getPermitOptions(language).map(opt => (
                  <button
                    key={opt.value}
-                   onClick={() => handleChange('residencePermitType', opt.value)}
+                   onClick={() => handleSelectionNext('residencePermitType', opt.value)}
                    className={`p-4 text-left rounded-xl border font-medium transition-all flex items-center ${
                      formData.residencePermitType === opt.value ? 'border-black ring-1 ring-black bg-gray-50 text-black' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
                    }`}
@@ -703,7 +730,33 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             </div>
           </div>
         );
-      case 6: // Education
+      case 6: // English (SKILLS) - Moved from 9
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step9_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getEnglishLevelOptions(language)}
+                current={formData.languageEnglish}
+                onSelect={(v) => handleSelectionNext('languageEnglish', v)}
+             />
+          </div>
+        );
+      case 7: // Finnish (SKILLS) - Moved from 8
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step8_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getFinnishLevelOptions(language)}
+                current={formData.languageFinnish}
+                onSelect={(v) => handleSelectionNext('languageFinnish', v)}
+             />
+          </div>
+        );
+      case 8: // Education (SKILLS) - Moved from 6
          return (
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -726,7 +779,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
            </div>
          );
-      case 7: // Profession
+      case 9: // Profession (SKILLS) - Moved from 7
          return (
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -743,33 +796,85 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               />
            </div>
          );
-      case 8: // Finnish
+      case 10: // Career Confidence (MINDSET) - Moved from 14
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step8_title', language)}</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step14_title', language)}</h2>
              </div>
              <ProgressiveSelector 
-                options={getFinnishLevelOptions(language)}
-                current={formData.languageFinnish}
-                onSelect={(v) => handleChange('languageFinnish', v)}
+                options={getConfidenceCareerOptions(language)}
+                current={formData.confidenceCareer}
+                onSelect={(v) => handleSelectionNext('confidenceCareer', v)}
              />
           </div>
         );
-      case 9: // English
+      case 11: // Excitement (MINDSET) - Moved from 16 to boost energy here
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step9_title', language)}</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step16_title', language)}</h2>
              </div>
-             <ProgressiveSelector 
-                options={getEnglishLevelOptions(language)}
-                current={formData.languageEnglish}
-                onSelect={(v) => handleChange('languageEnglish', v)}
+             <OptionGrid 
+                options={getExcitementOptions(language)}
+                current={formData.primaryExcitement}
+                onSelect={(v) => handleSelectionNext('primaryExcitement', v)}
              />
           </div>
         );
-      case 10: // Goals
+      case 12: // Motivation (MINDSET) - Moved from 11
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step11_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getMotivationOptions(language)}
+                current={formData.finnishMotivation}
+                onSelect={(v) => handleSelectionNext('finnishMotivation', v)}
+             />
+          </div>
+        );
+      case 13: // Culture (MINDSET) - Moved from 12
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step12_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getCultureOptions(language)}
+                current={formData.cultureInterest}
+                onSelect={(v) => handleSelectionNext('cultureInterest', v)}
+             />
+          </div>
+        );
+      case 14: // Life Confidence (MINDSET) - Moved from 13
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getConfidenceLifeOptions(language)}
+                current={formData.confidenceLife}
+                onSelect={(v) => handleSelectionNext('confidenceLife', v)}
+             />
+          </div>
+        );
+      case 15: // Info Level (MINDSET) - Same pos
+        return (
+          <div className="space-y-6 animate-in fade-in duration-500">
+             <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step15_title', language)}</h2>
+             </div>
+             <ProgressiveSelector 
+                options={getInfoLevelOptions(language)}
+                current={formData.infoLevel}
+                onSelect={(v) => handleSelectionNext('infoLevel', v)}
+             />
+          </div>
+        );
+      case 16: // Goals/Vision (VISION) - Moved from 10
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -797,85 +902,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
         );
-      // NEW STEPS
-      case 11: // Motivation
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step11_title', language)}</h2>
-             </div>
-             <ProgressiveSelector 
-                options={getMotivationOptions(language)}
-                current={formData.finnishMotivation}
-                onSelect={(v) => handleChange('finnishMotivation', v)}
-             />
-          </div>
-        );
-      case 12: // Cultural Interest
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step12_title', language)}</h2>
-             </div>
-             <ProgressiveSelector 
-                options={getCultureOptions(language)}
-                current={formData.cultureInterest}
-                onSelect={(v) => handleChange('cultureInterest', v)}
-             />
-          </div>
-        );
-      case 13: // Confidence Life
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
-             </div>
-             <ProgressiveSelector 
-                options={getConfidenceLifeOptions(language)}
-                current={formData.confidenceLife}
-                onSelect={(v) => handleChange('confidenceLife', v)}
-             />
-          </div>
-        );
-      case 14: // Confidence Career
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step14_title', language)}</h2>
-             </div>
-             <ProgressiveSelector 
-                options={getConfidenceCareerOptions(language)}
-                current={formData.confidenceCareer}
-                onSelect={(v) => handleChange('confidenceCareer', v)}
-             />
-          </div>
-        );
-      case 15: // Info Level
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step15_title', language)}</h2>
-             </div>
-             <ProgressiveSelector 
-                options={getInfoLevelOptions(language)}
-                current={formData.infoLevel}
-                onSelect={(v) => handleChange('infoLevel', v)}
-             />
-          </div>
-        );
-      case 16: // Excitement - Remains OptionGrid
-        return (
-          <div className="space-y-6 animate-in fade-in duration-500">
-             <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step16_title', language)}</h2>
-             </div>
-             <OptionGrid 
-                options={getExcitementOptions(language)}
-                current={formData.primaryExcitement}
-                onSelect={(v) => handleChange('primaryExcitement', v)}
-             />
-          </div>
-        );
       default: return null;
     }
   };
@@ -888,6 +914,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <Logo />
           </div>
           <div className="flex items-center gap-3">
+             {/* Personal Greeting Pill - Added "Right next to" Ask button */}
+             {formData.name.trim().length > 0 && (
+                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full text-blue-800 font-bold text-sm border border-blue-100 animate-in fade-in slide-in-from-right-4 duration-500 mr-2">
+                    <span className="text-lg">👋</span>
+                    {t('wizard_greeting_short', language, { name: formData.name.split(' ')[0] })}
+                 </div>
+             )}
+
              <button 
                onClick={onCancel} 
                className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-gray-900 text-gray-900 shadow-sm hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 text-sm font-bold tracking-tight"
@@ -906,9 +940,23 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
        {/* PROGRESS & TITLE AREA */}
        <div className="px-6 md:px-8 mb-8 max-w-3xl mx-auto w-full">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-             <h1 className="text-4xl font-black tracking-tight text-gray-900">{t('wizard_header_quiz', language)}</h1>
-             <div className="flex items-center gap-4 flex-1 w-full">
+          <div className="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+             <div className="flex-1">
+                 {/* Phase Label for Gamification */}
+                 <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 animate-in fade-in">
+                    {getPhaseTitle()}
+                 </p>
+                 
+                 {/* Dynamic Title */}
+                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 animate-in fade-in slide-in-from-left-2 duration-300 key={formData.name}">
+                    {formData.name.trim().length > 0 
+                        ? t('wizard_title_custom', language, { name: formData.name.split(' ')[0] }) 
+                        : t('wizard_title_init', language)
+                    }
+                 </h1>
+             </div>
+
+             <div className="flex items-center gap-4 w-full md:w-1/3">
                 <span className="text-sm font-bold whitespace-nowrap w-8 text-right">{step}/{totalSteps}</span>
                 <div className="h-2 bg-gray-100 rounded-full w-full overflow-hidden">
                    <div 
@@ -919,18 +967,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
           </div>
        </div>
-
-       {/* ACKNOWLEDGEMENT RIBBON */}
-       {formData.name.trim().length > 0 && (
-         <div className="px-6 md:px-8 mb-6 max-w-3xl mx-auto w-full animate-in fade-in slide-in-from-top-2 duration-500">
-           <div className="bg-blue-50 border border-blue-100 text-blue-800 px-4 py-3 rounded-xl flex items-center gap-3 shadow-sm">
-              <div className="bg-white p-1.5 rounded-full shadow-sm text-lg">👋</div>
-              <span className="font-medium text-sm md:text-base">
-                {t('wizard_ribbon_greeting', language, { name: formData.name })}
-              </span>
-           </div>
-         </div>
-       )}
 
        {/* MAIN CONTENT */}
        <div className="flex-1 px-6 md:px-8 overflow-y-auto pb-32">
