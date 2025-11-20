@@ -337,35 +337,61 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     </div>
   );
 
-  // 1-5 Rating Radio Scale
-  const RatingScale = ({ current, onSelect, minLabel, maxLabel }: { current: string, onSelect: (v: string) => void, minLabel: string, maxLabel: string }) => (
-    <div className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <div className="flex justify-between items-center mb-4 px-2">
-          <span className="text-xs font-bold text-gray-500 uppercase max-w-[100px] leading-tight">{minLabel}</span>
-          <span className="text-xs font-bold text-gray-500 uppercase max-w-[100px] leading-tight text-right">{maxLabel}</span>
+  // 1-5 Rating Scale - Visual Seasonal Theme
+  const RatingScale = ({ current, onSelect, minLabel, maxLabel }: { current: string, onSelect: (v: string) => void, minLabel: string, maxLabel: string }) => {
+    const levels = [
+      { value: "1", icon: Icons.Snowflake, label: "Winter", color: "text-cyan-400", activeBg: "bg-cyan-500", borderColor: "border-cyan-100 hover:border-cyan-300" },
+      { value: "2", icon: Icons.CloudSun, label: "Thaw", color: "text-sky-400", activeBg: "bg-sky-500", borderColor: "border-sky-100 hover:border-sky-300" },
+      { value: "3", icon: Icons.Sprout, label: "Growth", color: "text-green-500", activeBg: "bg-green-600", borderColor: "border-green-100 hover:border-green-300" },
+      { value: "4", icon: Icons.Flower2, label: "Bloom", color: "text-pink-400", activeBg: "bg-pink-500", borderColor: "border-pink-100 hover:border-pink-300" },
+      { value: "5", icon: Icons.Sun, label: "Summer", color: "text-amber-400", activeBg: "bg-amber-500", borderColor: "border-amber-100 hover:border-amber-300" }
+    ];
+
+    return (
+      <div className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+        <div className="flex justify-between items-center mb-4 px-2">
+            <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight">{minLabel}</span>
+            <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight text-right">{maxLabel}</span>
+        </div>
+        <div className="flex justify-between items-center gap-2 sm:gap-3">
+          {levels.map((lvl) => {
+             const isActive = current === lvl.value;
+             const Icon = lvl.icon;
+             return (
+               <button
+                 key={lvl.value}
+                 onClick={() => onSelect(lvl.value)}
+                 className={`
+                    group relative flex flex-col items-center justify-center gap-2 transition-all duration-300
+                    flex-1
+                 `}
+               >
+                 <div className={`
+                    w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border-2
+                    ${isActive 
+                        ? `${lvl.activeBg} border-transparent shadow-md scale-110 z-10 ring-2 ring-offset-2 ring-gray-100` 
+                        : `bg-white ${lvl.borderColor} ${lvl.color}`
+                    }
+                 `}>
+                    <Icon className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 ${isActive ? 'text-white scale-110' : ''}`} />
+                 </div>
+                 
+                 {/* Active Label Bubble */}
+                 <div className={`
+                    absolute -bottom-8 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-md
+                    transition-all duration-300 transform
+                    ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}
+                 `}>
+                    {lvl.value}
+                 </div>
+               </button>
+             )
+          })}
+        </div>
+        <div className="h-8"></div> {/* Spacer for the popover labels */}
       </div>
-      <div className="flex justify-between items-center gap-2 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-        {[1, 2, 3, 4, 5].map(num => {
-           const isActive = current === num.toString();
-           return (
-             <button
-               key={num}
-               onClick={() => onSelect(num.toString())}
-               className={`
-                  w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all
-                  ${isActive 
-                    ? 'bg-black text-white shadow-lg scale-110' 
-                    : 'bg-white border border-gray-200 text-gray-400 hover:border-gray-400 hover:text-gray-600'
-                  }
-               `}
-             >
-               {num}
-             </button>
-           )
-        })}
-      </div>
-    </div>
-  );
+    );
+  };
 
   const ProgressiveSelector = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
     return (

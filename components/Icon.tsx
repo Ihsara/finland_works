@@ -64,7 +64,11 @@ import {
   Waves,
   Euro,
   Flag,
-  BookOpen
+  BookOpen,
+  Snowflake,
+  CloudSun,
+  Sprout,
+  Flower2
 } from 'lucide-react';
 
 export const Icons = {
@@ -131,5 +135,9 @@ export const Icons = {
   Waves,
   Euro,
   Flag,
-  BookOpen
+  BookOpen,
+  Snowflake,
+  CloudSun,
+  Sprout,
+  Flower2
 };
