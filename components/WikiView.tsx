@@ -1,24 +1,28 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
-import { WIKI_CATEGORIES, WikiCategory, WikiArticle } from '../data/wikiContent';
+import { getWikiCategories, WikiCategory, WikiArticle } from '../data/wikiContent';
 import { marked } from 'marked';
-import { UserProfile } from '../types';
+import { UserProfile, LanguageCode } from '../types';
 import * as Storage from '../services/storageService';
 import { WikiProgressData } from '../services/storageService';
 
 interface WikiViewProps {
   onClose: () => void;
   profile: UserProfile | null;
+  language: LanguageCode;
 }
 
 type ViewMode = 'list' | 'icons';
 
-const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
+const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language }) => {
   const [activeArticle, setActiveArticle] = useState<WikiArticle | null>(null);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  // Dynamic Content based on Language
+  const wikiCategories = getWikiCategories(language);
+
   // View Mode State - Defaults to ICONS as requested
   const [viewMode, setViewMode] = useState<ViewMode>('icons');
 
@@ -32,7 +36,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
   useEffect(() => {
     if (!profile) {
       const initialOpen: Record<string, boolean> = {};
-      WIKI_CATEGORIES.forEach(c => initialOpen[c.id] = true);
+      wikiCategories.forEach(c => initialOpen[c.id] = true);
       setOpenCategories(initialOpen);
       return;
     }
@@ -44,18 +48,18 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
     const userTags = getUserTags(profile);
     const initialOpen: Record<string, boolean> = {};
     
-    WIKI_CATEGORIES.forEach(cat => {
+    wikiCategories.forEach(cat => {
       const hasRelevant = cat.articles.some(a => 
         a.tags.some(t => userTags.has(t) || t === 'mandatory')
       );
-      if (hasRelevant || cat === WIKI_CATEGORIES[0]) {
+      if (hasRelevant || cat === wikiCategories[0]) {
         initialOpen[cat.id] = true;
       }
     });
     setOpenCategories(initialOpen);
 
     // NOTE: Auto-selection removed to support "Navigation First" UX
-  }, [profile]);
+  }, [profile, language]); // Re-run if language changes
 
   const getUserTags = (p: UserProfile): Set<string> => {
     const tags = new Set<string>(['general']);
@@ -93,8 +97,8 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
   };
 
   const getCurrentDisplayId = (article: WikiArticle) => {
-    for(let i=0; i<WIKI_CATEGORIES.length; i++) {
-        const cat = WIKI_CATEGORIES[i];
+    for(let i=0; i<wikiCategories.length; i++) {
+        const cat = wikiCategories[i];
         const idx = cat.articles.findIndex(a => a.id === article.id);
         if (idx !== -1) return `${i+1}.${idx+1}`;
     }
@@ -128,7 +132,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
   const renderCategoryList = (isSidebar: boolean = false) => {
     return (
       <div className={`space-y-4 ${isSidebar ? 'pb-20' : 'pb-10'}`}>
-         {WIKI_CATEGORIES.map((category, catIndex) => {
+         {wikiCategories.map((category, catIndex) => {
             const isOpen = openCategories[category.id];
             const catProgress = getCategoryProgress(category);
             const catNumber = catIndex + 1;
@@ -265,7 +269,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile }) => {
                          <p className="text-gray-500 mt-2">Select a topic to dive into the details.</p>
                      </div>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
-                        {WIKI_CATEGORIES.map((category) => {
+                        {wikiCategories.map((category) => {
                             const progressPercent = getCategoryProgress(category);
                             return (
                                 <button

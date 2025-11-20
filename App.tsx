@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import { Icons } from './components/Icon';
-import { AppView, Conversation, Message, Sender, UserProfile, DEFAULT_PROFILE_YAML } from './types';
+import { AppView, Conversation, Message, Sender, UserProfile, GUEST_PROFILE, LanguageCode } from './types';
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
 import WikiView from './components/WikiView';
 import ProfileWizard from './components/ProfileWizard';
-import jsYaml from 'js-yaml';
 import { getAllFlattenedArticles } from './data/wikiContent';
+import { t, SUPPORTED_LANGUAGES } from './data/languages';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -19,8 +19,13 @@ marked.use({
 });
 
 const App: React.FC = () => {
-  const [view, setView] = useState<AppView>(AppView.DASHBOARD);
+  // Changed default view to LANDING
+  const [view, setView] = useState<AppView>(AppView.LANDING);
   const [apiKey, setApiKey] = useState<string | null>(null);
+  
+  // Language State
+  const [language, setLanguage] = useState<LanguageCode>('en');
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   
   // Multi-Profile State
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -28,7 +33,8 @@ const App: React.FC = () => {
   
   // Progress State
   const [wikiStats, setWikiStats] = useState({ total: 0, done: 0, percentage: 0 });
-  
+  const [profileCompleteness, setProfileCompleteness] = useState(0);
+
   // Chat State
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [inputText, setInputText] = useState('');
@@ -53,6 +59,12 @@ const App: React.FC = () => {
       setApiKey(process.env.API_KEY);
     }
 
+    // 3. Load Language Preference
+    const storedLang = localStorage.getItem('fw_language') as LanguageCode;
+    if (storedLang && SUPPORTED_LANGUAGES.some(l => l.code === storedLang)) {
+      setLanguage(storedLang);
+    }
+
     refreshProfiles();
 
     // Check for pending summaries on boot
@@ -61,15 +73,16 @@ const App: React.FC = () => {
 
   // Refresh stats whenever view changes to Dashboard or profile changes
   useEffect(() => {
-    if (view === AppView.DASHBOARD && profile) {
+    if (profile) {
       calculateWikiStats(profile);
+      calculateProfileCompleteness(profile);
     }
-  }, [view, profile]);
+  }, [view, profile, language]); // Recalculate when language changes too
 
   const calculateWikiStats = (currentProfile: UserProfile) => {
     const progressData = Storage.getWikiProgress(currentProfile.id);
-    // Use flattened list for total count
-    const allArticles = getAllFlattenedArticles();
+    // Use flattened list for total count based on current language
+    const allArticles = getAllFlattenedArticles(language);
     const total = allArticles.length;
     const doneCount = Object.values(progressData.items).filter(item => item.status === 'done').length;
     
@@ -80,6 +93,23 @@ const App: React.FC = () => {
     });
   };
 
+  const calculateProfileCompleteness = (p: UserProfile) => {
+    const fields = [
+      p.name,
+      p.ageRange,
+      p.originCountry,
+      p.residencePermitType,
+      p.maritalStatus,
+      p.profession,
+      p.education?.degree,
+      p.languages?.length > 0 ? 'yes' : '',
+      p.aspirations?.length > 0 ? 'yes' : ''
+    ];
+    const filled = fields.filter(f => f && f !== 'Unknown').length;
+    const total = fields.length;
+    setProfileCompleteness(Math.round((filled / total) * 100));
+  }
+
   const refreshProfiles = () => {
     const profiles = Storage.getAllProfiles();
     setAllProfiles(profiles);
@@ -89,6 +119,7 @@ const App: React.FC = () => {
     if (active) {
       setYamlInput(Storage.profileToYaml(active));
       calculateWikiStats(active);
+      calculateProfileCompleteness(active);
     }
   };
 
@@ -127,6 +158,19 @@ const App: React.FC = () => {
     }
   };
 
+  const handleLanguageSelect = (code: LanguageCode, supported: boolean) => {
+    if (supported) {
+      setLanguage(code);
+      localStorage.setItem('fw_language', code);
+      setIsLangMenuOpen(false);
+    } else {
+      alert(`We are working on ${code.toUpperCase()} support! Defaulting to English for now.`);
+      setLanguage('en');
+      localStorage.setItem('fw_language', 'en');
+      setIsLangMenuOpen(false);
+    }
+  };
+
   const startNewChat = () => {
     const newConv: Conversation = {
       id: uuidv4(),
@@ -140,7 +184,15 @@ const App: React.FC = () => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputText.trim() || !currentConversation || !profile) return;
+    if (!inputText.trim() || !currentConversation) return;
+    
+    // Ensure a profile exists for context, defaulting if necessary
+    const activeProfile = profile || Storage.getActiveProfile();
+    if (!activeProfile) {
+        alert("Please create a profile first so I can help you better.");
+        setView(AppView.QUIZ);
+        return;
+    }
 
     const userMsg: Message = {
       id: uuidv4(),
@@ -159,17 +211,19 @@ const App: React.FC = () => {
 
     try {
       // Get the latest Wiki progress to pass to context
-      const progress = Storage.getWikiProgress(profile.id);
+      // If guest, getWikiProgress handles unknown ID gracefully
+      const progress = Storage.getWikiProgress(activeProfile.id);
       
-      // Pass flattened articles for AI context
-      const allArticles = getAllFlattenedArticles();
+      // Pass flattened articles for AI context based on CURRENT LANGUAGE
+      const allArticles = getAllFlattenedArticles(language);
 
       const responseText = await Gemini.sendMessageToGemini(
         updatedMessages.slice(0, -1), 
         userMsg.text, 
-        profile,
+        activeProfile,
         progress,
-        allArticles
+        allArticles,
+        language // Pass selected language
       );
 
       const modelMsg: Message = {
@@ -222,6 +276,8 @@ const App: React.FC = () => {
     Storage.setActiveProfileId(id);
     refreshProfiles();
     setIsProfileMenuOpen(false);
+    // If switching profile from DASHBOARD, stay there.
+    // If switching from PROFILE view, refresh content.
   };
 
   const handleSaveProfileEdit = () => {
@@ -229,14 +285,21 @@ const App: React.FC = () => {
       const updated = Storage.saveProfileFromYaml(yamlInput);
       setProfile(updated);
       refreshProfiles(); // Update list if name changed
-      setView(AppView.DASHBOARD);
+      setView(AppView.PROFILE); // Go back to visual profile
     } catch (e) {
       alert("Invalid YAML format.");
     }
   };
 
   const handleCreateNewProfile = () => {
+    // Clear current profile ID effectively by going to empty Quiz
+    // But Quiz uses internal state, so just switching view is enough if we don't pass initialData
+    setProfile(null); // Temporary clear for the wizard context
     setView(AppView.QUIZ);
+  };
+
+  const handleEditProfileVisual = () => {
+     setView(AppView.QUIZ);
   };
 
   const handleWizardComplete = (newProfile: UserProfile) => {
@@ -246,15 +309,26 @@ const App: React.FC = () => {
     setView(AppView.DASHBOARD);
   };
 
-  const handleLoadDemoProfile = () => {
-    if (window.confirm("Load the demo 'Gabriela' profile? This will create a new profile.")) {
-      const demoProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
-      demoProfile.id = uuidv4(); 
-      Storage.saveProfile(demoProfile);
+  const handleLoadDemoProfile = (silent: boolean = false) => {
+    if (!silent && !window.confirm("Load the demo 'Gabriela' profile? This will create a new profile.")) return;
+    
+    try {
+      const demoProfile = Storage.createDemoProfile();
       Storage.setActiveProfileId(demoProfile.id);
       refreshProfiles();
-      alert("Demo profile 'Gabriela' created!");
+      if(!silent) alert("Demo profile 'Gabriela' created!");
+      setView(AppView.DASHBOARD);
+    } catch (e) {
+      console.error("Error loading demo profile:", e);
+      if(!silent) alert("Sorry, could not create the demo profile.");
     }
+  };
+
+  const handleResetData = () => {
+      if (window.confirm("Are you sure you want to erase all data and cache? This action cannot be undone. The app will reset.")) {
+          Storage.resetApplicationData();
+          window.location.reload();
+      }
   };
 
   // --- RENDERERS ---
@@ -291,12 +365,110 @@ const App: React.FC = () => {
     );
   }
 
+  if (view === AppView.LANDING) {
+      return (
+          <Layout>
+              <div className="flex flex-col items-center justify-center h-full p-8 relative bg-white">
+                  {/* Top Right: Language Selector */}
+                  <div className="absolute top-8 right-8">
+                      <div 
+                        onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                        className="flex items-center gap-2 text-sm font-medium text-gray-900 cursor-pointer hover:opacity-70 bg-gray-100 px-3 py-2 rounded-lg"
+                      >
+                          <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.flag}</span>
+                          <span>{SUPPORTED_LANGUAGES.find(l => l.code === language)?.name || 'Language'}</span> 
+                          <Icons.Languages className="w-4 h-4 text-gray-500" />
+                      </div>
+                      
+                      {/* Language Popup */}
+                      {isLangMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="p-2 bg-gray-50 border-b border-gray-100 text-[10px] font-bold text-gray-500 uppercase tracking-wider text-center">
+                                Select Language
+                            </div>
+                            <div className="max-h-80 overflow-y-auto">
+                              {SUPPORTED_LANGUAGES.map(lang => (
+                                <button 
+                                  key={lang.code}
+                                  onClick={() => handleLanguageSelect(lang.code, lang.supported)}
+                                  className={`w-full px-4 py-3 text-left flex items-center gap-3 border-b border-gray-50 last:border-0 hover:bg-gray-50
+                                    ${!lang.supported ? 'opacity-50 bg-gray-50' : ''}
+                                    ${language === lang.code ? 'bg-blue-50 text-blue-700' : 'text-gray-900'}
+                                  `}
+                                >
+                                  <span className="text-xl flex-shrink-0">{lang.flag}</span>
+                                  <div className="flex flex-col leading-tight flex-1">
+                                    <span className="font-medium">{lang.nativeName}</span>
+                                    <span className="text-[10px] text-gray-500">{lang.name}</span>
+                                  </div>
+                                  {language === lang.code && <Icons.CheckCircle className="w-4 h-4" />}
+                                </button>
+                              ))}
+                            </div>
+                        </div>
+                      )}
+                  </div>
+
+                  {/* Main Content */}
+                  <div className="max-w-xl w-full text-center">
+                      <h1 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">{t('landing_welcome', language)}</h1>
+                      <p className="text-xl text-gray-600 mb-12 font-light">{t('landing_subtitle', language)}</p>
+
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                          <button 
+                              onClick={() => {
+                                setProfile(null);
+                                setView(AppView.QUIZ);
+                              }}
+                              className="flex items-center justify-center gap-3 bg-gray-900 text-white px-8 py-5 rounded-lg font-medium hover:bg-black transition shadow-lg min-w-[240px]"
+                          >
+                              <Icons.CheckSquare className="w-5 h-5" />
+                              {t('landing_btn_quiz', language)}
+                          </button>
+                          <button 
+                              onClick={() => {
+                                  // Set GUEST_PROFILE for an anonymous session.
+                                  setProfile(GUEST_PROFILE);
+                                  startNewChat();
+                              }}
+                              className="flex items-center justify-center gap-3 bg-white text-gray-900 border border-gray-300 px-8 py-5 rounded-lg font-medium hover:bg-gray-50 transition shadow-sm min-w-[240px]"
+                          >
+                              <Icons.MessageSquare className="w-5 h-5" />
+                              {t('landing_btn_ask', language)}
+                          </button>
+                      </div>
+                  </div>
+
+                  {/* Footer Area: Clear Cache & Sample Profile */}
+                  <div className="absolute bottom-8 flex flex-col items-center gap-3">
+                       <div className="flex gap-6 text-xs text-gray-400 items-center">
+                          <button 
+                              onClick={() => handleLoadDemoProfile(false)} 
+                              className="hover:text-gray-600 underline underline-offset-2 p-2 cursor-pointer"
+                          >
+                              {t('landing_load_sample', language)}
+                          </button>
+                          <span>•</span>
+                          <button 
+                              onClick={handleResetData} 
+                              className="hover:text-red-600 text-gray-400 transition-colors p-2 cursor-pointer"
+                          >
+                              {t('landing_erase', language)}
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </Layout>
+      );
+  }
+
   if (view === AppView.WIKI) {
     return (
       <Layout>
         <WikiView 
           profile={profile}
-          onClose={() => setView(AppView.DASHBOARD)} 
+          onClose={() => setView(AppView.PROFILE)} // Back to Profile
+          language={language}
         />
       </Layout>
     );
@@ -308,20 +480,23 @@ const App: React.FC = () => {
         <ProfileWizard 
           onComplete={handleWizardComplete} 
           onCancel={() => setView(AppView.DASHBOARD)} 
+          language={language}
+          onLanguageSelect={handleLanguageSelect}
+          initialData={profile} // Pass current profile if editing
         />
       </Layout>
     );
   }
 
-  if (view === AppView.PROFILE) {
+  if (view === AppView.PROFILE_EDIT) {
     return (
       <Layout>
          <div className="flex flex-col h-full">
           <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center">
             <h2 className="text-lg md:text-xl font-bold flex items-center gap-2">
-              <Icons.Edit3 className="w-5 h-5" /> Edit Profile (YAML)
+              <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile', language)} (YAML)
             </h2>
-            <button onClick={() => setView(AppView.DASHBOARD)} className="text-gray-500 hover:text-gray-700">
+            <button onClick={() => setView(AppView.PROFILE)} className="text-gray-500 hover:text-gray-700">
               <Icons.X className="w-6 h-6" />
             </button>
           </div>
@@ -330,8 +505,8 @@ const App: React.FC = () => {
               <p className="text-sm text-gray-500">
                 Update details for: <span className="font-bold text-black">{profile?.name}</span>
               </p>
-              <button onClick={handleLoadDemoProfile} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
-                 <Icons.User className="w-3 h-3" /> Load Demo Profile
+              <button onClick={() => handleLoadDemoProfile(false)} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                 <Icons.User className="w-3 h-3" /> Load Demo
               </button>
             </div>
             <textarea 
@@ -366,7 +541,7 @@ const App: React.FC = () => {
                 FW
               </div>
               <div>
-                <h2 className="font-bold text-gray-900 text-sm md:text-base">Assistant</h2>
+                <h2 className="font-bold text-gray-900 text-sm md:text-base">{t('chat_header_assistant', language)}</h2>
                 <p className="text-[10px] md:text-xs text-green-600 flex items-center gap-1">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
                 </p>
@@ -376,7 +551,7 @@ const App: React.FC = () => {
               onClick={handleEndSession}
               className="text-sm text-gray-500 hover:text-red-600 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
             >
-              <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">End Session</span>
+              <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
             </button>
           </div>
 
@@ -431,7 +606,7 @@ const App: React.FC = () => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder={`Ask something...`}
+                placeholder={t('chat_placeholder', language)}
                 disabled={isTyping}
                 className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
               />
@@ -449,39 +624,25 @@ const App: React.FC = () => {
     );
   }
 
-  // DASHBOARD VIEW
-  return (
-    <Layout>
-      <div className="flex flex-col h-full overflow-y-auto no-scrollbar bg-gray-50 md:bg-white">
-        {/* Top Bar / Header */}
-        <div className="p-6 md:p-8 border-b border-gray-100 bg-white">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-                        {profile?.name && profile.name !== '[Your Name]' ? `Moi, ${profile.name}!` : 'Moi!'}
-                    </h1>
-                    <p className="text-gray-600 text-sm mt-1">
-                        {profile?.name && profile.name !== '[Your Name]' 
-                            ? "Welcome back to your personal Finland guide." 
-                            : "Let's set up your profile to get started."}
-                    </p>
-                </div>
-                <div className="flex items-center gap-2 relative">
-                    {/* Profile Switcher */}
-                    <div className="relative">
-                      <button 
-                        onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                        className="flex items-center gap-2 px-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-200 transition shadow-sm"
-                      >
-                         <Icons.User className="w-3 h-3" />
-                         <span className="hidden sm:inline">Switch Profile</span>
-                      </button>
-                      
-                      {isProfileMenuOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden">
-                           <div className="p-2 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                             Select User
-                           </div>
+  // --- DETAILED PROFILE VIEW (Screenshot 2) ---
+  if (view === AppView.PROFILE) {
+    return (
+      <Layout>
+        <div className="flex flex-col h-full bg-white overflow-y-auto">
+          {/* Minimal Header with Home Button */}
+          <div className="p-4 md:px-8 md:py-4 flex justify-between items-center border-b border-gray-50">
+             <button onClick={() => setView(AppView.DASHBOARD)} className="text-gray-400 hover:text-black transition">
+               <Icons.Home className="w-5 h-5" />
+             </button>
+             <div className="flex items-center gap-2 relative">
+                 <button 
+                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                   className="text-xs font-bold text-gray-400 hover:text-black flex items-center gap-1 uppercase tracking-wide"
+                 >
+                   Switch User <Icons.ChevronDown className="w-3 h-3" />
+                 </button>
+                 {isProfileMenuOpen && (
+                        <div className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden">
                            <div className="max-h-48 overflow-y-auto">
                               {allProfiles.map(p => (
                                 <button 
@@ -493,164 +654,170 @@ const App: React.FC = () => {
                                   {profile?.id === p.id && <Icons.CheckCircle className="w-3 h-3" />}
                                 </button>
                               ))}
+                              <button 
+                                onClick={handleCreateNewProfile}
+                                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 text-blue-600 border-t border-gray-100 font-medium"
+                              >
+                                + New Profile
+                              </button>
                            </div>
                         </div>
-                      )}
-                    </div>
+                  )}
+             </div>
+          </div>
 
-                    <button 
-                        onClick={handleCreateNewProfile}
-                        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition shadow-sm whitespace-nowrap"
-                    >
-                        <Icons.UserPlus className="w-3 h-3" />
-                        <span className="hidden sm:inline">New</span>
-                    </button>
-                    <button 
-                         onClick={() => setView(AppView.PROFILE)}
-                         className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded-lg text-xs font-medium hover:bg-gray-800 transition shadow-sm whitespace-nowrap"
-                    >
-                        <Icons.Edit3 className="w-3 h-3" />
-                        <span className="hidden sm:inline">Edit</span>
-                    </button>
+          <div className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
+             {/* Top Section: Avatar + Info + Progress */}
+             <div className="flex flex-col md:flex-row gap-8 mb-10">
+                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                  <img 
+                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name || 'User'}`} 
+                     alt="Avatar" 
+                     className="w-full h-full object-cover"
+                  />
                 </div>
-            </div>
-        </div>
+                
+                <div className="flex-1 flex flex-col justify-center">
+                   <h1 className="text-4xl font-bold text-gray-900 mb-2">{profile?.name || 'Guest'}</h1>
+                   <div className="text-gray-600 space-y-1">
+                      <p>{profile?.ageRange || 'Age unknown'}</p>
+                      <p><span className="font-bold text-black">Country of origin</span> {profile?.originCountry || 'Unknown'}</p>
+                      <p><span className="font-bold text-black">Marital status</span> {profile?.maritalStatus || 'Unknown'}</p>
+                   </div>
+                </div>
 
-        {/* Actions */}
-        <div className="px-4 md:px-8 py-6 flex flex-col md:flex-row gap-4">
-          <button 
-            onClick={() => setView(AppView.WIKI)}
-            className="flex-1 bg-blue-600 text-white h-24 rounded-2xl flex items-center justify-center gap-3 font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200 group overflow-hidden relative"
-          >
-             {/* Decorative blob */}
-             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500 rounded-full opacity-50 group-hover:scale-110 transition duration-500"></div>
-            <Icons.Languages className="w-6 h-6 z-10" />
-            <span className="z-10 text-lg">Open Finland Guide</span>
-          </button>
-          <button 
-            onClick={startNewChat}
-            className="flex-1 bg-white border border-gray-200 text-gray-900 h-24 rounded-2xl flex items-center justify-center gap-3 font-medium hover:border-gray-300 hover:bg-gray-50 hover:shadow-md transition shadow-sm"
-          >
-            <Icons.MessageSquare className="w-5 h-5 text-blue-600" />
-            <span className="text-lg">Ask a question</span>
-          </button>
-        </div>
-
-        {/* Profile Summary Section */}
-        <div className="px-4 md:px-8 pb-8 flex-1">
-          <div className="bg-white md:bg-gray-50 rounded-2xl p-4 md:p-8 border border-gray-100 md:border-0 shadow-sm md:shadow-none h-full">
-             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg md:text-xl font-bold text-gray-900">My Profile Overview</h2>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="h-2 w-20 md:w-32 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-green-500 transition-all duration-1000 ease-out" 
-                      style={{ width: `${wikiStats.percentage}%` }}
-                    ></div>
-                  </div>
-                  <span className="font-bold text-gray-700 text-xs">
-                    {wikiStats.percentage}%
-                  </span>
+                <div className="w-full md:w-72 flex flex-col justify-center gap-3">
+                    <div className="flex justify-between items-end">
+                       <span className="text-sm font-bold text-black">{profileCompleteness}% complete</span>
+                    </div>
+                    <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                       <div className="h-full bg-black rounded-full" style={{ width: `${profileCompleteness}%` }}></div>
+                    </div>
+                    <p className="text-xs text-gray-500">Answer a few more questions for better advice</p>
+                    <button 
+                       onClick={handleEditProfileVisual}
+                       className="bg-black text-white py-3 rounded-lg font-bold text-sm hover:bg-gray-800 transition"
+                    >
+                      {profileCompleteness === 100 ? 'Update Profile' : 'Continue the Quiz'}
+                    </button>
                 </div>
              </div>
 
-             {/* User Card */}
-             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6 transition hover:shadow-md">
-               <div className="flex flex-col md:flex-row md:items-center gap-6">
-                  <div className="w-16 h-16 rounded-full bg-blue-100 overflow-hidden flex-shrink-0 flex items-center justify-center text-blue-500 mx-auto md:mx-0">
-                    <Icons.User className="w-8 h-8" />
-                  </div>
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-lg font-bold mb-1 text-gray-900">
-                      {profile?.name && profile.name.trim() ? profile.name : 'New User'}
-                    </h3>
-                    <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-sm text-gray-600">
-                         <span>{profile?.ageRange}</span>
-                         <span className="text-gray-300">•</span>
-                         <span>{profile?.originCountry}</span>
-                         <span className="text-gray-300">•</span>
-                         <span>{profile?.maritalStatus}</span>
-                    </div>
-                  </div>
-               </div>
+             {/* Action Buttons */}
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                <button 
+                  onClick={() => setView(AppView.WIKI)}
+                  className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white"
+                >
+                   <span className="text-lg font-medium">My Recommendations</span>
+                   <Icons.ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-black" />
+                </button>
+                <button className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white">
+                   <span className="text-lg font-medium">My Plan</span>
+                   <Icons.ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-black" />
+                </button>
              </div>
 
+             {/* Info Cards */}
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Languages */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition hover:shadow-md">
-                   <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-bold text-gray-800 flex items-center gap-2">
-                          <Icons.Languages className="w-4 h-4 text-gray-400"/> Languages
-                      </h4>
+                <div className="bg-gray-50 p-6 rounded-2xl relative group">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                   </button>
+                   <h3 className="text-xl font-bold mb-4">Languages</h3>
+                   <div className="space-y-3">
+                      {profile?.languages.map((l, i) => (
+                        <div key={i} className="flex flex-col">
+                           <span className="font-bold text-black">{l.language}</span>
+                           <span className="text-gray-600">{l.level}</span>
+                        </div>
+                      ))}
                    </div>
-                   <ul className="space-y-2 text-sm">
-                      {profile?.languages && profile.languages.length > 0 ? (
-                        profile.languages.map((lang, idx) => (
-                          <li key={idx} className="flex justify-between">
-                              <span className="font-medium text-gray-900">{lang.language}</span> 
-                              <span className="text-gray-500 text-xs bg-gray-100 px-2 py-1 rounded">{lang.level}</span>
-                          </li>
-                        ))
-                      ) : (
-                        <li className="text-gray-400 italic text-xs">No languages listed</li>
-                      )}
-                   </ul>
                 </div>
 
                 {/* Education */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition hover:shadow-md">
-                   <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-bold text-gray-800 flex items-center gap-2">
-                          <Icons.Rocket className="w-4 h-4 text-gray-400"/> Education & Profession
-                      </h4>
+                <div className="bg-gray-50 p-6 rounded-2xl relative group">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                   </button>
+                   <h3 className="text-xl font-bold mb-4">Education & Skills</h3>
+                   <div className="space-y-4">
+                      <div>
+                        <h4 className="font-bold text-black mb-1">Education</h4>
+                        <p className="text-gray-600">{profile?.education.degree} in {profile.education.field}</p>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black mb-1">Profession</h4>
+                        <p className="text-gray-600">{profile?.profession}</p>
+                      </div>
                    </div>
-                    <div className="space-y-3">
+                </div>
+
+                {/* Narrative - Full Width */}
+                <div className="bg-gray-50 p-6 rounded-2xl relative group md:col-span-2">
+                   <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
+                      <Icons.Edit3 className="w-3 h-3" /> Edit
+                   </button>
+                   <h3 className="text-xl font-bold mb-4">Personal Narrative</h3>
+                   <div className="space-y-6">
                       <div>
-                          <p className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Education</p>
-                          <p className="text-sm text-gray-800 font-medium">
-                            {profile?.education ? `${profile.education.degree} in ${profile.education.field}` : 'Not specified'}
-                          </p>
+                         <h4 className="font-bold text-black mb-2">Aspirations</h4>
+                         <ul className="list-disc pl-5 space-y-1 text-gray-600">
+                            {profile?.aspirations.map((a, i) => <li key={i}>{a}</li>)}
+                         </ul>
                       </div>
                       <div>
-                          <p className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Profession</p>
-                          <p className="text-sm text-gray-800 font-medium">{profile?.profession || 'Not specified'}</p>
+                         <h4 className="font-bold text-black mb-2">Fears / challenges</h4>
+                         <ul className="list-disc pl-5 space-y-1 text-gray-600">
+                            {profile?.challenges.map((a, i) => <li key={i}>{a}</li>)}
+                         </ul>
                       </div>
-                    </div>
+                   </div>
                 </div>
              </div>
-
-             {/* Narrative */}
-             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mt-6 transition hover:shadow-md">
-                <div className="flex justify-between items-center mb-4">
-                  <h4 className="font-bold text-gray-800 flex items-center gap-2">
-                      <Icons.FileText className="w-4 h-4 text-gray-400"/> Personal Narrative
-                  </h4>
-                </div>
-                <div className="space-y-4 text-sm">
-                  <div>
-                    <p className="font-semibold mb-2 text-gray-700">Aspirations</p>
-                    <ul className="list-disc pl-5 text-gray-600 space-y-1 marker:text-blue-500">
-                      {profile?.aspirations && profile.aspirations.length > 0 ? (
-                        profile.aspirations.map((item, i) => <li key={i}>{item}</li>)
-                      ) : (
-                        <li className="text-gray-400 italic">No aspirations listed</li>
-                      )}
-                    </ul>
-                  </div>
-                   <div>
-                    <p className="font-semibold mb-2 text-gray-700">Challenges</p>
-                    <ul className="list-disc pl-5 text-gray-600 space-y-1 marker:text-red-500">
-                      {profile?.challenges && profile.challenges.length > 0 ? (
-                        profile.challenges.map((item, i) => <li key={i}>{item}</li>)
-                      ) : (
-                        <li className="text-gray-400 italic">No challenges listed</li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
-             </div>
-
           </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  // --- MAIN DASHBOARD VIEW (Screenshot 1) ---
+  return (
+    <Layout>
+      <div className="flex flex-col h-full bg-white">
+        {/* Simple Header */}
+        <div className="p-6 flex justify-end">
+             <button 
+               onClick={() => setView(AppView.PROFILE)}
+               className="p-1 hover:opacity-70 transition"
+             >
+                <Icons.User className="w-6 h-6 text-black" />
+             </button>
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full">
+             <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
+               Welcome back, {profile?.name?.split(' ')[0] || 'Friend'}!
+             </h1>
+             <p className="text-xl text-gray-600 mb-12 font-light">
+               Answer a few more questions to get better job advice.
+             </p>
+
+             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <button 
+                   onClick={() => setView(AppView.QUIZ)}
+                   className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
+                >
+                   <Icons.CheckSquare className="w-5 h-5" /> Take the short quiz
+                </button>
+                <button 
+                   onClick={startNewChat}
+                   className="flex items-center justify-center gap-3 bg-white text-black border border-gray-300 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-sm min-w-[260px]"
+                >
+                   <Icons.MessageSquare className="w-5 h-5" /> Ask a question
+                </button>
+             </div>
         </div>
       </div>
     </Layout>

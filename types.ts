@@ -1,9 +1,11 @@
 
 // Enums
 export enum AppView {
-  DASHBOARD = 'DASHBOARD',
+  LANDING = 'LANDING',
+  DASHBOARD = 'DASHBOARD', // Main Home
   CHAT = 'CHAT',
-  PROFILE = 'PROFILE',
+  PROFILE = 'PROFILE', // Visual Profile Page
+  PROFILE_EDIT = 'PROFILE_EDIT', // YAML Editor
   SETTINGS = 'SETTINGS',
   QUIZ = 'QUIZ',
   WIKI = 'WIKI'
@@ -12,6 +14,16 @@ export enum AppView {
 export enum Sender {
   USER = 'user',
   MODEL = 'model'
+}
+
+export type LanguageCode = 'en' | 'vi' | 'pt-br' | 'pt-pt' | 'ru';
+
+export interface AppLanguage {
+  code: LanguageCode;
+  name: string; // English name
+  nativeName: string; // Native name
+  flag: string; // Emoji flag
+  supported: boolean; // If false, greys out/defaults to EN
 }
 
 // Interfaces
@@ -100,3 +112,20 @@ challenges:
   - [Challenge 1]
   - [Challenge 2]
 `.trim();
+
+export const GUEST_PROFILE: UserProfile = {
+  id: 'guest',
+  name: 'Guest',
+  residencePermitType: 'Unknown',
+  ageRange: 'Unknown',
+  originCountry: 'Unknown',
+  maritalStatus: 'Unknown',
+  languages: [],
+  education: {
+    degree: 'Unknown',
+    field: 'Unknown'
+  },
+  profession: 'Unknown',
+  aspirations: [],
+  challenges: []
+};

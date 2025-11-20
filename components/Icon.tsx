@@ -47,7 +47,9 @@ import {
   Baby,
   Building2,
   Siren,
-  LayoutGrid
+  LayoutGrid,
+  ArrowLeft,
+  ArrowRight
 } from 'lucide-react';
 
 export const Icons = {
@@ -97,5 +99,7 @@ export const Icons = {
   Baby,
   Building2,
   Siren,
-  LayoutGrid
+  LayoutGrid,
+  ArrowLeft,
+  ArrowRight
 };

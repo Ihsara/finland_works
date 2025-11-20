@@ -69,6 +69,18 @@ export const saveProfile = (profile: UserProfile): void => {
   }
 };
 
+export const createDemoProfile = (): UserProfile => {
+  try {
+    const profile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
+    profile.id = uuidv4(); // Always generate a fresh ID for the "Load Sample" action
+    saveProfile(profile);
+    return profile;
+  } catch (e) {
+    console.error("Failed to create demo profile", e);
+    throw e;
+  }
+};
+
 export const getAllProfiles = (): UserProfile[] => {
   const profiles: UserProfile[] = [];
   
@@ -174,6 +186,24 @@ export const saveProfileFromYaml = (yamlStr: string): UserProfile => {
   }
   saveProfile(profile);
   return profile;
+};
+
+// --- Reset / Cache Management ---
+export const resetApplicationData = (): void => {
+  // 1. Clear all local storage
+  localStorage.clear();
+  
+  // 2. Re-inject "Gabriela" so she is available as a sample
+  try {
+    const defaultProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
+    // Ensure ID matches the default ID constant logic used in getAllProfiles
+    defaultProfile.id = 'demo-gabriela'; 
+    
+    // Manually save without calling saveProfile helper initially to avoid circular deps or UUID gen
+    localStorage.setItem(`${KEYS.PROFILES_PREFIX}${defaultProfile.id}`, JSON.stringify(defaultProfile));
+  } catch (e) {
+    console.error("Failed to restore default profile during reset", e);
+  }
 };
 
 // --- Conversation Management ---

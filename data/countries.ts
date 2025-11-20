@@ -25,3 +25,15 @@ export const COUNTRIES = [
   "Yemen",
   "Zambia", "Zimbabwe"
 ];
+
+export const EU_EEA_COUNTRIES = [
+  "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", 
+  "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", 
+  "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", 
+  "Luxembourg", "Malta", "Netherlands", "Norway", "Poland", "Portugal", 
+  "Romania", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland"
+];
+
+export const isEUCountry = (country: string): boolean => {
+  return EU_EEA_COUNTRIES.includes(country);
+};

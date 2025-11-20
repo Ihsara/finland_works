@@ -1,5 +1,6 @@
 
 import { Icons } from "../components/Icon";
+import { LanguageCode } from "../types";
 
 // ---------------------------------------------------------------------------
 // TYPE DEFINITIONS
@@ -27,10 +28,11 @@ export interface WikiCategory {
 }
 
 // ---------------------------------------------------------------------------
-// ADMIN AREA: EDIT CONTENT HERE
+// CONTENT FACTORY
 // ---------------------------------------------------------------------------
 
-export const WIKI_CATEGORIES: WikiCategory[] = [
+// We define the ENGLISH content as the master source. 
+const WIKI_EN: WikiCategory[] = [
   {
     id: 'asylum',
     title: 'Asylum & Protection',
@@ -628,6 +630,16 @@ Finland has strict laws on explosives.
   }
 ];
 
+// For now, we fallback all other languages to English content for the Wiki Articles
+// The UI shell will be translated via data/languages.ts
+export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
+  switch (lang) {
+    case 'en':
+    default:
+      return WIKI_EN;
+  }
+};
+
 // ---------------------------------------------------------------------------
 // DYNAMIC HELPERS
 // ---------------------------------------------------------------------------
@@ -640,8 +652,10 @@ export interface EnrichedWikiArticle extends WikiArticle {
 }
 
 // Flattens the hierarchy and generates the "1.1" style IDs dynamically
-export const getAllFlattenedArticles = (): EnrichedWikiArticle[] => {
-  return WIKI_CATEGORIES.flatMap((cat, catIdx) => 
+export const getAllFlattenedArticles = (lang: LanguageCode): EnrichedWikiArticle[] => {
+  const categories = getWikiCategories(lang);
+  
+  return categories.flatMap((cat, catIdx) => 
     cat.articles.map((art, artIdx) => ({
       ...art,
       categoryTitle: cat.title,

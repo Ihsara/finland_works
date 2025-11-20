@@ -1,7 +1,7 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { Message, Sender, UserProfile } from "../types";
-import { WikiArticle, EnrichedWikiArticle } from "../data/wikiContent";
+import { Message, Sender, UserProfile, LanguageCode } from "../types";
+import { EnrichedWikiArticle } from "../data/wikiContent";
 import { WikiProgressData, getApiKey } from "./storageService";
 
 declare var process: { env: { API_KEY: string } };
@@ -28,18 +28,21 @@ ALWAYS tailor your advice to their **residence permit type**, profession, langua
 
 TONE & LANGUAGE INSTRUCTIONS:
 1. **Inclusive & Welcoming:** Make the user feel that they belong here and that Finland wants them. Be their supportive partner in this journey.
-2. **Plain English:** Use simple, clear vocabulary. Avoid complex grammar, slang, or idioms, as the user may not be fluent in English. Explain concepts as if explaining to a friend who is learning the language.
+2. **Plain Language:** Use simple, clear vocabulary. Avoid complex grammar, slang, or idioms. Explain concepts as if explaining to a friend who is learning.
 3. **Non-Judgmental & Empathetic:** If the user is struggling or procrastinating, do NOT scold them. Acknowledge that moving is hard. Offer a "safe space" to discuss blockers.
 4. **Celebratory:** When they complete a task, celebrate it warmly!
 `;
 
-// Modified to accept EnrichedWikiArticle which has the dynamic 'displayId' (e.g., 1.1)
+// Modified to accept LanguageCode
 export const createSystemInstruction = (
   profile: UserProfile,
   wikiProgress: WikiProgressData,
-  articles: EnrichedWikiArticle[] 
+  articles: EnrichedWikiArticle[],
+  language: LanguageCode
 ): string => {
   
+  const isGuest = profile.id === 'guest';
+
   // 1. Determine User Tags for filtering
   const userTags = new Set<string>(['general', 'arrival']);
   const permit = profile.residencePermitType.toLowerCase();
@@ -75,7 +78,8 @@ export const createSystemInstruction = (
   let procrastinationAlert = false;
 
   // Check Global Stagnation (Checking guide often but not updating)
-  if (wikiProgress.globalStats.sessionsWithoutUpdate > 3 && wikiProgress.globalStats.totalSessions > 5) {
+  // Skip for guest
+  if (!isGuest && wikiProgress.globalStats.sessionsWithoutUpdate > 3 && wikiProgress.globalStats.totalSessions > 5) {
       stagnationAlert = true;
   }
 
@@ -110,6 +114,18 @@ export const createSystemInstruction = (
 
   // 5. Construct Specific Behavioral Prompts
   let behavioralPrompt = "";
+  
+  if (isGuest) {
+      behavioralPrompt += `
+      [CRITICAL - GUEST MODE]: 
+      You are talking to a user who has NOT created a profile yet ("Guest"). 
+      1. **Do NOT assume** their residence permit type, origin country, or family status.
+      2. If they ask a question where the answer depends on their status (e.g., "Can I get social security?" or "Do I need a visa?"), you MUST gently ask clarifying questions first.
+      3. Do not refer to "your profile" or "your settings".
+      4. Keep advice applicable to a general immigrant audience until you know more.
+      `;
+  }
+
   if (stagnationAlert) {
       behavioralPrompt += `
       [CRITICAL INSIGHT]: The user has opened the guide multiple times recently (${wikiProgress.globalStats.sessionsWithoutUpdate} sessions) without marking anything new as done.
@@ -129,6 +145,11 @@ export const createSystemInstruction = (
 
   return `${SYSTEM_INSTRUCTION_BASE}
   
+  LANGUAGE INSTRUCTION:
+  The user is currently viewing the app in language code: "${language}".
+  **You MUST reply in this language.**
+  However, if referring to specific Finnish institutions (Kela, Migri, DVV, TE-toimisto), ALWAYS keep the Finnish name in parentheses if you translate it, e.g. "Social Insurance Institution (Kela)".
+
   USER PROFILE:
   Name: ${profile.name}
   Residence Permit / Ground: ${profile.residencePermitType}
@@ -172,11 +193,12 @@ export const sendMessageToGemini = async (
   newMessage: string,
   profile: UserProfile,
   wikiProgress: WikiProgressData,
-  articles: EnrichedWikiArticle[] 
+  articles: EnrichedWikiArticle[],
+  language: LanguageCode
 ): Promise<string> => {
   const ai = getClient();
   
-  const systemInstruction = createSystemInstruction(profile, wikiProgress, articles);
+  const systemInstruction = createSystemInstruction(profile, wikiProgress, articles, language);
 
   const chat = ai.chats.create({
     model: 'gemini-2.5-flash',
