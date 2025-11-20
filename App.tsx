@@ -334,9 +334,8 @@ const App: React.FC = () => {
   // --- HELPER: Avatar URL Generator ---
   const getAvatarUrl = (p: UserProfile | null) => {
     const name = p?.name || 'Guest';
-    const extraSeed = (p?.originCountry || '') + (p?.ageRange || '');
-    // We use 'micah' style for a friendlier, more artistic vibe.
-    // We combine name + country + age to ensure diversity in the seed.
+    // Seed composition: Name + Country + Age + ID to ensure diversity even with similar names
+    const extraSeed = (p?.originCountry || '') + (p?.ageRange || '') + (p?.id || '');
     const seed = encodeURIComponent(name + extraSeed);
     return `https://api.dicebear.com/9.x/micah/svg?seed=${seed}&backgroundColor=transparent`;
   };
@@ -639,36 +638,41 @@ const App: React.FC = () => {
     return (
       <Layout>
         <div className="flex flex-col h-full bg-white overflow-y-auto">
-          {/* Minimal Header with Home Button */}
-          <div className="p-4 md:px-8 md:py-4 flex justify-between items-center border-b border-gray-50">
-             <button onClick={() => setView(AppView.DASHBOARD)} className="text-gray-400 hover:text-black transition">
-               <Icons.Home className="w-5 h-5" />
+          {/* New Robust Header */}
+          <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-20">
+             <button 
+               onClick={() => setView(AppView.DASHBOARD)} 
+               className="flex items-center gap-2 text-gray-600 hover:text-black transition font-medium px-3 py-2 hover:bg-gray-50 rounded-lg"
+             >
+               <Icons.ArrowLeft className="w-5 h-5" />
+               <span>Back to Dashboard</span>
              </button>
+             
              <div className="flex items-center gap-2 relative">
                  <button 
                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                   className="text-xs font-bold text-gray-400 hover:text-black flex items-center gap-1 uppercase tracking-wide"
+                   className="text-xs font-bold text-gray-500 hover:text-black flex items-center gap-1 uppercase tracking-wide bg-gray-50 px-3 py-1.5 rounded-full"
                  >
-                   Switch User <Icons.ChevronDown className="w-3 h-3" />
+                   Switch Profile <Icons.ChevronDown className="w-3 h-3" />
                  </button>
                  {isProfileMenuOpen && (
-                        <div className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden">
-                           <div className="max-h-48 overflow-y-auto">
+                        <div className="absolute right-0 top-10 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95">
+                           <div className="max-h-64 overflow-y-auto">
                               {allProfiles.map(p => (
                                 <button 
                                   key={p.id}
                                   onClick={() => handleSwitchProfile(p.id)}
-                                  className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center justify-between ${profile?.id === p.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
+                                  className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 flex items-center justify-between border-b border-gray-50 last:border-0 ${profile?.id === p.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
                                 >
-                                  {p.name}
+                                  <span className="font-medium">{p.name}</span>
                                   {profile?.id === p.id && <Icons.CheckCircle className="w-3 h-3" />}
                                 </button>
                               ))}
                               <button 
                                 onClick={handleCreateNewProfile}
-                                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 text-blue-600 border-t border-gray-100 font-medium"
+                                className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 text-blue-600 font-bold flex items-center gap-2"
                               >
-                                + New Profile
+                                <Icons.UserPlus className="w-4 h-4" /> New Profile
                               </button>
                            </div>
                         </div>
@@ -678,35 +682,41 @@ const App: React.FC = () => {
 
           <div className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
              {/* Top Section: Avatar + Info + Progress */}
-             <div className="flex flex-col md:flex-row gap-8 mb-10">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-50 flex-shrink-0 border-4 border-white shadow-sm">
-                  <img 
-                     src={getAvatarUrl(profile)} 
-                     alt="Avatar" 
-                     className="w-full h-full object-cover"
-                  />
+             <div className="flex flex-col md:flex-row gap-8 mb-10 items-start md:items-center">
+                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border-4 border-white shadow-lg relative group">
+                   {profile ? (
+                      <img 
+                        src={getAvatarUrl(profile)} 
+                        alt="Avatar" 
+                        className="w-full h-full object-cover"
+                      />
+                   ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-300">
+                        <Icons.User className="w-12 h-12" />
+                      </div>
+                   )}
                 </div>
                 
                 <div className="flex-1 flex flex-col justify-center">
                    <h1 className="text-4xl font-bold text-gray-900 mb-2">{profile?.name || 'Guest'}</h1>
                    <div className="text-gray-600 space-y-1">
-                      <p>{profile?.ageRange || 'Age unknown'}</p>
-                      <p><span className="font-bold text-black">Country of origin</span> {profile?.originCountry || 'Unknown'}</p>
-                      <p><span className="font-bold text-black">Marital status</span> {profile?.maritalStatus || 'Unknown'}</p>
+                      <p className="flex items-center gap-2"><Icons.Calendar className="w-4 h-4 opacity-50"/> {profile?.ageRange || 'Age unknown'}</p>
+                      <p className="flex items-center gap-2"><Icons.Home className="w-4 h-4 opacity-50"/> {profile?.originCountry || 'Unknown Origin'}</p>
+                      <p className="flex items-center gap-2"><Icons.Heart className="w-4 h-4 opacity-50"/> {profile?.maritalStatus || 'Unknown Status'}</p>
                    </div>
                 </div>
 
-                <div className="w-full md:w-72 flex flex-col justify-center gap-3">
+                <div className="w-full md:w-72 flex flex-col justify-center gap-3 bg-gray-50 p-5 rounded-xl">
                     <div className="flex justify-between items-end">
                        <span className="text-sm font-bold text-black">{profileCompleteness}% complete</span>
                     </div>
                     <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                       <div className="h-full bg-black rounded-full" style={{ width: `${profileCompleteness}%` }}></div>
+                       <div className="h-full bg-black rounded-full transition-all duration-1000 ease-out" style={{ width: `${profileCompleteness}%` }}></div>
                     </div>
                     <p className="text-xs text-gray-500">Answer a few more questions for better advice</p>
                     <button 
                        onClick={handleEditProfileVisual}
-                       className="bg-black text-white py-3 rounded-lg font-bold text-sm hover:bg-gray-800 transition"
+                       className="bg-white border border-gray-200 text-black py-2 px-4 rounded-lg font-bold text-sm hover:bg-gray-100 transition shadow-sm"
                     >
                       {profileCompleteness === 100 ? 'Update Profile' : 'Continue the Quiz'}
                     </button>
@@ -717,32 +727,52 @@ const App: React.FC = () => {
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
                 <button 
                   onClick={() => setView(AppView.WIKI)}
-                  className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white"
+                  className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white shadow-sm hover:shadow-md"
                 >
-                   <span className="text-lg font-medium">My Recommendations</span>
-                   <Icons.ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-black" />
+                   <div className="flex items-center gap-4">
+                      <div className="bg-blue-50 p-3 rounded-full text-blue-600 group-hover:bg-black group-hover:text-white transition">
+                        <Icons.BookMarked className="w-6 h-6" />
+                      </div>
+                      <div className="text-left">
+                        <span className="block text-lg font-bold">My Guide</span>
+                        <span className="text-sm text-gray-500">Recommended articles</span>
+                      </div>
+                   </div>
+                   <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
                 </button>
-                <button className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white">
-                   <span className="text-lg font-medium">My Plan</span>
-                   <Icons.ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-black" />
+                <button className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-black transition group bg-white shadow-sm hover:shadow-md">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-green-50 p-3 rounded-full text-green-600 group-hover:bg-black group-hover:text-white transition">
+                        <Icons.Rocket className="w-6 h-6" />
+                      </div>
+                      <div className="text-left">
+                        <span className="block text-lg font-bold">My Plan</span>
+                        <span className="text-sm text-gray-500">Coming soon</span>
+                      </div>
+                   </div>
+                   <Icons.ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-black" />
                 </button>
              </div>
 
-             {/* Info Cards */}
+             {/* Info Cards - CRASH FIXED: Added Optional Chaining throughout */}
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Languages */}
                 <div className="bg-gray-50 p-6 rounded-2xl relative group">
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4">Languages</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.Languages className="w-5 h-5"/> Languages</h3>
                    <div className="space-y-3">
-                      {profile?.languages.map((l, i) => (
-                        <div key={i} className="flex flex-col">
-                           <span className="font-bold text-black">{l.language}</span>
-                           <span className="text-gray-600">{l.level}</span>
-                        </div>
-                      ))}
+                      {(profile?.languages && profile.languages.length > 0) ? (
+                        profile.languages.map((l, i) => (
+                          <div key={i} className="flex flex-col pb-2 border-b border-gray-200 last:border-0">
+                             <span className="font-bold text-black">{l.language}</span>
+                             <span className="text-sm text-gray-600">{l.level}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-400 text-sm italic">No languages specified.</p>
+                      )}
                    </div>
                 </div>
 
@@ -751,15 +781,18 @@ const App: React.FC = () => {
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4">Education & Skills</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.GraduationCap className="w-5 h-5"/> Skills</h3>
                    <div className="space-y-4">
                       <div>
-                        <h4 className="font-bold text-black mb-1">Education</h4>
-                        <p className="text-gray-600">{profile?.education.degree} in {profile.education.field}</p>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-500">Education</h4>
+                        <p className="text-gray-800 font-medium">
+                          {profile?.education?.degree || 'Not specified'} 
+                          {profile?.education?.field ? ` in ${profile.education.field}` : ''}
+                        </p>
                       </div>
                       <div>
-                        <h4 className="font-bold text-black mb-1">Profession</h4>
-                        <p className="text-gray-600">{profile?.profession}</p>
+                        <h4 className="font-bold text-black mb-1 text-sm uppercase tracking-wide text-gray-500">Profession</h4>
+                        <p className="text-gray-800 font-medium">{profile?.profession || 'Not specified'}</p>
                       </div>
                    </div>
                 </div>
@@ -769,18 +802,26 @@ const App: React.FC = () => {
                    <button onClick={handleEditProfileVisual} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-black transition">
                       <Icons.Edit3 className="w-3 h-3" /> Edit
                    </button>
-                   <h3 className="text-xl font-bold mb-4">Personal Narrative</h3>
+                   <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icons.User className="w-5 h-5"/> Personal Narrative</h3>
                    <div className="space-y-6">
                       <div>
                          <h4 className="font-bold text-black mb-2">Aspirations</h4>
                          <ul className="list-disc pl-5 space-y-1 text-gray-600">
-                            {profile?.aspirations.map((a, i) => <li key={i}>{a}</li>)}
+                            {(profile?.aspirations && profile.aspirations.length > 0) ? (
+                                profile.aspirations.map((a, i) => <li key={i}>{a}</li>)
+                            ) : (
+                                <li className="text-gray-400 italic list-none ml-[-1rem]">No aspirations listed yet.</li>
+                            )}
                          </ul>
                       </div>
                       <div>
                          <h4 className="font-bold text-black mb-2">Fears / challenges</h4>
                          <ul className="list-disc pl-5 space-y-1 text-gray-600">
-                            {profile?.challenges.map((a, i) => <li key={i}>{a}</li>)}
+                            {(profile?.challenges && profile.challenges.length > 0) ? (
+                                profile.challenges.map((a, i) => <li key={i}>{a}</li>)
+                            ) : (
+                                <li className="text-gray-400 italic list-none ml-[-1rem]">No challenges listed yet.</li>
+                            )}
                          </ul>
                       </div>
                    </div>
@@ -800,24 +841,39 @@ const App: React.FC = () => {
         <div className="p-6 flex justify-end">
              <button 
                onClick={() => setView(AppView.PROFILE)}
-               className="p-1 hover:opacity-70 transition"
+               className="p-1 hover:scale-105 transition transform duration-200 group relative"
              >
-                <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-black shadow-sm">
                     <img 
                         src={getAvatarUrl(profile)} 
                         alt="Avatar" 
                         className="w-full h-full object-cover"
                     />
                 </div>
+                <div className="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
+                    ME
+                </div>
              </button>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full">
+        <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full animate-in fade-in duration-700">
+             <div className="mb-8 relative">
+                <div className="w-24 h-24 rounded-full bg-gray-100 mx-auto overflow-hidden mb-4 border-4 border-white shadow-lg">
+                    <img 
+                        src={getAvatarUrl(profile)} 
+                        alt="Avatar" 
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+             </div>
+
              <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
                Welcome back, {profile?.name?.split(' ')[0] || 'Friend'}!
              </h1>
              <p className="text-xl text-gray-600 mb-12 font-light">
-               Answer a few more questions to get better job advice.
+               {profileCompleteness < 100 
+                  ? "Answer a few more questions to get better job advice."
+                  : "Your profile is looking great. How can I help today?"}
              </p>
 
              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -825,13 +881,15 @@ const App: React.FC = () => {
                    onClick={() => setView(AppView.QUIZ)}
                    className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg min-w-[260px]"
                 >
-                   <Icons.CheckSquare className="w-5 h-5" /> {t('landing_btn_quiz', language)}
+                   <Icons.CheckSquare className="w-5 h-5" /> 
+                   {t('landing_btn_quiz', language)}
                 </button>
                 <button 
                    onClick={startNewChat}
                    className="flex items-center justify-center gap-3 bg-white text-black border border-gray-300 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-sm min-w-[260px]"
                 >
-                   <Icons.MessageSquare className="w-5 h-5" /> {t('landing_btn_ask', language)}
+                   <Icons.MessageSquare className="w-5 h-5" /> 
+                   {t('landing_btn_ask', language)}
                 </button>
              </div>
         </div>

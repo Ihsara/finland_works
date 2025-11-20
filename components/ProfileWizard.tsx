@@ -461,9 +461,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
           <div className="flex items-center gap-3">
              <button 
                onClick={onCancel} 
-               className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 hover:bg-gray-50 text-sm font-medium transition"
+               className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 text-gray-800 shadow-sm hover:border-black hover:shadow-md hover:scale-[1.02] transition-all duration-200 text-sm font-bold tracking-tight"
              >
-               <Icons.MessageSquare className="w-4 h-4" /> I have a question
+               <Icons.MessageSquare className="w-4 h-4 text-gray-500" /> 
+               Ask a question
              </button>
 
              {/* Language Selector */}
