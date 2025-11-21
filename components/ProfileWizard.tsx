@@ -392,20 +392,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                  `}>
                     <Icon className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 ${isActive ? 'text-white scale-110' : ''}`} />
                  </div>
-                 
-                 {/* Active Label Bubble */}
-                 <div className={`
-                    absolute -bottom-8 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-md
-                    transition-all duration-300 transform
-                    ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}
-                 `}>
-                    {lvl.value}
-                 </div>
                </button>
              )
           })}
         </div>
-        <div className="h-8"></div> {/* Spacer for the popover labels */}
       </div>
     );
   };
