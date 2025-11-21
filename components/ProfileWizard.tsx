@@ -412,14 +412,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             let iconColor = 'text-gray-400';
             
             if (position <= 0.25) {
-                 if (isSelected) selectedColorClass += ' border-red-500 ring-red-500 bg-red-50';
-                 iconColor = isSelected ? 'text-red-600' : 'text-gray-300';
+                 if (isSelected) selectedColorClass += ' border-blue-300 ring-blue-300 bg-blue-50';
+                 iconColor = isSelected ? 'text-blue-500' : 'text-gray-300';
             } else if (position <= 0.75) {
-                 if (isSelected) selectedColorClass += ' border-yellow-500 ring-yellow-500 bg-yellow-50';
-                 iconColor = isSelected ? 'text-yellow-600' : 'text-gray-300';
+                 if (isSelected) selectedColorClass += ' border-purple-300 ring-purple-300 bg-purple-50';
+                 iconColor = isSelected ? 'text-purple-500' : 'text-gray-300';
             } else {
-                 if (isSelected) selectedColorClass += ' border-green-500 ring-green-500 bg-green-50';
-                 iconColor = isSelected ? 'text-green-600' : 'text-gray-300';
+                 if (isSelected) selectedColorClass += ' border-green-300 ring-green-300 bg-green-50';
+                 iconColor = isSelected ? 'text-green-500' : 'text-gray-300';
             }
 
             return (
@@ -435,11 +435,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                         <span className={`font-medium ${isSelected ? 'font-bold' : ''}`}>{opt.label}</span>
                         {isSelected && <Icons.CheckCircle className={`w-5 h-5 ${iconColor}`} />}
                     </div>
-                    {isSelected && (
-                         <div className={`absolute inset-0 rounded-xl opacity-20 ${
-                            position <= 0.25 ? 'bg-red-400' : (position <= 0.75 ? 'bg-yellow-400' : 'bg-green-400')
-                         } blur-sm -z-10`}></div>
-                    )}
                 </button>
             );
         })}
@@ -693,23 +688,15 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   ];
 
   const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "A little interested", label: t('wizard_opt_cult_low', lang) },
-      { value: "Moderately interested", label: t('wizard_opt_cult_med', lang) },
-      { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
-  ];
-
-  // Used for Step 11 previously, now replaced by Scale
-  // Keeping definition for safety/fallback if needed, but logic below uses RatingScale
-  const getConfidenceLifeOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "Lost", label: t('wizard_opt_conf_life_low', lang) },
-      { value: "Somewhat confident", label: t('wizard_opt_conf_life_med', lang) },
-      { value: "Quite confident", label: t('wizard_opt_conf_life_high', lang) },
+      { value: "A beautiful mystery", label: t('wizard_opt_cult_low', lang) },
+      { value: "Happily observing", label: t('wizard_opt_cult_med', lang) },
+      { value: "Diving in deep", label: t('wizard_opt_cult_high', lang) },
   ];
 
   const getInfoLevelOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "Not informed", label: t('wizard_opt_info_none', lang) },
-      { value: "Somewhat informed", label: t('wizard_opt_info_some', lang) },
-      { value: "Very informed", label: t('wizard_opt_info_high', lang) },
+      { value: "Foggy", label: t('wizard_opt_info_none', lang) },
+      { value: "Clearing up", label: t('wizard_opt_info_some', lang) },
+      { value: "Crystal clear", label: t('wizard_opt_info_high', lang) },
   ];
 
   const getExcitementOptions = (lang: LanguageCode): OptionItem[] => [
@@ -717,7 +704,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       { value: "Quality of life", label: t('wizard_opt_excite_life', lang) },
       { value: "Nature and culture", label: t('wizard_opt_excite_nature', lang) },
       { value: "Education", label: t('wizard_opt_excite_edu', lang) },
-      { value: "Still figuring it out", label: t('wizard_opt_excite_idk', lang) },
+      { value: "Adventure", label: t('wizard_opt_excite_adventure', lang) },
   ];
 
   const renderStepContent = () => {
@@ -1020,18 +1007,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              </div>
              <EducationSelector 
                 current={formData.educationDegree}
-                onSelect={(v) => handleChange('educationDegree', v)}
+                onSelect={(v) => handleSelectionNext('educationDegree', v)}
              />
-             <div className="mt-4">
-               <label className="block text-sm font-medium text-gray-700 mb-2">{t('wizard_step6_field_label', language)}</label>
-               <input 
-                type="text" 
-                className="w-full p-4 bg-gray-100 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-gray-900"
-                placeholder={t('wizard_step6_field_placeholder', language)}
-                value={formData.educationField}
-                onChange={(e) => handleChange('educationField', e.target.value)}
-              />
-             </div>
            </div>
          );
       case 9: // Profession (SKILLS)

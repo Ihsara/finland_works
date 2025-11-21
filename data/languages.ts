@@ -170,7 +170,6 @@ export type TranslationKey =
   | 'wizard_opt_cult_high'
   | 'wizard_opt_cult_med'
   | 'wizard_opt_cult_low'
-  | 'wizard_opt_cult_unsure'
   | 'wizard_step13_title'
   | 'wizard_opt_conf_life_low'
   | 'wizard_opt_conf_life_med'
@@ -179,14 +178,13 @@ export type TranslationKey =
   | 'wizard_step15_title'
   | 'wizard_opt_info_none'
   | 'wizard_opt_info_some'
-  | 'wizard_opt_info_yes'
   | 'wizard_opt_info_high'
   | 'wizard_step16_title'
   | 'wizard_opt_excite_career'
   | 'wizard_opt_excite_life'
   | 'wizard_opt_excite_nature'
   | 'wizard_opt_excite_edu'
-  | 'wizard_opt_excite_idk';
+  | 'wizard_opt_excite_adventure';
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
   en: {
@@ -329,8 +327,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_lang_inter: "Intermediate (A2-B1)",
     wizard_opt_lang_fluent: "Fluent (B2+)",
     
-    wizard_scale_1_motivation: "Low / None",
-    wizard_scale_5_motivation: "Very High",
+    wizard_scale_1_motivation: "Curious",
+    wizard_scale_5_motivation: "Unstoppable",
     
     wizard_step9_title: "English Language Level",
     wizard_opt_lang_en_none: "None",
@@ -343,39 +341,34 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Challenges",
     wizard_step10_challenges_placeholder: "Any specific worries?",
     
-    wizard_scale_1_career: "I don't know anything",
-    wizard_scale_5_career: "I know what to do",
+    wizard_scale_1_career: "I need direction",
+    wizard_scale_5_career: "I have a plan",
 
-    wizard_scale_1_life: "Still adjusting",
+    wizard_scale_1_life: "Still thawing",
     wizard_scale_5_life: "Feels like home",
 
-    // Step 12 - Reframed
-    wizard_step12_title: "How connected do you feel to Finnish culture?",
-    wizard_opt_cult_high: "I want to fully integrate",
-    wizard_opt_cult_med: "I enjoy it, but I'm an observer",
-    wizard_opt_cult_low: "It's all new & mysterious",
-    wizard_opt_cult_unsure: "Not sure yet",
+    // Reframed Warm Questions
+    wizard_step12_title: "How does Finnish culture feel to you right now?",
+    wizard_opt_cult_low: "It's a beautiful mystery",
+    wizard_opt_cult_med: "I'm happily observing",
+    wizard_opt_cult_high: "I'm diving in deep",
 
-    // Step 13 - Reframed
-    wizard_step13_title: "How much does the Finnish lifestyle resonate with you?",
-    wizard_opt_conf_life_low: "Still adjusting",
-    wizard_opt_conf_life_med: "Getting there",
-    wizard_opt_conf_life_high: "Feels like home",
+    wizard_step13_title: "How are you finding the rhythm of life here?",
+    // Uses wizard_scale_1_life and wizard_scale_5_life
 
-    wizard_step14_title: "Confidence in Job Hunting",
-    
-    wizard_step15_title: "How informed do you feel about living and working in Finland?",
-    wizard_opt_info_none: "Not informed at all",
-    wizard_opt_info_some: "Somewhat informed",
-    wizard_opt_info_yes: "Informed",
-    wizard_opt_info_high: "Very informed",
+    wizard_step14_title: "How confident are you in your job search?",
 
-    wizard_step16_title: "What excites you the most about living in Finland?",
-    wizard_opt_excite_career: "Career opportunities",
-    wizard_opt_excite_life: "Quality of life & safety",
-    wizard_opt_excite_nature: "Nature, culture, and lifestyle",
-    wizard_opt_excite_edu: "Education",
-    wizard_opt_excite_idk: "I’m still figuring it out"
+    wizard_step15_title: "How clear is your path forward?",
+    wizard_opt_info_none: "It's a bit foggy (I need a map)",
+    wizard_opt_info_some: "The clouds are clearing",
+    wizard_opt_info_high: "Crystal clear",
+
+    wizard_step16_title: "What brings you the most joy here?",
+    wizard_opt_excite_career: "Building my career",
+    wizard_opt_excite_life: "The peace & safety",
+    wizard_opt_excite_nature: "Nature & seasons",
+    wizard_opt_excite_edu: "Learning new things",
+    wizard_opt_excite_adventure: "Just being on an adventure"
   },
   vi: {
     landing_welcome: "Chào mừng!",
@@ -507,8 +500,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_lang_inter: "Trung cấp (A2-B1)",
     wizard_opt_lang_fluent: "Thành thạo (B2+)",
 
-    wizard_scale_1_motivation: "Thấp",
-    wizard_scale_5_motivation: "Rất cao",
+    wizard_scale_1_motivation: "Tò mò",
+    wizard_scale_5_motivation: "Quyết tâm cao",
 
     wizard_step9_title: "Trình độ tiếng Anh",
     wizard_opt_lang_en_none: "Không",
@@ -521,36 +514,32 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Thử thách",
     wizard_step10_challenges_placeholder: "Bạn có lo lắng điều gì không?",
     
-    wizard_step12_title: "Bạn cảm thấy thế nào về văn hóa Phần Lan?",
-    wizard_opt_cult_high: "Muốn hòa nhập hoàn toàn",
-    wizard_opt_cult_med: "Thích thú, nhưng chỉ quan sát",
-    wizard_opt_cult_low: "Mọi thứ còn mới mẻ & bí ẩn",
-    wizard_opt_cult_unsure: "Chưa chắc chắn",
+    wizard_step12_title: "Văn hóa Phần Lan mang lại cảm giác gì cho bạn?",
+    wizard_opt_cult_high: "Tôi đang đắm mình vào nó",
+    wizard_opt_cult_med: "Tôi vui vẻ quan sát",
+    wizard_opt_cult_low: "Đó là một bí ẩn đẹp",
     
-    wizard_step13_title: "Lối sống Phần Lan phù hợp với bạn thế nào?",
-    wizard_opt_conf_life_low: "Vẫn đang thích nghi",
-    wizard_opt_conf_life_med: "Đang dần quen",
-    wizard_opt_conf_life_high: "Như ở nhà",
+    wizard_step13_title: "Bạn thấy nhịp sống ở đây thế nào?",
     
-    wizard_step14_title: "Tự tin tìm việc?",
+    wizard_step14_title: "Bạn tự tin thế nào khi tìm việc?",
     
-    wizard_scale_1_career: "Mù tịt",
-    wizard_scale_5_career: "Biết rõ cần làm gì",
+    wizard_scale_1_career: "Tôi cần định hướng",
+    wizard_scale_5_career: "Tôi có kế hoạch rõ ràng",
     
-    wizard_scale_1_life: "Đang thích nghi",
+    wizard_scale_1_life: "Đang tan băng",
     wizard_scale_5_life: "Như ở nhà",
 
-    wizard_step15_title: "Bạn nắm thông tin về Phần Lan thế nào?",
-    wizard_opt_info_none: "Chưa biết gì",
-    wizard_opt_info_some: "Biết sơ sơ",
-    wizard_opt_info_yes: "Có hiểu biết",
-    wizard_opt_info_high: "Rất am hiểu",
-    wizard_step16_title: "Điều gì làm bạn hào hứng nhất?",
-    wizard_opt_excite_career: "Cơ hội nghề nghiệp",
-    wizard_opt_excite_life: "Chất lượng cuộc sống & An toàn",
-    wizard_opt_excite_nature: "Thiên nhiên & Văn hóa",
-    wizard_opt_excite_edu: "Giáo dục",
-    wizard_opt_excite_idk: "Vẫn đang tìm hiểu"
+    wizard_step15_title: "Con đường phía trước có rõ ràng không?",
+    wizard_opt_info_none: "Hơi sương mù (Cần bản đồ)",
+    wizard_opt_info_some: "Mây đang tan dần",
+    wizard_opt_info_high: "Rất trong xanh",
+
+    wizard_step16_title: "Điều gì mang lại niềm vui cho bạn ở đây?",
+    wizard_opt_excite_career: "Xây dựng sự nghiệp",
+    wizard_opt_excite_life: "Sự bình yên & an toàn",
+    wizard_opt_excite_nature: "Thiên nhiên & mùa màng",
+    wizard_opt_excite_edu: "Học hỏi điều mới",
+    wizard_opt_excite_adventure: "Tận hưởng chuyến phiêu lưu"
   },
   "pt-br": {
     landing_welcome: "Bem-vindo!",
@@ -682,8 +671,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_lang_inter: "Intermediário (A2-B1)",
     wizard_opt_lang_fluent: "Fluente (B2+)",
 
-    wizard_scale_1_motivation: "Baixa",
-    wizard_scale_5_motivation: "Muito Alta",
+    wizard_scale_1_motivation: "Curioso",
+    wizard_scale_5_motivation: "Imparável",
 
     wizard_step9_title: "Nível de Inglês",
     wizard_opt_lang_en_none: "Nenhum",
@@ -696,36 +685,32 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
     
-    wizard_step12_title: "Quão conectado você se sente à cultura finlandesa?",
-    wizard_opt_cult_high: "Quero me integrar totalmente",
-    wizard_opt_cult_med: "Gosto, mas sou observador",
-    wizard_opt_cult_low: "É tudo novo e misterioso",
-    wizard_opt_cult_unsure: "Não tenho certeza",
+    wizard_step12_title: "Como a cultura finlandesa soa para você?",
+    wizard_opt_cult_high: "Estou mergulhando fundo",
+    wizard_opt_cult_med: "Estou observando com alegria",
+    wizard_opt_cult_low: "É um belo mistério",
     
-    wizard_step13_title: "O quanto o estilo de vida finlandês ressoa com você?",
-    wizard_opt_conf_life_low: "Ainda me adaptando",
-    wizard_opt_conf_life_med: "Chegando lá",
-    wizard_opt_conf_life_high: "Sinto-me em casa",
-
-    wizard_step14_title: "Confiança na busca por emprego",
-
-    wizard_scale_1_career: "Não sei nada",
-    wizard_scale_5_career: "Sei o que fazer",
+    wizard_step13_title: "Como você está sentindo o ritmo de vida aqui?",
     
-    wizard_scale_1_life: "Ainda me adaptando",
+    wizard_step14_title: "Quão confiante você está na busca por emprego?",
+
+    wizard_scale_1_career: "Preciso de direção",
+    wizard_scale_5_career: "Tenho um plano",
+    
+    wizard_scale_1_life: "Ainda descongelando",
     wizard_scale_5_life: "Sinto-me em casa",
 
-    wizard_step15_title: "Quão informado você está?",
-    wizard_opt_info_none: "Nada informado",
-    wizard_opt_info_some: "Um pouco informado",
-    wizard_opt_info_yes: "Informado",
-    wizard_opt_info_high: "Muito informado",
-    wizard_step16_title: "O que mais te anima?",
-    wizard_opt_excite_career: "Oportunidades de carreira",
-    wizard_opt_excite_life: "Qualidade de vida e segurança",
-    wizard_opt_excite_nature: "Natureza e cultura",
-    wizard_opt_excite_edu: "Educação",
-    wizard_opt_excite_idk: "Ainda estou descobrindo"
+    wizard_step15_title: "O caminho à frente está claro?",
+    wizard_opt_info_none: "Há neblina (Preciso de um mapa)",
+    wizard_opt_info_some: "As nuvens estão se abrindo",
+    wizard_opt_info_high: "Cristalino",
+
+    wizard_step16_title: "O que te traz mais alegria aqui?",
+    wizard_opt_excite_career: "Construir minha carreira",
+    wizard_opt_excite_life: "A paz e segurança",
+    wizard_opt_excite_nature: "Natureza e estações",
+    wizard_opt_excite_edu: "Aprender coisas novas",
+    wizard_opt_excite_adventure: "Apenas a aventura"
   },
   "pt-pt": {
     landing_welcome: "Bem-vindo!",
@@ -857,8 +842,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_lang_inter: "Intermédio (A2-B1)",
     wizard_opt_lang_fluent: "Fluente (B2+)",
 
-    wizard_scale_1_motivation: "Baixa",
-    wizard_scale_5_motivation: "Muito Alta",
+    wizard_scale_1_motivation: "Curioso",
+    wizard_scale_5_motivation: "Imparável",
 
     wizard_step9_title: "Nível de Inglês",
     wizard_opt_lang_en_none: "Nenhum",
@@ -871,36 +856,32 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
     
-    wizard_step12_title: "Quão ligado te sentes à cultura finlandesa?",
-    wizard_opt_cult_high: "Quero integrar-me totalmente",
-    wizard_opt_cult_med: "Gosto, mas sou observador",
-    wizard_opt_cult_low: "É tudo novo e misterioso",
-    wizard_opt_cult_unsure: "Não tenho a certeza",
+    wizard_step12_title: "Como é que a cultura finlandesa te faz sentir?",
+    wizard_opt_cult_high: "Estou a mergulhar a fundo",
+    wizard_opt_cult_med: "Estou a observar com gosto",
+    wizard_opt_cult_low: "É um mistério bonito",
     
-    wizard_step13_title: "Quanto é que o estilo de vida finlandês ressoa contigo?",
-    wizard_opt_conf_life_low: "Ainda a ajustar-me",
-    wizard_opt_conf_life_med: "A melhorar",
-    wizard_opt_conf_life_high: "Sinto-me em casa",
-
+    wizard_step13_title: "Como estás a sentir o ritmo de vida aqui?",
+    
     wizard_step14_title: "Confiança na procura de emprego",
 
-    wizard_scale_1_career: "Não sei nada",
-    wizard_scale_5_career: "Sei o que fazer",
+    wizard_scale_1_career: "Preciso de direção",
+    wizard_scale_5_career: "Tenho um plano",
     
-    wizard_scale_1_life: "Ainda a ajustar-me",
+    wizard_scale_1_life: "Ainda a descongelar",
     wizard_scale_5_life: "Sinto-me em casa",
 
-    wizard_step15_title: "Quão informado estás?",
-    wizard_opt_info_none: "Nada informado",
-    wizard_opt_info_some: "Um pouco informado",
-    wizard_opt_info_yes: "Informado",
-    wizard_opt_info_high: "Muito informado",
-    wizard_step16_title: "O que mais te entusiasma?",
-    wizard_opt_excite_career: "Oportunidades de carreira",
-    wizard_opt_excite_life: "Qualidade de vida e segurança",
-    wizard_opt_excite_nature: "Natureza e cultura",
-    wizard_opt_excite_edu: "Educação",
-    wizard_opt_excite_idk: "Ainda estou a descobrir"
+    wizard_step15_title: "O caminho à frente está claro?",
+    wizard_opt_info_none: "Há nevoeiro (Preciso de um mapa)",
+    wizard_opt_info_some: "As nuvens estão a abrir",
+    wizard_opt_info_high: "Cristalino",
+
+    wizard_step16_title: "O que te traz mais alegria aqui?",
+    wizard_opt_excite_career: "Construir a minha carreira",
+    wizard_opt_excite_life: "A paz e segurança",
+    wizard_opt_excite_nature: "Natureza e estações",
+    wizard_opt_excite_edu: "Aprender coisas novas",
+    wizard_opt_excite_adventure: "Apenas a aventura"
   },
   ru: {
     landing_welcome: "Добро пожаловать!",
@@ -1033,7 +1014,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_lang_inter: "Средний (A2-B1)",
     wizard_opt_lang_fluent: "Свободный (B2+)",
 
-    wizard_scale_1_motivation: "Нет",
+    wizard_scale_1_motivation: "Любопытно",
     wizard_scale_5_motivation: "Очень высокая",
 
     wizard_step9_title: "Уровень английского",
@@ -1047,36 +1028,32 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Проблемы",
     wizard_step10_challenges_placeholder: "Что вас беспокоит?",
     
-    wizard_step12_title: "Насколько вы связаны с финской культурой?",
-    wizard_opt_cult_high: "Хочу полностью интегрироваться",
-    wizard_opt_cult_med: "Мне нравится, но я наблюдатель",
-    wizard_opt_cult_low: "Все новое и загадочное",
-    wizard_opt_cult_unsure: "Не уверен",
+    wizard_step12_title: "Какие чувства вызывает финская культура?",
+    wizard_opt_cult_high: "Хочу погрузиться с головой",
+    wizard_opt_cult_med: "С радостью наблюдаю",
+    wizard_opt_cult_low: "Это красивая загадка",
     
-    wizard_step13_title: "Насколько вам близок финский образ жизни?",
-    wizard_opt_conf_life_low: "Все еще привыкаю",
-    wizard_opt_conf_life_med: "Осваиваюсь",
-    wizard_opt_conf_life_high: "Чувствую себя как дома",
+    wizard_step13_title: "Как вы ощущаете ритм жизни здесь?",
     
     wizard_step14_title: "Уверенность в поиске работы",
     
-    wizard_scale_1_career: "Не знаю ничего",
-    wizard_scale_5_career: "Знаю что делать",
+    wizard_scale_1_career: "Нужен ориентир",
+    wizard_scale_5_career: "У меня есть план",
     
-    wizard_scale_1_life: "Привыкаю",
+    wizard_scale_1_life: "Еще оттаиваю",
     wizard_scale_5_life: "Как дома",
 
-    wizard_step15_title: "Насколько вы информированы?",
-    wizard_opt_info_none: "Вообще не знаю",
-    wizard_opt_info_some: "Немного знаю",
-    wizard_opt_info_yes: "Знаю",
-    wizard_opt_info_high: "Отлично знаю",
-    wizard_step16_title: "Что вас больше всего радует?",
-    wizard_opt_excite_career: "Карьерные возможности",
-    wizard_opt_excite_life: "Качество жизни и безопасность",
-    wizard_opt_excite_nature: "Природа и культура",
-    wizard_opt_excite_edu: "Образование",
-    wizard_opt_excite_idk: "Пока не знаю"
+    wizard_step15_title: "Насколько ясен ваш путь?",
+    wizard_opt_info_none: "Туманно (нужна карта)",
+    wizard_opt_info_some: "Облака рассеиваются",
+    wizard_opt_info_high: "Все кристально ясно",
+
+    wizard_step16_title: "Что приносит вам здесь радость?",
+    wizard_opt_excite_career: "Карьерный рост",
+    wizard_opt_excite_life: "Покой и безопасность",
+    wizard_opt_excite_nature: "Природа и сезоны",
+    wizard_opt_excite_edu: "Изучение нового",
+    wizard_opt_excite_adventure: "Просто приключение"
   }
 };
 
