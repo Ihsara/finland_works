@@ -39,6 +39,7 @@ export type TranslationKey =
   | 'chat_placeholder'
   | 'chat_end_session'
   | 'chat_header_assistant'
+  | 'chat_prompt_context_inquiry'
   | 'btn_back_dashboard'
   | 'profile_btn_guide'
   | 'profile_btn_guide_desc'
@@ -63,10 +64,12 @@ export type TranslationKey =
   | 'wiki_explore_subtitle'
   | 'wiki_full_index'
   | 'wiki_full_index_subtitle'
+  | 'wiki_section_chapters'
   | 'wiki_btn_saved'
   | 'wiki_btn_later'
   | 'wiki_btn_completed'
   | 'wiki_btn_mark_done'
+  | 'wiki_ctx_ask' 
   | 'wizard_header_quiz'
   | 'wizard_greeting_short'
   | 'wizard_title_init'
@@ -183,7 +186,6 @@ export type TranslationKey =
   | 'wizard_opt_excite_career'
   | 'wizard_opt_excite_life'
   | 'wizard_opt_excite_nature'
-  | 'wizard_opt_excite_edu'
   | 'wizard_opt_excite_adventure';
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
@@ -215,6 +217,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_placeholder: "Ask something...",
     chat_end_session: "End Session",
     chat_header_assistant: "Assistant",
+    chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"",
     btn_back_dashboard: "Back to Dashboard",
     profile_btn_guide: "My Guide",
     profile_btn_guide_desc: "Recommended articles",
@@ -239,10 +242,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_explore_subtitle: "Select a topic to dive into the details.",
     wiki_full_index: "Full Index",
     wiki_full_index_subtitle: "Browse all topics below.",
+    wiki_section_chapters: "Chapters",
     wiki_btn_saved: "Saved",
     wiki_btn_later: "Later",
     wiki_btn_completed: "Completed",
     wiki_btn_mark_done: "Mark Done",
+    wiki_ctx_ask: "Start a chat with this sentence",
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Hi, {name}!",
     wizard_title_init: "Create Your Profile",
@@ -367,7 +372,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Building my career",
     wizard_opt_excite_life: "The peace & safety",
     wizard_opt_excite_nature: "Nature & seasons",
-    wizard_opt_excite_edu: "Learning new things",
     wizard_opt_excite_adventure: "Just being on an adventure"
   },
   vi: {
@@ -391,6 +395,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_placeholder: "Hỏi gì đó...",
     chat_end_session: "Kết thúc",
     chat_header_assistant: "Trợ lý",
+    chat_prompt_context_inquiry: "Hãy nói thêm về \"{sentence}\"",
     btn_back_dashboard: "Về Trang Chủ",
     profile_btn_guide: "Cẩm Nang",
     profile_btn_guide_desc: "Bài viết gợi ý",
@@ -415,10 +420,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_explore_subtitle: "Chọn chủ đề để xem chi tiết.",
     wiki_full_index: "Mục lục đầy đủ",
     wiki_full_index_subtitle: "Duyệt tất cả chủ đề bên dưới.",
+    wiki_section_chapters: "Các chương",
     wiki_btn_saved: "Đã lưu",
     wiki_btn_later: "Để sau",
     wiki_btn_completed: "Đã xong",
     wiki_btn_mark_done: "Đánh dấu xong",
+    wiki_ctx_ask: "Bắt đầu trò chuyện với câu này",
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Chào, {name}!",
     wizard_title_init: "Tạo Hồ Sơ",
@@ -538,7 +545,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Xây dựng sự nghiệp",
     wizard_opt_excite_life: "Sự bình yên & an toàn",
     wizard_opt_excite_nature: "Thiên nhiên & mùa màng",
-    wizard_opt_excite_edu: "Học hỏi điều mới",
     wizard_opt_excite_adventure: "Tận hưởng chuyến phiêu lưu"
   },
   "pt-br": {
@@ -562,6 +568,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_placeholder: "Pergunte algo...",
     chat_end_session: "Encerrar",
     chat_header_assistant: "Assistente",
+    chat_prompt_context_inquiry: "Fale mais sobre \"{sentence}\"",
     btn_back_dashboard: "Voltar ao Início",
     profile_btn_guide: "Meu Guia",
     profile_btn_guide_desc: "Artigos recomendados",
@@ -586,10 +593,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_explore_subtitle: "Selecione um tópico para ver detalhes.",
     wiki_full_index: "Índice Completo",
     wiki_full_index_subtitle: "Navegue por todos os tópicos.",
+    wiki_section_chapters: "Capítulos",
     wiki_btn_saved: "Salvo",
     wiki_btn_later: "Depois",
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
+    wiki_ctx_ask: "Conversar sobre esta frase",
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Olá, {name}!",
     wizard_title_init: "Criar Perfil",
@@ -709,7 +718,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Construir minha carreira",
     wizard_opt_excite_life: "A paz e segurança",
     wizard_opt_excite_nature: "Natureza e estações",
-    wizard_opt_excite_edu: "Aprender coisas novas",
     wizard_opt_excite_adventure: "Apenas a aventura"
   },
   "pt-pt": {
@@ -733,6 +741,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_placeholder: "Pergunta algo...",
     chat_end_session: "Terminar",
     chat_header_assistant: "Assistente",
+    chat_prompt_context_inquiry: "Diz-me mais sobre \"{sentence}\"",
     btn_back_dashboard: "Voltar ao Início",
     profile_btn_guide: "O Meu Guia",
     profile_btn_guide_desc: "Artigos recomendados",
@@ -757,10 +766,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_explore_subtitle: "Seleciona um tópico para ver detalhes.",
     wiki_full_index: "Índice Completo",
     wiki_full_index_subtitle: "Navega por todos os tópicos.",
+    wiki_section_chapters: "Capítulos",
     wiki_btn_saved: "Guardado",
     wiki_btn_later: "Depois",
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
+    wiki_ctx_ask: "Conversar sobre esta frase",
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Olá, {name}!",
     wizard_title_init: "Criar Perfil",
@@ -880,7 +891,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Construir a minha carreira",
     wizard_opt_excite_life: "A paz e segurança",
     wizard_opt_excite_nature: "Natureza e estações",
-    wizard_opt_excite_edu: "Aprender coisas novas",
     wizard_opt_excite_adventure: "Apenas a aventura"
   },
   ru: {
@@ -905,6 +915,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_placeholder: "Спросите что-нибудь...",
     chat_end_session: "Завершить",
     chat_header_assistant: "Ассистент",
+    chat_prompt_context_inquiry: "Расскажи подробнее о \"{sentence}\"",
     btn_back_dashboard: "На главную",
     profile_btn_guide: "Мой Гид",
     profile_btn_guide_desc: "Рекомендации",
@@ -929,10 +940,12 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_explore_subtitle: "Выберите тему для изучения.",
     wiki_full_index: "Полный индекс",
     wiki_full_index_subtitle: "Просмотр всех тем.",
+    wiki_section_chapters: "Главы",
     wiki_btn_saved: "Сохранено",
     wiki_btn_later: "Позже",
     wiki_btn_completed: "Готово",
     wiki_btn_mark_done: "Завершить",
+    wiki_ctx_ask: "Обсудить эту фразу",
     wizard_header_quiz: "Опрос",
     wizard_greeting_short: "Привет, {name}!",
     wizard_title_init: "Создать профиль",
@@ -1052,7 +1065,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Карьерный рост",
     wizard_opt_excite_life: "Покой и безопасность",
     wizard_opt_excite_nature: "Природа и сезоны",
-    wizard_opt_excite_edu: "Изучение нового",
     wizard_opt_excite_adventure: "Просто приключение"
   }
 };

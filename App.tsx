@@ -9,7 +9,7 @@ import { marked } from 'marked';
 import WikiView from './components/WikiView';
 import ProfileWizard from './components/ProfileWizard';
 import { getAllFlattenedArticles, WikiArticle } from './data/wikiContent';
-import { SUPPORTED_LANGUAGES } from './data/languages';
+import { SUPPORTED_LANGUAGES, t } from './data/languages';
 import { calculateProfileCompleteness } from './utils/profileUtils';
 
 // Import Views
@@ -221,10 +221,12 @@ const App: React.FC = () => {
     setCurrentConversation(newConv);
     Storage.saveConversation(newConv);
     setView(AppView.CHAT);
+    return newConv;
   };
 
-  const handleSendMessage = async () => {
-    if (!inputText.trim() || !currentConversation) return;
+  const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation) => {
+    const conversation = conversationOverride || currentConversation;
+    if (!messageText.trim() || !conversation) return;
     
     const activeProfile = profile || Storage.getActiveProfile();
     if (!activeProfile) {
@@ -236,12 +238,12 @@ const App: React.FC = () => {
     const userMsg: Message = {
       id: uuidv4(),
       sender: Sender.USER,
-      text: inputText,
+      text: messageText,
       timestamp: Date.now()
     };
 
-    const updatedMessages = [...currentConversation.messages, userMsg];
-    const updatedConv = { ...currentConversation, messages: updatedMessages };
+    const updatedMessages = [...conversation.messages, userMsg];
+    const updatedConv = { ...conversation, messages: updatedMessages };
     
     setCurrentConversation(updatedConv);
     Storage.saveConversation(updatedConv);
@@ -252,9 +254,15 @@ const App: React.FC = () => {
       const progress = Storage.getWikiProgress(activeProfile.id);
       const allArticles = getAllFlattenedArticles(language);
 
+      // If contextOverride exists (from wiki), we prepend it to the message sent to Gemini
+      // but NOT to the UI history above (to keep UI clean).
+      const messageToSend = contextOverride 
+         ? `${contextOverride}\n\nUSER QUESTION: ${messageText}` 
+         : messageText;
+
       const responseText = await Gemini.sendMessageToGemini(
         updatedMessages.slice(0, -1), 
-        userMsg.text, 
+        messageToSend, 
         activeProfile,
         progress,
         allArticles,
@@ -279,6 +287,18 @@ const App: React.FC = () => {
     } finally {
       setIsTyping(false);
     }
+  };
+
+  const handleStartChatWithContext = (context: string, sentence: string) => {
+     // 1. Switch to Chat View
+     const conversation = startNewChat();
+     
+     // 2. Prepare the user facing prompt (Clean)
+     const userPrompt = t('chat_prompt_context_inquiry', language, { sentence });
+     
+     // 3. Trigger send immediately using the explicitly created conversation object
+     // This avoids stale state closure issues where 'currentConversation' is null
+     handleSendMessage(userPrompt, context, conversation);
   };
 
   const handleEndSession = async () => {
@@ -416,6 +436,7 @@ const App: React.FC = () => {
           onLanguageSelect={handleLanguageSelect}
           activeArticle={activeWikiArticle}
           onArticleSelect={setActiveWikiArticle}
+          onStartChatWithContext={handleStartChatWithContext}
         />
       )}
 
@@ -449,7 +470,7 @@ const App: React.FC = () => {
           isTyping={isTyping}
           inputText={inputText}
           onInputChange={setInputText}
-          onSendMessage={handleSendMessage}
+          onSendMessage={() => handleSendMessage(inputText)}
           onEndSession={handleEndSession}
           onLanguageSelect={handleLanguageSelect}
         />

@@ -62,7 +62,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     residencePermitType: '',
     maritalStatus: '',
     educationDegree: '',
-    educationField: '',
     profession: '',
     languageFinnish: '',
     languageEnglish: '',
@@ -87,7 +86,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             residencePermitType: (initialData.residencePermitType === 'Unknown' || initialData.residencePermitType === 'General') ? '' : initialData.residencePermitType,
             maritalStatus: (initialData.maritalStatus === 'Unknown' || initialData.maritalStatus === 'Single') ? '' : initialData.maritalStatus,
             educationDegree: (initialData.education?.degree === 'Unknown' || initialData.education?.degree === 'Not specified') ? '' : initialData.education?.degree,
-            educationField: (initialData.education?.field === 'Unknown' || initialData.education?.field === 'General') ? '' : initialData.education?.field,
             profession: (initialData.profession === 'Unknown' || initialData.profession === 'Job Seeker') ? '' : initialData.profession,
             languageFinnish: initialData.languages?.find(l => l.language === 'Finnish')?.level || '',
             languageEnglish: initialData.languages?.find(l => l.language === 'English')?.level || '',
@@ -308,7 +306,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       ],
       education: {
         degree: formData.educationDegree || 'Not specified',
-        field: formData.educationField || 'General'
+        field: 'General'
       },
       profession: formData.profession || 'Job Seeker',
       aspirations: formData.aspirations.split(',').map(s => s.trim()).filter(s => s),
@@ -703,7 +701,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       { value: "Career opportunities", label: t('wizard_opt_excite_career', lang) },
       { value: "Quality of life", label: t('wizard_opt_excite_life', lang) },
       { value: "Nature and culture", label: t('wizard_opt_excite_nature', lang) },
-      { value: "Education", label: t('wizard_opt_excite_edu', lang) },
       { value: "Adventure", label: t('wizard_opt_excite_adventure', lang) },
   ];
 
@@ -1130,37 +1127,39 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   return (
     <div className="flex flex-col h-full bg-white font-sans">
        {/* HEADER */}
-       <div className="flex-shrink-0 p-6 md:p-8 flex justify-between items-center">
-          <div onClick={onCancel} className="cursor-pointer hover:opacity-70 transition">
+       <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-6 flex justify-between items-center bg-white border-b border-gray-50">
+          <div onClick={onCancel} className="cursor-pointer hover:opacity-70 transition scale-90 md:scale-100 origin-left">
              <Logo />
           </div>
-          <div className="flex items-center gap-3">
-             {/* Personal Greeting Pill */}
+          <div className="flex items-center gap-2 md:gap-3">
+             {/* Personal Greeting Pill - Permanent now */}
              {formData.name.trim().length > 0 && (
-                 <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-gray-900 font-bold text-sm border border-gray-200 animate-in fade-in slide-in-from-right-4 duration-500 mr-2">
-                    <span className="text-lg">👋</span>
-                    {t('wizard_greeting_short', language, { name: formData.name.split(' ')[0] })}
+                 <div className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-gray-100 rounded-full text-gray-900 font-bold text-xs md:text-sm border border-gray-200 animate-in fade-in slide-in-from-right-4 duration-500">
+                    <span className="text-base md:text-lg">👋</span>
+                    <span className="max-w-[100px] md:max-w-[150px] truncate">
+                        {t('wizard_greeting_short', language, { name: formData.name.split(' ')[0] })}
+                    </span>
                  </div>
              )}
 
              <button 
                onClick={onCancel} 
-               className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-gray-900 text-gray-900 shadow-sm hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 text-sm font-bold tracking-tight"
+               className="hidden md:flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full bg-white border-2 border-gray-900 text-gray-900 shadow-sm hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 text-xs md:text-sm font-bold tracking-tight"
              >
                <Icons.MessageSquare className="w-4 h-4 text-gray-900" /> 
-               {t('wizard_btn_ask', language)}
+               <span className="hidden lg:inline">{t('wizard_btn_ask', language)}</span>
              </button>
 
              <LanguageSelector 
                currentLanguage={language} 
                onSelect={onLanguageSelect} 
-               className="min-w-[140px]"
+               className="min-w-[auto] md:min-w-[140px]"
              />
           </div>
        </div>
 
        {/* PROGRESS & TITLE AREA */}
-       <div className="px-6 md:px-8 mb-8 max-w-3xl mx-auto w-full">
+       <div className="px-6 md:px-8 mb-8 max-w-3xl mx-auto w-full mt-4">
           <div className="flex flex-col md:flex-row md:items-end gap-4 mb-4">
              <div className="flex-1">
                  {/* Phase Label for Gamification */}

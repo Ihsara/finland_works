@@ -1,3 +1,4 @@
+
 /* Base Global Styles */
 :root {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
@@ -51,4 +52,24 @@ body {
   border-top-color: #1f2937;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+/* Wiki Interactive Sentences */
+.interactive-sentence {
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-color 0.15s ease-in-out;
+  padding: 2px 0;
+  border-radius: 2px;
+}
+
+.interactive-sentence:hover {
+  background-color: #fef3c7; /* amber-100 */
+}
+
+.interactive-sentence.highlight-active {
+    position: relative;
+    z-index: 1; 
+    background-color: #fef9c3; /* yellow-100 */
 }

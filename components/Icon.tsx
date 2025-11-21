@@ -68,7 +68,8 @@ import {
   Snowflake,
   CloudSun,
   Sprout,
-  Flower2
+  Flower2,
+  List
 } from 'lucide-react';
 
 export const Icons = {
@@ -139,5 +140,6 @@ export const Icons = {
   Snowflake,
   CloudSun,
   Sprout,
-  Flower2
+  Flower2,
+  List
 };
