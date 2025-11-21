@@ -15,6 +15,7 @@ export type TranslationKey =
   | 'landing_welcome'
   | 'landing_subtitle'
   | 'landing_btn_quiz'
+  | 'landing_btn_continue' // New key
   | 'landing_btn_ask'
   | 'landing_load_sample'
   | 'landing_erase'
@@ -192,6 +193,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_welcome: "Welcome!",
     landing_subtitle: "Find your way to work in Finland",
     landing_btn_quiz: "Tell me about yourself",
+    landing_btn_continue: "Explore My Guide",
     landing_btn_ask: "Start a conversation",
     landing_load_sample: "Load Sample (Gabriela)",
     landing_erase: "Erase Cache",
@@ -201,7 +203,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_greeting_guest: "Moi!",
     dash_subtitle: "Welcome back to your personal Finland guide.",
     dash_subtitle_guest: "Let's set up your profile to get started.",
-    dash_btn_guide: "Open Finland Guide",
+    dash_btn_guide: "Open My Guide",
     dash_btn_ask: "Start a conversation",
     dash_switch_profile: "Switch Profile",
     dash_new_profile: "New",
@@ -295,7 +297,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_eu_yes: "Yes",
     wizard_eu_no: "No",
 
-    // Step 5: Work Rights
     wizard_step5_title: "Working Rights & Permit",
     wizard_permit_full_title: "Unlimited Rights",
     wizard_permit_full_desc: "Permanent, Family, EU, or Finnish Degree",
@@ -345,19 +346,21 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_scale_1_career: "I don't know anything",
     wizard_scale_5_career: "I know what to do",
 
-    wizard_scale_1_life: "I feel lost",
-    wizard_scale_5_life: "Very Confident",
+    wizard_scale_1_life: "Still adjusting",
+    wizard_scale_5_life: "Feels like home",
 
-    wizard_step12_title: "How interested are you in Finnish culture & everyday life?",
-    wizard_opt_cult_high: "Very interested – I want to integrate deeply",
-    wizard_opt_cult_med: "Moderately interested",
-    wizard_opt_cult_low: "A little interested",
+    // Step 12 - Reframed
+    wizard_step12_title: "How connected do you feel to Finnish culture?",
+    wizard_opt_cult_high: "I want to fully integrate",
+    wizard_opt_cult_med: "I enjoy it, but I'm an observer",
+    wizard_opt_cult_low: "It's all new & mysterious",
     wizard_opt_cult_unsure: "Not sure yet",
 
-    wizard_step13_title: "How confident do you feel navigating life in Finland?",
-    wizard_opt_conf_life_low: "I feel lost and need clear guidance",
-    wizard_opt_conf_life_med: "I’m somewhat confident but need support",
-    wizard_opt_conf_life_high: "I’m quite confident and looking for advanced info",
+    // Step 13 - Reframed
+    wizard_step13_title: "How much does the Finnish lifestyle resonate with you?",
+    wizard_opt_conf_life_low: "Still adjusting",
+    wizard_opt_conf_life_med: "Getting there",
+    wizard_opt_conf_life_high: "Feels like home",
 
     wizard_step14_title: "Confidence in Job Hunting",
     
@@ -378,6 +381,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_welcome: "Chào mừng!",
     landing_subtitle: "Tìm đường đến với công việc tại Phần Lan",
     landing_btn_quiz: "Giới thiệu về bạn",
+    landing_btn_continue: "Khám phá Cẩm Nang",
     landing_btn_ask: "Bắt đầu trò chuyện",
     landing_load_sample: "Tải mẫu (Gabriela)",
     landing_erase: "Xóa bộ nhớ đệm",
@@ -517,22 +521,24 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Thử thách",
     wizard_step10_challenges_placeholder: "Bạn có lo lắng điều gì không?",
     
-    wizard_step12_title: "Bạn quan tâm văn hóa Phần Lan thế nào?",
-    wizard_opt_cult_high: "Rất quan tâm – Muốn hòa nhập sâu",
-    wizard_opt_cult_med: "Khá quan tâm",
-    wizard_opt_cult_low: "Một chút",
+    wizard_step12_title: "Bạn cảm thấy thế nào về văn hóa Phần Lan?",
+    wizard_opt_cult_high: "Muốn hòa nhập hoàn toàn",
+    wizard_opt_cult_med: "Thích thú, nhưng chỉ quan sát",
+    wizard_opt_cult_low: "Mọi thứ còn mới mẻ & bí ẩn",
     wizard_opt_cult_unsure: "Chưa chắc chắn",
-    wizard_step13_title: "Bạn tự tin thế nào về cuộc sống ở đây?",
-    wizard_opt_conf_life_low: "Tôi cảm thấy lạc lõng",
-    wizard_opt_conf_life_med: "Khá tự tin nhưng cần hỗ trợ",
-    wizard_opt_conf_life_high: "Rất tự tin",
+    
+    wizard_step13_title: "Lối sống Phần Lan phù hợp với bạn thế nào?",
+    wizard_opt_conf_life_low: "Vẫn đang thích nghi",
+    wizard_opt_conf_life_med: "Đang dần quen",
+    wizard_opt_conf_life_high: "Như ở nhà",
+    
     wizard_step14_title: "Tự tin tìm việc?",
     
     wizard_scale_1_career: "Mù tịt",
     wizard_scale_5_career: "Biết rõ cần làm gì",
     
-    wizard_scale_1_life: "Cảm thấy lạc lõng",
-    wizard_scale_5_life: "Rất tự tin",
+    wizard_scale_1_life: "Đang thích nghi",
+    wizard_scale_5_life: "Như ở nhà",
 
     wizard_step15_title: "Bạn nắm thông tin về Phần Lan thế nào?",
     wizard_opt_info_none: "Chưa biết gì",
@@ -550,6 +556,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_welcome: "Bem-vindo!",
     landing_subtitle: "Encontre seu caminho na Finlândia",
     landing_btn_quiz: "Fale sobre você",
+    landing_btn_continue: "Explorar Meu Guia",
     landing_btn_ask: "Começar conversa",
     landing_load_sample: "Carregar Exemplo (Gabriela)",
     landing_erase: "Limpar Cache",
@@ -558,7 +565,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_greeting_guest: "Moi!",
     dash_subtitle: "Bem-vindo de volta ao seu guia pessoal.",
     dash_subtitle_guest: "Vamos configurar seu perfil para começar.",
-    dash_btn_guide: "Abrir Guia",
+    dash_btn_guide: "Abrir Meu Guia",
     dash_btn_ask: "Começar conversa",
     dash_switch_profile: "Trocar Perfil",
     dash_new_profile: "Novo",
@@ -689,22 +696,24 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
     
-    wizard_step12_title: "Interesse na cultura finlandesa?",
-    wizard_opt_cult_high: "Muito interessado – Quero me integrar",
-    wizard_opt_cult_med: "Moderadamente interessado",
-    wizard_opt_cult_low: "Um pouco interessado",
+    wizard_step12_title: "Quão conectado você se sente à cultura finlandesa?",
+    wizard_opt_cult_high: "Quero me integrar totalmente",
+    wizard_opt_cult_med: "Gosto, mas sou observador",
+    wizard_opt_cult_low: "É tudo novo e misterioso",
     wizard_opt_cult_unsure: "Não tenho certeza",
-    wizard_step13_title: "Quão confiante se sente na Finlândia?",
-    wizard_opt_conf_life_low: "Me sinto perdido",
-    wizard_opt_conf_life_med: "Um pouco confiante",
-    wizard_opt_conf_life_high: "Muito confiante",
+    
+    wizard_step13_title: "O quanto o estilo de vida finlandês ressoa com você?",
+    wizard_opt_conf_life_low: "Ainda me adaptando",
+    wizard_opt_conf_life_med: "Chegando lá",
+    wizard_opt_conf_life_high: "Sinto-me em casa",
+
     wizard_step14_title: "Confiança na busca por emprego",
 
     wizard_scale_1_career: "Não sei nada",
     wizard_scale_5_career: "Sei o que fazer",
     
-    wizard_scale_1_life: "Me sinto perdido",
-    wizard_scale_5_life: "Muito confiante",
+    wizard_scale_1_life: "Ainda me adaptando",
+    wizard_scale_5_life: "Sinto-me em casa",
 
     wizard_step15_title: "Quão informado você está?",
     wizard_opt_info_none: "Nada informado",
@@ -722,6 +731,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_welcome: "Bem-vindo!",
     landing_subtitle: "Encontra o teu caminho na Finlândia",
     landing_btn_quiz: "Fala-me sobre ti",
+    landing_btn_continue: "Explorar o Meu Guia",
     landing_btn_ask: "Iniciar conversa",
     landing_load_sample: "Carregar Exemplo (Gabriela)",
     landing_erase: "Limpar Cache",
@@ -730,7 +740,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_greeting_guest: "Moi!",
     dash_subtitle: "Bem-vindo de volta ao teu guia pessoal.",
     dash_subtitle_guest: "Vamos configurar o teu perfil para começar.",
-    dash_btn_guide: "Abrir Guia",
+    dash_btn_guide: "Abrir o Meu Guia",
     dash_btn_ask: "Iniciar conversa",
     dash_switch_profile: "Trocar Perfil",
     dash_new_profile: "Novo",
@@ -861,22 +871,24 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Desafios",
     wizard_step10_challenges_placeholder: "Alguma preocupação específica?",
     
-    wizard_step12_title: "Interesse na cultura finlandesa?",
-    wizard_opt_cult_high: "Muito interessado – Quero integrar-me",
-    wizard_opt_cult_med: "Moderadamente interessado",
-    wizard_opt_cult_low: "Um pouco interessado",
+    wizard_step12_title: "Quão ligado te sentes à cultura finlandesa?",
+    wizard_opt_cult_high: "Quero integrar-me totalmente",
+    wizard_opt_cult_med: "Gosto, mas sou observador",
+    wizard_opt_cult_low: "É tudo novo e misterioso",
     wizard_opt_cult_unsure: "Não tenho a certeza",
-    wizard_step13_title: "Quão confiante te sentes na Finlândia?",
-    wizard_opt_conf_life_low: "Sinto-me perdido",
-    wizard_opt_conf_life_med: "Um pouco confiante",
-    wizard_opt_conf_life_high: "Muito confiante",
+    
+    wizard_step13_title: "Quanto é que o estilo de vida finlandês ressoa contigo?",
+    wizard_opt_conf_life_low: "Ainda a ajustar-me",
+    wizard_opt_conf_life_med: "A melhorar",
+    wizard_opt_conf_life_high: "Sinto-me em casa",
+
     wizard_step14_title: "Confiança na procura de emprego",
 
     wizard_scale_1_career: "Não sei nada",
     wizard_scale_5_career: "Sei o que fazer",
     
-    wizard_scale_1_life: "Sinto-me perdido",
-    wizard_scale_5_life: "Muito confiante",
+    wizard_scale_1_life: "Ainda a ajustar-me",
+    wizard_scale_5_life: "Sinto-me em casa",
 
     wizard_step15_title: "Quão informado estás?",
     wizard_opt_info_none: "Nada informado",
@@ -894,6 +906,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_welcome: "Добро пожаловать!",
     landing_subtitle: "Найдите свой путь в Финляндии",
     landing_btn_quiz: "Расскажите о себе",
+    landing_btn_continue: "Исследовать мой гид",
     landing_btn_ask: "Начать чат",
     landing_load_sample: "Загрузить пример (Габриэла)",
     landing_erase: "Сброс данных",
@@ -903,7 +916,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_greeting_guest: "Moi!",
     dash_subtitle: "С возвращением к вашему гиду по Финляндии.",
     dash_subtitle_guest: "Давайте настроим ваш профиль для начала.",
-    dash_btn_guide: "Открыть Гид",
+    dash_btn_guide: "Открыть Мой Гид",
     dash_btn_ask: "Начать чат",
     dash_switch_profile: "Сменить профиль",
     dash_new_profile: "Новый",
@@ -1034,22 +1047,24 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Проблемы",
     wizard_step10_challenges_placeholder: "Что вас беспокоит?",
     
-    wizard_step12_title: "Интерес к финской культуре?",
-    wizard_opt_cult_high: "Очень интересно – хочу интегрироваться",
-    wizard_opt_cult_med: "Умеренно интересно",
-    wizard_opt_cult_low: "Немного интересно",
+    wizard_step12_title: "Насколько вы связаны с финской культурой?",
+    wizard_opt_cult_high: "Хочу полностью интегрироваться",
+    wizard_opt_cult_med: "Мне нравится, но я наблюдатель",
+    wizard_opt_cult_low: "Все новое и загадочное",
     wizard_opt_cult_unsure: "Не уверен",
-    wizard_step13_title: "Уверенность в жизни здесь?",
-    wizard_opt_conf_life_low: "Чувствую себя потерянным",
-    wizard_opt_conf_life_med: "Немного уверен, нужна поддержка",
-    wizard_opt_conf_life_high: "Уверен в себе",
+    
+    wizard_step13_title: "Насколько вам близок финский образ жизни?",
+    wizard_opt_conf_life_low: "Все еще привыкаю",
+    wizard_opt_conf_life_med: "Осваиваюсь",
+    wizard_opt_conf_life_high: "Чувствую себя как дома",
+    
     wizard_step14_title: "Уверенность в поиске работы",
     
     wizard_scale_1_career: "Не знаю ничего",
     wizard_scale_5_career: "Знаю что делать",
     
-    wizard_scale_1_life: "Чувствую себя потерянным",
-    wizard_scale_5_life: "Уверен в себе",
+    wizard_scale_1_life: "Привыкаю",
+    wizard_scale_5_life: "Как дома",
 
     wizard_step15_title: "Насколько вы информированы?",
     wizard_opt_info_none: "Вообще не знаю",

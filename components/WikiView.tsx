@@ -14,12 +14,21 @@ interface WikiViewProps {
   profile: UserProfile | null;
   language: LanguageCode;
   onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
+  // Controlled component props
+  activeArticle: WikiArticle | null;
+  onArticleSelect: (article: WikiArticle | null) => void;
 }
 
 type ViewMode = 'list' | 'icons';
 
-const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLanguageSelect }) => {
-  const [activeArticle, setActiveArticle] = useState<WikiArticle | null>(null);
+const WikiView: React.FC<WikiViewProps> = ({ 
+  onClose, 
+  profile, 
+  language, 
+  onLanguageSelect,
+  activeArticle,
+  onArticleSelect 
+}) => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -60,9 +69,15 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
       }
     });
     setOpenCategories(initialOpen);
-
-    // NOTE: Auto-selection removed to support "Navigation First" UX
   }, [profile, language]); // Re-run if language changes
+
+  // Sync activeArticle with ViewMode: if article is selected, we are effectively in Reader mode.
+  // But if it becomes null externally (via swipe back to index), we need to ensure we show the index.
+  useEffect(() => {
+      if (activeArticle) {
+          setIsMobileMenuOpen(false);
+      }
+  }, [activeArticle]);
 
   const getUserTags = (p: UserProfile): Set<string> => {
     const tags = new Set<string>(['general']);
@@ -109,8 +124,7 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
   };
 
   const handleArticleClick = (article: WikiArticle) => {
-    setActiveArticle(article);
-    setIsMobileMenuOpen(false); 
+    onArticleSelect(article);
     // Note: We don't need to set viewMode here because activeArticle != null implies Reader View
   };
 
@@ -118,17 +132,17 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
       // When clicking a big icon, we open that category and switch to FULL LIST view
       setOpenCategories({ [catId]: true });
       setViewMode('list');
-      setActiveArticle(null); // Ensure we see the list, not a specific article
+      onArticleSelect(null); // Ensure we see the list, not a specific article
   };
 
   const handleSwitchToIcons = () => {
       setViewMode('icons');
-      setActiveArticle(null);
+      onArticleSelect(null);
   };
 
   const handleSwitchToList = () => {
       setViewMode('list');
-      setActiveArticle(null);
+      onArticleSelect(null);
   };
 
   // Reusable list renderer for both Sidebar (Reader) and Full Screen List
@@ -231,8 +245,8 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
         </div>
 
         <div className="flex items-center gap-4">
-            {/* View Mode Toggles */}
-            <div className="hidden sm:flex bg-gray-100 rounded-lg p-1">
+            {/* View Mode Toggles - Hidden if article active to save space on mobile */}
+            <div className={`hidden sm:flex bg-gray-100 rounded-lg p-1 ${activeArticle ? 'opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto' : ''}`}>
                 <button
                     onClick={handleSwitchToList}
                     className={`flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
@@ -407,7 +421,6 @@ const WikiView: React.FC<WikiViewProps> = ({ onClose, profile, language, onLangu
                         </div>
                         
                         {/* Markdown Content */}
-                        {/* CRITICAL: Added text-gray-900 and explicitly overrode prose colors to prevent invisible text */}
                         <article className="prose prose-slate prose-sm md:prose-base max-w-none text-gray-900
                             prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
                             prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3

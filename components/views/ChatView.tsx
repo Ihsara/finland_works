@@ -1,0 +1,128 @@
+import React, { useEffect, useRef } from 'react';
+import { marked } from 'marked';
+import { Icons } from '../Icon';
+import { LanguageSelector } from '../LanguageSelector';
+import { Conversation, Sender, LanguageCode } from '../../types';
+import { t } from '../../data/languages';
+
+interface ChatViewProps {
+  language: LanguageCode;
+  conversation: Conversation;
+  isTyping: boolean;
+  inputText: string;
+  onInputChange: (val: string) => void;
+  onSendMessage: () => void;
+  onEndSession: () => void;
+  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
+}
+
+export const ChatView: React.FC<ChatViewProps> = ({
+  language,
+  conversation,
+  isTyping,
+  inputText,
+  onInputChange,
+  onSendMessage,
+  onEndSession,
+  onLanguageSelect
+}) => {
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll logic internal to the view
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [conversation.messages, isTyping]);
+
+  return (
+    <div className="flex flex-col h-full bg-white animate-in fade-in duration-500">
+      {/* Header */}
+      <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
+            FW
+          </div>
+          <div>
+            <h2 className="font-bold text-gray-900 text-sm md:text-base">{t('chat_header_assistant', language)}</h2>
+            <p className="text-[10px] md:text-xs text-green-700 flex items-center gap-1">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} className="hidden sm:block" />
+          <button 
+            onClick={onEndSession}
+            className="text-sm text-gray-700 hover:text-red-700 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 transition"
+          >
+            <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-white">
+        {conversation.messages.length === 0 && (
+          <div className="text-center text-gray-500 py-10">
+            <Icons.MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-20" />
+            <p>Start the conversation by asking a question below.</p>
+          </div>
+        )}
+        {conversation.messages.map((msg) => (
+          <div 
+            key={msg.id} 
+            className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}
+          >
+            <div 
+              className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden
+                ${msg.sender === Sender.USER 
+                  ? 'bg-gray-100 text-gray-900 rounded-tr-sm border border-gray-200' 
+                  : 'bg-white border border-gray-200 text-gray-900 rounded-tl-sm'
+                }`}
+            >
+              <div 
+                className={`prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0
+                  ${msg.sender === Sender.USER ? 'prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900' : 'prose-headings:text-gray-900 prose-p:text-gray-900'}
+                `}
+                dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
+              />
+            </div>
+          </div>
+        ))}
+        {isTyping && (
+          <div className="flex justify-start">
+            <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm">
+              <div className="flex space-x-2">
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-75"></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-150"></div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Input */}
+      <div className="p-4 md:p-6 border-t border-gray-100 bg-white">
+        <div className="relative">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => onInputChange(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && onSendMessage()}
+            placeholder={t('chat_placeholder', language)}
+            disabled={isTyping}
+            className="w-full pl-4 pr-12 py-4 bg-gray-50 border border-gray-200 rounded-xl text-base text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-black focus:bg-white focus:outline-none transition shadow-sm"
+          />
+          <button 
+            onClick={onSendMessage}
+            disabled={!inputText.trim() || isTyping}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:opacity-30 transition"
+          >
+            <Icons.Send className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

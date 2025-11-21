@@ -56,15 +56,14 @@ export const setActiveProfileId = (id: string): void => {
   localStorage.setItem(KEYS.ACTIVE_PROFILE_ID, id);
 };
 
-export const saveProfile = (profile: UserProfile): void => {
+export const saveProfile = (profile: UserProfile, makeActive: boolean = false): void => {
   if (!profile.id) {
     profile.id = uuidv4();
   }
   // Store as JSON for reliability, convert to YAML only for UI editing
   localStorage.setItem(getProfileKey(profile.id), JSON.stringify(profile));
   
-  // If this is the only profile, or specifically requested, make it active
-  if (!getActiveProfileId()) {
+  if (makeActive) {
     setActiveProfileId(profile.id);
   }
 };
@@ -73,7 +72,7 @@ export const createDemoProfile = (): UserProfile => {
   try {
     const profile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
     profile.id = uuidv4(); // Always generate a fresh ID for the "Load Sample" action
-    saveProfile(profile);
+    saveProfile(profile, true); // Force active when explicitly creating demo via button
     return profile;
   } catch (e) {
     console.error("Failed to create demo profile", e);
@@ -117,7 +116,7 @@ export const getAllProfiles = (): UserProfile[] => {
       if (!legacyProfile.id) legacyProfile.id = uuidv4();
       
       // Save to new format
-      saveProfile(legacyProfile);
+      saveProfile(legacyProfile, true);
       
       // Clean up legacy
       localStorage.removeItem(KEYS.LEGACY_PROFILE);
@@ -137,7 +136,8 @@ export const getAllProfiles = (): UserProfile[] => {
     try {
         const defaultProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
         defaultProfile.id = defaultId; 
-        saveProfile(defaultProfile);
+        // DO NOT make active by default. User must choose it.
+        saveProfile(defaultProfile, false);
         profiles.push(defaultProfile);
     } catch (e) {
         console.error("Failed to initialize default profile", e);
@@ -152,15 +152,16 @@ export const getActiveProfile = (): UserProfile | null => {
   const all = getAllProfiles();
   
   if (activeId) {
-    return all.find(p => p.id === activeId) || all[0] || null;
+    // If the active ID corresponds to a valid profile, return it
+    const found = all.find(p => p.id === activeId);
+    if (found) return found;
+    
+    // If active ID is stale (profile deleted), clear it
+    localStorage.removeItem(KEYS.ACTIVE_PROFILE_ID);
   }
   
-  // Default to first available if no active ID set
-  if (all.length > 0) {
-    setActiveProfileId(all[0].id);
-    return all[0];
-  }
-  
+  // DO NOT auto-select the first profile. 
+  // This ensures the App stays in "Guest" / "No Profile" state on fresh load.
   return null;
 };
 
@@ -184,7 +185,8 @@ export const saveProfileFromYaml = (yamlStr: string): UserProfile => {
     // For now, ensure it has one.
     profile.id = uuidv4(); 
   }
-  saveProfile(profile);
+  // If we are editing YAML, we assume the user wants to keep working on this profile
+  saveProfile(profile, true);
   return profile;
 };
 

@@ -126,13 +126,19 @@ export const createSystemInstruction = (
       `;
   } else {
       // Add behavioral context based on new psychological fields
-      // Updated to handle both legacy string values AND new numeric scale values ("1", "2", etc.)
+      // Updated to handle numeric values ("1", "2", etc.)
       
-      const lowConfidenceLife = ['1', '2', 'lost', 'support'];
+      const lowConfidenceLife = ['1', '2', 'lost', 'support', 'adjusting', 'alienated'];
       const isLowConfidenceLife = lowConfidenceLife.some(val => profile.confidenceLife?.toLowerCase().includes(val));
 
       if (isLowConfidenceLife) {
-          behavioralPrompt += `[EMOTIONAL CONTEXT]: The user has low confidence (Level ${profile.confidenceLife}/5) in navigating life here. Be extra reassuring, break tasks down into tiny steps, and avoid overwhelming them with too much info at once. Be a "safe" mentor.\n`;
+          behavioralPrompt += `[SOCIAL CONNECTION]: The user feels they are still adjusting or disconnected (Resonance Level ${profile.confidenceLife}/5). Be extra reassuring. Focus on community building, making friends, and finding belonging. Validate their feelings of being an outsider if they arise.\n`;
+      }
+      
+      const highConfidenceLife = ['4', '5', 'home', 'confident'];
+      const isHighConfidenceLife = highConfidenceLife.some(val => profile.confidenceLife?.toLowerCase().includes(val));
+      if (isHighConfidenceLife) {
+          behavioralPrompt += `[SOCIAL CONNECTION]: The user feels well-integrated and at home (Resonance Level ${profile.confidenceLife}/5). You can suggest more advanced local activities, deep cultural nuances, or volunteering.\n`;
       }
 
       const lowConfidenceCareer = ['1', '2', 'unsure', 'ideas', 'lost'];
@@ -200,7 +206,7 @@ export const createSystemInstruction = (
   PSYCHOLOGICAL PROFILE (USE THIS TO ADJUST TONE):
   Motivation to Learn Finnish: ${profile.finnishMotivation || 'Unknown'}
   Cultural Interest: ${profile.cultureInterest || 'Unknown'}
-  Confidence (Life): ${profile.confidenceLife || 'Unknown'}
+  Social Connection / Belonging: ${profile.confidenceLife || 'Unknown'}
   Confidence (Career): ${profile.confidenceCareer || 'Unknown'}
   Current Info Level: ${profile.infoLevel || 'Unknown'}
   Excited About: ${profile.primaryExcitement || 'Unknown'}

@@ -1,0 +1,110 @@
+import React from 'react';
+import { Icons } from '../Icon';
+import { LanguageSelector } from '../LanguageSelector';
+import { UserProfile, LanguageCode } from '../../types';
+import { t } from '../../data/languages';
+import { getAvatarUrl } from '../../utils/profileUtils';
+
+interface DashboardViewProps {
+  language: LanguageCode;
+  profile: UserProfile | null;
+  profileCompleteness: number;
+  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
+  onNavigateToProfile: () => void;
+  onNavigateToWiki: () => void;
+  onNavigateToQuiz: () => void;
+  onStartChat: () => void;
+}
+
+export const DashboardView: React.FC<DashboardViewProps> = ({
+  language,
+  profile,
+  profileCompleteness,
+  onLanguageSelect,
+  onNavigateToProfile,
+  onNavigateToWiki,
+  onNavigateToQuiz,
+  onStartChat
+}) => {
+  const isGuest = !profile || profile.id === 'guest';
+
+  return (
+    <div className="flex flex-col h-full bg-white animate-in fade-in duration-500">
+      {/* Simple Header */}
+      <div className="p-6 flex justify-between items-center">
+        <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
+
+        <button 
+          onClick={onNavigateToProfile}
+          className="p-1 hover:scale-105 transition transform duration-200 group relative"
+        >
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-black shadow-sm">
+            <img 
+              src={getAvatarUrl(profile)} 
+              alt="Avatar" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
+            ME
+          </div>
+        </button>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full">
+        <div className="mb-8 relative">
+          <button
+            onClick={onNavigateToProfile} 
+            className="w-24 h-24 block rounded-full bg-gray-100 mx-auto overflow-hidden mb-4 border-4 border-white shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300 cursor-pointer"
+            title="View Profile"
+          >
+            <img 
+              src={getAvatarUrl(profile)} 
+              alt="Avatar" 
+              className="w-full h-full object-cover"
+            />
+          </button>
+        </div>
+
+        <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
+          {!isGuest ? t('dash_greeting', language, { name: profile!.name?.split(' ')[0] || 'Friend' }) : t('dash_greeting_guest', language)}
+        </h1>
+        <p className="text-xl text-gray-800 mb-12 font-light">
+          {profileCompleteness < 100 && !isGuest
+            ? t('profile_completeness_hint', language)
+            : !isGuest
+              ? t('dash_subtitle', language)
+              : t('dash_subtitle_guest', language)
+          }
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+          {!isGuest ? (
+            <button 
+              onClick={onNavigateToWiki}
+              className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
+            >
+              <Icons.BookMarked className="w-5 h-5" /> 
+              {t('dash_btn_guide', language)}
+            </button>
+          ) : (
+            <button 
+              onClick={onNavigateToQuiz}
+              className="flex items-center justify-center gap-3 bg-black text-white px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
+            >
+              <Icons.CheckSquare className="w-5 h-5" /> 
+              {t('landing_btn_quiz', language)}
+            </button>
+          )}
+          <button 
+            onClick={onStartChat}
+            className="flex items-center justify-center gap-3 bg-white text-black border border-gray-300 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
+          >
+            <Icons.MessageSquare className="w-5 h-5" /> 
+            {t('landing_btn_ask', language)}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
