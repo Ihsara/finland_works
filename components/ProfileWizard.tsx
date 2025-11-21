@@ -199,17 +199,34 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const handleBack = () => {
+    // 1. Intra-step Back Navigation (for non-clickable accordions)
+    if (step === 2 && activeSection === 'eu') {
+        setActiveSection('origin');
+        return;
+    }
+    if (step === 7 && activeSection === 'motivation') {
+        setActiveSection('level');
+        return;
+    }
+
+    // 2. Skip Logic Back
     // If at Step 6 (English) and EU citizen -> Back to 4 (Marital) -> Skipping 5
     if (step === 6 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
         setStep(4);
         return;
     }
 
+    // 3. Standard Back
     if (step > 1) {
         setStep(step - 1);
-        // Reset Active Section logic on back
-        if (step - 1 === 2) setActiveSection(formData.originCountry.includes('Europe') ? 'eu' : 'origin');
-        if (step - 1 === 7) setActiveSection('motivation'); // Maybe default to last state or 'level'
+        
+        // Restore state when entering steps from the future
+        if (step - 1 === 2) {
+             setActiveSection(formData.originCountry.includes('Europe') || isEUCountry(formData.originCountry) ? 'eu' : 'origin');
+        }
+        if (step - 1 === 7) {
+            setActiveSection(formData.languageFinnish ? 'motivation' : 'level');
+        }
     }
   };
 
@@ -298,7 +315,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       challenges: formData.challenges.split(',').map(s => s.trim()).filter(s => s),
       finnishMotivation: formData.finnishMotivation, // Stores "1" to "5"
       cultureInterest: formData.cultureInterest,
-      confidenceLife: formData.confidenceLife,
+      confidenceLife: formData.confidenceLife, // Stores "1" to "5"
       confidenceCareer: formData.confidenceCareer, // Stores "1" to "5"
       infoLevel: formData.infoLevel,
       primaryExcitement: formData.primaryExcitement
@@ -504,6 +521,70 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     );
   };
 
+  // Visual Education Selector (New)
+  const EducationSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
+      const options = [
+        {
+            id: 'General',
+            value: "High School / General",
+            title: t('wizard_edu_general_title', language),
+            desc: t('wizard_edu_general_desc', language),
+            icon: Icons.BookOpen,
+            color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200'
+        },
+        {
+            id: 'Vocational_AMK',
+            value: "Vocational / AMK",
+            title: t('wizard_edu_applied_title', language),
+            desc: t('wizard_edu_applied_desc', language),
+            icon: Icons.Briefcase,
+            color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200'
+        },
+        {
+            id: 'University',
+            value: "University Degree",
+            title: t('wizard_edu_uni_title', language),
+            desc: t('wizard_edu_uni_desc', language),
+            icon: Icons.GraduationCap,
+            color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200'
+        }
+      ];
+
+      return (
+        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            {options.map(opt => {
+                 const isSelected = current === opt.value;
+                 return (
+                    <button
+                        key={opt.id}
+                        onClick={() => onSelect(opt.value)}
+                        className={`
+                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                            ${isSelected 
+                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                            }
+                        `}
+                    >
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                            <opt.icon className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                            <p className="text-gray-500 text-sm">{opt.desc}</p>
+                        </div>
+                        {isSelected && (
+                             <div className="ml-auto">
+                                <Icons.CheckCircle className="w-6 h-6 text-black" />
+                             </div>
+                        )}
+                    </button>
+                 );
+            })}
+        </div>
+    );
+  };
+
   // Visual Permit Selector
   const PermitSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
       const options = [
@@ -607,15 +688,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   // Options Generators
-  const getEducationOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "High School", label: t('wizard_opt_hs', lang) },
-    { value: "Vocational", label: t('wizard_opt_vocational', lang) },
-    { value: "Bachelor's", label: t('wizard_opt_bachelors', lang) },
-    { value: "Master's", label: t('wizard_opt_masters', lang) },
-    { value: "PhD", label: t('wizard_opt_phd', lang) },
-    { value: "Other", label: t('wizard_opt_other', lang) }
-  ];
-
   const getFinnishLevelOptions = (lang: LanguageCode): OptionItem[] => [
     { value: "None yet", label: t('wizard_opt_lang_none', lang) },
     { value: "Basics (A1)", label: t('wizard_opt_lang_basics', lang) },
@@ -636,6 +708,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
       { value: "Very interested", label: t('wizard_opt_cult_high', lang) },
   ];
 
+  // Used for Step 11 previously, now replaced by Scale
+  // Keeping definition for safety/fallback if needed, but logic below uses RatingScale
   const getConfidenceLifeOptions = (lang: LanguageCode): OptionItem[] => [
       { value: "Lost", label: t('wizard_opt_conf_life_low', lang) },
       { value: "Somewhat confident", label: t('wizard_opt_conf_life_med', lang) },
@@ -699,9 +773,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
             {/* Accordion 1: Origin Selection */}
             <div className={`border rounded-2xl transition-all duration-500 ${activeSection === 'origin' ? 'border-black shadow-md bg-white overflow-visible' : 'border-gray-200 bg-gray-50 overflow-hidden'}`}>
-                 <button 
-                    onClick={() => setActiveSection(activeSection === 'origin' ? 'eu' : 'origin')}
-                    className="w-full flex items-center justify-between p-5 text-left"
+                 <div 
+                    className="w-full flex items-center justify-between p-5 text-left cursor-default"
                  >
                     <div className="flex items-center gap-3">
                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeSection === 'origin' ? 'bg-black text-white' : 'bg-gray-200 text-gray-500'}`}>
@@ -712,7 +785,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                          </span>
                     </div>
                     {activeSection === 'origin' ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
-                 </button>
+                 </div>
 
                  {activeSection === 'origin' && (
                      <div className="p-5 pt-0 border-t border-gray-100 animate-in slide-in-from-top-2">
@@ -896,9 +969,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
              {/* Accordion 1: Language Level */}
              <div className={`border rounded-2xl overflow-hidden transition-all duration-500 ${activeSection === 'level' ? 'border-black shadow-md bg-white' : 'border-gray-200 bg-gray-50'}`}>
-                 <button 
-                    onClick={() => setActiveSection(activeSection === 'level' ? 'motivation' : 'level')}
-                    className="w-full flex items-center justify-between p-5 text-left"
+                 <div 
+                    className="w-full flex items-center justify-between p-5 text-left cursor-default"
                  >
                     <div className="flex items-center gap-3">
                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeSection === 'level' ? 'bg-black text-white' : 'bg-gray-200 text-gray-500'}`}>
@@ -909,7 +981,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                          </span>
                     </div>
                     {activeSection === 'level' ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
-                 </button>
+                 </div>
 
                  {activeSection === 'level' && (
                      <div className="p-5 pt-0 border-t border-gray-100 animate-in slide-in-from-top-2">
@@ -954,9 +1026,9 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step6_title', language)}</h2>
+                <p className="text-gray-600 mt-2">{t('wizard_step6_desc', language)}</p>
              </div>
-             <OptionGrid 
-                options={getEducationOptions(language)}
+             <EducationSelector 
                 current={formData.educationDegree}
                 onSelect={(v) => handleChange('educationDegree', v)}
              />
@@ -1003,16 +1075,17 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 11: // Life Confidence (MINDSET)
+      case 11: // Life Confidence (MINDSET) - 1-5 Scale (Updated)
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
                 <h2 className="text-2xl font-bold text-gray-900">{t('wizard_step13_title', language)}</h2>
              </div>
-             <ProgressiveSelector 
-                options={getConfidenceLifeOptions(language)}
+             <RatingScale 
                 current={formData.confidenceLife}
                 onSelect={(v) => handleSelectionNext('confidenceLife', v)}
+                minLabel={t('wizard_scale_1_life', language)}
+                maxLabel={t('wizard_scale_5_life', language)}
              />
           </div>
         );

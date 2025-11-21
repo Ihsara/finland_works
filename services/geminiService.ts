@@ -126,18 +126,36 @@ export const createSystemInstruction = (
       `;
   } else {
       // Add behavioral context based on new psychological fields
-      if (profile.confidenceLife?.includes('lost') || profile.confidenceLife?.includes('support')) {
-          behavioralPrompt += `[EMOTIONAL CONTEXT]: The user has low confidence in navigating life here. Be extra reassuring, break tasks down into tiny steps, and avoid overwhelming them with too much info at once. Be a "safe" mentor.\n`;
+      // Updated to handle both legacy string values AND new numeric scale values ("1", "2", etc.)
+      
+      const lowConfidenceLife = ['1', '2', 'lost', 'support'];
+      const isLowConfidenceLife = lowConfidenceLife.some(val => profile.confidenceLife?.toLowerCase().includes(val));
+
+      if (isLowConfidenceLife) {
+          behavioralPrompt += `[EMOTIONAL CONTEXT]: The user has low confidence (Level ${profile.confidenceLife}/5) in navigating life here. Be extra reassuring, break tasks down into tiny steps, and avoid overwhelming them with too much info at once. Be a "safe" mentor.\n`;
       }
-      if (profile.confidenceCareer?.includes('Unsure') || profile.confidenceCareer?.includes('ideas')) {
-          behavioralPrompt += `[CAREER COACHING]: The user lacks career direction. Ask probing questions to find their transferable skills. Don't just list job sites; help them find their value proposition.\n`;
+
+      const lowConfidenceCareer = ['1', '2', 'unsure', 'ideas', 'lost'];
+      const isLowConfidenceCareer = lowConfidenceCareer.some(val => profile.confidenceCareer?.toLowerCase().includes(val));
+      
+      if (isLowConfidenceCareer) {
+          behavioralPrompt += `[CAREER COACHING]: The user lacks career direction (Level ${profile.confidenceCareer}/5). Ask probing questions to find their transferable skills. Don't just list job sites; help them find their value proposition.\n`;
       }
-      if (profile.finnishMotivation?.includes('Very committed')) {
-          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is highly motivated to learn Finnish. Encouragingly use simple Finnish phrases in your replies to help them practice (e.g., "Hyvää huomenta!" or "Tsemppiä!").\n`;
+
+      const highMotivationFinnish = ['4', '5', 'very committed', 'high'];
+      const isHighMotivationFinnish = highMotivationFinnish.some(val => profile.finnishMotivation?.toLowerCase().includes(val));
+
+      if (isHighMotivationFinnish) {
+          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is highly motivated (Level ${profile.finnishMotivation}/5) to learn Finnish. Encouragingly use simple Finnish phrases in your replies to help them practice (e.g., "Hyvää huomenta!" or "Tsemppiä!").\n`;
       }
-      if (profile.finnishMotivation?.includes('Just starting') || profile.finnishMotivation?.includes('not fully committed')) {
-          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is hesitant about Finnish. Do not pressure them. Emphasize English solutions first, then gently suggest simple Finnish words only when necessary.\n`;
+
+      const lowMotivationFinnish = ['1', '2', 'just starting', 'not fully committed', 'low', 'none'];
+      const isLowMotivationFinnish = lowMotivationFinnish.some(val => profile.finnishMotivation?.toLowerCase().includes(val));
+
+      if (isLowMotivationFinnish) {
+          behavioralPrompt += `[MOTIVATION CONTEXT]: The user is hesitant about Finnish (Level ${profile.finnishMotivation}/5). Do not pressure them. Emphasize English solutions first, then gently suggest simple Finnish words only when necessary.\n`;
       }
+
       if (profile.primaryExcitement) {
           behavioralPrompt += `[ENGAGEMENT HOOK]: The user is most excited about "${profile.primaryExcitement}". Connect your advice to this topic when possible to keep them engaged.\n`;
       }

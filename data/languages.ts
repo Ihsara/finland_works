@@ -125,14 +125,17 @@ export type TranslationKey =
   | 'wizard_permit_student_desc'
 
   | 'wizard_step6_title'
+  | 'wizard_step6_desc'
   | 'wizard_step6_field_label'
   | 'wizard_step6_field_placeholder'
-  | 'wizard_opt_hs'
-  | 'wizard_opt_vocational'
-  | 'wizard_opt_bachelors'
-  | 'wizard_opt_masters'
-  | 'wizard_opt_phd'
-  | 'wizard_opt_other'
+  // New Education Cards
+  | 'wizard_edu_general_title'
+  | 'wizard_edu_general_desc'
+  | 'wizard_edu_applied_title'
+  | 'wizard_edu_applied_desc'
+  | 'wizard_edu_uni_title'
+  | 'wizard_edu_uni_desc'
+
   | 'wizard_step7_title'
   | 'wizard_step7_desc'
   | 'wizard_step7_placeholder'
@@ -159,6 +162,8 @@ export type TranslationKey =
   | 'wizard_scale_5_motivation'
   | 'wizard_scale_1_career'
   | 'wizard_scale_5_career'
+  | 'wizard_scale_1_life'
+  | 'wizard_scale_5_life'
   
   | 'wizard_step12_title'
   | 'wizard_opt_cult_high'
@@ -300,14 +305,18 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_permit_student_desc: "Limited hours allowed alongside studies",
 
     wizard_step6_title: "Highest Education Level",
+    wizard_step6_desc: "Which path best describes your background?",
     wizard_step6_field_label: "Field of Study (Optional)",
     wizard_step6_field_placeholder: "e.g. Engineering, Arts",
-    wizard_opt_hs: "High School",
-    wizard_opt_vocational: "Vocational",
-    wizard_opt_bachelors: "Bachelor's",
-    wizard_opt_masters: "Master's",
-    wizard_opt_phd: "PhD",
-    wizard_opt_other: "Other",
+    
+    // Education Cards
+    wizard_edu_general_title: "General Education",
+    wizard_edu_general_desc: "High School / Lukio only. No trade qualification.",
+    wizard_edu_applied_title: "Vocational & Applied",
+    wizard_edu_applied_desc: "Trade School (Amis) or Applied Sciences (AMK).",
+    wizard_edu_uni_title: "University Degree",
+    wizard_edu_uni_desc: "Academic degree (Bachelor's, Master's, PhD).",
+
     wizard_step7_title: "What is your profession?",
     wizard_step7_desc: "Or what job are you looking for?",
     wizard_step7_placeholder: "e.g. Nurse, Welder, Developer",
@@ -335,6 +344,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     
     wizard_scale_1_career: "I don't know anything",
     wizard_scale_5_career: "I know what to do",
+
+    wizard_scale_1_life: "I feel lost",
+    wizard_scale_5_life: "Very Confident",
 
     wizard_step12_title: "How interested are you in Finnish culture & everyday life?",
     wizard_opt_cult_high: "Very interested – I want to integrate deeply",
@@ -469,14 +481,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_permit_student_desc: "Giờ làm việc hạn chế",
 
     wizard_step6_title: "Trình độ học vấn cao nhất",
+    wizard_step6_desc: "Chọn con đường phù hợp với bạn nhất",
     wizard_step6_field_label: "Ngành học (Tùy chọn)",
     wizard_step6_field_placeholder: "ví dụ: Kỹ thuật, Nghệ thuật",
-    wizard_opt_hs: "Trung học phổ thông",
-    wizard_opt_vocational: "Học nghề",
-    wizard_opt_bachelors: "Cử nhân",
-    wizard_opt_masters: "Thạc sĩ",
-    wizard_opt_phd: "Tiến sĩ",
-    wizard_opt_other: "Khác",
+    
+    wizard_edu_general_title: "Giáo dục Phổ thông",
+    wizard_edu_general_desc: "Trung học / Chưa có bằng nghề.",
+    wizard_edu_applied_title: "Nghề & Ứng dụng",
+    wizard_edu_applied_desc: "Trường nghề (Amis) hoặc ĐH Ứng dụng (AMK).",
+    wizard_edu_uni_title: "Bằng Đại học",
+    wizard_edu_uni_desc: "Học thuật (Cử nhân, Thạc sĩ, Tiến sĩ).",
+
     wizard_step7_title: "Nghề nghiệp của bạn?",
     wizard_step7_desc: "Hoặc công việc bạn đang tìm kiếm?",
     wizard_step7_placeholder: "ví dụ: Y tá, Thợ hàn, Lập trình viên",
@@ -515,6 +530,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     
     wizard_scale_1_career: "Mù tịt",
     wizard_scale_5_career: "Biết rõ cần làm gì",
+    
+    wizard_scale_1_life: "Cảm thấy lạc lõng",
+    wizard_scale_5_life: "Rất tự tin",
 
     wizard_step15_title: "Bạn nắm thông tin về Phần Lan thế nào?",
     wizard_opt_info_none: "Chưa biết gì",
@@ -635,14 +653,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_permit_student_desc: "Horas limitadas durante estudos",
 
     wizard_step6_title: "Nível de Escolaridade",
+    wizard_step6_desc: "Qual caminho melhor descreve seu histórico?",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
     wizard_step6_field_placeholder: "ex: Engenharia, Artes",
-    wizard_opt_hs: "Ensino Médio",
-    wizard_opt_vocational: "Técnico/Profissionalizante",
-    wizard_opt_bachelors: "Bacharelado",
-    wizard_opt_masters: "Mestrado",
-    wizard_opt_phd: "Doutorado",
-    wizard_opt_other: "Outro",
+    
+    wizard_edu_general_title: "Educação Geral",
+    wizard_edu_general_desc: "Ensino Médio. Sem qualificação técnica.",
+    wizard_edu_applied_title: "Profissionalizante & Aplicada",
+    wizard_edu_applied_desc: "Escola técnica (Amis) ou Uni. de Ciências Aplicadas (AMK).",
+    wizard_edu_uni_title: "Universidade",
+    wizard_edu_uni_desc: "Grau acadêmico (Bacharelado, Mestrado, PhD).",
+
     wizard_step7_title: "Qual sua profissão?",
     wizard_step7_desc: "Ou que trabalho você procura?",
     wizard_step7_placeholder: "ex: Enfermeiro, Soldador, Dev",
@@ -681,6 +702,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
 
     wizard_scale_1_career: "Não sei nada",
     wizard_scale_5_career: "Sei o que fazer",
+    
+    wizard_scale_1_life: "Me sinto perdido",
+    wizard_scale_5_life: "Muito confiante",
 
     wizard_step15_title: "Quão informado você está?",
     wizard_opt_info_none: "Nada informado",
@@ -801,14 +825,17 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_permit_student_desc: "Horas limitadas durante estudos",
 
     wizard_step6_title: "Nível de Escolaridade",
+    wizard_step6_desc: "Que percurso descreve melhor o teu histórico?",
     wizard_step6_field_label: "Área de Estudo (Opcional)",
     wizard_step6_field_placeholder: "ex: Engenharia, Artes",
-    wizard_opt_hs: "Ensino Secundário",
-    wizard_opt_vocational: "Ensino Profissional",
-    wizard_opt_bachelors: "Licenciatura",
-    wizard_opt_masters: "Mestrado",
-    wizard_opt_phd: "Doutoramento",
-    wizard_opt_other: "Outro",
+    
+    wizard_edu_general_title: "Ensino Geral",
+    wizard_edu_general_desc: "Ensino Secundário. Sem qualificação técnica.",
+    wizard_edu_applied_title: "Profissional & Aplicada",
+    wizard_edu_applied_desc: "Ensino Profissional (Amis) ou Uni. de Ciências Aplicadas (AMK).",
+    wizard_edu_uni_title: "Universidade",
+    wizard_edu_uni_desc: "Grau académico (Licenciatura, Mestrado, Doutoramento).",
+
     wizard_step7_title: "Qual a tua profissão?",
     wizard_step7_desc: "Ou que trabalho procuras?",
     wizard_step7_placeholder: "ex: Enfermeiro, Soldador, Dev",
@@ -847,6 +874,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
 
     wizard_scale_1_career: "Não sei nada",
     wizard_scale_5_career: "Sei o que fazer",
+    
+    wizard_scale_1_life: "Sinto-me perdido",
+    wizard_scale_5_life: "Muito confiante",
 
     wizard_step15_title: "Quão informado estás?",
     wizard_opt_info_none: "Nada informado",
@@ -967,15 +997,18 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_permit_student_title: "Студент",
     wizard_permit_student_desc: "Ограниченные часы работы",
 
-    wizard_step6_title: "Образование",
+    wizard_step6_title: "Уровень образования",
+    wizard_step6_desc: "Выберите наиболее подходящий путь",
     wizard_step6_field_label: "Специальность (необязательно)",
     wizard_step6_field_placeholder: "напр. Инженерия, Искусство",
-    wizard_opt_hs: "Средняя школа",
-    wizard_opt_vocational: "Профессиональное",
-    wizard_opt_bachelors: "Бакалавр",
-    wizard_opt_masters: "Магистр",
-    wizard_opt_phd: "Доктор наук",
-    wizard_opt_other: "Другое",
+
+    wizard_edu_general_title: "Общее образование",
+    wizard_edu_general_desc: "Старшая школа. Без специальности.",
+    wizard_edu_applied_title: "Профессиональное / AMK",
+    wizard_edu_applied_desc: "Колледж или Университет прикладных наук.",
+    wizard_edu_uni_title: "Университет",
+    wizard_edu_uni_desc: "Академическая степень (Бакалавр, Магистр, PhD).",
+
     wizard_step7_title: "Ваша профессия?",
     wizard_step7_desc: "Или какую работу ищете?",
     wizard_step7_placeholder: "напр. Медсестра, Сварщик, Программист",
@@ -1014,6 +1047,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     
     wizard_scale_1_career: "Не знаю ничего",
     wizard_scale_5_career: "Знаю что делать",
+    
+    wizard_scale_1_life: "Чувствую себя потерянным",
+    wizard_scale_5_life: "Уверен в себе",
 
     wizard_step15_title: "Насколько вы информированы?",
     wizard_opt_info_none: "Вообще не знаю",
