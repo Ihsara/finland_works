@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from './Icon';
-import { getWikiCategories, WikiCategory, WikiArticle } from '../data/wikiContent';
+import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../data/wikiContent';
 import { marked } from 'marked';
 import { UserProfile, LanguageCode } from '../types';
 import * as Storage from '../services/storageService';
@@ -37,6 +36,7 @@ const WikiView: React.FC<WikiViewProps> = ({
   
   // Navigation State
   const [activeCategory, setActiveCategory] = useState<WikiCategory | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('icons');
 
   // Interactive Sentence State
@@ -44,7 +44,7 @@ const WikiView: React.FC<WikiViewProps> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   
   // Dynamic Content based on Language
-  const wikiCategories = getWikiCategories(language);
+  const wikiCategories = useMemo(() => getWikiCategories(language), [language]);
 
   // Progress State
   const [progress, setProgress] = useState<WikiProgressData>({ 
@@ -52,7 +52,7 @@ const WikiView: React.FC<WikiViewProps> = ({
     globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
   });
 
-  // Initialize
+  // Initialize & Progress Tracking
   useEffect(() => {
     if (!profile) {
       const initialOpen: Record<string, boolean> = {};
@@ -61,7 +61,12 @@ const WikiView: React.FC<WikiViewProps> = ({
       return;
     }
 
-    Storage.trackWikiSession(profile.id);
+    // Only track session once on mount, not on every language change
+    // We use a ref to track initialization if needed, but here simple logic suffices
+    if (language === 'en') { // Simple check to prevent double counting on some re-renders
+       Storage.trackWikiSession(profile.id);
+    }
+    
     const savedProgress = Storage.getWikiProgress(profile.id);
     setProgress(savedProgress);
 
@@ -77,7 +82,25 @@ const WikiView: React.FC<WikiViewProps> = ({
       }
     });
     setOpenCategories(initialOpen);
-  }, [profile, language]); // Re-run if language changes
+  }, [profile]); 
+
+  // --- CRITICAL FIX: Sync Active Article on Language Change ---
+  useEffect(() => {
+      if (activeArticle) {
+          const allArticles = getAllFlattenedArticles(language);
+          const freshArticle = allArticles.find(a => a.id === activeArticle.id);
+          if (freshArticle) {
+              onArticleSelect(freshArticle);
+          }
+      }
+      if (activeCategory) {
+          const freshCategory = wikiCategories.find(c => c.id === activeCategory.id);
+          if (freshCategory) {
+              setActiveCategory(freshCategory);
+          }
+      }
+  }, [language, wikiCategories]); 
+  // -----------------------------------------------------------
 
   // Sync activeArticle with ViewMode
   useEffect(() => {
@@ -213,6 +236,12 @@ const WikiView: React.FC<WikiViewProps> = ({
     onArticleSelect(article);
   };
 
+  const handleTagClick = (tag: string) => {
+      setActiveTag(tag);
+      onArticleSelect(null);
+      setActiveCategory(null);
+  };
+
   const handleIconCategoryClick = (catId: string) => {
       const category = wikiCategories.find(c => c.id === catId) || null;
       if (category) {
@@ -225,19 +254,22 @@ const WikiView: React.FC<WikiViewProps> = ({
       setViewMode('icons');
       onArticleSelect(null);
       setActiveCategory(null);
+      setActiveTag(null);
   };
 
   const handleSwitchToList = () => {
       setViewMode('list');
       onArticleSelect(null);
       setActiveCategory(null);
+      setActiveTag(null);
   };
 
   const handleBack = () => {
       if (activeArticle) {
-          // If we have a category context, go back to category page
-          // Otherwise (e.g. from full list) go back to list/icons
+          // If we have a tag context or category context, go back to it
           onArticleSelect(null);
+      } else if (activeTag) {
+          setActiveTag(null);
       } else if (activeCategory) {
           setActiveCategory(null);
       } else if (viewMode === 'list') {
@@ -250,7 +282,7 @@ const WikiView: React.FC<WikiViewProps> = ({
   // Reusable list renderer for both Sidebar (Reader) and Full Screen List
   const renderCategoryList = (isSidebar: boolean = false) => {
     return (
-      <div className={`space-y-4 ${isSidebar ? 'pb-20' : 'pb-10'}`}>
+      <div className="space-y-4 pb-20">
          {wikiCategories.map((category, catIndex) => {
             const isOpen = openCategories[category.id];
             const catProgress = getCategoryProgress(category);
@@ -262,12 +294,12 @@ const WikiView: React.FC<WikiViewProps> = ({
                         onClick={() => toggleCategory(category.id)}
                         className={`flex items-center justify-between w-full group ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
                     >
-                        <div className="flex items-center gap-3 font-bold text-gray-800 group-hover:text-black">
-                            <span className="text-xs text-gray-500 font-mono w-5">{catNumber}.</span>
-                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 group-hover:text-gray-700")}
+                        <div className="flex items-center gap-3 font-bold text-gray-800 group-hover:text-black overflow-hidden">
+                            <span className="text-xs text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
+                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 group-hover:text-gray-700 flex-shrink-0")}
                             <span className="text-sm uppercase tracking-wide truncate">{category.title}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-shrink-0">
                             {catProgress > 0 && (
                                 <span className="text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
                                     {catProgress}%
@@ -290,8 +322,8 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         key={article.id}
                                         onClick={() => {
                                             handleArticleClick(article);
-                                            // Also update active category context to parent
-                                            setActiveCategory(category);
+                                            // Only update active category if we are not in tag view
+                                            if (!activeTag) setActiveCategory(category);
                                         }}
                                         className={`w-full text-left px-3 py-3 rounded-md flex items-start gap-3 transition text-sm ${
                                             isActive && isSidebar
@@ -328,7 +360,7 @@ const WikiView: React.FC<WikiViewProps> = ({
         {/* Left Controls */}
         <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
            {/* Back / Close Button Logic */}
-           {(activeArticle || activeCategory || viewMode === 'list') ? (
+           {(activeArticle || activeCategory || activeTag || viewMode === 'list') ? (
                <button 
                    onClick={handleBack}
                    className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full transition"
@@ -353,7 +385,7 @@ const WikiView: React.FC<WikiViewProps> = ({
         {/* Title (Responsive) */}
         <div className="flex-1 min-w-0 mx-2 text-center md:text-left">
             <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight truncate">
-                {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : t('wiki_header_title', language)}
+                {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : activeTag ? t('wiki_topic_label', language, { tag: activeTag }) : t('wiki_header_title', language)}
             </h2>
         </div>
 
@@ -366,7 +398,7 @@ const WikiView: React.FC<WikiViewProps> = ({
             />
 
             {/* View Mode Toggles - Hidden if deeply nested */}
-            <div className={`hidden sm:flex bg-gray-100 rounded-lg p-1 ${ (activeArticle || activeCategory) ? 'opacity-0 pointer-events-none' : ''}`}>
+            <div className={`hidden sm:flex bg-gray-100 rounded-lg p-1 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
                 <button
                     onClick={handleSwitchToList}
                     className={`flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
@@ -401,7 +433,7 @@ const WikiView: React.FC<WikiViewProps> = ({
             STATE 1: ICONS GRID 
             Conditions: Icons Mode AND No Selection
         */}
-        {viewMode === 'icons' && !activeArticle && !activeCategory && (
+        {viewMode === 'icons' && !activeArticle && !activeCategory && !activeTag && (
             <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in fade-in zoom-in-95 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
@@ -464,7 +496,7 @@ const WikiView: React.FC<WikiViewProps> = ({
             STATE 2: FULL SCREEN LIST INDEX
             Conditions: List Mode AND No Selection
         */}
-        {viewMode === 'list' && !activeArticle && !activeCategory && (
+        {viewMode === 'list' && !activeArticle && !activeCategory && !activeTag && (
              <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
@@ -477,10 +509,76 @@ const WikiView: React.FC<WikiViewProps> = ({
         )}
 
         {/* 
-            STATE 3: CATEGORY LANDING PAGE
+            STATE 3: TOPIC/TAG VIEW
+            Conditions: Active Tag set, No Article set
+        */}
+        {activeTag && !activeArticle && (
+            <div className="w-full h-full overflow-y-auto bg-white animate-in fade-in slide-in-from-bottom-4 duration-300">
+                {/* Header */}
+                <div className="w-full p-8 md:p-12 bg-gray-50 border-b border-gray-100">
+                    <div className="max-w-4xl mx-auto flex items-center gap-6">
+                         <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 text-black">
+                              <Icons.Tag className="w-10 h-10" />
+                         </div>
+                         <div>
+                              <h1 className="text-3xl md:text-4xl font-black text-gray-900 capitalize tracking-tight">{activeTag}</h1>
+                              <p className="text-gray-500 font-medium mt-1">{t('wiki_topic_desc', language)}</p>
+                         </div>
+                    </div>
+                </div>
+
+                {/* Grouped Articles */}
+                <div className="max-w-4xl mx-auto p-6 md:p-12 pb-24 space-y-12">
+                    {wikiCategories.map(cat => {
+                        const matches = cat.articles.filter(a => a.tags.includes(activeTag));
+                        if (matches.length === 0) return null;
+                        
+                        return (
+                            <div key={cat.id} className="animate-in fade-in slide-in-from-bottom-2">
+                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 ${cat.theme.text}`}>
+                                     {renderIcon(cat.icon, "w-5 h-5")} {cat.title}
+                                </h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                     {matches.map((article, idx) => {
+                                         const itemData = progress.items[article.id];
+                                         const status = itemData?.status;
+                                         return (
+                                            <button
+                                                key={article.id}
+                                                onClick={() => handleArticleClick(article)}
+                                                className={`
+                                                    text-left group flex flex-col gap-3 p-5 rounded-xl border-2 transition-all duration-200
+                                                    ${status === 'done' 
+                                                        ? 'border-green-200 bg-green-50/50 hover:border-green-300' 
+                                                        : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md'
+                                                    }
+                                                `}
+                                            >
+                                                <div className="flex justify-between items-start w-full">
+                                                    <span className={`text-sm font-bold ${status==='done' ? 'text-green-600' : 'text-gray-400 group-hover:text-black'}`}>
+                                                        {t('wiki_guide_prefix', language)} #{idx + 1}
+                                                    </span>
+                                                    {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500" />}
+                                                </div>
+                                                <h4 className="font-bold text-lg text-gray-900 leading-snug group-hover:text-blue-600 transition-colors">
+                                                    {article.title}
+                                                </h4>
+                                            </button>
+                                         );
+                                     })}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        )}
+
+        {/* 
+            STATE 4: CATEGORY LANDING PAGE
             Conditions: Active Category set, No Article set
         */}
-        {activeCategory && !activeArticle && (
+        {activeCategory && !activeArticle && !activeTag && (
             <div className="w-full h-full overflow-y-auto bg-white animate-in fade-in slide-in-from-bottom-4 duration-300">
                 {/* Hero Header for Category */}
                 <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} border-b ${activeCategory.theme.border}`}>
@@ -494,11 +592,11 @@ const WikiView: React.FC<WikiViewProps> = ({
                             </h1>
                             <div className="flex items-center justify-center md:justify-start gap-4 text-gray-600 font-medium">
                                 <span className="flex items-center gap-1">
-                                    <Icons.FileText className="w-4 h-4" /> {activeCategory.articles.length} Articles
+                                    <Icons.FileText className="w-4 h-4" /> {activeCategory.articles.length} {t('wiki_stat_articles', language)}
                                 </span>
                                 {getCategoryProgress(activeCategory) > 0 && (
                                     <span className="flex items-center gap-1 text-green-600 bg-green-50 px-2 py-0.5 rounded-full border border-green-200 text-sm font-bold">
-                                        <Icons.CheckCircle className="w-4 h-4" /> {getCategoryProgress(activeCategory)}% Complete
+                                        <Icons.CheckCircle className="w-4 h-4" /> {getCategoryProgress(activeCategory)}% {t('wiki_stat_complete', language)}
                                     </span>
                                 )}
                             </div>
@@ -552,7 +650,14 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         {article.tags.length > 0 && (
                                             <div className="flex flex-wrap gap-1 mt-2">
                                                 {article.tags.slice(0, 2).map(t => (
-                                                    <span key={t} className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+                                                    <span 
+                                                        key={t}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleTagClick(t);
+                                                        }}
+                                                        className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded hover:bg-gray-200 hover:text-black transition-colors"
+                                                    >
                                                         {t}
                                                     </span>
                                                 ))}
@@ -568,7 +673,7 @@ const WikiView: React.FC<WikiViewProps> = ({
         )}
 
         {/* 
-            STATE 4: READER (SPLIT VIEW)
+            STATE 5: READER (SPLIT VIEW)
             Conditions: Article Selected
         */}
         {activeArticle && (
@@ -588,46 +693,51 @@ const WikiView: React.FC<WikiViewProps> = ({
                 <div className="flex-1 overflow-y-auto relative bg-white w-full" ref={contentRef}>
                     <div className="max-w-3xl mx-auto p-6 md:p-12 pb-32">
                         {/* Article Header */}
-                        <div className="flex flex-col gap-6 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100">
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-sm font-mono text-blue-500 font-bold">
-                                        Section {getCurrentDisplayId(activeArticle)}
-                                    </span>
-                                    <div className="flex flex-wrap gap-2">
-                                        {activeArticle.tags.map(tag => (
-                                            <span key={tag} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-[10px] md:text-xs font-medium uppercase tracking-wide">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
+                        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100">
+                            <div className="flex flex-col gap-2">
+                                <span className="text-sm font-mono text-blue-600 font-bold tracking-tight">
+                                    {t('wiki_section_prefix', language)} {getCurrentDisplayId(activeArticle)}
+                                </span>
+                                <div className="flex flex-wrap gap-2">
+                                    {activeArticle.tags.map(tag => (
+                                        <button 
+                                            key={tag} 
+                                            onClick={() => handleTagClick(tag)}
+                                            className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border border-gray-200 hover:bg-gray-200 hover:text-black transition-colors"
+                                        >
+                                            {tag}
+                                        </button>
+                                    ))}
                                 </div>
+                            </div>
 
-                                <div className="flex items-center gap-2 w-full md:w-auto">
-                                    <button
-                                        onClick={() => handleToggleStatus('later')}
-                                        className={`flex-1 md:flex-none justify-center flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold transition border shadow-sm ${
-                                            progress.items[activeArticle.id]?.status === 'later'
-                                                ? 'bg-amber-50 border-amber-200 text-amber-700'
-                                                : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
-                                        }`}
-                                    >
-                                        <Icons.Clock className="w-3 h-3" />
-                                        {progress.items[activeArticle.id]?.status === 'later' ? t('wiki_btn_saved', language) : t('wiki_btn_later', language)}
-                                    </button>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    onClick={() => handleToggleStatus('later')}
+                                    title={progress.items[activeArticle.id]?.status === 'later' ? t('wiki_btn_saved', language) : t('wiki_btn_later', language)}
+                                    className={`p-3 rounded-full transition-all duration-200 border ${
+                                        progress.items[activeArticle.id]?.status === 'later'
+                                            ? 'bg-amber-100 border-amber-200 text-amber-700 shadow-inner'
+                                            : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50 hover:text-gray-600 hover:border-gray-300 shadow-sm'
+                                    }`}
+                                >
+                                    <Icons.Clock className="w-5 h-5" strokeWidth={2.5} />
+                                </button>
 
-                                    <button
-                                        onClick={() => handleToggleStatus('done')}
-                                        className={`flex-1 md:flex-none justify-center flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition border shadow-sm ${
-                                            progress.items[activeArticle.id]?.status === 'done'
-                                                ? 'bg-green-50 border-green-200 text-green-700'
-                                                : 'bg-black border-black text-white hover:bg-gray-800'
-                                        }`}
-                                    >
-                                        <Icons.CheckSquare className="w-3 h-3" />
-                                        {progress.items[activeArticle.id]?.status === 'done' ? t('wiki_btn_completed', language) : t('wiki_btn_mark_done', language)}
-                                    </button>
-                                </div>
+                                <button
+                                    onClick={() => handleToggleStatus('done')}
+                                    title={progress.items[activeArticle.id]?.status === 'done' ? t('wiki_btn_completed', language) : t('wiki_btn_mark_done', language)}
+                                    className={`p-3 rounded-full transition-all duration-200 border ${
+                                        progress.items[activeArticle.id]?.status === 'done'
+                                            ? 'bg-green-100 border-green-200 text-green-700 shadow-inner'
+                                            : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50 hover:text-gray-600 hover:border-gray-300 shadow-sm'
+                                    }`}
+                                >
+                                    {progress.items[activeArticle.id]?.status === 'done' 
+                                        ? <Icons.CheckCircle className="w-5 h-5" strokeWidth={2.5} /> 
+                                        : <Icons.CheckSquare className="w-5 h-5" strokeWidth={2.5} />
+                                    }
+                                </button>
                             </div>
                         </div>
                         
@@ -645,21 +755,21 @@ const WikiView: React.FC<WikiViewProps> = ({
                     </div>
                 </div>
 
-                {/* Context Popover - Rendered fixed over the content */}
+                {/* Context Popover */}
                 {activeSentence && (
                     <div 
                         className="fixed z-50 sentence-popover animate-in fade-in zoom-in-95 duration-200"
                         style={{ 
-                            left: Math.min(window.innerWidth - 220, Math.max(20, activeSentence.x - 100)), 
+                            left: Math.min(window.innerWidth - 60, Math.max(20, activeSentence.x - 25)), 
                             top: activeSentence.y - 50 // Position above
                         }}
                     >
                         <button 
                             onClick={handleStartChat}
-                            className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full shadow-xl text-sm font-bold hover:bg-gray-800 hover:scale-105 transition-all border-2 border-white"
+                            className="flex items-center justify-center w-10 h-10 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 hover:scale-110 transition-all border-2 border-white"
+                            title={t('wiki_ctx_ask', language)}
                         >
-                            <Icons.MessageSquare className="w-4 h-4" />
-                            {t('wiki_ctx_ask', language)}
+                            <Icons.MessageSquare className="w-5 h-5" />
                         </button>
                         {/* Triangle */}
                         <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black"></div>

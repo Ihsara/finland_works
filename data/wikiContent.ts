@@ -1,4 +1,3 @@
-
 import { Icons } from "../components/Icon";
 import { LanguageCode } from "../types";
 
@@ -26,6 +25,125 @@ export interface WikiCategory {
   };
   articles: WikiArticle[];
 }
+
+// ---------------------------------------------------------------------------
+// TRANSLATION DICTIONARY FOR WIKI TITLES
+// ---------------------------------------------------------------------------
+const TRANSLATED_TITLES: Record<string, Record<LanguageCode, string>> = {
+  // Categories
+  'Bureaucracy & Legal Foundation': {
+    en: 'Bureaucracy & Legal Foundation',
+    vi: 'Thủ tục hành chính & Pháp lý',
+    'pt-br': 'Burocracia & Base Legal',
+    'pt-pt': 'Burocracia & Base Legal',
+    ru: 'Бюрократия и Закон'
+  },
+  'Job Search & Applications': {
+    en: 'Job Search & Applications',
+    vi: 'Tìm việc & Ứng tuyển',
+    'pt-br': 'Busca de Emprego',
+    'pt-pt': 'Procura de Emprego',
+    ru: 'Поиск работы и заявки'
+  },
+  'Recruitment Process': {
+    en: 'Recruitment Process',
+    vi: 'Quy trình tuyển dụng',
+    'pt-br': 'Processo Seletivo',
+    'pt-pt': 'Processo de Recrutamento',
+    ru: 'Процесс найма'
+  },
+  'Networking & Hidden Jobs': {
+    en: 'Networking & Hidden Jobs',
+    vi: 'Mạng lưới & Việc làm ẩn',
+    'pt-br': 'Networking & Vagas Ocultas',
+    'pt-pt': 'Networking & Vagas Ocultas',
+    ru: 'Нетворкинг и скрытые вакансии'
+  },
+  'Work Culture': {
+    en: 'Work Culture',
+    vi: 'Văn hóa làm việc',
+    'pt-br': 'Cultura de Trabalho',
+    'pt-pt': 'Cultura de Trabalho',
+    ru: 'Рабочая культура'
+  },
+  'Work Rights & Unions': {
+    en: 'Work Rights & Unions',
+    vi: 'Quyền lao động & Công đoàn',
+    'pt-br': 'Direitos & Sindicatos',
+    'pt-pt': 'Direitos & Sindicatos',
+    ru: 'Трудовые права и профсоюзы'
+  },
+  'Learning Finnish': {
+    en: 'Learning Finnish',
+    vi: 'Học tiếng Phần Lan',
+    'pt-br': 'Aprendendo Finlandês',
+    'pt-pt': 'Aprender Finlandês',
+    ru: 'Изучение финского'
+  },
+  'Work-Life Balance': {
+    en: 'Work-Life Balance',
+    vi: 'Cân bằng cuộc sống',
+    'pt-br': 'Equilíbrio Vida-Trabalho',
+    'pt-pt': 'Equilíbrio Vida-Trabalho',
+    ru: 'Баланс работы и жизни'
+  },
+  'Entrepreneurship': {
+    en: 'Entrepreneurship',
+    vi: 'Khởi nghiệp',
+    'pt-br': 'Empreendedorismo',
+    'pt-pt': 'Empreendedorismo',
+    ru: 'Предпринимательство'
+  },
+  'Volunteering & Internships': {
+    en: 'Volunteering & Internships',
+    vi: 'Tình nguyện & Thực tập',
+    'pt-br': 'Voluntariado & Estágios',
+    'pt-pt': 'Voluntariado & Estágios',
+    ru: 'Волонтерство и стажировки'
+  },
+  'Your Employment Plan': {
+    en: 'Your Employment Plan',
+    vi: 'Kế hoạch việc làm',
+    'pt-br': 'Seu Plano de Emprego',
+    'pt-pt': 'O Teu Plano de Emprego',
+    ru: 'План трудоустройства'
+  },
+  
+  // Articles
+  'The DVV & Personal ID': { en: 'The DVV & Personal ID', vi: 'Mã số định danh DVV', 'pt-br': 'DVV & ID Pessoal', 'pt-pt': 'DVV & ID Pessoal', ru: 'DVV и Личный ID' },
+  'Migri & Residence Permits': { en: 'Migri & Residence Permits', vi: 'Migri & Giấy phép cư trú', 'pt-br': 'Migri & Vistos', 'pt-pt': 'Migri & Autorizações', ru: 'Migri и ВНЖ' },
+  'Asylum & Protection Basics': { en: 'Asylum & Protection Basics', vi: 'Cơ bản về Tị nạn', 'pt-br': 'Asilo & Proteção', 'pt-pt': 'Asilo & Proteção', ru: 'Основы убежища' },
+  'Banking & Strong Auth': { en: 'Banking & Strong Auth', vi: 'Ngân hàng & Định danh', 'pt-br': 'Banco & Auth Forte', 'pt-pt': 'Banca & Autenticação', ru: 'Банки и авторизация' },
+  'Job Market Overview': { en: 'Job Market Overview', vi: 'Tổng quan thị trường', 'pt-br': 'Visão do Mercado', 'pt-pt': 'Visão do Mercado', ru: 'Обзор рынка труда' },
+  'The Finnish CV Style': { en: 'The Finnish CV Style', vi: 'Phong cách CV Phần Lan', 'pt-br': 'CV Estilo Finlandês', 'pt-pt': 'CV Estilo Finlandês', ru: 'Финский стиль резюме' },
+  'The Cover Letter': { en: 'The Cover Letter', vi: 'Thư xin việc', 'pt-br': 'Carta de Apresentação', 'pt-pt': 'Carta de Apresentação', ru: 'Сопроводительное письмо' },
+  'Finnish Interview Style': { en: 'Finnish Interview Style', vi: 'Phong cách phỏng vấn', 'pt-br': 'Estilo de Entrevista', 'pt-pt': 'Estilo de Entrevista', ru: 'Стиль собеседования' },
+  'Psychological Tests': { en: 'Psychological Tests', vi: 'Bài kiểm tra tâm lý', 'pt-br': 'Testes Psicológicos', 'pt-pt': 'Testes Psicológicos', ru: 'Психологические тесты' },
+  'How Hiring Really Works': { en: 'How Hiring Really Works', vi: 'Cách tuyển dụng thực tế', 'pt-br': 'Como Funciona Contratação', 'pt-pt': 'Como Funciona o Recrutamento', ru: 'Как нанимают на самом деле' },
+  'LinkedIn Strategy': { en: 'LinkedIn Strategy', vi: 'Chiến lược LinkedIn', 'pt-br': 'Estratégia LinkedIn', 'pt-pt': 'Estratégia LinkedIn', ru: 'Стратегия LinkedIn' },
+  'Trust & Autonomy': { en: 'Trust & Autonomy', vi: 'Niềm tin & Tự chủ', 'pt-br': 'Confiança & Autonomia', 'pt-pt': 'Confiança & Autonomia', ru: 'Доверие и автономия' },
+  'Flat Hierarchy': { en: 'Flat Hierarchy', vi: 'Cấu trúc phẳng', 'pt-br': 'Hierarquia Plana', 'pt-pt': 'Hierarquia Plana', ru: 'Плоская иерархия' },
+  'Barriers: Racism & Reality': { en: 'Barriers: Racism & Reality', vi: 'Rào cản & Thực tế', 'pt-br': 'Barreiras & Realidade', 'pt-pt': 'Barreiras & Realidade', ru: 'Барьеры и реальность' },
+  'Employee Rights': { en: 'Employee Rights', vi: 'Quyền nhân viên', 'pt-br': 'Direitos do Empregado', 'pt-pt': 'Direitos do Trabalhador', ru: 'Права работника' },
+  'Unions & Unemployment': { en: 'Unions & Unemployment', vi: 'Công đoàn & Thất nghiệp', 'pt-br': 'Sindicatos & Desemprego', 'pt-pt': 'Sindicatos & Desemprego', ru: 'Профсоюзы и безработица' },
+  'Occupational Health': { en: 'Occupational Health', vi: 'Sức khỏe lao động', 'pt-br': 'Saúde Ocupacional', 'pt-pt': 'Saúde Ocupacional', ru: 'Охрана труда' },
+  'Workplace Finnish': { en: 'Workplace Finnish', vi: 'Tiếng Phần nơi công sở', 'pt-br': 'Finlandês no Trabalho', 'pt-pt': 'Finlandês no Trabalho', ru: 'Финский на работе' },
+  'Roadmap A1-B1': { en: 'Roadmap A1-B1', vi: 'Lộ trình A1-B1', 'pt-br': 'Roteiro A1-B1', 'pt-pt': 'Roteiro A1-B1', ru: 'Дорожная карта A1-B1' },
+  'Lifestyle & Nature': { en: 'Lifestyle & Nature', vi: 'Lối sống & Thiên nhiên', 'pt-br': 'Estilo de Vida & Natureza', 'pt-pt': 'Estilo de Vida & Natureza', ru: 'Стиль жизни и природа' },
+  'Family & Work': { en: 'Family & Work', vi: 'Gia đình & Công việc', 'pt-br': 'Família & Trabalho', 'pt-pt': 'Família & Trabalho', ru: 'Семья и работа' },
+  'Starting a Business (Toiminimi)': { en: 'Starting a Business (Toiminimi)', vi: 'Khởi nghiệp (Toiminimi)', 'pt-br': 'Abrindo Empresa', 'pt-pt': 'Criar Empresa', ru: 'Открытие бизнеса' },
+  'Light Entrepreneurship': { en: 'Light Entrepreneurship', vi: 'Khởi nghiệp nhẹ', 'pt-br': 'Empreendedorismo Leve', 'pt-pt': 'Empreendedorismo Leve', ru: 'Легкое предпринимательство' },
+  'Volunteering': { en: 'Volunteering', vi: 'Tình nguyện', 'pt-br': 'Voluntariado', 'pt-pt': 'Voluntariado', ru: 'Волонтерство' },
+  'Internships & Työkokeilu': { en: 'Internships & Työkokeilu', vi: 'Thực tập & Thử việc', 'pt-br': 'Estágios & Työkokeilu', 'pt-pt': 'Estágios & Työkokeilu', ru: 'Стажировки' },
+  'The TE-Office Plan': { en: 'The TE-Office Plan', vi: 'Kế hoạch văn phòng TE', 'pt-br': 'Plano do TE-Office', 'pt-pt': 'Plano do TE-Office', ru: 'План TE-офиса' },
+  'Personal Strategy': { en: 'Personal Strategy', vi: 'Chiến lược cá nhân', 'pt-br': 'Estratégia Pessoal', 'pt-pt': 'Estratégia Pessoal', ru: 'Личная стратегия' }
+};
+
+const translate = (text: string, lang: LanguageCode): string => {
+  const entry = TRANSLATED_TITLES[text];
+  if (entry && entry[lang]) return entry[lang];
+  return text;
+};
 
 // ---------------------------------------------------------------------------
 // CONTENT FACTORY
@@ -631,14 +749,19 @@ If you are an unemployed immigrant, TE Office will make a plan with you.
   }
 ];
 
-// For now, we fallback all other languages to English content for the Wiki Articles
-// The UI shell will be translated via data/languages.ts
+// Modified to support dynamic translation of titles
 export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
-  switch (lang) {
-    case 'en':
-    default:
-      return WIKI_EN;
-  }
+  if (lang === 'en') return WIKI_EN;
+
+  // Deep clone and translate titles
+  return WIKI_EN.map(cat => ({
+    ...cat,
+    title: translate(cat.title, lang),
+    articles: cat.articles.map(art => ({
+      ...art,
+      title: translate(art.title, lang)
+    }))
+  }));
 };
 
 // ---------------------------------------------------------------------------

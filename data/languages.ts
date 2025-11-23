@@ -70,6 +70,12 @@ export type TranslationKey =
   | 'wiki_btn_completed'
   | 'wiki_btn_mark_done'
   | 'wiki_ctx_ask' 
+  | 'wiki_topic_label'
+  | 'wiki_topic_desc'
+  | 'wiki_guide_prefix'
+  | 'wiki_stat_articles'
+  | 'wiki_stat_complete'
+  | 'wiki_section_prefix'
   | 'wizard_header_quiz'
   | 'wizard_greeting_short'
   | 'wizard_title_init'
@@ -186,7 +192,14 @@ export type TranslationKey =
   | 'wizard_opt_excite_career'
   | 'wizard_opt_excite_life'
   | 'wizard_opt_excite_nature'
-  | 'wizard_opt_excite_adventure';
+  | 'wizard_opt_excite_adventure'
+  
+  // Rating Levels
+  | 'wizard_rating_winter'
+  | 'wizard_rating_thaw'
+  | 'wizard_rating_growth'
+  | 'wizard_rating_bloom'
+  | 'wizard_rating_summer';
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
   en: {
@@ -248,6 +261,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Completed",
     wiki_btn_mark_done: "Mark Done",
     wiki_ctx_ask: "Start a chat with this sentence",
+    wiki_topic_label: "Topic: {tag}",
+    wiki_topic_desc: "Topic Overview & Related Articles",
+    wiki_guide_prefix: "GUIDE",
+    wiki_stat_articles: "Articles",
+    wiki_stat_complete: "Complete",
+    wiki_section_prefix: "Section",
+
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Hi, {name}!",
     wizard_title_init: "Create Your Profile",
@@ -346,11 +366,19 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Challenges",
     wizard_step10_challenges_placeholder: "Any specific worries?",
     
+    // New Scale Keys
     wizard_scale_1_career: "I need direction",
     wizard_scale_5_career: "I have a plan",
 
     wizard_scale_1_life: "Still thawing",
     wizard_scale_5_life: "Feels like home",
+
+    // Rating Levels
+    wizard_rating_winter: "Winter",
+    wizard_rating_thaw: "Thaw",
+    wizard_rating_growth: "Growth",
+    wizard_rating_bloom: "Bloom",
+    wizard_rating_summer: "Summer",
 
     // Reframed Warm Questions
     wizard_step12_title: "How does Finnish culture feel to you right now?",
@@ -426,6 +454,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Đã xong",
     wiki_btn_mark_done: "Đánh dấu xong",
     wiki_ctx_ask: "Bắt đầu trò chuyện với câu này",
+    wiki_topic_label: "Chủ đề: {tag}",
+    wiki_topic_desc: "Tổng quan chủ đề & Bài viết liên quan",
+    wiki_guide_prefix: "HƯỚNG DẪN",
+    wiki_stat_articles: "Bài viết",
+    wiki_stat_complete: "Hoàn thành",
+    wiki_section_prefix: "Mục",
+
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Chào, {name}!",
     wizard_title_init: "Tạo Hồ Sơ",
@@ -545,7 +580,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Xây dựng sự nghiệp",
     wizard_opt_excite_life: "Sự bình yên & an toàn",
     wizard_opt_excite_nature: "Thiên nhiên & mùa màng",
-    wizard_opt_excite_adventure: "Tận hưởng chuyến phiêu lưu"
+    wizard_opt_excite_adventure: "Tận hưởng chuyến phiêu lưu",
+
+    wizard_rating_winter: "Mùa Đông",
+    wizard_rating_thaw: "Tan Băng",
+    wizard_rating_growth: "Phát Triển",
+    wizard_rating_bloom: "Nở Rộ",
+    wizard_rating_summer: "Mùa Hè",
   },
   "pt-br": {
     landing_welcome: "Bem-vindo!",
@@ -599,6 +640,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
     wiki_ctx_ask: "Conversar sobre esta frase",
+    wiki_topic_label: "Tópico: {tag}",
+    wiki_topic_desc: "Visão geral do tópico e artigos relacionados",
+    wiki_guide_prefix: "GUIA",
+    wiki_stat_articles: "Artigos",
+    wiki_stat_complete: "Completo",
+    wiki_section_prefix: "Seção",
+
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Olá, {name}!",
     wizard_title_init: "Criar Perfil",
@@ -718,7 +766,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Construir minha carreira",
     wizard_opt_excite_life: "A paz e segurança",
     wizard_opt_excite_nature: "Natureza e estações",
-    wizard_opt_excite_adventure: "Apenas a aventura"
+    wizard_opt_excite_adventure: "Apenas a aventura",
+
+    wizard_rating_winter: "Inverno",
+    wizard_rating_thaw: "Degelo",
+    wizard_rating_growth: "Crescimento",
+    wizard_rating_bloom: "Florescer",
+    wizard_rating_summer: "Verão",
   },
   "pt-pt": {
     landing_welcome: "Bem-vindo!",
@@ -772,6 +826,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Concluído",
     wiki_btn_mark_done: "Concluir",
     wiki_ctx_ask: "Conversar sobre esta frase",
+    wiki_topic_label: "Tópico: {tag}",
+    wiki_topic_desc: "Visão geral do tópico e artigos relacionados",
+    wiki_guide_prefix: "GUIA",
+    wiki_stat_articles: "Artigos",
+    wiki_stat_complete: "Completo",
+    wiki_section_prefix: "Secção",
+
     wizard_header_quiz: "Quiz",
     wizard_greeting_short: "Olá, {name}!",
     wizard_title_init: "Criar Perfil",
@@ -891,7 +952,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Construir a minha carreira",
     wizard_opt_excite_life: "A paz e segurança",
     wizard_opt_excite_nature: "Natureza e estações",
-    wizard_opt_excite_adventure: "Apenas a aventura"
+    wizard_opt_excite_adventure: "Apenas a aventura",
+
+    wizard_rating_winter: "Inverno",
+    wizard_rating_thaw: "Degelo",
+    wizard_rating_growth: "Crescimento",
+    wizard_rating_bloom: "Florescer",
+    wizard_rating_summer: "Verão",
   },
   ru: {
     landing_welcome: "Добро пожаловать!",
@@ -946,6 +1013,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_btn_completed: "Готово",
     wiki_btn_mark_done: "Завершить",
     wiki_ctx_ask: "Обсудить эту фразу",
+    wiki_topic_label: "Тема: {tag}",
+    wiki_topic_desc: "Обзор темы и статьи",
+    wiki_guide_prefix: "ГИД",
+    wiki_stat_articles: "Статьи",
+    wiki_stat_complete: "Готово",
+    wiki_section_prefix: "Раздел",
+
     wizard_header_quiz: "Опрос",
     wizard_greeting_short: "Привет, {name}!",
     wizard_title_init: "Создать профиль",
@@ -1065,7 +1139,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_opt_excite_career: "Карьерный рост",
     wizard_opt_excite_life: "Покой и безопасность",
     wizard_opt_excite_nature: "Природа и сезоны",
-    wizard_opt_excite_adventure: "Просто приключение"
+    wizard_opt_excite_adventure: "Просто приключение",
+
+    wizard_rating_winter: "Зима",
+    wizard_rating_thaw: "Оттепель",
+    wizard_rating_growth: "Рост",
+    wizard_rating_bloom: "Расцвет",
+    wizard_rating_summer: "Лето",
   }
 };
 

@@ -69,7 +69,9 @@ import {
   CloudSun,
   Sprout,
   Flower2,
-  List
+  List,
+  Tag,
+  Palmtree
 } from 'lucide-react';
 
 export const Icons = {
@@ -141,5 +143,7 @@ export const Icons = {
   CloudSun,
   Sprout,
   Flower2,
-  List
+  List,
+  Tag,
+  Palmtree
 };
