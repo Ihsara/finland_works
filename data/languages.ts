@@ -15,7 +15,7 @@ export type TranslationKey =
   | 'landing_welcome'
   | 'landing_subtitle'
   | 'landing_btn_quiz'
-  | 'landing_btn_continue' // New key
+  | 'landing_btn_continue'
   | 'landing_btn_ask'
   | 'landing_load_sample'
   | 'landing_erase'
@@ -103,7 +103,6 @@ export type TranslationKey =
   | 'wizard_step2_desc'
   | 'wizard_step2_placeholder'
   | 'wizard_step3_title'
-  // New Marital Keys
   | 'wizard_marital_solo_title'
   | 'wizard_marital_solo_desc'
   | 'wizard_marital_pair_title'
@@ -114,7 +113,6 @@ export type TranslationKey =
   | 'wizard_step4_desc'
   | 'wizard_step4_placeholder'
   | 'wizard_step4_no_match'
-  // New Region Keys
   | 'wizard_btn_search_country'
   | 'wizard_btn_select_region'
   | 'wizard_region_europe'
@@ -126,28 +124,23 @@ export type TranslationKey =
   | 'wizard_eu_question'
   | 'wizard_eu_yes'
   | 'wizard_eu_no'
-  
   | 'wizard_step5_title'
-  // New Permit Cards
   | 'wizard_permit_full_title'
   | 'wizard_permit_full_desc'
   | 'wizard_permit_restricted_title'
   | 'wizard_permit_restricted_desc'
   | 'wizard_permit_student_title'
   | 'wizard_permit_student_desc'
-
   | 'wizard_step6_title'
   | 'wizard_step6_desc'
   | 'wizard_step6_field_label'
   | 'wizard_step6_field_placeholder'
-  // New Education Cards
   | 'wizard_edu_general_title'
   | 'wizard_edu_general_desc'
   | 'wizard_edu_applied_title'
   | 'wizard_edu_applied_desc'
   | 'wizard_edu_uni_title'
   | 'wizard_edu_uni_desc'
-
   | 'wizard_step7_title'
   | 'wizard_step7_desc'
   | 'wizard_step7_placeholder'
@@ -168,15 +161,12 @@ export type TranslationKey =
   | 'wizard_step10_aspirations_placeholder'
   | 'wizard_step10_challenges_label'
   | 'wizard_step10_challenges_placeholder'
-  
-  // New Scale Keys
   | 'wizard_scale_1_motivation'
   | 'wizard_scale_5_motivation'
   | 'wizard_scale_1_career'
   | 'wizard_scale_5_career'
   | 'wizard_scale_1_life'
   | 'wizard_scale_5_life'
-  
   | 'wizard_step12_title'
   | 'wizard_opt_cult_high'
   | 'wizard_opt_cult_med'
@@ -195,8 +185,6 @@ export type TranslationKey =
   | 'wizard_opt_excite_life'
   | 'wizard_opt_excite_nature'
   | 'wizard_opt_excite_adventure'
-  
-  // Rating Levels
   | 'wizard_rating_winter'
   | 'wizard_rating_thaw'
   | 'wizard_rating_growth'
@@ -213,7 +201,13 @@ export type TranslationKey =
   | 'cv_subtitle'
   | 'cv_placeholder'
   | 'cv_btn_analyze'
-  | 'cv_warning_key';
+  | 'cv_btn_processing'
+  | 'cv_warning_key'
+  | 'cv_key_update'
+  | 'cv_key_required'
+  | 'cv_key_desc'
+  | 'cv_key_placeholder'
+  | 'cv_key_save';
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
   en: {
@@ -310,7 +304,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step2_placeholder: "Your age (e.g. 29)",
     wizard_step3_title: "What's your marital status?",
     
-    // Marital
     wizard_marital_solo_title: "Flying Solo",
     wizard_marital_solo_desc: "Single, divorced, or widowed",
     wizard_marital_pair_title: "Partnered Up",
@@ -323,7 +316,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step4_placeholder: "Start typing country name...",
     wizard_step4_no_match: "No matches found",
     
-    // Region
     wizard_btn_search_country: "Search Country",
     wizard_btn_select_region: "Select Region",
     wizard_region_europe: "Europe",
@@ -349,7 +341,6 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step6_field_label: "Field of Study (Optional)",
     wizard_step6_field_placeholder: "e.g. Engineering, Arts",
     
-    // Education Cards
     wizard_edu_general_title: "General Education",
     wizard_edu_general_desc: "High School / Lukio only. No trade qualification.",
     wizard_edu_applied_title: "Vocational & Applied",
@@ -382,29 +373,24 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_step10_challenges_label: "Challenges",
     wizard_step10_challenges_placeholder: "Any specific worries?",
     
-    // New Scale Keys
     wizard_scale_1_career: "I need direction",
     wizard_scale_5_career: "I have a plan",
 
     wizard_scale_1_life: "Still thawing",
     wizard_scale_5_life: "Feels like home",
 
-    // Rating Levels
     wizard_rating_winter: "Winter",
     wizard_rating_thaw: "Thaw",
     wizard_rating_growth: "Growth",
     wizard_rating_bloom: "Bloom",
     wizard_rating_summer: "Summer",
 
-    // Reframed Warm Questions
     wizard_step12_title: "How does Finnish culture feel to you right now?",
     wizard_opt_cult_low: "It's a beautiful mystery",
     wizard_opt_cult_med: "I'm happily observing",
     wizard_opt_cult_high: "I'm diving in deep",
 
     wizard_step13_title: "How are you finding the rhythm of life here?",
-    // Uses wizard_scale_1_life and wizard_scale_5_life
-
     wizard_step14_title: "How confident are you in your job search?",
 
     wizard_step15_title: "How clear is your path forward?",
@@ -428,7 +414,13 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_subtitle: "Paste your CV text to automatically update your profile.",
     cv_placeholder: "Paste your CV/Resume text here...",
     cv_btn_analyze: "Analyze & Import",
-    cv_warning_key: "Personalized API Key required."
+    cv_btn_processing: "Processing...",
+    cv_warning_key: "Personalized API Key required.",
+    cv_key_update: "Update API Key",
+    cv_key_required: "API Key Required",
+    cv_key_desc: "To analyze your CV securely, please provide your own Google Gemini API key. It is stored locally on your device.",
+    cv_key_placeholder: "Paste API Key here...",
+    cv_key_save: "Save Key"
   },
   vi: {
     history_title: "Lịch sử trò chuyện",
@@ -440,10 +432,37 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_subtitle: "Dán nội dung CV để cập nhật hồ sơ tự động.",
     cv_placeholder: "Dán nội dung CV vào đây...",
     cv_btn_analyze: "Phân tích & Nhập",
+    cv_btn_processing: "Đang xử lý...",
     cv_warning_key: "Cần có Khóa API Cá nhân.",
+    cv_key_update: "Cập nhật Khóa API",
+    cv_key_required: "Yêu cầu Khóa API",
+    cv_key_desc: "Để phân tích CV an toàn, vui lòng cung cấp khóa API Google Gemini của riêng bạn. Nó chỉ được lưu trên thiết bị của bạn.",
+    cv_key_placeholder: "Dán Khóa API vào đây...",
+    cv_key_save: "Lưu Khóa",
     dash_btn_history: "Lịch sử trò chuyện",
     dash_btn_cv: "Nhập CV",
-    // ... existing translations ...
+    // Base overwrites
+    landing_welcome: "Chào mừng!",
+    landing_subtitle: "Tìm đường đến Phần Lan làm việc",
+    landing_btn_quiz: "Giới thiệu bản thân",
+    landing_btn_continue: "Khám phá hướng dẫn",
+    landing_btn_ask: "Bắt đầu trò chuyện",
+    dash_greeting: "Moi, {name}!",
+    dash_greeting_guest: "Moi!",
+    dash_subtitle: "Chào mừng trở lại với hướng dẫn cá nhân của bạn.",
+    dash_btn_guide: "Mở Hướng dẫn",
+    dash_btn_ask: "Hỏi AI",
+    profile_btn_guide: "Hướng dẫn của tôi",
+    profile_btn_guide_desc: "Các bài viết gợi ý",
+    profile_sect_languages: "Ngôn ngữ",
+    profile_sect_skills: "Kỹ năng",
+    profile_sect_narrative: "Câu chuyện cá nhân",
+    profile_completeness: "{percentage}% hoàn thành",
+    profile_completeness_hint: "Trả lời thêm vài câu hỏi để nhận lời khuyên tốt hơn",
+    wiki_header_title: "Finland Works!",
+    wiki_nav_list: "Danh sách",
+    wiki_nav_icons: "Biểu tượng",
+    wiki_full_index: "Mục lục đầy đủ"
   },
   "pt-br": {
     history_title: "Conversas Anteriores",
@@ -455,10 +474,34 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_subtitle: "Cole seu CV para atualizar seu perfil automaticamente.",
     cv_placeholder: "Cole o texto do seu CV aqui...",
     cv_btn_analyze: "Analisar & Importar",
+    cv_btn_processing: "Processando...",
     cv_warning_key: "Chave de API Personalizada necessária.",
+    cv_key_update: "Atualizar Chave API",
+    cv_key_required: "Chave API Necessária",
+    cv_key_desc: "Para analisar seu CV com segurança, forneça sua chave de API do Google Gemini. Ela é armazenada localmente.",
+    cv_key_placeholder: "Cole a Chave API aqui...",
+    cv_key_save: "Salvar Chave",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
-    // ... existing translations ...
+    // Base overwrites
+    landing_welcome: "Bem-vindo!",
+    landing_subtitle: "Encontre seu caminho para trabalhar na Finlândia",
+    landing_btn_quiz: "Conte sobre você",
+    landing_btn_continue: "Explorar Guia",
+    landing_btn_ask: "Começar conversa",
+    dash_greeting: "Moi, {name}!",
+    dash_greeting_guest: "Moi!",
+    dash_subtitle: "Bem-vindo de volta ao seu guia pessoal.",
+    dash_btn_guide: "Abrir Guia",
+    dash_btn_ask: "Perguntar AI",
+    profile_btn_guide: "Meu Guia",
+    profile_sect_languages: "Idiomas",
+    profile_sect_skills: "Habilidades",
+    profile_completeness: "{percentage}% completo",
+    wiki_header_title: "Finland Works!",
+    wiki_nav_list: "Lista",
+    wiki_nav_icons: "Ícones",
+    wiki_full_index: "Índice Completo"
   },
   "pt-pt": {
     history_title: "Conversas Anteriores",
@@ -470,10 +513,26 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_subtitle: "Cola o teu CV para atualizar o perfil automaticamente.",
     cv_placeholder: "Cola o texto do teu CV aqui...",
     cv_btn_analyze: "Analisar & Importar",
+    cv_btn_processing: "A processar...",
     cv_warning_key: "Chave de API Personalizada necessária.",
+    cv_key_update: "Atualizar Chave API",
+    cv_key_required: "Chave API Necessária",
+    cv_key_desc: "Para analisar o teu CV com segurança, fornece a tua chave de API Google Gemini. Ela é guardada localmente.",
+    cv_key_placeholder: "Cola a Chave API aqui...",
+    cv_key_save: "Guardar Chave",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
-    // ... existing translations ...
+    // Base overwrites
+    landing_welcome: "Bem-vindo!",
+    landing_subtitle: "Encontra o teu caminho na Finlândia",
+    landing_btn_quiz: "Fala sobre ti",
+    landing_btn_continue: "Explorar Guia",
+    dash_greeting: "Moi, {name}!",
+    dash_btn_guide: "Abrir Guia",
+    profile_sect_languages: "Línguas",
+    profile_sect_skills: "Competências",
+    wiki_nav_list: "Lista",
+    wiki_nav_icons: "Ícones"
   },
   ru: {
     history_title: "История чатов",
@@ -485,10 +544,32 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_subtitle: "Вставьте текст CV для автообновления профиля.",
     cv_placeholder: "Вставьте текст резюме сюда...",
     cv_btn_analyze: "Анализ и Импорт",
+    cv_btn_processing: "Обработка...",
     cv_warning_key: "Требуется персональный API ключ.",
+    cv_key_update: "Обновить API ключ",
+    cv_key_required: "Требуется API ключ",
+    cv_key_desc: "Для безопасного анализа резюме укажите свой ключ Google Gemini API. Он хранится локально.",
+    cv_key_placeholder: "Вставьте ключ API...",
+    cv_key_save: "Сохранить",
     dash_btn_history: "История",
     dash_btn_cv: "Импорт CV",
-    // ... existing translations ...
+    // Base overwrites
+    landing_welcome: "Добро пожаловать!",
+    landing_subtitle: "Ваш путь к работе в Финляндии",
+    landing_btn_quiz: "Расскажите о себе",
+    landing_btn_continue: "Открыть гид",
+    landing_btn_ask: "Начать чат",
+    dash_greeting: "Moi, {name}!",
+    dash_subtitle: "Добро пожаловать в ваш персональный гид.",
+    dash_btn_guide: "Открыть гид",
+    profile_btn_guide: "Мой гид",
+    profile_sect_languages: "Языки",
+    profile_sect_skills: "Навыки",
+    profile_completeness: "Заполнено: {percentage}%",
+    wiki_header_title: "Finland Works!",
+    wiki_nav_list: "Список",
+    wiki_nav_icons: "Иконки",
+    wiki_full_index: "Полный индекс"
   }
 };
 

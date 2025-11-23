@@ -24,6 +24,23 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
 
   const selectedConv = conversations.find(c => c.id === selectedId);
 
+  // Helper for locale-aware dates
+  const formatDate = (timestamp: number, fmt: 'short' | 'time') => {
+      const localeMap: Record<string, string> = {
+          'en': 'en-GB',
+          'vi': 'vi-VN',
+          'pt-br': 'pt-BR',
+          'pt-pt': 'pt-PT',
+          'ru': 'ru-RU'
+      };
+      const locale = localeMap[language] || 'en-GB';
+      
+      if (fmt === 'time') {
+          return new Date(timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+      }
+      return new Date(timestamp).toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' });
+  };
+
   return (
     <div className="flex flex-col h-full bg-white animate-in fade-in duration-500">
       <div className="px-6 py-4 border-b border-gray-100 flex items-center bg-white sticky top-0 z-20 shadow-sm">
@@ -53,10 +70,10 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
               className={`w-full text-left p-4 border-b border-gray-100 hover:bg-white transition flex flex-col gap-1 ${selectedId === c.id ? 'bg-white border-l-4 border-l-black shadow-sm relative z-10' : 'text-gray-600'}`}
             >
               <div className="text-sm font-bold text-gray-900">
-                {new Date(c.startTime).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
+                {formatDate(c.startTime, 'short')}
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500">{new Date(c.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                <span className="text-xs text-gray-500">{formatDate(c.startTime, 'time')}</span>
                 <span className="text-[10px] bg-gray-200 px-1.5 py-0.5 rounded-full text-gray-600">{c.messages.length} msgs</span>
               </div>
             </button>
@@ -94,7 +111,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                       {selectedConv.summary ? (
                          <div className="prose prose-sm max-w-none text-gray-800">
                              <h3 className="text-gray-900 font-bold mb-4 flex items-center gap-2 uppercase tracking-wide text-xs">
-                                <Icons.FileText className="w-4 h-4"/> AI Summary
+                                <Icons.FileText className="w-4 h-4"/> {t('history_tab_summary', language)}
                              </h3>
                              <div dangerouslySetInnerHTML={{ __html: marked.parse(selectedConv.summary) as string }} />
                          </div>
@@ -115,7 +132,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                                   <div dangerouslySetInnerHTML={{ __html: marked.parse(m.text) as string }} />
                               </div>
                               <span className="text-[10px] text-gray-400 mt-1 px-1">
-                                  {m.sender === 'user' ? 'You' : 'Assistant'} • {new Date(m.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                  {m.sender === 'user' ? 'You' : 'Assistant'} • {formatDate(m.timestamp, 'time')}
                               </span>
                           </div>
                       ))}

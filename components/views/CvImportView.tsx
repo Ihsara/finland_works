@@ -108,10 +108,10 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                     </div>
                     <div className="flex-1">
                         <h3 className="font-bold text-gray-900 mb-1">
-                            {hasKey ? "Update API Key" : "API Key Required"}
+                            {hasKey ? t('cv_key_update', language) : t('cv_key_required', language)}
                         </h3>
                         <p className="text-sm text-gray-600 mb-4">
-                            To analyze your CV securely, please provide your own Google Gemini API key. It is stored locally on your device.
+                            {t('cv_key_desc', language)}
                         </p>
                         <div className="flex gap-2">
                             <input 
@@ -119,14 +119,14 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                                 value={keyInput}
                                 onChange={(e) => setKeyInput(e.target.value)}
                                 className="flex-1 p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                                placeholder="Paste API Key here..."
+                                placeholder={t('cv_key_placeholder', language)}
                             />
                             <button 
                                 onClick={handleSaveKey}
                                 disabled={keyInput.length < 5}
                                 className="bg-black text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 disabled:opacity-50 whitespace-nowrap"
                             >
-                                Save Key
+                                {t('cv_key_save', language)}
                             </button>
                         </div>
                     </div>
@@ -161,7 +161,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                  {isAnalyzing ? (
                      <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Processing...
+                        {t('cv_btn_processing', language)}
                      </>
                  ) : (
                      <>
@@ -174,7 +174,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
          
          {!hasKey && !process.env.API_KEY && (
             <p className="text-center text-red-500 text-sm mt-4 font-medium animate-pulse">
-                Please enter an API Key above to enable analysis.
+                {t('cv_warning_key', language)}
             </p>
          )}
       </div>
