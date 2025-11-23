@@ -8,7 +8,9 @@ export enum AppView {
   PROFILE_EDIT = 'PROFILE_EDIT', // YAML Editor
   SETTINGS = 'SETTINGS',
   QUIZ = 'QUIZ',
-  WIKI = 'WIKI'
+  WIKI = 'WIKI',
+  HISTORY = 'HISTORY',
+  CV_IMPORT = 'CV_IMPORT'
 }
 
 export enum Sender {

@@ -19,6 +19,8 @@ import { DashboardView } from './components/views/DashboardView';
 import { ChatView } from './components/views/ChatView';
 import { ProfileDetailView } from './components/views/ProfileDetailView';
 import { ProfileEditView } from './components/views/ProfileEditView';
+import { HistoryView } from './components/views/HistoryView';
+import { CvImportView } from './components/views/CvImportView';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -425,6 +427,23 @@ const App: React.FC = () => {
           onNavigateToWiki={() => setView(AppView.WIKI)}
           onNavigateToQuiz={() => setView(AppView.QUIZ)}
           onStartChat={() => startNewChat()}
+          onNavigateToHistory={() => setView(AppView.HISTORY)}
+          onNavigateToCvImport={() => setView(AppView.CV_IMPORT)}
+        />
+      )}
+
+      {view === AppView.HISTORY && (
+        <HistoryView 
+          language={language}
+          onBack={() => setView(AppView.DASHBOARD)}
+        />
+      )}
+
+      {view === AppView.CV_IMPORT && (
+        <CvImportView 
+          language={language}
+          onBack={() => setView(AppView.DASHBOARD)}
+          onProfileUpdated={refreshProfiles}
         />
       )}
 

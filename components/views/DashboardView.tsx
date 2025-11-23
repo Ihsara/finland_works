@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
@@ -14,6 +15,8 @@ interface DashboardViewProps {
   onNavigateToWiki: () => void;
   onNavigateToQuiz: () => void;
   onStartChat: () => void;
+  onNavigateToHistory?: () => void;
+  onNavigateToCvImport?: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -24,12 +27,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigateToProfile,
   onNavigateToWiki,
   onNavigateToQuiz,
-  onStartChat
+  onStartChat,
+  onNavigateToHistory,
+  onNavigateToCvImport
 }) => {
   const isGuest = !profile || profile.id === 'guest';
 
   return (
-    <div className="flex flex-col h-full bg-white animate-in fade-in duration-500">
+    <div className="flex flex-col h-full bg-white animate-in fade-in duration-500 overflow-y-auto">
       {/* Simple Header */}
       <div className="p-6 flex justify-between items-center">
         <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
@@ -78,7 +83,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           }
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+        {/* Primary Actions */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center mb-6">
           {!isGuest ? (
             <button 
               onClick={onNavigateToWiki}
@@ -104,6 +110,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {t('landing_btn_ask', language)}
           </button>
         </div>
+
+        {/* Secondary Actions (History & CV) */}
+        {!isGuest && (
+          <div className="grid grid-cols-2 gap-4 w-full sm:w-auto sm:min-w-[536px]">
+             <button
+               onClick={onNavigateToHistory}
+               className="flex flex-col items-center justify-center gap-2 bg-gray-50 text-gray-700 hover:text-black border border-gray-100 hover:border-gray-300 px-4 py-4 rounded-xl font-medium text-sm transition"
+             >
+                <Icons.History className="w-6 h-6" />
+                {t('dash_btn_history', language)}
+             </button>
+             <button
+               onClick={onNavigateToCvImport}
+               className="flex flex-col items-center justify-center gap-2 bg-gray-50 text-gray-700 hover:text-black border border-gray-100 hover:border-gray-300 px-4 py-4 rounded-xl font-medium text-sm transition"
+             >
+                <Icons.FileText className="w-6 h-6" />
+                {t('dash_btn_cv', language)}
+             </button>
+          </div>
+        )}
       </div>
     </div>
   );

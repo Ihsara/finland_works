@@ -1,5 +1,5 @@
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { Message, Sender, UserProfile, LanguageCode } from "../types";
 import { EnrichedWikiArticle } from "../data/wikiContent";
 import { WikiProgressData, getApiKey } from "./storageService";
@@ -297,5 +297,71 @@ export const summarizeConversation = async (
   } catch (error) {
     console.error("Summary Error:", error);
     throw error;
+  }
+};
+
+export const analyzeCV = async (cvText: string): Promise<Partial<UserProfile>> => {
+  const ai = getClient();
+
+  const prompt = `
+    Analyze the following Curriculum Vitae (CV) text and extract information to populate a User Profile for an immigrant integration app in Finland.
+    
+    Return ONLY a JSON object with the following schema (all fields optional if not found):
+    {
+      "name": string,
+      "profession": string,
+      "education": {
+        "degree": string,
+        "field": string
+      },
+      "languages": [ { "language": string, "level": string } ],
+      "aspirations": string[],
+      "challenges": string[] (Infer potential challenges based on gaps or origin vs Finland context)
+    }
+
+    CV TEXT:
+    ${cvText}
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            profession: { type: Type.STRING },
+            education: {
+              type: Type.OBJECT,
+              properties: {
+                degree: { type: Type.STRING },
+                field: { type: Type.STRING }
+              }
+            },
+            languages: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  language: { type: Type.STRING },
+                  level: { type: Type.STRING }
+                }
+              }
+            },
+            aspirations: { type: Type.ARRAY, items: { type: Type.STRING } },
+            challenges: { type: Type.ARRAY, items: { type: Type.STRING } }
+          }
+        }
+      }
+    });
+
+    const json = JSON.parse(response.text || '{}');
+    return json;
+  } catch (error) {
+    console.error("CV Analysis Error", error);
+    throw new Error("Could not analyze CV. Please try again.");
   }
 };

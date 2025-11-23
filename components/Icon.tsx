@@ -71,7 +71,10 @@ import {
   Flower2,
   List,
   Tag,
-  Palmtree
+  Palmtree,
+  History,
+  Upload,
+  Lock
 } from 'lucide-react';
 
 export const Icons = {
@@ -145,5 +148,8 @@ export const Icons = {
   Flower2,
   List,
   Tag,
-  Palmtree
+  Palmtree,
+  History,
+  Upload,
+  Lock
 };
