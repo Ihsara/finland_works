@@ -2,16 +2,14 @@
 import React, { useState } from 'react';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
-import { UserProfile, LanguageCode } from '../../types';
-import { t } from '../../data/languages';
+import { UserProfile } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { getAvatarUrl } from '../../utils/profileUtils';
 
 interface ProfileDetailViewProps {
-  language: LanguageCode;
   profile: UserProfile | null;
   profileCompleteness: number;
   allProfiles: UserProfile[];
-  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
   onNavigateBack: () => void;
   onSwitchProfile: (id: string) => void;
   onCreateProfile: () => void;
@@ -21,11 +19,9 @@ interface ProfileDetailViewProps {
 }
 
 export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
-  language,
   profile,
   profileCompleteness,
   allProfiles,
-  onLanguageSelect,
   onNavigateBack,
   onSwitchProfile,
   onCreateProfile,
@@ -33,14 +29,15 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
   onEditYaml,
   onNavigateToWiki
 }) => {
+  const { t, language } = useLanguage();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   // Helper to "translate" stored values for display if they match known English keys
   const translateValue = (val: string | undefined) => {
       if (!val) return 'Unknown';
       // Basic mappings for common profile values
-      if (val.includes('Solo')) return t('wizard_marital_solo_title', language);
-      if (val.includes('Partnered')) return t('wizard_marital_pair_title', language);
+      if (val.includes('Solo')) return t('wizard_marital_solo_title');
+      if (val.includes('Partnered')) return t('wizard_marital_pair_title');
       // Fallback
       return val;
   };
@@ -55,19 +52,19 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
             className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
           >
             <Icons.ArrowLeft className="w-5 h-5" />
-            <span className="hidden sm:inline">{t('btn_back_dashboard', language)}</span>
+            <span className="hidden sm:inline">{t('btn_back_dashboard')}</span>
           </button>
         </div>
         
         <div className="flex items-center gap-3 relative">
-          <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
+          <LanguageSelector />
           
           <div className="relative">
             <button 
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
               className="text-xs font-bold text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white flex items-center gap-1 uppercase tracking-wide bg-gray-50 dark:bg-gray-900 px-3 py-2 rounded-full border border-gray-100 dark:border-gray-800"
             >
-              {t('dash_switch_profile', language)} <Icons.ChevronDown className="w-3 h-3" />
+              {t('dash_switch_profile')} <Icons.ChevronDown className="w-3 h-3" />
             </button>
             {isProfileMenuOpen && (
               <div className="absolute right-0 top-10 w-56 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden animate-in fade-in zoom-in-95">
@@ -92,7 +89,7 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
                     }}
                     className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 text-blue-600 dark:text-blue-400 font-bold flex items-center gap-2"
                   >
-                    <Icons.UserPlus className="w-4 h-4" /> {t('dash_new_profile', language)}
+                    <Icons.UserPlus className="w-4 h-4" /> {t('dash_new_profile')}
                   </button>
                 </div>
               </div>
@@ -129,17 +126,17 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
 
           <div className="w-full md:w-72 flex flex-col justify-center gap-3 bg-gray-50 dark:bg-gray-900 p-5 rounded-xl">
             <div className="flex justify-between items-end">
-              <span className="text-sm font-bold text-black dark:text-white">{t('profile_completeness', language, { percentage: profileCompleteness.toString() })}</span>
+              <span className="text-sm font-bold text-black dark:text-white">{t('profile_completeness', { percentage: profileCompleteness.toString() })}</span>
             </div>
             <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <div className="h-full bg-black dark:bg-white rounded-full transition-all duration-1000 ease-out" style={{ width: `${profileCompleteness}%` }}></div>
             </div>
-            <p className="text-xs text-gray-700 dark:text-gray-400">{t('profile_completeness_hint', language)}</p>
+            <p className="text-xs text-gray-700 dark:text-gray-400">{t('profile_completeness_hint')}</p>
             <button 
               onClick={onEditVisual}
               className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-black dark:text-white py-2 px-4 rounded-lg font-bold text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition shadow-sm"
             >
-              {profileCompleteness === 100 ? t('profile_btn_update', language) : t('profile_btn_continue', language)}
+              {profileCompleteness === 100 ? t('profile_btn_update') : t('profile_btn_continue')}
             </button>
           </div>
         </div>
@@ -155,8 +152,8 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
                 <Icons.BookMarked className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <span className="block text-lg font-bold text-gray-900 dark:text-white">{t('profile_btn_guide', language)}</span>
-                <span className="text-sm text-gray-600 dark:text-gray-400">{t('profile_btn_guide_desc', language)}</span>
+                <span className="block text-lg font-bold text-gray-900 dark:text-white">{t('profile_btn_guide')}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{t('profile_btn_guide_desc')}</span>
               </div>
             </div>
             <Icons.ArrowRight className="w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white" />
@@ -167,8 +164,8 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
                 <Icons.Rocket className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <span className="block text-lg font-bold text-gray-900 dark:text-white">{t('profile_btn_plan', language)}</span>
-                <span className="text-sm text-gray-600 dark:text-gray-400">{t('profile_btn_plan_desc', language)}</span>
+                <span className="block text-lg font-bold text-gray-900 dark:text-white">{t('profile_btn_plan')}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{t('profile_btn_plan_desc')}</span>
               </div>
             </div>
             <Icons.ArrowRight className="w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white" />
@@ -180,9 +177,9 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
           {/* Languages */}
           <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group">
             <button onClick={onEditYaml} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition">
-              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
+              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile')}
             </button>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.Languages className="w-5 h-5"/> {t('profile_sect_languages', language)}</h3>
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.Languages className="w-5 h-5"/> {t('profile_sect_languages')}</h3>
             <div className="space-y-3">
               {(profile?.languages && profile.languages.length > 0) ? (
                 profile.languages.map((l, i) => (
@@ -200,19 +197,19 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
           {/* Education */}
           <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group">
             <button onClick={onEditYaml} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition">
-              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
+              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile')}
             </button>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.GraduationCap className="w-5 h-5"/> {t('profile_sect_skills', language)}</h3>
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.GraduationCap className="w-5 h-5"/> {t('profile_sect_skills')}</h3>
             <div className="space-y-4">
               <div>
-                <h4 className="font-bold text-black dark:text-white mb-1 text-sm uppercase tracking-wide text-gray-600 dark:text-gray-400">{t('profile_label_education', language)}</h4>
+                <h4 className="font-bold text-black dark:text-white mb-1 text-sm uppercase tracking-wide text-gray-600 dark:text-gray-400">{t('profile_label_education')}</h4>
                 <p className="text-gray-800 dark:text-gray-300 font-medium">
                   {profile?.education?.degree || 'Not specified'} 
                   {profile?.education?.field ? ` in ${profile.education.field}` : ''}
                 </p>
               </div>
               <div>
-                <h4 className="font-bold text-black dark:text-white mb-1 text-sm uppercase tracking-wide text-gray-600 dark:text-gray-400">{t('profile_label_profession', language)}</h4>
+                <h4 className="font-bold text-black dark:text-white mb-1 text-sm uppercase tracking-wide text-gray-600 dark:text-gray-400">{t('profile_label_profession')}</h4>
                 <p className="text-gray-800 dark:text-gray-300 font-medium">{profile?.profession || 'Not specified'}</p>
               </div>
             </div>
@@ -221,12 +218,12 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
           {/* Narrative - Full Width */}
           <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group md:col-span-2">
             <button onClick={onEditYaml} className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition">
-              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile', language)}
+              <Icons.Edit3 className="w-3 h-3" /> {t('dash_edit_profile')}
             </button>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.User className="w-5 h-5"/> {t('profile_sect_narrative', language)}</h3>
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.User className="w-5 h-5"/> {t('profile_sect_narrative')}</h3>
             <div className="space-y-6">
               <div>
-                <h4 className="font-bold text-black dark:text-white mb-2">{t('profile_label_aspirations', language)}</h4>
+                <h4 className="font-bold text-black dark:text-white mb-2">{t('profile_label_aspirations')}</h4>
                 <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
                   {(profile?.aspirations && profile.aspirations.length > 0) ? (
                     profile.aspirations.map((a, i) => <li key={i}>{a}</li>)
@@ -236,7 +233,7 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
                 </ul>
               </div>
               <div>
-                <h4 className="font-bold text-black dark:text-white mb-2">{t('profile_label_challenges', language)}</h4>
+                <h4 className="font-bold text-black dark:text-white mb-2">{t('profile_label_challenges')}</h4>
                 <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
                   {(profile?.challenges && profile.challenges.length > 0) ? (
                     profile.challenges.map((a, i) => <li key={i}>{a}</li>)

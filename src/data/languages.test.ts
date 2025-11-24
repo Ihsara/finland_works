@@ -7,21 +7,16 @@ describe('Language System (DoD)', () => {
   
   // EDGE CASE: Fallback Logic
   it('falls back to English if translation is missing', () => {
-    // We pretend 'landing_welcome' is missing in Estonian for a second (programmatically checked via t function logic)
-    // Since we can't mutate the const easily, we test the function behavior
     const result = t('landing_welcome', 'et');
-    expect(result).toBeTruthy(); // Should return string
+    expect(result).toBeTruthy(); 
     
-    // Test a key that definitely falls back (if any exist, or ensure logic works)
-    // We can test this by using a language code that exists but might have partial coverage
     const resultEn = t('landing_welcome', 'en');
-    expect(result).not.toBe('landing_welcome'); // Should not return the key itself
+    expect(result).not.toBe('landing_welcome'); 
     expect(result.length).toBeGreaterThan(0);
   });
 
   // COMMON CASE: Variable Replacement
   it('replaces variables in translation strings', () => {
-    // Assuming 'dash_greeting' is "Moi, {name}!"
     const result = t('dash_greeting', 'en', { name: 'TestUser' });
     expect(result).toBe('Moi, TestUser!');
   });
@@ -32,6 +27,23 @@ describe('Language System (DoD)', () => {
       expect(lang.code).toBeDefined();
       expect(lang.name).toBeDefined();
       expect(lang.flag).toBeDefined();
+    });
+  });
+
+  // CRITICAL UI CHECK: Wiki Navigation
+  // Ensure that when a user switches language, the main navigation buttons don't break
+  it('has Wiki UI translations for all languages', () => {
+    SUPPORTED_LANGUAGES.forEach(lang => {
+      // We check specific keys that were historically missing in some languages
+      const navList = t('wiki_nav_list', lang.code);
+      const navCats = t('wiki_explore_cats', lang.code);
+      
+      // They should not equal the key name (meaning they resolved)
+      expect(navList).not.toBe('wiki_nav_list');
+      expect(navCats).not.toBe('wiki_explore_cats');
+      
+      // And should not be empty
+      expect(navList.length).toBeGreaterThan(0);
     });
   });
 

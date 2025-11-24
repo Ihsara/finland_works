@@ -1,27 +1,25 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Icons } from './Icon';
-import { LanguageCode, AppLanguage } from '../types';
 import { SUPPORTED_LANGUAGES } from '../data/languages';
+import { useLanguage } from '../contexts/LanguageContext';
+import { AppLanguage } from '../types';
 
 interface LanguageSelectorProps {
-  currentLanguage: LanguageCode;
-  onSelect: (code: LanguageCode, supported: boolean) => void;
   className?: string;
   direction?: 'down' | 'up';
 }
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
-  currentLanguage, 
-  onSelect,
   className = "",
   direction = 'down'
 }) => {
+  const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Fallback to first language if current is somehow not found
-  const currentLangObj = SUPPORTED_LANGUAGES.find(l => l.code === currentLanguage) || SUPPORTED_LANGUAGES[0];
+  const currentLangObj = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,7 +33,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
   const handleSelect = (l: AppLanguage) => {
     if (l.supported) {
-      onSelect(l.code, l.supported);
+      setLanguage(l.code);
       setIsOpen(false);
     }
   }
@@ -87,7 +85,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             
             <div className="max-h-[320px] overflow-y-auto py-1">
               {SUPPORTED_LANGUAGES.map(lang => {
-                const isSelected = currentLanguage === lang.code;
+                const isSelected = language === lang.code;
                 return (
                   <button 
                     key={lang.code}

@@ -1,18 +1,17 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Icons } from '../Icon';
-import { LanguageCode, Conversation, Sender } from '../../types';
+import { Conversation, Sender } from '../../types';
 import { getAllConversations } from '../../services/storageService';
-import { t } from '../../data/languages';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { marked } from 'marked';
-import { getAvatarUrl } from '../../utils/profileUtils';
 
 interface HistoryViewProps {
-  language: LanguageCode;
   onBack: () => void;
 }
 
-export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) => {
+export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
+  const { t, language } = useLanguage();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'summary' | 'transcript'>('summary');
@@ -80,9 +79,9 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
           className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
         >
           <Icons.ArrowLeft className="w-5 h-5" />
-          <span>{t('btn_back_dashboard', language)}</span>
+          <span>{t('btn_back_dashboard')}</span>
         </button>
-        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-gray-700 pl-4">{t('history_title', language)}</h2>
+        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-gray-700 pl-4">{t('history_title')}</h2>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
@@ -91,7 +90,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
           {conversations.length === 0 && (
              <div className="p-10 text-gray-400 dark:text-gray-600 text-sm text-center flex flex-col items-center gap-2">
                 <Icons.MessageSquare className="w-8 h-8 opacity-20" />
-                {t('history_empty', language)}
+                {t('history_empty')}
              </div>
           )}
           {conversations.map(c => (
@@ -150,7 +149,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                         : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                   >
-                    {t('history_tab_summary', language)}
+                    {t('history_tab_summary')}
                   </button>
                   <button 
                     onClick={() => setActiveTab('transcript')}
@@ -160,7 +159,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                         : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                   >
-                    {t('history_tab_transcript', language)}
+                    {t('history_tab_transcript')}
                   </button>
                </div>
 
@@ -171,14 +170,14 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                           {selectedConv.summaryStatus === 'generating' ? (
                              <div className="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl border border-blue-100 dark:border-blue-900/50 flex flex-col items-center justify-center text-center">
                                  <div className="w-10 h-10 border-4 border-blue-200 dark:border-blue-800 border-t-blue-600 dark:border-t-blue-400 rounded-full animate-spin mb-4"></div>
-                                 <h3 className="text-blue-900 dark:text-blue-300 font-bold text-lg">{t('history_generating', language)}</h3>
-                                 <p className="text-blue-700 dark:text-blue-400 text-sm mt-1">{t('history_generating_desc', language)}</p>
+                                 <h3 className="text-blue-900 dark:text-blue-300 font-bold text-lg">{t('history_generating')}</h3>
+                                 <p className="text-blue-700 dark:text-blue-400 text-sm mt-1">{t('history_generating_desc')}</p>
                              </div>
                           ) : selectedConv.summary ? (
                             <div className="bg-gray-50 dark:bg-gray-900 p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm animate-in fade-in slide-in-from-bottom-2">
                                 <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-300 dark:prose-invert">
                                     <h3 className="text-gray-900 dark:text-white font-bold mb-4 flex items-center gap-2 uppercase tracking-wide text-xs">
-                                        <Icons.FileText className="w-4 h-4"/> {t('history_tab_summary', language)}
+                                        <Icons.FileText className="w-4 h-4"/> {t('history_tab_summary')}
                                     </h3>
                                     <div dangerouslySetInnerHTML={{ __html: marked.parse(selectedConv.summary) as string }} />
                                 </div>
@@ -186,7 +185,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ language, onBack }) =>
                           ) : (
                             <div className="text-center py-12 text-gray-500 dark:text-gray-600">
                                 <Icons.Ghost className="w-10 h-10 mx-auto mb-3 opacity-20" />
-                                <p>{t('history_no_summary', language)}</p>
+                                <p>{t('history_no_summary')}</p>
                             </div>
                           )}
                       </div>

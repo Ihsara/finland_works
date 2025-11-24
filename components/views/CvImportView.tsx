@@ -1,18 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
-import { LanguageCode, UserProfile } from '../../types';
-import { t } from '../../data/languages';
+import { UserProfile } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { analyzeCV } from '../../services/geminiService';
 import { saveProfile, getActiveProfile, saveApiKey, getApiKey } from '../../services/storageService';
 
 interface CvImportViewProps {
-  language: LanguageCode;
   onBack: () => void;
   onProfileUpdated: () => void;
 }
 
-export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, onProfileUpdated }) => {
+export const CvImportView: React.FC<CvImportViewProps> = ({ onBack, onProfileUpdated }) => {
+  const { t } = useLanguage();
   const [text, setText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasKey, setHasKey] = useState(false);
@@ -33,7 +33,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
       setHasKey(true);
       setShowKeyInput(false);
       setKeyInput('');
-      alert(t('cv_alert_success', language));
+      alert(t('cv_alert_success'));
     }
   };
 
@@ -68,7 +68,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
          onBack();
       }
     } catch (e) {
-      alert(t('cv_alert_error', language));
+      alert(t('cv_alert_error'));
     } finally {
       setIsAnalyzing(false);
     }
@@ -83,9 +83,9 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                 className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
             >
                 <Icons.ArrowLeft className="w-5 h-5" />
-                <span>{t('btn_back_dashboard', language)}</span>
+                <span>{t('btn_back_dashboard')}</span>
             </button>
-            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white hidden sm:block">{t('cv_title', language)}</h2>
+            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white hidden sm:block">{t('cv_title')}</h2>
         </div>
         <button 
             onClick={() => setShowKeyInput(!showKeyInput)}
@@ -93,7 +93,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
             title="Manage API Key"
         >
             <Icons.Key className="w-4 h-4" /> 
-            <span className="hidden sm:inline">{t('cv_btn_manage_key', language)}</span>
+            <span className="hidden sm:inline">{t('cv_btn_manage_key')}</span>
         </button>
       </div>
 
@@ -108,10 +108,10 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                     </div>
                     <div className="flex-1">
                         <h3 className="font-bold text-gray-900 dark:text-white mb-1">
-                            {hasKey ? t('cv_key_update', language) : t('cv_key_required', language)}
+                            {hasKey ? t('cv_key_update') : t('cv_key_required')}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            {t('cv_key_desc', language)}
+                            {t('cv_key_desc')}
                         </p>
                         <div className="flex gap-2">
                             <input 
@@ -119,14 +119,14 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
                                 value={keyInput}
                                 onChange={(e) => setKeyInput(e.target.value)}
                                 className="flex-1 p-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white dark:text-white"
-                                placeholder={t('cv_key_placeholder', language)}
+                                placeholder={t('cv_key_placeholder')}
                             />
                             <button 
                                 onClick={handleSaveKey}
                                 disabled={keyInput.length < 5}
                                 className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-50 whitespace-nowrap"
                             >
-                                {t('cv_key_save', language)}
+                                {t('cv_key_save')}
                             </button>
                         </div>
                     </div>
@@ -138,10 +138,39 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
              <div className="bg-blue-50 dark:bg-blue-900/30 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400">
                  <Icons.Upload className="w-8 h-8" />
              </div>
-             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('cv_title', language)}</h1>
-             <p className="text-gray-600 dark:text-gray-400">{t('cv_subtitle', language)}</p>
+             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('cv_title')}</h1>
+             <p className="text-gray-600 dark:text-gray-400">{t('cv_subtitle')}</p>
          </div>
 
          <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-800">
              <textarea 
-               className="w-full h-64 p-4 bg-transparent border-none resize-none focus:ring-0 text-gray-900
+               className="w-full h-64 p-4 bg-transparent border-none resize-none focus:ring-0 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600"
+               placeholder={t('cv_placeholder')}
+               value={text}
+               onChange={(e) => setText(e.target.value)}
+             />
+         </div>
+
+         <div className="mt-8 flex justify-center">
+             <button 
+                onClick={handleAnalyze}
+                disabled={!text.trim() || isAnalyzing}
+                className="bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
+             >
+                {isAnalyzing ? (
+                    <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        {t('cv_btn_processing')}
+                    </>
+                ) : (
+                    <>
+                        <Icons.Zap className="w-5 h-5" />
+                        {t('cv_btn_analyze')}
+                    </>
+                )}
+             </button>
+         </div>
+      </div>
+    </div>
+  );
+};

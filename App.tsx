@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
-import { AppView, Conversation, Message, Sender, UserProfile, GUEST_PROFILE, LanguageCode } from './types';
+import { AppView, Conversation, Message, Sender, UserProfile } from './types';
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
 import WikiView from './components/views/WikiView';
 import ProfileWizard from './components/ProfileWizard';
-import { getAllFlattenedArticles, WikiArticle } from './data/wikiContent';
-import { SUPPORTED_LANGUAGES, t } from './data/languages';
+import { getAllFlattenedArticles } from './data/wikiContent';
 import { calculateProfileCompleteness } from './utils/profileUtils';
+import { useLanguage } from './contexts/LanguageContext';
 
 // Import Views
 import { ApiKeyView } from './components/views/ApiKeyView';
@@ -30,12 +30,12 @@ marked.use({
 });
 
 const App: React.FC = () => {
+  // Use Context for Language
+  const { language, t } = useLanguage();
+
   // Changed default view to LANDING
   const [view, setView] = useState<AppView>(AppView.LANDING);
   const [apiKey, setApiKey] = useState<string | null>(null);
-  
-  // Language State
-  const [language, setLanguage] = useState<LanguageCode>('en');
   
   // Multi-Profile State
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -44,8 +44,8 @@ const App: React.FC = () => {
   // Progress State
   const [profileCompleteness, setProfileCompleteness] = useState(0);
 
-  // Wiki State (Lifted for Navigation Control)
-  const [activeWikiArticle, setActiveWikiArticle] = useState<WikiArticle | null>(null);
+  // Wiki State (Refactored to use ID for dynamic language content)
+  const [activeWikiArticleId, setActiveWikiArticleId] = useState<string | null>(null);
 
   // Chat State
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
@@ -69,42 +69,7 @@ const App: React.FC = () => {
       setApiKey(process.env.API_KEY);
     }
 
-    // 2. Language Detection
-    const storedLang = localStorage.getItem('fw_language') as LanguageCode;
-    if (storedLang && SUPPORTED_LANGUAGES.some(l => l.code === storedLang)) {
-      setLanguage(storedLang);
-    } else {
-      // Auto-detect from browser
-      const browserLangs = navigator.languages || [navigator.language];
-      
-      // Helper to match browser code to app code
-      const findMatch = (input: string): LanguageCode | undefined => {
-        const lower = input.toLowerCase();
-        // 1. Exact match (e.g. 'fi', 'pt-br')
-        const exact = SUPPORTED_LANGUAGES.find(l => l.code === lower);
-        if (exact) return exact.code;
-        
-        // 2. Base match (e.g. 'en-US' -> 'en')
-        const base = lower.split('-')[0];
-        const baseMatch = SUPPORTED_LANGUAGES.find(l => l.code === base);
-        if (baseMatch) return baseMatch.code;
-        
-        return undefined;
-      };
-
-      for (const lang of browserLangs) {
-          const match = findMatch(lang);
-          if (match) {
-              setLanguage(match);
-              // We do NOT automatically save this to localStorage yet.
-              // We let the user confirm it implicitly by using the app, 
-              // or explicitly by changing it.
-              break;
-          }
-      }
-    }
-
-    // 3. Theme Initialization
+    // 2. Theme Initialization
     const applyTheme = () => {
         const pref = Storage.getThemePreference();
         const root = document.documentElement;
@@ -140,48 +105,36 @@ const App: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Update HTML direction for RTL languages
-  useEffect(() => {
-      const rtlLangs = ['ar', 'fa', 'ku'];
-      if (rtlLangs.includes(language)) {
-          document.documentElement.dir = 'rtl';
-          document.documentElement.lang = language;
-      } else {
-          document.documentElement.dir = 'ltr';
-          document.documentElement.lang = language;
-      }
-  }, [language]);
-
   // Refresh stats whenever view changes to Dashboard or profile changes
   useEffect(() => {
     if (profile) {
       setProfileCompleteness(calculateProfileCompleteness(profile));
     }
-  }, [view, profile, language]);
+  }, [view, profile]);
 
   // --- NAVIGATION LOGIC (Swipe & Keyboard) ---
   const handleNavigation = (direction: 'next' | 'prev') => {
       // Priority 1: Inner Wiki Navigation (Article to Article)
-      if (view === AppView.WIKI && activeWikiArticle) {
+      if (view === AppView.WIKI && activeWikiArticleId) {
           const allArticles = getAllFlattenedArticles(language);
-          const currentIndex = allArticles.findIndex(a => a.id === activeWikiArticle.id);
+          const currentIndex = allArticles.findIndex(a => a.id === activeWikiArticleId);
           
           if (currentIndex === -1) {
-              setActiveWikiArticle(null);
+              setActiveWikiArticleId(null);
               return;
           }
 
           if (direction === 'next') {
               if (currentIndex < allArticles.length - 1) {
-                  setActiveWikiArticle(allArticles[currentIndex + 1]);
+                  setActiveWikiArticleId(allArticles[currentIndex + 1].id);
               } else {
-                  setActiveWikiArticle(null);
+                  setActiveWikiArticleId(null);
               }
           } else {
               if (currentIndex > 0) {
-                  setActiveWikiArticle(allArticles[currentIndex - 1]);
+                  setActiveWikiArticleId(allArticles[currentIndex - 1].id);
               } else {
-                  setActiveWikiArticle(null);
+                  setActiveWikiArticleId(null);
               }
           }
           return; 
@@ -215,7 +168,7 @@ const App: React.FC = () => {
       };
       window.addEventListener('keydown', onKeyDown);
       return () => window.removeEventListener('keydown', onKeyDown);
-  }, [view, activeWikiArticle]); 
+  }, [view, activeWikiArticleId, language]); 
 
   // Touch Navigation
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -255,20 +208,16 @@ const App: React.FC = () => {
     const pendingIds = Storage.getPendingSummaries();
     if (pendingIds.length === 0) return;
 
-    // Process one by one to avoid rate limits
     const id = pendingIds[0];
     const conv = Storage.getConversation(id);
       
     if (conv && !conv.isSummarized && conv.messages.length > 0) {
         try {
-            // Update status to generating
             conv.summaryStatus = 'generating';
             Storage.saveConversation(conv);
 
-            // Fetch summary AND title
             const result = await Gemini.summarizeConversation(conv.messages);
             
-            // Re-fetch in case state changed
             const freshConv = Storage.getConversation(id);
             if (freshConv) {
                 freshConv.summary = result.summary;
@@ -280,18 +229,14 @@ const App: React.FC = () => {
             }
             Storage.removePendingSummary(id);
             
-            // Recursive call for next items with delay
             setTimeout(() => processPendingSummaries(), 2000);
         } catch (e) {
             console.error(`Failed to summarize ${id}`, e);
-            // Mark as failed but keep in pending to try again later or manually
             const freshConv = Storage.getConversation(id);
             if (freshConv) {
                 freshConv.summaryStatus = 'failed';
                 Storage.saveConversation(freshConv);
             }
-            // For now, remove it to be safe, user can trigger again via retry logic if we implement it, 
-            // but cleaning up prevents infinite retry loops on error.
             Storage.removePendingSummary(id); 
         }
     } else {
@@ -308,26 +253,6 @@ const App: React.FC = () => {
     }
   };
 
-  const handleLanguageSelect = (code: LanguageCode, supported: boolean) => {
-    if (supported) {
-      setLanguage(code);
-      localStorage.setItem('fw_language', code);
-
-      // Force update the active article context to the new language immediately
-      if (activeWikiArticle) {
-          const allArticles = getAllFlattenedArticles(code);
-          const freshArticle = allArticles.find(a => a.id === activeWikiArticle.id);
-          if (freshArticle) {
-              setActiveWikiArticle(freshArticle);
-          }
-      }
-    } else {
-      alert(`We are working on ${code.toUpperCase()} support! Defaulting to English for now.`);
-      setLanguage('en');
-      localStorage.setItem('fw_language', 'en');
-    }
-  };
-
   const startNewChat = () => {
     const newConv: Conversation = {
       id: uuidv4(),
@@ -337,7 +262,7 @@ const App: React.FC = () => {
       summaryStatus: 'idle'
     };
     setCurrentConversation(newConv);
-    setPendingChatQuery(null); // Reset pending query on new chat
+    setPendingChatQuery(null); 
     Storage.saveConversation(newConv);
     setView(AppView.CHAT);
     return newConv;
@@ -354,11 +279,9 @@ const App: React.FC = () => {
         return;
     }
 
-    // 1. Check Preferences (Global vs Session)
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
-    // Add user message to UI immediately
     const userMsg: Message = {
       id: uuidv4(),
       sender: Sender.USER,
@@ -371,61 +294,47 @@ const App: React.FC = () => {
     Storage.saveConversation(updatedConv);
     setInputText('');
 
-    // --- INTERCEPTION LOGIC START ---
-    
-    // If no preference set yet, and we are not currently answering the preference question (no pending query)
     if (!effectivePref && !pendingChatQuery) {
-        setPendingChatQuery(messageText); // Store original query
+        setPendingChatQuery(messageText); 
         
-        // Add Bot Question to UI
         const botQuestion: Message = {
             id: uuidv4(),
             sender: Sender.MODEL,
-            text: t('chat_ask_length', language),
-            timestamp: Date.now() + 100 // Slight delay
+            text: t('chat_ask_length'),
+            timestamp: Date.now() + 100 
         };
         
         updatedConv = { ...updatedConv, messages: [...updatedMessages, botQuestion] };
         setCurrentConversation(updatedConv);
         Storage.saveConversation(updatedConv);
-        return; // Stop here, wait for user answer
+        return; 
     }
 
-    // If we have a pending query, this message IS the preference answer
     let queryToSend = messageText;
     let finalPref = effectivePref;
 
     if (pendingChatQuery) {
-        // Simple heuristic for length preference
         const lower = messageText.toLowerCase();
         if (lower.match(/short|quick|brief|summary/)) finalPref = 'short';
         else if (lower.match(/long|detail|deep|full/)) finalPref = 'long';
-        else finalPref = 'long'; // Default fallback
+        else finalPref = 'long'; 
 
-        // Save preference to session
         updatedConv.responseLength = finalPref;
-        // Restore the pending query as the actual payload for the AI
         queryToSend = pendingChatQuery;
-        
         setPendingChatQuery(null);
     }
     
-    // --- INTERCEPTION LOGIC END ---
-
     setIsTyping(true);
 
     try {
       const progress = Storage.getWikiProgress(activeProfile.id);
       const allArticles = getAllFlattenedArticles(language);
 
-      // If contextOverride exists (from wiki), we prepend it to the message sent to Gemini
-      // but NOT to the UI history above (to keep UI clean).
       const messagePayload = contextOverride 
          ? `${contextOverride}\n\nUSER QUESTION: ${queryToSend}` 
          : queryToSend;
 
       const responseText = await Gemini.sendMessageToGemini(
-        // We send the full history including negotiation for context consistency
         updatedConv.messages, 
         messagePayload, 
         activeProfile,
@@ -456,14 +365,8 @@ const App: React.FC = () => {
   };
 
   const handleStartChatWithContext = (context: string, sentence: string) => {
-     // 1. Switch to Chat View
      const conversation = startNewChat();
-     
-     // 2. Prepare the user facing prompt (Clean)
-     const userPrompt = t('chat_prompt_context_inquiry', language, { sentence });
-     
-     // 3. Trigger send immediately using the explicitly created conversation object
-     // This avoids stale state closure issues where 'currentConversation' is null
+     const userPrompt = t('chat_prompt_context_inquiry', { sentence });
      handleSendMessage(userPrompt, context, conversation);
   };
 
@@ -472,19 +375,13 @@ const App: React.FC = () => {
 
     const convId = currentConversation.id;
 
-    // Automatically trigger summary generation if messages exist
     if (currentConversation.messages.length > 0 && apiKey) {
-        // 1. Mark as generating immediately in local state and storage
         const updatedConv: Conversation = { 
             ...currentConversation, 
             summaryStatus: 'generating' 
         };
         Storage.saveConversation(updatedConv);
-        
-        // 2. Queue for processing (Background)
         Storage.addPendingSummary(convId);
-        
-        // 3. Trigger processor immediately (fire and forget)
         processPendingSummaries();
     }
 
@@ -551,8 +448,6 @@ const App: React.FC = () => {
       }
   };
 
-  // --- RENDERERS ---
-
   if (!apiKey) {
     return (
       <Layout>
@@ -561,13 +456,14 @@ const App: React.FC = () => {
     );
   }
 
+  // NOTE: We removed `key={language}` here because we are using Context now.
+  // Components consuming Context will re-render automatically.
+
   return (
     <Layout onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {view === AppView.LANDING && (
         <LandingView 
-          language={language}
           profile={profile}
-          onLanguageSelect={handleLanguageSelect}
           onStartQuiz={() => {
             setProfile(null);
             setView(AppView.QUIZ);
@@ -583,10 +479,8 @@ const App: React.FC = () => {
 
       {view === AppView.DASHBOARD && (
         <DashboardView 
-          language={language}
           profile={profile}
           profileCompleteness={profileCompleteness}
-          onLanguageSelect={handleLanguageSelect}
           onNavigateToProfile={() => setView(AppView.PROFILE)}
           onNavigateToWiki={() => setView(AppView.WIKI)}
           onNavigateToQuiz={() => setView(AppView.QUIZ)}
@@ -599,21 +493,18 @@ const App: React.FC = () => {
 
       {view === AppView.SETTINGS && (
         <SettingsView 
-          language={language}
           onBack={() => setView(AppView.DASHBOARD)}
         />
       )}
 
       {view === AppView.HISTORY && (
         <HistoryView 
-          language={language}
           onBack={() => setView(AppView.DASHBOARD)}
         />
       )}
 
       {view === AppView.CV_IMPORT && (
         <CvImportView 
-          language={language}
           onBack={() => setView(AppView.DASHBOARD)}
           onProfileUpdated={refreshProfiles}
         />
@@ -622,11 +513,9 @@ const App: React.FC = () => {
       {view === AppView.WIKI && (
         <WikiView 
           profile={profile}
-          onClose={() => activeWikiArticle ? setActiveWikiArticle(null) : setView(AppView.PROFILE)}
-          language={language}
-          onLanguageSelect={handleLanguageSelect}
-          activeArticle={activeWikiArticle}
-          onArticleSelect={setActiveWikiArticle}
+          onClose={() => activeWikiArticleId ? setActiveWikiArticleId(null) : setView(AppView.PROFILE)}
+          activeArticleId={activeWikiArticleId}
+          onArticleSelect={(article) => setActiveWikiArticleId(article?.id || null)}
           onStartChatWithContext={handleStartChatWithContext}
         />
       )}
@@ -635,45 +524,37 @@ const App: React.FC = () => {
         <ProfileWizard 
           onComplete={handleWizardComplete} 
           onCancel={() => setView(AppView.DASHBOARD)} 
-          language={language}
-          onLanguageSelect={handleLanguageSelect}
           initialData={profile} 
         />
       )}
 
       {view === AppView.PROFILE_EDIT && (
         <ProfileEditView 
-          language={language}
           profile={profile}
           yamlInput={yamlInput}
           onYamlChange={setYamlInput}
           onSave={handleSaveProfileEdit}
           onCancel={() => setView(AppView.PROFILE)}
-          onLanguageSelect={handleLanguageSelect}
           onLoadDemo={() => handleLoadDemoProfile(false)}
         />
       )}
 
       {view === AppView.CHAT && currentConversation && (
         <ChatView 
-          language={language}
           conversation={currentConversation}
           isTyping={isTyping}
           inputText={inputText}
           onInputChange={setInputText}
           onSendMessage={() => handleSendMessage(inputText)}
           onEndSession={handleEndSession}
-          onLanguageSelect={handleLanguageSelect}
         />
       )}
 
       {view === AppView.PROFILE && (
         <ProfileDetailView 
-          language={language}
           profile={profile}
           profileCompleteness={profileCompleteness}
           allProfiles={allProfiles}
-          onLanguageSelect={handleLanguageSelect}
           onNavigateBack={() => setView(AppView.DASHBOARD)}
           onSwitchProfile={handleSwitchProfile}
           onCreateProfile={handleCreateNewProfile}

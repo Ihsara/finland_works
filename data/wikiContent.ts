@@ -14,6 +14,11 @@ export interface WikiArticle {
   content: string;     
 }
 
+export interface WikiSubsection {
+  title: string;
+  articles: WikiArticle[];
+}
+
 export interface WikiCategory {
   id: string;          
   title: string;       
@@ -24,17 +29,17 @@ export interface WikiCategory {
     shadow: string;    
     hoverBg: string;   
   };
-  articles: WikiArticle[];
+  subsections: WikiSubsection[];
 }
 
 export interface EnrichedWikiArticle extends WikiArticle {
   categoryTitle: string;
-  displayId: string; // e.g., "1.1"
+  displayId: string; // e.g., "1.1.1"
   categoryId: string;
 }
 
 // ---------------------------------------------------------------------------
-// RAW CONTENT STORE (Keep existing, fallback logic handles new languages)
+// RAW CONTENT STORE
 // ---------------------------------------------------------------------------
 
 type ContentSet = {
@@ -42,12 +47,193 @@ type ContentSet = {
   content: string;
 };
 
-// Map: ArticleID -> LanguageCode -> Content
-// Note: This stores the *Article* content. New languages will fallback to EN automatically.
-// To add full translations, add keys 'et', 'ar', etc. here. 
-// For now, we rely on the Category titles being translated below.
+// Helper for multilingual titles
+const getTitle = (key: string, lang: LanguageCode, defaultText: string): string => {
+  const map = TRANSLATED_TITLES[key];
+  // Normalize pt-br/pt-pt to pt if specific not found
+  const code = lang.toLowerCase();
+  const base = code.split('-')[0];
+  
+  return map?.[code] || map?.[base] || map?.['en'] || defaultText;
+};
+
+// TITLES DICTIONARY (Ensures Sidebar is localized even if content isn't)
+const TRANSLATED_TITLES: Record<string, Partial<Record<string, string>>> = {
+  // --- BUREAUCRACY ---
+  social_unemployment: { 
+    en: 'Unemployment Benefits', fi: 'Työttömyysturva', vi: 'Trợ cấp thất nghiệp', th: 'สวัสดิการการว่างงาน', 
+    ru: 'Пособие по безработице', et: 'Töötuhüvitised', ar: 'إعانات البطالة', fa: 'مزایای بیکاری', 
+    so: 'Lacagta shaqo la\'aanta', ku: 'Yarmetiyên bêkariyê', zh: '失业救济金', sq: 'Përfitimet e papunësisë', 
+    uk: 'Допомога по безробіттю', es: 'Prestaciones por desempleo', tr: 'İşsizlik Yardımları', pt: 'Subsídio de Desemprego' 
+  },
+  social_housing: { 
+    en: 'Housing Allowance', fi: 'Asumistuki', vi: 'Trợ cấp nhà ở', th: 'เงินช่วยเหลือค่าเช่าบ้าน', 
+    ru: 'Жилищное пособие', et: 'Eluasemetoetus', ar: 'بدل السكن', fa: 'کمک هزینه مسکن', 
+    so: 'Kaalmada guriga', ku: 'Alîkariya xaniyan', zh: '住房补贴', sq: 'Ndihma për strehim', 
+    uk: 'Житлова субсидія', es: 'Subsidio de vivienda', tr: 'Konut Yardımı', pt: 'Subsídio de Habitação' 
+  },
+  social_pension: { 
+    en: 'Pension System', fi: 'Eläkejärjestelmä', vi: 'Hệ thống lương hưu', th: 'ระบบบำนาญ', 
+    ru: 'Пенсионная система', et: 'Pensionisüsteem', ar: 'نظام التقاعد', fa: 'سیستم بازنشستگی', 
+    so: 'Nidaamka hawlgabka', ku: 'Pergala teqawidiyê', zh: '养老金制度', sq: 'Sistemi i pensioneve', 
+    uk: 'Пенсійна система', es: 'Sistema de pensiones', tr: 'Emeklilik Sistemi', pt: 'Sistema de Pensões' 
+  },
+  bureaucracy_dvv: {
+    en: 'The DVV & Personal ID', fi: 'DVV & Henkilötunnus', vi: 'Mã số định danh (DVV)', th: 'DVV & เลขประจำตัว',
+    ru: 'DVV и Личный код', uk: 'DVV та персональний код', zh: '人口登记处 & 个人ID', es: 'DVV e Identidad', 
+    ar: 'التسجيل السكاني والهوية', tr: 'DVV ve Kimlik No', pt: 'DVV e ID Pessoal'
+  },
+  bureaucracy_migri: {
+    en: 'Migri (Immigration)', fi: 'Migri (Maahanmuutto)', vi: 'Cục di trú (Migri)', th: 'ตม. (Migri)',
+    ru: 'Миграционная служба', uk: 'Міграційна служба', zh: '移民局 (Migri)', es: 'Migración (Migri)',
+    ar: 'دائرة الهجرة', tr: 'Göçmenlik Dairesi', pt: 'Imigração (Migri)'
+  },
+  bureaucracy_tax: {
+    en: 'Tax Card', fi: 'Verokortti', vi: 'Thẻ thuế', th: 'บัตรภาษี',
+    ru: 'Налоговая карта', uk: 'Податкова картка', zh: '税卡', es: 'Tarjeta de impuestos',
+    ar: 'البطاقة الضريبية', tr: 'Vergi Kartı', pt: 'Cartão de Impostos'
+  },
+
+  // --- JOBS ---
+  job_te_office: { 
+    en: 'TE Services', fi: 'TE-toimisto', vi: 'Văn phòng TE', th: 'บริการ TE', 
+    ru: 'TE-офис', et: 'Töötukassa', ar: 'مكتب العمل', fa: 'خدمات اشتغال', 
+    so: 'Xafiiska shaqada', ku: 'Nivîsgeha TE', zh: '就业服务 (TE)', sq: 'Zyra e Punës', 
+    uk: 'Служба зайнятості', es: 'Oficina de empleo', tr: 'İş ve İşçi Bulma Kurumu', pt: 'Serviços TE' 
+  },
+  job_portals: { 
+    en: 'Job Boards', fi: 'Työpaikkasivustot', vi: 'Trang web việc làm', th: 'เว็บหางาน', 
+    ru: 'Сайты вакансий', et: 'Tööportaalid', ar: 'مواقع التوظيف', fa: 'سایت‌های کاریابی', 
+    so: 'Boggaga shaqada', ku: 'Malperên kar', zh: '求职网站', sq: 'Portalet e punës', 
+    uk: 'Сайти пошуку роботи', es: 'Portales de empleo', tr: 'İş İlanı Siteleri', pt: 'Portais de Emprego' 
+  },
+  job_entrepreneurship: { 
+    en: 'Entrepreneurship', fi: 'Yrittäjyys', vi: 'Khởi nghiệp', th: 'การเป็นผู้ประกอบการ', 
+    ru: 'Предпринимательство', et: 'Ettevõtlus', ar: 'ريادة الأعمال', fa: 'کارآفرینی', 
+    so: 'Ganacsiga', ku: 'Karsazî', zh: '创业', sq: 'Sipërmarrja', 
+    uk: 'Підприємництво', es: 'Emprendimiento', tr: 'Girişimcilik', pt: 'Empreendedorismo' 
+  },
+  
+  // --- TOOLS ---
+  job_cover_letter: { 
+    en: 'Cover Letter', fi: 'Hakemuskirje', vi: 'Thư xin việc', th: 'จดหมายสมัครงาน', 
+    ru: 'Сопроводительное письмо', et: 'Kaaskiri', ar: 'رسالة التغطية', fa: 'نامه پوششی', 
+    so: 'Warqadda codsiga', ku: 'Nameya serlêdanê', zh: '求职信', sq: 'Letër motivimi', 
+    uk: 'Супровідний лист', es: 'Carta de presentación', tr: 'Ön Yazı', pt: 'Carta de Apresentação' 
+  },
+  job_interview: { 
+    en: 'Job Interview', fi: 'Työhaastattelu', vi: 'Phỏng vấn', th: 'การสัมภาษณ์งาน', 
+    ru: 'Собеседование', et: 'Tööintervjuu', ar: 'مقابلة العمل', fa: 'مصاحبه شغلی', 
+    so: 'Waraysiga shaqada', ku: 'Hevpeyvîna kar', zh: '面试', sq: 'Intervista e punës', 
+    uk: 'Співбесіда', es: 'Entrevista de trabajo', tr: 'İş Görüşmesi', pt: 'Entrevista de Emprego' 
+  },
+  job_linkedin: { 
+    en: 'LinkedIn Tips', fi: 'LinkedIn-vinkit', vi: 'Mẹo LinkedIn', th: 'เคล็ดลับ LinkedIn', 
+    ru: 'Советы по LinkedIn', zh: 'LinkedIn 技巧', ar: 'نصائح لينكد إن', es: 'Consejos de LinkedIn',
+    pt: 'Dicas de LinkedIn', tr: 'LinkedIn İpuçları'
+  },
+  job_recognition: { 
+    en: 'Degree Recognition', fi: 'Tutkintojen tunnustaminen', vi: 'Công nhận bằng cấp', th: 'การรับรองวุฒิ', 
+    ru: 'Признание диплома', et: 'Diplomi tunnustamine', ar: 'الاعتراف بالشهادات', fa: 'تایید مدرک تحصیلی',
+    zh: '学历认证', uk: 'Визнання диплома', es: 'Homologación de títulos', tr: 'Diploma Denkligi'
+  },
+
+  // --- RIGHTS ---
+  work_contract: { 
+    en: 'Employment Contract', fi: 'Työsopimus', vi: 'Hợp đồng lao động', th: 'สัญญาจ้างงาน', 
+    ru: 'Трудовой договор', et: 'Tööleping', ar: 'عقد العمل', fa: 'قرارداد کار', 
+    so: 'Heshiiska shaqada', ku: 'Peymana kar', zh: '劳动合同', sq: 'Kontrata e punës', 
+    uk: 'Трудовий договір', es: 'Contrato de trabajo', tr: 'İş Sözleşmesi', pt: 'Contrato de Trabalho' 
+  },
+  work_hours: { 
+    en: 'Working Hours', fi: 'Työajat', vi: 'Giờ làm việc', th: 'ชั่วโมงทำงาน', 
+    ru: 'Рабочее время', et: 'Tööaeg', ar: 'ساعات العمل', fa: 'ساعات کاری',
+    zh: '工作时间', uk: 'Робочий час', es: 'Horario laboral', tr: 'Çalışma Saatleri'
+  },
+  work_holidays: { 
+    en: 'Annual Holidays', fi: 'Vuosiloma', vi: 'Nghỉ phép năm', th: 'วันหยุดประจำปี', 
+    ru: 'Ежегодный отпуск', et: 'Puhkus', ar: 'الإجازات السنوية', fa: 'مرخصی سالانه',
+    zh: '年假', uk: 'Щорічна відпустка', es: 'Vacaciones anuales', tr: 'Yıllık İzin'
+  },
+
+  // --- NORMS ---
+  culture_meetings: { 
+    en: 'Meeting Culture', fi: 'Kokouskulttuuri', vi: 'Văn hóa họp', th: 'วัฒนธรรมการประชุม', 
+    ru: 'Культура встреч', ar: 'ثقافة الاجتماعات', zh: '会议文化', es: 'Cultura de reuniones',
+    tr: 'Toplantı Kültürü', pt: 'Cultura de Reuniões'
+  },
+  culture_feedback: { 
+    en: 'Giving Feedback', fi: 'Palautteenanto', vi: 'Đưa ra phản hồi', th: 'การให้ผลตอบรับ', 
+    ru: 'Обратная связь', ar: 'تقديم الملاحظات', zh: '给予反馈', es: 'Dar feedback',
+    tr: 'Geri Bildirim', pt: 'Dar Feedback'
+  },
+  culture_emails: { 
+    en: 'Email Etiquette', fi: 'Sähköpostietiketti', vi: 'Nghi thức email', th: 'มารยาทอีเมล', 
+    ru: 'Этикет электронной почты', ar: 'آداب البريد الإلكتروني', zh: '邮件礼仪', es: 'Etiqueta de email'
+  },
+
+  // --- SOCIAL ---
+  culture_names: { 
+    en: 'First Names', fi: 'Sinuttelu', vi: 'Xưng hô tên', th: 'การเรียกชื่อต้น', 
+    ru: 'Обращение по имени', ar: 'الأسماء الأولى', zh: '直呼其名', es: 'Nombres de pila'
+  },
+  culture_lunch: { 
+    en: 'Lunch Culture', fi: 'Lounaskulttuuri', vi: 'Văn hóa ăn trưa', th: 'วัฒนธรรมอาหารกลางวัน', 
+    ru: 'Обед', ar: 'ثقافة الغداء', zh: '午餐文化', es: 'Cultura del almuerzo'
+  },
+  culture_afterwork: { 
+    en: 'Afterwork', fi: 'Afterwork', vi: 'Sau giờ làm', th: 'สังสรรค์หลังเลิกงาน', 
+    ru: 'После работы', ar: 'ما بعد العمل', zh: '下班后的社交', es: 'Afterwork'
+  },
+
+  // --- PROFESSIONS ---
+  prof_engineering: { en: 'Engineering', fi: 'Insinöörityö', vi: 'Kỹ thuật', th: 'วิศวกรรม', ru: 'Инженерия', zh: '工程', es: 'Ingeniería', ar: 'هندسة' },
+  prof_business: { en: 'Business & Finance', fi: 'Kaupallinen ala', vi: 'Kinh doanh & Tài chính', th: 'ธุรกิจและการเงิน', ru: 'Бизнес и финансы', zh: '商业与金融', es: 'Negocios', ar: 'الأعمال والمالية' },
+  prof_creative: { en: 'Creative Industries', fi: 'Luovat alat', vi: 'Ngành sáng tạo', th: 'อุตสาหกรรมสร้างสรรค์', ru: 'Творческие индустрии', zh: '创意产业', es: 'Industrias creativas', ar: 'الصناعات الإبداعية' },
+  prof_logistics: { en: 'Logistics & Driving', fi: 'Logistiikka & Kuljetus', vi: 'Hậu cần & Lái xe', th: 'โลจิสติกส์', ru: 'Логистика', zh: '物流与驾驶', es: 'Logística', ar: 'اللوجستيات' },
+  prof_tech: { en: 'Tech & IT', fi: 'Teknologia & IT', vi: 'Công nghệ', ru: 'IT и технологии', zh: '科技与IT', es: 'Tecnología', ar: 'تكنولوجيا المعلومات' },
+  prof_health: { en: 'Healthcare', fi: 'Terveydenhuolto', vi: 'Y tế', ru: 'Здравоохранение', zh: '医疗保健', es: 'Salud', ar: 'الرعاية الصحية' },
+
+  // --- HOUSING & LIFE ---
+  housing_contracts: { 
+    en: 'Rental Contracts', fi: 'Vuokrasopimus', vi: 'Hợp đồng thuê nhà', th: 'สัญญาเช่า', 
+    ru: 'Договор аренды', et: 'Üürileping', ar: 'عقود الإيجار', zh: '租赁合同', es: 'Contratos de alquiler',
+    tr: 'Kira Sözleşmeleri', pt: 'Contratos de Arrendamento'
+  },
+  housing_recycling: { 
+    en: 'Recycling Rules', fi: 'Kierrätys', vi: 'Quy tắc tái chế', th: 'การรีไซเคิล', 
+    ru: 'Переработка', et: 'Taaskasutus', ar: 'قواعد إعادة التدوير', zh: '回收规则', es: 'Reciclaje'
+  },
+  transport_driving: { 
+    en: 'Driving License', fi: 'Ajokortti', vi: 'Bằng lái xe', th: 'ใบขับขี่', 
+    ru: 'Водительские права', et: 'Juhiluba', ar: 'رخصة القيادة', zh: '驾照', es: 'Licencia de conducir'
+  },
+  family_school: { 
+    en: 'School System', fi: 'Koulujärjestelmä', vi: 'Hệ thống trường học', th: 'ระบบโรงเรียน', 
+    ru: 'Школьная система', et: 'Koolisüsteem', ar: 'النظام المدرسي', zh: '学校制度', es: 'Sistema escolar'
+  },
+  family_hobbies: { 
+    en: 'Hobbies', fi: 'Harrastukset', vi: 'Sở thích', th: 'งานอดิเรก', 
+    ru: 'Хобби', et: 'Hobid', ar: 'الهوايات', zh: '爱好', es: 'Pasatiempos'
+  },
+
+  // --- LANGUAGE ---
+  lang_courses: { 
+    en: 'Finding Courses', fi: 'Kielikurssit', vi: 'Tìm khóa học', th: 'หาคอร์สเรียน', 
+    ru: 'Поиск курсов', et: 'Keelekursused', ar: 'البحث عن دورات', zh: '寻找课程', es: 'Buscar cursos'
+  },
+  lang_yki: { 
+    en: 'YKI Test', fi: 'YKI-testi', vi: 'Kỳ thi YKI', th: 'การสอบ YKI', 
+    ru: 'Тест YKI', ar: 'اختبار YKI', zh: 'YKI 考试', es: 'Examen YKI'
+  },
+  lang_puhu: { 
+    en: 'Dare to Speak', fi: 'Puhu rohkeasti', vi: 'Dám nói', th: 'กล้าที่จะพูด', 
+    ru: 'Говорите смело', ar: 'تجرأ على التحدث', zh: '敢于开口', es: 'Atrévete a hablar'
+  }
+};
+
 const ARTICLE_CONTENT: Record<string, Record<string, ContentSet>> = {
-  // --- UNIVERSAL START ---
+  // --- IDENTITY (Existing) ---
   'guide_start': {
     en: {
       title: 'Welcome to Finland! 🇫🇮',
@@ -55,304 +241,237 @@ const ARTICLE_CONTENT: Record<string, Record<string, ContentSet>> = {
     },
     fi: {
       title: 'Tervetuloa Suomeen! 🇫🇮',
-      content: `# Selviytymisoppaasi\n\n**Filosofia:**\nSuomi toimii luottamuksella, hiljaisuudella ja kahvilla. Yhteiskunta toimii, mutta sinun on tiedettävä säännöt.\n\n### Kuinka käytät tätä sovellusta\n1. **Lue:** Selaa oppaita byrokratiasta ja työkulttuurista.\n2. **Keskustele:** Kysy tekoälyltä tarkkoja kysymyksiä.\n3. **Profiili:** Pidä tietosi ajan tasalla.\n\n*Sisu* on kaikki mitä tarvitset!`
+      content: `# Selviytymisoppaasi\n\n**Filosofia:**\nSuomi toimii luottamuksella, hiljaisuudella ja kahvilla.\n\n### Kuinka käytät tätä sovellusta\n1. **Lue:** Selaa oppaita.\n2. **Keskustele:** Kysy tekoälyltä.\n3. **Profiili:** Pidä tietosi ajan tasalla.`
     },
-    th: {
-      title: 'ยินดีต้อนรับสู่ฟินแลนด์! 🇫🇮',
-      content: `# คู่มือการเอาตัวรอดของคุณ\n\n**ปรัชญา:**\nฟินแลนด์ขับเคลื่อนด้วยความไว้วางใจ ความเงียบ และกาแฟ\n\n### วิธีใช้แอปนี้\n1. **อ่าน:** เรียกดูคู่มือเกี่ยวกับระบบราชการและวัฒนธรรมการทำงาน\n2. **แชท:** ถามคำถามเจาะจงกับผู้ช่วย AI\n3. **โปรไฟล์:** อัปเดตข้อมูลของคุณเพื่อคำแนะนำที่ดีขึ้น\n\n*Sisu* (ความมุ่งมั่น) คือสิ่งที่คุณต้องมี!`
-    },
-    et: {
-      title: 'Tere tulemast Soome! 🇫🇮',
-      content: `# Sinu ellujäämisjuhend\n\n**Filosoofia:**\nSoome toimib usaldusel, vaikusel ja kohvil.\n\n### Kuidas seda rakendust kasutada\n1. **Loe:** Sirvi bürokraatia ja töökultuuri juhendeid.\n2. **Vestle:** Küsi AI-lt konkreetseid küsimusi.\n3. **Profiil:** Hoia oma andmed ajakohasena.\n\n*Sisu* on kõik, mida vajad!`
-    },
-    ru: {
-      title: 'Добро пожаловать в Финляндию! 🇫🇮',
-      content: `# Ваш гид по выживанию\n\n**Философия:**\nФинляндия держится на доверии, тишине и кофе.\n\n### Как использовать это приложение\n1. **Читайте:** Изучайте гиды по бюрократии и культуре.\n2. **Чат:** Задавайте AI конкретные вопросы.\n3. **Профиль:** Обновляйте данные для точных советов.\n\n*Sisu* (упорство) — это всё, что вам нужно!`
-    },
-    ar: {
-      title: 'مرحباً بك في فنلندا! 🇫🇮',
-      content: `# دليل البقاء الخاص بك\n\n**الفلسفة:**\nتعمل فنلندا على الثقة والصمت والقهوة.\n\n### كيف تستخدم هذا التطبيق\n1. **اقرأ:** تصفح الأدلة حول البيروقراطية وثقافة العمل.\n2. **دردش:** اسأل المساعد الذكي أسئلة محددة.\n3. **الملف الشخصي:** حافظ على تحديث معلوماتك.\n\n*Sisu* (العزيمة) هو كل ما تحتاجه!`
-    },
-    so: {
-      title: 'Ku soo dhowow Finland! 🇫🇮',
-      content: `# Hagahaaga Badbaadada\n\n**Falsafadda:**\nFinland waxay ku shaqeysaa aaminaad, aamusnaan, iyo kafee.\n\n### Sida loo isticmaalo abkan\n1. **Akhri:** Baadh hagayaasha ku saabsan xafiisyada iyo dhaqanka shaqada.\n2. **Wada hadal:** Weydii AI su'aalo gaar ah.\n3. **Profile:** Cusbooneysii macluumaadkaaga.\n\n*Sisu* (Adkeysi) waa waxa kaliya ee aad u baahan tahay!`
-    },
-    fa: {
-      title: 'به فنلاند خوش آمدید! 🇫🇮',
-      content: `# راهنمای بقای شما\n\n**فلسفه:**\nفنلاند بر پایه اعتماد، سکوت و قهوه می‌چرخد.\n\n### نحوه استفاده از این برنامه\n1. **بخوانید:** راهنماهای بوروکراسی و فرهنگ کار را مرور کنید.\n2. **گفتگو کنید:** از هوش مصنوعی سوالات خاص بپرسید.\n3. **نمایه:** اطلاعات خود را به‌روز نگه دارید.\n\n*Sisu* (استقامت) تنها چیزی است که نیاز دارید!`
-    },
-    ku: {
-      title: 'Bi xêr hatî Fînlandiyayê! 🇫🇮',
-      content: `# Rêberê Te yê Jiyanê\n\n**Felsefe:**\nFînlandiya li ser bawerî, bêdengî û qehweyê dixebite.\n\n### Meriv çawa vê sepanê bikar tîne\n1. **Bixwîne:** Rêbernameyên li ser burokrasî û çanda xebatê bigere.\n2. **Chat:** Ji AI pirsên taybet bipirse.\n3. **Profîl:** Agahdariyên xwe nû bike.\n\n*Sisu* (Wêrekî) her tişt e ku hûn hewce ne!`
-    },
-    zh: {
-      title: '欢迎来到芬兰！🇫🇮',
-      content: `# 你的生存指南\n\n**哲学：**\n芬兰的运作基于信任、沉默和咖啡。\n\n### 如何使用此应用\n1. **阅读：** 浏览关于官僚机构和工作文化的指南。\n2. **对话：** 向AI助手询问具体问题。\n3. **个人资料：** 保持信息更新以获得更准确的建议。\n\n*Sisu*（毅力）是你唯一需要的！`
-    },
-    vi: {
-      title: 'Chào mừng đến Phần Lan! 🇫🇮',
-      content: `# Cẩm nang sinh tồn của bạn\n\n**Triết lý:**\nPhần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê.\n\n### Cách sử dụng ứng dụng này\n1. **Đọc:** Xem các hướng dẫn về thủ tục hành chính và văn hóa làm việc.\n2. **Trò chuyện:** Đặt câu hỏi cụ thể cho Trợ lý AI.\n3. **Hồ sơ:** Cập nhật thông tin của bạn.\n\n*Sisu* (Kiên định) là tất cả những gì bạn cần!`
-    },
-    sq: {
-      title: 'Mirë se vini në Finlandë! 🇫🇮',
-      content: `# Udhëzuesi juaj i mbijetesës\n\n**Filozofia:**\nFinlanda funksionon mbi besimin, heshtjen dhe kafenë.\n\n### Si ta përdorni këtë aplikacion\n1. **Lexo:** Shfleto udhëzuesit mbi burokracinë.\n2. **Bisedo:** Pyet AI për pyetje specifike.\n3. **Profili:** Përditëso të dhënat e tua.\n\n*Sisu* (Guximi) është gjithçka që ju nevojitet!`
-    },
-    uk: {
-      title: 'Ласкаво просимо до Фінляндії! 🇫🇮',
-      content: `# Ваш гід з виживання\n\n**Філософія:**\nФінляндія тримається на довірі, тиші та каві.\n\n### Як користуватися цим додатком\n1. **Читайте:** Переглядайте гіди з бюрократії.\n2. **Чат:** Задавайте AI конкретні питання.\n3. **Профіль:** Оновлюйте свої дані.\n\n*Sisu* (Стійкість) — це все, що вам потрібно!`
-    },
-    es: {
-      title: '¡Bienvenido a Finlandia! 🇫🇮',
-      content: `# Tu guía de supervivencia\n\n**La Filosofía:**\nFinlandia funciona con confianza, silencio y café.\n\n### Cómo usar esta app\n1. **Lee:** Navega por las guías de burocracia.\n2. **Chat:** Haz preguntas específicas a la IA.\n3. **Perfil:** Mantén tus datos actualizados.\n\n¡*Sisu* (Agallas) es todo lo que necesitas!`
-    },
-    tr: {
-      title: 'Finlandiya\'ya Hoş Geldiniz! 🇫🇮',
-      content: `# Hayatta Kalma Rehberiniz\n\n**Felsefe:**\nFinlandiya güven, sessizlik ve kahve üzerine kuruludur.\n\n### Bu uygulamayı nasıl kullanırsınız\n1. **Oku:** Bürokrasi rehberlerine göz atın.\n2. **Sohbet:** YZ Asistanına özel sorular sorun.\n3. **Profil:** Bilgilerinizi güncel tutun.\n\nİhtiyacınız olan tek şey *Sisu* (Azim)!`
-    },
-    'pt-br': {
-      title: 'Bem-vindo à Finlândia! 🇫🇮',
-      content: `# Seu Guia de Sobrevivência\n\n**A Filosofia:**\nA Finlândia funciona na base da confiança, silêncio e café.\n\n### Como usar este app\n1. **Leia:** Navegue pelos guias de burocracia.\n2. **Chat:** Faça perguntas específicas à IA.\n3. **Perfil:** Mantenha seus dados atualizados.\n\n*Sisu* (Garra) é tudo o que você precisa!`
-    },
-    'pt-pt': {
-      title: 'Bem-vindo à Finlândia! 🇫🇮',
-      content: `# O Teu Guia de Sobrevivência\n\n**A Filosofia:**\nA Finlândia funciona na base da confiança, silêncio e café.\n\n### Como usar esta app\n1. **Lê:** Navega pelos guias de burocracia.\n2. **Chat:** Faz perguntas específicas à IA.\n3. **Perfil:** Mantém os teus dados atualizados.\n\n*Sisu* (Garra) é tudo o que precisas!`
-    }
+    vi: { title: 'Chào mừng đến Phần Lan! 🇫🇮', content: `# Cẩm nang sinh tồn\n\n**Triết lý:**\nPhần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê.\n\n### Cách dùng:\n1. **Đọc:** Xem hướng dẫn.\n2. **Chat:** Hỏi AI.\n3. **Hồ sơ:** Cập nhật thông tin.` },
+    th: { title: 'ยินดีต้อนรับสู่ฟินแลนด์! 🇫🇮', content: `# คู่มือการเอาตัวรอด\n\n**ปรัชญา:**\nฟินแลนด์ขับเคลื่อนด้วยความไว้วางใจ\n\n### วิธีใช้:\n1. **อ่าน:** คู่มือ\n2. **แชท:** ถาม AI\n3. **โปรไฟล์:** อัปเดตข้อมูล` }
   },
-
-  // --- BUREAUCRACY ---
   'bureaucracy_dvv': {
     en: {
       title: 'The DVV & Personal ID',
-      content: `# The DVV (Digital and Population Data Services Agency) 🆔\n\n**Priority: IMMEDIATE**\n\n### The Mission\nTo legally exist in Finland. Without this, you are a ghost in the system.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). It looks like *010190-123X*.\nYou need this for:\n1. Opening a bank account.\n2. Getting a phone contract.\n3. Getting a tax card.\n4. Visiting a doctor.\n\n### How to get it\n* **Students/Workers:** You might have started the request at Migri.\n* **EU Citizens:** You register your right of residence at Migri, then go to DVV.\n* **Action:** You must visit a DVV service point physically to verify your identity.`
+      content: `# The DVV (Digital Agency) 🆔\n\n**Priority: IMMEDIATE**\n\n### The Mission\nTo legally exist in Finland. Without this, you are a ghost.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). Format: *010190-123X*.\n\n### Why you need it\n1. Bank account.\n2. Phone contract.\n3. Tax card.\n4. Health services.`
     },
-    vi: {
-      title: 'Mã số định danh DVV',
-      content: `# DVV (Cơ quan Dữ liệu Dân số và Kỹ thuật số) 🆔\n\n**Ưu tiên: NGAY LẬP TỨC**\n\n### Nhiệm vụ\nĐể tồn tại hợp pháp tại Phần Lan. Không có nó, bạn như người vô hình trong hệ thống.\n\n### Phần thưởng\n**Mã số định danh cá nhân** (henkilötunnus) của bạn. Nó có dạng *010190-123X*.\nBạn cần mã này để:\n1. Mở tài khoản ngân hàng.\n2. Đăng ký thuê bao điện thoại.\n3. Nhận thẻ thuế.\n4. Đi khám bác sĩ.\n\n### Cách lấy mã\n* **Sinh viên/Người đi làm:** Bạn có thể đã yêu cầu mã này tại Migri.\n* **Công dân EU:** Bạn đăng ký quyền cư trú tại Migri, sau đó đến DVV.\n* **Hành động:** Bạn phải trực tiếp đến điểm dịch vụ DVV để xác minh danh tính.`
-    },
-    'pt-br': {
-      title: 'DVV & ID Pessoal',
-      content: `# O DVV (Agência de Dados Digitais e Populacionais) 🆔\n\n**Prioridade: IMEDIATA**\n\n### A Missão\nExistir legalmente na Finlândia. Sem isso, você é um fantasma no sistema.\n\n### O Prêmio\nSeu **Código de Identidade Pessoal** (henkilötunnus). Parece com *010190-123X*.\nVocê precisa disso para:\n1. Abrir conta bancária.\n2. Ter um plano de celular.\n3. Obter cartão de imposto.\n4. Ir ao médico.\n\n### Como conseguir\n* **Estudantes/Trabalhadores:** Você pode ter iniciado o pedido no Migri.\n* **Cidadãos da UE:** Registre seu direito de residência no Migri, depois vá ao DVV.\n* **Ação:** Você deve visitar um ponto de serviço do DVV pessoalmente.`
-    },
-    'pt-pt': {
-      title: 'DVV & ID Pessoal',
-      content: `# O DVV (Agência de Dados Digitais e Populacionais) 🆔\n\n**Prioridade: IMEDIATA**\n\n### A Missão\nExistir legalmente na Finlândia. Sem isto, és um fantasma no sistema.\n\n### O Prémio\nO teu **Código de Identidade Pessoal** (henkilötunnus). Parece-se com *010190-123X*.\nPrecisas disto para:\n1. Abrir conta bancária.\n2. Ter um plano de telemóvel.\n3. Obter cartão de imposto.\n4. Ir ao médico.\n\n### Como conseguir\n* **Estudantes/Trabalhadores:** Podes ter iniciado o pedido no Migri.\n* **Cidadãos da UE:** Regista o teu direito de residência no Migri, depois vai ao DVV.\n* **Ação:** Deves visitar um ponto de serviço do DVV pessoalmente.`
-    },
-    ru: {
-      title: 'DVV и Личный ID',
-      content: `# DVV (Агентство цифровых данных) 🆔\n\n**Приоритет: НЕМЕДЛЕННО**\n\n### Миссия\nЛегально существовать в Финляндии. Без этого вы призрак в системе.\n\n### Приз\nВаш **Личный идентификационный код** (henkilötunnus). Выглядит как *010190-123X*.\nОн нужен для:\n1. Открытия банковского счета.\n2. Контракта на телефон.\n3. Налоговой карты.\n4. Визита к врачу.\n\n### Как получить\n* **Студенты/Рабочие:** Вы могли запросить его в Migri.\n* **Граждане ЕС:** Зарегистрируйте право на проживание в Migri, затем идите в DVV.\n* **Действие:** Вы должны лично посетить DVV для подтверждения личности.`
-    }
+    fi: { title: 'DVV & Henkilötunnus', content: `# DVV (Digi- ja väestötietovirasto) 🆔\n\n**Prioriteetti: HETI**\n\n### Tehtävä\nOlla olemassa virallisesti. Tarvitset **henkilötunnuksen**.\n\n### Mihin tarvitset sitä?\n1. Pankkitili.\n2. Puhelinliittymä.\n3. Verokortti.` }
   },
   'bureaucracy_migri': {
-      en: {
-          title: 'Migri (Immigration)',
-          content: `# Migri (Finnish Immigration Service) 🛂\n\n### The Mission\nTo get your Residence Permit (oleskelulupa) card.\n\n### Tips\n* **Book Early:** Appointments can have a 2-3 month wait time.\n* **Enter Finland First?** Some permits allow you to come to Finland and apply here, but check your visa requirements first.\n* **Fast Track:** Specialists and startup entrepreneurs can use the "Fast Track" service (2 weeks processing).`
-      }
+      en: { title: 'Migri (Immigration)', content: `# Migri 🛂\n\n### The Mission\nTo get your Residence Permit (oleskelulupa).\n\n### Tips\n* **Book Early:** Queues are long.\n* **Enter Finland:** Ensure you have the right visa to enter before your permit is ready if applying from abroad.\n* **Fast Track:** Available for specialists.` },
+      fi: { title: 'Migri (Maahanmuuttovirasto)', content: `# Migri 🛂\n\n### Tehtävä\nHanki oleskelulupa.\n\n### Vinkit\n* **Varaa aika ajoissa:** Jonot ovat pitkiä.\n* **Pikakaista:** Erityisasiantuntijoille.` }
   },
   'bureaucracy_strong_auth': {
-      en: {
-          title: 'Strong Identification',
-          content: `# Strong Electronic Identification (Vahva tunnistautuminen) 🔐\n\n**The Key to the Kingdom.**\n\n### What is it?\nYour digital ID. You use it to log into Kela, Tax, Posti, and even buy train tickets sometimes.\n\n### The Catch-22\nYou usually need a **Finnish ID Code** (from DVV) and a **Passport** to get it from a bank.\n\n### Bank Requirements\nMost banks require you to visit a branch physically. Bring your passport and residence permit card.`
-      }
+      en: { title: 'Strong Identification', content: `# Strong Electronic ID 🔐\n\n**The Key to the Kingdom.**\n\n### What is it?\nYour digital ID for logging into everything (Kela, Tax, Posti).\n\n### How to get it\nYou usually need a Finnish ID Code and a Passport to get it from a bank. Visit a branch physically.` },
+      fi: { title: 'Vahva tunnistautuminen', content: `# Vahva tunnistautuminen 🔐\n\n**Avain kaikkeen.**\n\n### Mikä se on?\nDigitaalinen henkilöllisyytesi (pankkitunnukset). Tarvitset tätä kirjautuaksesi Kelaan, verottajalle jne.` }
   },
   'bureaucracy_tax': {
-      en: {
-          title: 'Tax Card (Verokortti)',
-          content: `# The Tax Card (Verokortti) 💳\n\n**Rule:** If you don't give this to your employer, they MUST deduct **60%** tax.\n\n### Getting it\n1. Log into **MyTax (OmaVero)** using Strong Identification.\n2. Estimate your annual income (be conservative).\n3. It gives you a % (e.g., 18.5%).\n4. Send the PDF to your payroll department.\n\n### Adjusting\nYou can change it anytime online if you earn more or less than expected.`
-      }
+      en: { title: 'Tax Card', content: `# The Tax Card (Verokortti) 💳\n\n**Rule:** No card = 60% tax.\n\n### Process\n1. Log into **MyTax (OmaVero)**.\n2. Estimate income.\n3. Get PDF.\n4. Send to employer.` },
+      fi: { title: 'Verokortti', content: `# Verokortti 💳\n\n**Sääntö:** Ilman korttia vero on 60%.\n\n### Prosessi\n1. Kirjaudu **OmaVeroon**.\n2. Arvioi tulot.\n3. Lähetä kortti työnantajalle.` }
   },
+
+  // --- SECURITY (New) ---
   'bureaucracy_kela': {
-      en: {
-          title: 'Kela (Social Security)',
-          content: `# Kela (The Social Insurance Institution) 🏥\n\n### The Concept\nKela provides basic security for everyone living in Finland permanently.\n\n### Am I covered?\n* **Students:** Usually NOT covered (must have private insurance).\n* **Workers:** Covered if you earn at least ~800€/month or have a contract of 4+ months.\n* **Family:** Covered if moving permanently.\n\n### The Kela Card\nOnce accepted, you get the Kela card. Show this at pharmacies for discounts and private doctors for small reimbursements.`
-      }
-  },
-
-  // --- JOB SEARCH ---
-  'job_market_overview': {
-      en: {
-          title: 'Market Overview',
-          content: `# The Finnish Job Market 📉\n\n### The Hard Truth\nFinland has a high demand for skilled workers, BUT it is very protective of its language.\n\n### The "Hidden" Market\nUp to **70-80%** of jobs are not published on job boards. They are filled through networks.\n\n### Key Sectors for English Speakers\n1. **ICT / Tech:** Gaming, Software, Telecom (Nokia, Supercell).\n2. **Engineering:** Marine, Energy, CleanTech.\n3. **Startups:** Helsinki is a huge startup hub (Slush).\n4. **Service:** Cleaning, logistics, restaurant work (often requires less Finnish).`
-      }
-  },
-  'job_networking': {
-    en: {
-      title: 'Networking & Hidden Jobs',
-      content: `# The Hidden Job Market 🕵️‍♂️\n\n**Reality Check:** 70-80% of jobs in Finland are never advertised publicly.\n\n### Where are they?\nThey are filled through referrals, internal transfers, and direct contact.\n\n### How to access them?\n1. **LinkedIn:** It is huge here. Optimize your profile. Connect with people in your field, not just recruiters.\n2. **Informational Interviews:** Ask someone for 15 mins of advice, not a job. Finns love to give expert advice.\n3. **Professional Unions:** Join the union for your sector (e.g., TEK, OAJ). They have events and lists.`
-    },
-    fi: {
-      title: 'Verkostoituminen',
-      content: `# Piilotyöpaikat 🕵️‍♂️\n\n**Fakta:** 70-80% Suomen työpaikoista ei tule julkiseen hakuun.\n\n### Missä ne ovat?\nNe täytetään suositusten ja suorien kontaktien kautta.\n\n### Miten päästä käsiksi?\n1. **LinkedIn:** Erittäin tärkeä Suomessa. Tuunaa profiilisi.\n2. **Tiedonkeruuhaastattelut:** Pyydä 15 minuutin neuvoa, älä suoraan työtä.\n3. **Ammattiliitot:** Liity alasi liittoon (esim. TEK). Heillä on tapahtumia.`
-    },
-    th: {
-      title: 'การสร้างเครือข่าย',
-      content: `# ตลาดงานที่ซ่อนอยู่ 🕵️‍♂️\n\n**ความจริง:** 70-80% ของงานในฟินแลนด์ไม่มีการโฆษณาต่อสาธารณะ\n\n### งานเหล่านี้อยู่ที่ไหน?\nงานเหล่านี้ถูกเติมเต็มผ่านการแนะนำและการติดต่อโดยตรง\n\n### จะเข้าถึงได้อย่างไร?\n1. **LinkedIn:** สำคัญมากที่นี่ ปรับปรุงโปรไฟล์ของคุณ\n2. **การสัมภาษณ์เพื่อขอข้อมูล:** ขอคำแนะนำ 15 นาที ไม่ใช่ขอกาน\n3. **สหภาพแรงงาน:** เข้าร่วมสหภาพในสายงานของคุณ พวกเขามีงานกิจกรรมและรายชื่อผู้ติดต่อ`
-    }
-  },
-  'job_cv_standards': {
-      en: {
-          title: 'CV & Cover Letter',
-          content: `# Finnish CV Style 📄\n\n**Keep it simple.**\n\n### Layout\n* **Photo:** Yes, professional headshot is standard.\n* **Length:** Max 2 pages.\n* **Profile:** Short summary at top.\n* **Skills:** List specific tools/technologies.\n\n### The Cover Letter\n* **Critical:** Finns read this.\n* **Tone:** Humble but confident. Do not brag excessively ("I am the best"), but state facts ("I increased sales by 20%").\n* **Fit:** Explain WHY you want THIS specific company.`
-      }
-  },
-  'job_bias': {
-      en: {
-          title: 'Handling Bias',
-          content: `# Addressing the Elephant 🐘\n\n### "Finnish Language Required"\nMany ads say this even if not true. \n* **Strategy:** Call them. Ask "Is Finnish truly mandatory for the daily tasks?". Often, for experts, it is not.\n\n### Name Discrimination\nStudies show non-Finnish names get fewer callbacks.\n* **Strategy:** Focus on direct networking (bypassing HR filters) and highlight your permit status ("I have a permanent residence permit") clearly at the top.`
-      }
-  },
-
-  // --- WORK CULTURE ---
-  'culture_essentials': {
-      en: {
-          title: 'Trust & Silence',
-          content: `# The Core Values 🇫🇮\n\n### 1. Trust (Luottamus)\nIf you say you will do it, do it. No need to update every hour. If you don't do it, say so immediately. Lying or hiding mistakes is the worst sin.\n\n### 2. Silence is OK\nIn a meeting, if nobody talks, it means they are thinking. Do not rush to fill the silence with chatter. It is considered polite to give space.\n\n### 3. Punctuality\n5 minutes early is on time. 5 minutes late is a crisis. Send a message if you are late.`
-      }
-  },
-  'culture_hierarchy': {
-      en: {
-          title: 'Flat Hierarchy',
-          content: `# Low Hierarchy 📉\n\n### The Boss is a Colleague\n* You call the CEO by their first name.\n* You can disagree with your manager (politely).\n* Experts are respected more than titles.\n\n### Decision Making\nConsensus-based. It takes a long time to decide, but once decided, action is fast. Don't push for a decision in the first meeting.`
-      }
-  },
-  'work_coffee': {
-    en: {
-      title: 'The Sacred Kahvitauko',
-      content: `# The Coffee Break Ritual ☕\n\n**Rule #1:** Never skip the coffee break if you want to integrate.\n\n### What is it?\nFinns drink the most coffee in the world. Twice a day (morning and afternoon), work stops.\n\n### Why it matters\nThis is where decisions happen. It is informal, hierarchy-free, and where you bond with colleagues. If you sit at your desk, you isolate yourself.\n\n* **Tip:** You don't have to drink coffee. Tea or water is fine. Just go to the break room.`
-    },
-    fi: {
-      title: 'Pyhä Kahvitauko',
-      content: `# Kahvitaukorituaali ☕\n\n**Sääntö #1:** Älä jätä kahvitaukoa väliin, jos haluat sopeutua.\n\n### Mikä se on?\nSuomalaiset juovat eniten kahvia maailmassa. Kahdesti päivässä työt keskeytyvät.\n\n### Miksi se on tärkeää?\nTäällä tehdään päätökset epävirallisesti. Se on vapaata hierarkiasta. Jos jäät työpöytäsi ääreen, eristät itsesi.`
-    },
-    th: {
-      title: 'ช่วงเวลาพักดื่มกาแฟอันศักดิ์สิทธิ์',
-      content: `# พิธีกรรม Kahvitauko ☕\n\n**กฎข้อที่ 1:** อย่าพลาดช่วงพักดื่มกาแฟหากคุณต้องการปรับตัว\n\n### มันคืออะไร?\nชาวฟินน์ดื่มกาแฟมากที่สุดในโลก วันละสองครั้ง งานจะหยุดลงเพื่อสิ่งนี้\n\n### ทำไมจึงสำคัญ\nนี่คือช่วงเวลาที่เกิดการตัดสินใจแบบไม่เป็นทางการ หากคุณนั่งอยู่ที่โต๊ะทำงาน คุณจะพลาดโอกาสในการสร้างความสัมพันธ์`
-    }
-  },
-  'work_social': {
-    en: {
-        title: 'Pikkujoulut & Socializing',
-        content: `# Parties & Boundaries 🎉\n\n**Concept:** Finns are private, until they are not.\n\n### Pikkujoulut (Little Christmas)\nThe office Christmas party. It is often wild. It is the one time of year colleagues drink heavily together. \n\n### Rules\n1. **What happens in Pikkujoulut stays there.**\n2. **Sauna:** There might be a sauna. It is usually non-sexual but can be mixed or separate turns. Ask HR for the policy.\n3. **First Names:** Everyone is on a first-name basis, even the CEO.`
-    },
-    fi: {
-        title: 'Pikkujoulut & Sosiaalisuus',
-        content: `# Juhlat & Rajat 🎉\n\n**Konsepti:** Suomalaiset ovat yksityisiä, kunnes eivät ole.\n\n### Pikkujoulut\nToimiston joulujuhla. Se on usein villi tilaisuus, jolloin kollegat juhlivat yhdessä.\n\n### Säännöt\n1. **Mitä pikkujouluissa tapahtuu, jää sinne.**\n2. **Sauna:** Saunominen voi kuulua asiaan. Kysy käytännöistä etukäteen.\n3. **Sinuttelu:** Kaikkia puhutellaan etunimellä, jopa toimitusjohtajaa.`
-    },
-    th: {
-        title: 'ปาร์ตี้และการเข้าสังคม',
-        content: `# งานเลี้ยง & ขอบเขต 🎉\n\n**แนวคิด:** ชาวฟินน์รักความเป็นส่วนตัว จนกระทั่งถึงเวลาปาร์ตี้\n\n### Pikkujoulut (คริสต์มาสน้อย)\nปาร์ตี้คริสต์มาสของออฟฟิศ มักจะมีความสนุกสนานเต็มที่\n\n### กฎกติกา\n1. **สิ่งที่เกิดขึ้นในปาร์ตี้ จะถูกทิ้งไว้ที่นั่น**\n2. **ซาวน่า:** อาจมีการเข้าซาวน่า สอบถามนโยบายจาก HR\n3. **การเรียกชื่อ:** ทุกคนเรียกชื่อจริงกัน แม้แต่ CEO`
-    }
-  },
-  'work_unions': {
-      en: {
-          title: 'Unions & Rights',
-          content: `# Trade Unions (Ammattiliitto) 🤝\n\n### Should I join?\n**Yes.** Almost everyone is a member.\n\n### Benefits\n1. **Unemployment Fund:** If you lose your job, the union pays you significantly more than Kela for ~400 days.\n2. **Legal Help:** They check your contract.\n3. **Salary Advice:** They tell you what you *should* be earning.`
-      }
-  },
-
-  // --- PROFESSION GUIDES ---
-  'prof_general': {
-      en: {
-          title: 'General Job Advice',
-          content: `# Finding Work as a Generalist\n\nIf you don't have a specialized degree, focus on:\n1. **Staffing Agencies:** Bolt, Barona, StaffPoint. They hire quickly for construction, cleaning, and logistics.\n2. **Hygiene Pass:** Get this card immediately if you want to work with food.\n3. **Occupational Safety Card:** Essential for construction/logistics.`
-      }
-  },
-  'prof_tech': {
-      en: {
-          title: 'Tech & IT',
-          content: `# IT Sector 💻\n\n**English Friendly?** Yes, very.\n\n### Hot Hubs\n* Helsinki (Kamppi/Ruoholahti)\n* Espoo (Otaniemi/Keilaniemi)\n* Oulu (Radio tech)\n\n### Key Sites\n* The Hub.io\n* LinkedIn\n* MeetAndCode`
-      }
-  },
-  'prof_health': {
-      en: {
-          title: 'Healthcare & Nursing',
-          content: `# Healthcare (Hoitotyö) 🩺\n\n**Language Requirement:** Strict. usually B1-B2 Finnish.\n\n### The Path\n1. **Valvira:** You must get your degree recognized by Valvira.\n2. **Tehy:** The main union.\n3. **Apprenticeships:** Look for 'oppisopimus' to learn while working.`
-      }
-  },
-  'prof_service': {
-      en: {
-          title: 'Service & Cleaning',
-          content: `# Service Sector 🧹\n\n**Entry Level:** Good for starting.\n\n### Key Players\n* SOL, Lassila & Tikanoja, ISS.\n\n### Wages\nStrictly regulated by collective agreements (TES). You get extra pay for evening (ilta) and sunday (pyhä) work. Sunday is double salary (+100%).`
-      }
-  },
-  'prof_construction': {
-      en: {
-          title: 'Construction',
-          content: `# Construction (Rakennus) 🏗️\n\n**Cards Needed:**\n1. **Green Card:** Occupational Safety Card (Työturvallisuuskortti).\n2. **Blue Card:** ID card with tax number (Veronumero).\n\n### Culture\nDirect, masculine, early mornings (7 AM start).`
-      }
-  },
-  'prof_academia': {
-      en: {
-          title: 'Academia & Research',
-          content: `# Academia 🎓\n\n**Funding:** Applying for grants is a full-time job.\n\n### Key Funders\n* Academy of Finland\n* Kone Foundation\n\n### Culture\nVery international, but tenure tracks are competitive.`
-      }
-  },
-
-  // --- FAMILY ---
-  'family_neuvola': {
-      en: {
-          title: 'Neuvola (Child Health)',
-          content: `# Neuvola (Maternity Clinic) 👶\n\n**The Jewel of Finland.**\n\n### What is it?\nFree monitoring for pregnancy and child health up to school age.\n\n### The Baby Box\nEvery expectant mother gets a **Kela Maternity Package** (famous cardboard box with clothes) OR 170€. Take the box for your first child!`
-      }
-  },
-  'family_daycare': {
-      en: {
-          title: 'Daycare (Päiväkoti)',
-          content: `# Daycare (Varhaiskasvatus) 🧸\n\n### The Right\nEvery child has a SUBJECTIVE RIGHT to daycare, even if parents are unemployed.\n\n### Cost\nBased on income. Max ~300€/month. Low income families pay 0€.\n\n### Application\nApply 4 months in advance. For urgent work/study, apply immediately (2 weeks notice).`
-      }
-  },
-  'family_teens': {
-      en: {
-          title: 'Teens & School',
-          content: `# Teenagers 🎒\n\n### Wilma\nThe app used to communicate with schools. You will live on Wilma.\n\n### Independence\nFinnish teens are very independent. They take the bus alone. They have their own hobbies.`
-      }
-  },
-
-  // --- DAILY LIFE ---
-  'housing_general': {
-      en: {
-          title: 'Finding an Apartment',
-          content: `# Housing (Asuminen) 🏠\n\n### Sites\n* Vuokraovi.com\n* Oikotie.fi\n* Lumo / Sato (Corporate landlords, easier for foreigners)\n\n### Deposit\nUsually 1-2 months rent. Kept in a separate account.\n\n### Home Insurance\n**Mandatory.** You usually cannot get keys without showing proof of home insurance (kotivakuutus).`
-      }
+      en: { title: 'Kela (Social Security)', content: `# Kela 🏥\n\n### Basics\nKela provides basic security for permanent residents.\n\n### Coverage\n* **Work:** Covered if earning ~800€/mo.\n* **Students:** Usually not covered (need private insurance).` },
+      fi: { title: 'Kela', content: `# Kela 🏥\n\n### Perusteet\nKela tarjoaa perusturvan vakituisesti asuville.\n\n### Kattavuus\n* **Työ:** Kuulut piiriin, jos tienaat n. 800€/kk.` }
   },
   'health_services': {
-      en: {
-          title: 'Health Services',
-          content: `# Public vs Private 🏥\n\n### Public (Terveysasema)\n* Almost free.\n* Queues can be long.\n* You must call your designated center.\n\n### Occupational (Työterveys)\n* Paid by employer.\n* Fast access to doctors.\n* Use this for sickness absences!`
-      }
+      en: { title: 'Health Services', content: `# Public vs Occupational 🏥\n\n### Public (Terveysasema)\n* Cheap but slow.\n* Call your local center.\n\n### Occupational (Työterveys)\n* Paid by employer.\n* Fast access. Use this for sick leave!` },
+      fi: { title: 'Terveyspalvelut', content: `# Julkinen vs Työterveys 🏥\n\n### Julkinen\n* Edullinen, mutta jonoja.\n\n### Työterveys\n* Työnantajan maksama.\n* Nopea. Käytä tätä sairaslomissa!` }
   },
-  'transport_public': {
-      en: {
-          title: 'Public Transport',
-          content: `# HSL & VR 🚆\n\n### HSL (Helsinki Area)\n* Zones A, B, C, D.\n* **App:** Download the HSL app. Cheaper than buying from driver (which is often impossible).\n* **Fine:** 80€ if caught without ticket.\n\n### VR (Trains)\n* Book early for cheap tickets ("Saver ticket").`
-      }
+  'social_unemployment': {
+      en: { title: 'Unemployment Benefits', content: `# Lost your job? 📉\n\n### 1. Register immediately\nRegister as a job seeker at **TE Services** on your first day of unemployment. If you delay, you lose money.\n\n### 2. The Payers\n* **Kela:** Pays basic unemployment allowance.\n* **Unions (Kassa):** Pays earnings-related allowance (much higher) if you have been a member for 6+ months.` },
+      fi: { title: 'Työttömyysturva', content: `# Jäitkö työttömäksi? 📉\n\n### 1. Ilmoittaudu heti\nIlmoittaudu työnhakijaksi **TE-toimistoon** heti ensimmäisenä päivänä.\n\n### 2. Maksajat\n* **Kela:** Peruspäiväraha.\n* **Työttömyyskassa:** Ansiopäiväraha (jos olet jäsen).` }
   },
-
-  // --- CULTURE ---
-  'culture_religion': {
-      en: {
-          title: 'Religion',
-          content: `# Religion in Finland ⛪\n\n### Secular but Lutheran\nMost Finns belong to the Lutheran church but rarely attend. \n\n### Church Tax\nIf you are a member, you pay 1-2% extra tax. You can resign online if you wish.`
-      }
+  'social_housing': {
+      en: { title: 'Housing Allowance', content: `# Housing Allowance (Asumistuki) 🏠\n\n### Who gets it?\nLow-income households living permanently in Finland. It covers part of your rent.\n\n### Application\nApply via Kela online. You need a rental contract and proof of income.` },
+      fi: { title: 'Asumistuki', content: `# Yleinen asumistuki 🏠\n\n### Kenelle?\nPienituloisille ruokakunnille. Korvaa osan vuokrasta.\n\n### Hakeminen\nHae Kelan asiointipalvelussa. Tarvitset vuokrasopimuksen.` }
   },
-  'culture_holidays': {
-      en: {
-          title: 'Holidays (Juhannus & Vappu)',
-          content: `# Key Holidays 🎉\n\n### Vappu (May 1st)\nStudent & Worker festival. Picnics, white caps, sparkling wine. The one day Finns go crazy.\n\n### Juhannus (Midsummer)\nCities empty. Everyone goes to a cottage (mökki). Bonfires, sauna, mosquitoes.`
-      }
-  },
-  'culture_norms': {
-      en: {
-          title: 'Social Norms',
-          content: `# Unwritten Rules 🤫\n\n* **Personal Space:** Keep 1-2 meters distance at bus stops.\n* **Shoes:** Take them OFF when entering a home.\n* **Small Talk:** Not required. Silence is comfortable.`
-      }
+  'social_pension': {
+      en: { title: 'Pension System', content: `# Pensions in Finland 👴\n\n### Two Pillars\n1. **Earnings-related (Työeläke):** Accumulates from your work. Paid by pension providers (Ilmarinen, Varma).\n2. **National Pension (Kansaneläke):** Paid by Kela if your working pension is too small.\n\n### Check your pension\nYou can check your accrued pension at **Tyoelake.fi**.` },
+      fi: { title: 'Eläkejärjestelmä', content: `# Eläkkeet Suomessa 👴\n\n### Kaksi pilaria\n1. **Työeläke:** Kertyy työstä.\n2. **Kansaneläke:** Kelan maksama vähimmäisturva.` }
   },
 
-  // --- LEARNING FINNISH ---
-  'lang_roadmap': {
-      en: {
-          title: 'Roadmap to Finnish',
-          content: `# Learning Strategy 🇫🇮\n\n### Phase 1: Survival\nLearn: "Kiitos", "Anteeksi", numbers, foods.\n\n### Phase 2: Integration Course\nIf unemployed, TE Office provides intensive courses.\n\n### Phase 3: YKI Test\nNeeded for citizenship. Level 3 (B1) is the target.\n\n### Tips\n* Watch "Yle Uutiset Selkosuomeksi" (News in simple Finnish).\n* Don't switch to English immediately!`
-      }
+  // --- MARKET (New) ---
+  'job_market_overview': {
+      en: { title: 'Market Overview', content: `# The Hidden Market 📉\n\n**70-80% of jobs are hidden.**\n\n### Strategies\n* **Network:** Most jobs go to friends of friends.\n* **Direct Contact:** Email companies directly.` },
+      fi: { title: 'Työmarkkinat', content: `# Piilotyöpaikat 📉\n\n**70-80% paikoista ei ole julkisessa haussa.**\n\n### Strategiat\n* **Verkostoidu:** Suurin osa paikoista menee suhteilla.\n* **Ota yhteyttä:** Lähetä avoin hakemus.` }
+  },
+  'job_networking': {
+      en: { title: 'Networking', content: `# How to Network 🤝\n\n1. **LinkedIn:** Essential.\n2. **Events:** Goes to industry meetups.\n3. **Volunteering:** Great way to meet locals.` },
+      fi: { title: 'Verkostoituminen', content: `# Kuinka verkostoitua 🤝\n\n1. **LinkedIn:** Välttämätön.\n2. **Tapahtumat:** Käy alan tapahtumissa.\n3. **Vapaaehtoistyö:** Loistava tapa tutustua.` }
+  },
+  'job_te_office': {
+      en: { title: 'TE Services', content: `# TE Services (TE-palvelut) 🏢\n\n### What is it?\nThe government employment office. \n\n### Services\n* **Integration Plan:** If you are an immigrant, they make a plan for you (language courses, training).\n* **Job Board:** Tyomarkkinatori.fi is the official site.` },
+      fi: { title: 'TE-palvelut', content: `# TE-palvelut 🏢\n\n### Mikä se on?\nValtion työnvälitys.\n\n### Palvelut\n* **Kotoutumissuunnitelma:** Maahanmuuttajille tehdään suunnitelma (kielikurssit, koulutus).\n* **Työmarkkinatori:** Virallinen työpaikkasivusto.` }
+  },
+  'job_portals': {
+      en: { title: 'Job Boards', content: `# Where to look? 🔍\n\n### Major Sites\n1. **LinkedIn:** #1 for specialists/English jobs.\n2. **Oikotie.fi:** Major Finnish site.\n3. **Duunitori.fi:** User friendly, lots of articles.\n4. **Tyomarkkinatori.fi:** Official government site.` },
+      fi: { title: 'Työpaikkasivustot', content: `# Mistä etsiä? 🔍\n\n### Tärkeimmät sivut\n1. **LinkedIn:** Paras asiantuntijoille.\n2. **Oikotie:** Suuri suomalainen sivusto.\n3. **Duunitori:** Helppokäyttöinen.\n4. **Työmarkkinatori:** Virallinen sivusto.` }
+  },
+  'job_entrepreneurship': {
+      en: { title: 'Entrepreneurship', content: `# Becoming an Entrepreneur 🚀\n\n### Toiminimi (Sole Trader)\nEasiest way to start. You sell your skills and invoice clients.\n\n### Light Entrepreneurship (Kevytyrittäjyys)\nServices like Ukko.fi or eTasku allow you to invoice without a business ID (Y-tunnus). Great for testing the market.` },
+      fi: { title: 'Yrittäjyys', content: `# Yrittäjäksi ryhtyminen 🚀\n\n### Toiminimi\nHelpoin tapa aloittaa.\n\n### Kevytyrittäjyys\nPalvelut kuten Ukko.fi mahdollistavat laskutuksen ilman omaa yritystä.` }
+  },
+
+  // --- TOOLS (New) ---
+  'job_cv_standards': {
+      en: { title: 'CV Standards', content: `# Finnish CV 📄\n\n* **Length:** Max 2 pages.\n* **Photo:** Yes, standard.\n* **Tone:** Honest, concise.` },
+      fi: { title: 'CV-standardit', content: `# Suomalainen CV 📄\n\n* **Pituus:** Max 2 sivua.\n* **Kuva:** Kyllä, tavallista.\n* **Sävy:** Rehellinen, tiivis.` }
+  },
+  'job_cover_letter': {
+      en: { title: 'Cover Letter', content: `# The Application Letter ✉️\n\n**Goal:** Answer "Why us?" and "Why you?".\n\n### Structure\n1. **Hook:** Why are you interested?\n2. **Proof:** Examples of your skills.\n3. **Fit:** Cultural match.\n4. **Call to Action:** "I'd love to discuss more..."\n\nKeep it under 1 page.` },
+      fi: { title: 'Hakemuskirje', content: `# Hakemuskirje ✉️\n\n**Tavoite:** Vastaa "Miksi me?" ja "Miksi sinä?".\n\n### Rakenne\n1. **Koukku:** Miksi olet kiinnostunut?\n2. **Todisteet:** Esimerkkejä taidoista.\n3. **Sopivuus:** Kulttuurinen yhteensopivuus.\n\nPidä alle sivun mittaisena.` }
+  },
+  'job_interview': {
+      en: { title: 'Job Interview', content: `# The Interview 🎙️\n\n### Style\nFormal but relaxed. Shake hands (firmly). Look in the eye.\n\n### Common Questions\n* "Tell me about yourself." (Keep it professional)\n* "Why do you want to work here?"\n* "Salary request?" (Be prepared with a number).` },
+      fi: { title: 'Työhaastattelu', content: `# Haastattelu 🎙️\n\n### Tyyli\nAsiallinen mutta rento. Kättele jämäkästi. Katso silmiin.\n\n### Kysymyksiä\n* "Kerro itsestäsi."\n* "Miksi haluat meille?"\n* "Palkkatoive?" (Valmistaudu luvulla).` }
+  },
+  'job_linkedin': {
+      en: { title: 'LinkedIn Tips', content: `# LinkedIn in Finland 🔗\n\nIt is the primary tool for recruiters in Tech/Business.\n\n### Tips\n* **Open to Work:** Use the green banner.\n* **Keywords:** Use Finnish keywords even in an English profile (e.g., "Project Manager / Projektipäällikkö").\n* **Activity:** Comment on Finnish companies' posts.` },
+      fi: { title: 'LinkedIn-vinkit', content: `# LinkedIn Suomessa 🔗\n\nRekrytoijien ykköstyökalu.\n\n### Vinkit\n* **Open to Work:** Käytä vihreää kehystä.\n* **Avainsanat:** Käytä myös suomenkielisiä titeleitä.\n* **Aktiivisuus:** Kommentoi julkaisuja.` }
+  },
+  'job_recognition': {
+      en: { title: 'Degree Recognition', content: `# Recognising Degrees 🎓\n\n### OPH (Agency for Education)\nIf you want to work in regulated professions (Teacher, Doctor, Nurse, Law), you MUST get your foreign degree recognized by OPH.\n\n* **Process:** Takes months and costs money.\n* **Non-regulated:** For IT/Business, usually not needed.` },
+      fi: { title: 'Tutkintojen tunnustaminen', content: `# Tutkintojen rinnastaminen 🎓\n\n### OPH\nJos haluat toimia säännellyssä ammatissa (Opettaja, Lääkäri), tutkinto pitää tunnustaa.\n\n* **Prosessi:** Kestää kuukausia ja maksaa.` }
+  },
+
+  // --- RIGHTS (New) ---
+  'work_unions': {
+      en: { title: 'Trade Unions', content: `# Unions 🤝\n\n**Join one.**\n\n### Why?\n1. **Money:** Better unemployment fund.\n2. **Law:** Legal help.\n3. **Negotiation:** They set the salary levels.` },
+      fi: { title: 'Ammattiliitot', content: `# Liitot 🤝\n\n**Liity jäseneksi.**\n\n### Miksi?\n1. **Raha:** Parempi työttömyysturva.\n2. **Laki:** Oikeusapu.\n3. **Neuvottelu:** Ne määrittelevät palkkatason.` }
+  },
+  'job_bias': {
+      en: { title: 'Handling Bias', content: `# Discrimination 🚫\n\nIt exists. \n\n### Tactics\n* **Call:** Always call before applying to show language skills/personality.\n* **Name:** Highlight your *permit status* clearly.` },
+      fi: { title: 'Syrjintä', content: `# Syrjintä 🚫\n\nSitä on olemassa.\n\n### Taktiikat\n* **Soita:** Soita aina ennen hakemista.\n* **Lupa:** Korosta oleskelulupasi statusta.` }
+  },
+  'work_contract': {
+      en: { title: 'Employment Contract', content: `# The Contract (Työsopimus) 📝\n\n**Always written.**\n\n### Checklist\n1. **Duration:** Indefinite (toistaiseksi) or Fixed-term (määräaikainen)? Fixed-term requires a valid reason.\n2. **Trial Period:** Max 6 months. You can be fired easily during this time.\n3. **TES:** Which Collective Agreement applies?` },
+      fi: { title: 'Työsopimus', content: `# Työsopimus 📝\n\n**Aina kirjallisena.**\n\n### Tarkistuslista\n1. **Kesto:** Toistaiseksi voimassa oleva vai määräaikainen?\n2. **Koeaika:** Max 6kk.\n3. **TES:** Mikä työehtosopimus pätee?` }
+  },
+  'work_hours': {
+      en: { title: 'Working Hours', content: `# Hours & Overtime ⏰\n\n### Standard\n8 hours/day, 37.5 or 40 hours/week.\n\n### Overtime (Ylityö)\nMust be agreed upon. Paid extra (+50% or +100%). Many experts have "flexible hours" (liukuva työaika) where you bank hours.` },
+      fi: { title: 'Työajat', content: `# Työajat & Ylityö ⏰\n\n### Vakio\n8h/päivä, 37.5h/viikko.\n\n### Ylityö\nMaksetaan korotettuna (+50% tai +100%). Monilla on liukuva työaika.` }
+  },
+  'work_holidays': {
+      en: { title: 'Annual Holidays', content: `# Holidays (Vuosiloma) 🏖️\n\nFinland has generous holidays.\n\n### Earning\nYou earn ~2-2.5 days per month worked. \n* **Summer Holiday:** Usually 4 weeks in July.\n* **Holiday Pay:** You get paid + often a "Holiday Bonus" (Lomaraha, 50% extra).` },
+      fi: { title: 'Vuosiloma', content: `# Vuosiloma 🏖️\n\nSuomessa on anteliaat lomat.\n\n### Ansainta\nTienaat n. 2-2.5 päivää kuukaudessa.\n* **Kesäloma:** Yleensä 4 viikkoa heinäkuussa.\n* **Lomaraha:** Ylimääräinen 50% palkasta.` }
+  },
+
+  // --- NORMS (New) ---
+  'culture_essentials': {
+      en: { title: 'Core Values', content: `# Trust & Silence 🤫\n\n1. **Trust:** Do what you say.\n2. **Silence:** Don't fill silence with noise.` },
+      fi: { title: 'Arvot', content: `# Luottamus & Hiljaisuus 🤫\n\n1. **Luottamus:** Tee mitä lupaat.\n2. **Hiljaisuus:** Älä täytä hiljaisuutta turhalla puheella.` }
+  },
+  'culture_hierarchy': {
+      en: { title: 'Flat Hierarchy', content: `# Low Hierarchy 📉\n\nBosses are colleagues. You can disagree.` },
+      fi: { title: 'Matala hierarkia', content: `# Matala hierarkia 📉\n\nPomo on kollega. Voit olla eri mieltä.` }
+  },
+  'culture_meetings': {
+      en: { title: 'Meeting Culture', content: `# Meetings 📅\n\n**Efficient & Punctual.**\n\n* **Start on time:** Exactly.\n* **Agenda:** Stick to it.\n* **No fluff:** Get to the point. Small talk is minimal in meetings.` },
+      fi: { title: 'Kokouskulttuuri', content: `# Kokoukset 📅\n\n**Tehokkaita & Täsmällisiä.**\n\n* **Aloitus:** Tismalleen ajoissa.\n* **Asialista:** Pysy siinä.\n* **Ei turinaa:** Mene asiaan.` }
+  },
+  'culture_feedback': {
+      en: { title: 'Giving Feedback', content: `# Feedback 🗣️\n\nFinns are direct but polite.\n\n* **Criticism:** Usually given privately.\n* **Silence = Good:** If nobody complains, you are doing well. We don't constantly praise.` },
+      fi: { title: 'Palautteenanto', content: `# Palaute 🗣️\n\n* **Kritiikki:** Annetaan kahden kesken.\n* **Hiljaisuus = Hyvä:** Jos kukaan ei valita, menee hyvin. Emme kehu jatkuvasti.` }
+  },
+  'culture_emails': {
+      en: { title: 'Email Etiquette', content: `# Emails 📧\n\n**Short & Functional.**\n\n* No need for "I hope this email finds you well".\n* "Hi Matti," -> Content -> "Br, Name".\n* Reply quickly.` },
+      fi: { title: 'Sähköpostietiketti', content: `# Sähköpostit 📧\n\n**Lyhyitä & Toimivia.**\n\n* Ei turhia korulauseita.\n* "Moi Matti," -> Asia -> "T. Nimi".` }
+  },
+
+  // --- SOCIAL (New) ---
+  'work_coffee': {
+      en: { title: 'Coffee Break', content: `# Kahvitauko ☕\n\n**Mandatory.**\n\nGo to the break room. Bond with colleagues.` },
+      fi: { title: 'Kahvitauko', content: `# Kahvitauko ☕\n\n**Pakollinen.**\n\nMene taukotilaan. Tutustu kollegoihin.` }
+  },
+  'work_social': {
+      en: { title: 'Parties', content: `# Pikkujoulut 🎉\n\nOffice Christmas party. What happens there, stays there.` },
+      fi: { title: 'Pikkujoulut', content: `# Pikkujoulut 🎉\n\nFirman bileet. Mitä siellä tapahtuu, jää sinne.` }
+  },
+  'culture_names': {
+      en: { title: 'First Names', content: `# First Name Basis 🏷️\n\nAlmost everyone is "Sinä" (You) and called by First Name.\n\n* **Exception:** Maybe the President or very old people.\n* **Titles:** Rarely used (No "Mr. Engineer").` },
+      fi: { title: 'Sinuttelu', content: `# Sinuttelu 🏷️\n\nLähes kaikki ovat "sinut".\n\n* **Poikkeus:** Presidentti tai hyvin iäkkäät.\n* **Tittelit:** Ei käytetä ("Herra Insinööri").` }
+  },
+  'culture_lunch': {
+      en: { title: 'Lunch Culture', content: `# Lunch (Lounas) 🥗\n\n* **Time:** 11:00 - 12:00. Early!\n* **Duration:** 30 mins.\n* **Lounasseteli:** Employers often subsidize lunch (Epassi/Edenred). It's a warm meal, not a sandwich.` },
+      fi: { title: 'Lounaskulttuuri', content: `# Lounas 🥗\n\n* **Aika:** 11:00 - 12:00. Aikaisin!\n* **Kesto:** 30 min.\n* **Lounasetu:** Työnantaja tukee usein lounasta. Se on lämmin ateria.` }
+  },
+  'culture_afterwork': {
+      en: { title: 'Afterwork', content: `# Afterwork 🍻\n\n"AW" culture is growing, especially in Helsinki.\n\n* **Casual:** A beer/cider after work on Friday.\n* **Not mandatory:** Finns value free time, so don't feel pressured.` },
+      fi: { title: 'Afterwork', content: `# Afterwork 🍻\n\nAW-kulttuuri kasvaa.\n\n* **Rento:** Olut/siideri töiden jälkeen.\n* **Ei pakollinen:** Suomalaiset arvostavat vapaa-aikaa.` }
+  },
+
+  // --- PROFESSIONS (New) ---
+  'prof_tech': {
+      en: { title: 'Tech & IT', content: `# IT Sector 💻\n\nEnglish is the main language.` },
+      fi: { title: 'Tech & IT', content: `# IT-ala 💻\n\nEnglanti on pääkieli.` }
+  },
+  'prof_academia': {
+      en: { title: 'Academia', content: `# Academia 🎓\n\nGrant funding is key.` },
+      fi: { title: 'Akatemia', content: `# Akatemia 🎓\n\nApurahat ovat avainasemassa.` }
+  },
+  'prof_engineering': {
+      en: { title: 'Engineering', content: `# Engineering ⚙️\n\n**Strong Demand.**\n\n* **Fields:** Energy, Marine, Paper, Construction.\n* **Language:** Often English works in large global firms (Kone, Wärtsilä, Neste), but Finnish helps in meetings.` },
+      fi: { title: 'Insinöörityö', content: `# Insinöörityö ⚙️\n\n**Kova kysyntä.**\n\n* **Alat:** Energia, Meri, Paperi, Rakennus.\n* **Kieli:** Englanti toimii isoissa firmoissa, mutta suomi auttaa.` }
+  },
+  'prof_business': {
+      en: { title: 'Business', content: `# Business & Sales 💼\n\n**Hard for foreigners.**\n\n* **Reason:** Sales usually requires native-level Finnish to build trust.\n* **Niche:** Export sales or international account management.` },
+      fi: { title: 'Kaupallinen ala', content: `# Kaupallinen ala 💼\n\n**Haastava ulkomaalaisille.**\n\n* **Syy:** Myynti vaatii usein täydellistä suomea.\n* **Rako:** Vientimyynti.` }
+  },
+  'prof_creative': {
+      en: { title: 'Creative', content: `# Creative Industries 🎨\n\n**Gaming & Design.**\n\n* **Gaming:** Huge in Finland (Supercell, Rovio). Very international.\n* **Design:** Functional, minimalist. Networking is everything.` },
+      fi: { title: 'Luovat alat', content: `# Luovat alat 🎨\n\n**Pelit & Muotoilu.**\n\n* **Pelit:** Suuri ala Suomessa. Hyvin kansainvälinen.\n* **Muotoilu:** Funktionaalista. Verkostot ovat kaikkea.` }
+  },
+  'prof_logistics': {
+      en: { title: 'Logistics', content: `# Logistics & Driving 🚚\n\n**Easy Entry.**\n\n* **Driving:** Need a valid license (convert yours!). C-license is valuable.\n* **Warehousing:** Physical work, often through staffing agencies.` },
+      fi: { title: 'Logistiikka', content: `# Logistiikka 🚚\n\n**Helppo pääsy.**\n\n* **Ajaminen:** Tarvitset ajokortin.\n* **Varastotyö:** Fyysistä, usein vuokrafirmojen kautta.` }
+  },
+  // Existing hands-on
+  'prof_general': { en: { title: 'General Work', content: `General advice.` }, fi: { title: 'Yleinen työ', content: `Yleisohjeet.` } },
+  'prof_health': { en: { title: 'Healthcare', content: `Nursing.` }, fi: { title: 'Hoitoala', content: `Hoitotyö.` } },
+  'prof_service': { en: { title: 'Service', content: `Cleaning & Food.` }, fi: { title: 'Palveluala', content: `Siivous & Ruoka.` } },
+  'prof_construction': { en: { title: 'Construction', content: `Cards needed.` }, fi: { title: 'Rakennusala', content: `Kortit vaaditaan.` } },
+
+  // --- LIFE (New) ---
+  'housing_general': { en: { title: 'Finding Housing', content: `Oikotie & Vuokraovi.` }, fi: { title: 'Asunnonhaku', content: `Oikotie & Vuokraovi.` } },
+  'housing_contracts': {
+      en: { title: 'Rental Contracts', content: `# The Lease 📝\n\n* **Deposit:** Usually 2 months.\n* **Notice:** Usually 1 calendar month for tenant.\n* **Home Insurance:** Mandatory.` },
+      fi: { title: 'Vuokrasopimus', content: `# Sopimus 📝\n\n* **Takuuvuokra:** Yleensä 2kk.\n* **Irtisanominen:** 1kk.\n* **Kotivakuutus:** Pakollinen.` }
+  },
+  'housing_recycling': {
+      en: { title: 'Recycling', content: `# Recycling Rules ♻️\n\nFinns are strict.\n\n* **Bio:** Food waste.\n* **Carton:** Milk cartons, boxes.\n* **Plastic:** Packaging.\n* **Bottles:** Return to store for money (Pantti)!` },
+      fi: { title: 'Kierrätys', content: `# Kierrätys ♻️\n\n* **Bio:** Ruoka.\n* **Kartonki:** Tölkit.\n* **Muovi:** Pakkaukset.\n* **Pullot:** Palauta kauppaan (Pantti)!` }
+  },
+  'transport_public': { en: { title: 'Public Transport', content: `HSL & VR.` }, fi: { title: 'Julkinen liikenne', content: `HSL & VR.` } },
+  'transport_driving': {
+      en: { title: 'Driving', content: `# Driving in Finland 🚗\n\n* **Winter:** Winter tires are mandatory Dec-Feb.\n* **License:** EU licenses valid. Non-EU must be exchanged within 2 years.` },
+      fi: { title: 'Ajaminen', content: `# Ajaminen 🚗\n\n* **Talvi:** Talvirenkaat pakolliset.\n* **Kortti:** EU-kortit käyvät.` }
+  },
+
+  // --- FAMILY (New) ---
+  'family_neuvola': { en: { title: 'Neuvola', content: `Child health.` }, fi: { title: 'Neuvola', content: `Lastenneuvola.` } },
+  'family_daycare': { en: { title: 'Daycare', content: `Päiväkoti.` }, fi: { title: 'Päiväkoti', content: `Varhaiskasvatus.` } },
+  'family_teens': { en: { title: 'Teens', content: `Wilma.` }, fi: { title: 'Nuoret', content: `Wilma.` } },
+  'family_school_system': {
+      en: { title: 'School System', content: `# Comprehensive School 🎒\n\n**Peruskoulu.**\n\n* **Free:** Everything. Lunch, books, tools.\n* **Start:** Age 7.\n* **Quality:** One of the best in the world. No need to shop for "good schools", the nearest one is good.` },
+      fi: { title: 'Koulujärjestelmä', content: `# Peruskoulu 🎒\n\n* **Ilmainen:** Kaikki. Ruoka, kirjat.\n* **Alkaa:** 7-vuotiaana.\n* **Laatu:** Lähikoulu on paras koulu.` }
+  },
+  'family_hobbies': {
+      en: { title: 'Hobbies', content: `# Hobbies (Harrastukset) ⚽\n\nCritical for kids' social life.\n\n* **Sports:** Football, Ice Hockey, Floorball.\n* **Arts:** Music schools (Musiikkiopisto).\n* **Cost:** Can be high, but cities support low-income families.` },
+      fi: { title: 'Harrastukset', content: `# Harrastukset ⚽\n\nTärkeää sosiaalistumiselle.\n\n* **Urheilu:** Jalkapallo, Jääkiekko, Salibandy.\n* **Taide:** Musiikkiopisto.` }
+  },
+
+  // --- LANGUAGE (New) ---
+  'lang_roadmap': { en: { title: 'Roadmap', content: `Learning plan.` }, fi: { title: 'Tiekartta', content: `Oppimissuunnitelma.` } },
+  'culture_norms': { en: { title: 'Norms', content: `Social rules.` }, fi: { title: 'Normit', content: `Säännöt.` } },
+  'lang_courses': {
+      en: { title: 'Finding Courses', content: `# Courses 🏫\n\n* **Finnishcourses.fi:** The big search engine.\n* **Työväenopisto:** Cheap evening classes.\n* **Yle:** Free online materials.` },
+      fi: { title: 'Kielikurssit', content: `# Kurssit 🏫\n\n* **Finnishcourses.fi:** Hakukone.\n* **Työväenopisto:** Halvat iltakurssit.` }
+  },
+  'lang_yki': {
+      en: { title: 'YKI Test', content: `# YKI Certificate 📜\n\n**For Citizenship.**\n\n* **Level:** You need Intermediate (Keskitaso) level 3 or 4.\n* **Booking:** Be fast! Tests fill up in minutes.` },
+      fi: { title: 'YKI-testi', content: `# YKI-todistus 📜\n\n**Kansalaisuutta varten.**\n\n* **Taso:** Keskitaso 3 tai 4.\n* **Varaus:** Ole nopea!` }
+  },
+  'lang_puhu': {
+      en: { title: 'Dare to Speak', content: `# Puhu rohkeasti 🗣️\n\nFinns might switch to English to be "polite".\n\n* **Strategy:** Say "Puhun suomea" (I speak Finnish) and continue in Finnish.\n* **Mistakes:** Nobody cares. Just communicate.` },
+      fi: { title: 'Puhu rohkeasti', content: `# Puhu rohkeasti 🗣️\n\nSuomalaiset vaihtavat helposti englantiin.\n\n* **Strategia:** Sano "Puhun suomea".\n* **Virheet:** Ei haittaa.` }
   }
 };
 
@@ -362,86 +481,153 @@ const ARTICLE_CONTENT: Record<string, Record<string, ContentSet>> = {
 
 // Helper to safely get content with fallback
 const getContent = (id: string, lang: LanguageCode): ContentSet => {
-  const article = ARTICLE_CONTENT[id] || ARTICLE_CONTENT[id.replace('_', '')]; // Resilience
+  const article = ARTICLE_CONTENT[id];
   
   if (!article) {
-      // If article entirely missing from map, return placeholder
-      return { title: 'Content Pending', content: 'This guide is being written.' };
+      return { title: getTitle(id, lang, 'Guide'), content: 'Content updating...' };
   }
   
-  // 1. Try exact language
+  // 1. Try exact language body
   if (article[lang]) return article[lang];
   
-  // 2. Try English
-  if (article['en']) return article['en'];
+  // 2. Fallback to English Body, but use Localized Title if available in lookup
+  const fallback = article['en'];
+  if (fallback) {
+      return {
+          title: getTitle(id, lang, fallback.title),
+          content: fallback.content // Content remains EN
+      };
+  }
   
-  // 3. Fallback to any available
-  return Object.values(article)[0];
+  return { title: 'Content Pending', content: 'This guide is being written.' };
 };
 
 // Helper to get localized Category Titles
 const getCatTitle = (id: string, lang: LanguageCode): string => {
     const titles: Record<string, Record<string, string>> = {
         foundation: {
-            en: 'Bureaucracy & Legal', et: 'Bürokraatia', ar: 'البيروقراطية والقانون', so: 'Xafiisyada & Sharciga',
-            fa: 'اداری و قانونی', ku: 'Burokrasî & Yasayî', zh: '官僚与法律', sq: 'Burokracia & Ligji',
-            uk: 'Бюрократія та Закон', es: 'Burocracia y Legal', tr: 'Bürokrasi ve Hukuk',
-            vi: 'Hành chính & Pháp lý', ru: 'Бюрократия и Закон', 'pt-br': 'Burocracia', 'pt-pt': 'Burocracia',
-            fi: 'Byrokratia & Laki', th: 'ระบบราชการและกฎหมาย'
+            en: 'The Essentials', et: 'Põhitõed', ar: 'الأساسيات', fi: 'Perusasiat',
+            ru: 'Основы', uk: 'Основи', th: 'สิ่งจำเป็น', vi: 'Cơ bản',
+            zh: '基本要素', es: 'Lo esencial', tr: 'Temel Bilgiler',
+            fa: 'اصول اولیه', ku: 'Bingehîn', sq: 'Bazat', pt: 'O Essencial', so: 'Aasaaska'
         },
-        professions: {
-            en: 'Profession Guides', et: 'Ametijuhendid', ar: 'دليل المهن', so: 'Hagaha Xirfadaha',
-            fa: 'راهنمای مشاغل', ku: 'Rêberên Pîşeyî', zh: '职业指南', sq: 'Udhëzues Profesionesh',
-            uk: 'Гід по професіях', es: 'Guías Profesionales', tr: 'Meslek Rehberleri',
-            vi: 'Hướng dẫn nghề nghiệp', ru: 'Гид по профессиям', 'pt-br': 'Profissões', 'pt-pt': 'Profissões',
-            fi: 'Ammattioppaat', th: 'คู่มืออาชีพ'
+        job_strategy: {
+            en: 'Job Search Strategy', et: 'Tööotsingu strateegia', ar: 'استراتيجية البحث عن عمل',
+            fi: 'Työnhakustrategia', ru: 'Стратегия поиска работы', uk: 'Стратегія пошуку роботи',
+            th: 'กลยุทธ์การหางาน', vi: 'Chiến lược tìm việc',
+            zh: '求职策略', es: 'Estrategia de búsqueda', tr: 'İş Arama Stratejisi',
+            fa: 'استراتژی جستجوی کار', ku: 'Stratejiya lêgerîna kar', sq: 'Strategjia e kërkimit', pt: 'Estratégia de Emprego', so: 'Qorshaha Shaqo Raadinta'
         },
-        family: {
-            en: 'Family & Education', et: 'Pere ja Haridus', ar: 'الأسرة والتعليم', so: 'Qoyska & Waxbarashada',
-            fa: 'خانواده و آموزش', ku: 'Malbat & Perwerde', zh: '家庭与教育', sq: 'Familja & Arsimi',
-            uk: 'Сім\'я та Освіта', es: 'Familia y Educación', tr: 'Aile ve Eğitim',
-            vi: 'Gia đình & Giáo dục', ru: 'Семья и Образование', 'pt-br': 'Família', 'pt-pt': 'Família',
-            fi: 'Perhe & Koulutus', th: 'ครอบครัวและการศึกษา'
+        workplace: {
+            en: 'Workplace Culture', et: 'Töökultuur', ar: 'ثقافة العمل',
+            fi: 'Työkulttuuri', ru: 'Рабочая культура', uk: 'Робоча культура',
+            th: 'วัฒนธรรมที่ทำงาน', vi: 'Văn hóa làm việc',
+            zh: '职场文化', es: 'Cultura laboral', tr: 'İşyeri Kültürü',
+            fa: 'فرهنگ محیط کار', ku: 'Çanda kargehê', sq: 'Kultura e punës', pt: 'Cultura de Trabalho', so: 'Dhaqanka Shaqada'
         },
-        daily_life: {
-            en: 'Daily Life & Housing', et: 'Igapäevaelu', ar: 'الحياة اليومية والسكن', so: 'Nolosha & Guriyeynta',
-            fa: 'زندگی روزمره و مسکن', ku: 'Jiyana Rojane & Xanî', zh: '日常生活与住房', sq: 'Jeta e Përditshme',
-            uk: 'Повсякденне життя', es: 'Vida Diaria', tr: 'Günlük Yaşam',
-            vi: 'Đời sống & Nhà cửa', ru: 'Повседневная жизнь', 'pt-br': 'Vida Diária', 'pt-pt': 'Vida Diária',
-            fi: 'Arki & Asuminen', th: 'ชีวิตประจำวันและที่อยู่อาศัย'
+        industries: {
+            en: 'Industry Guides', et: 'Tööstusharud', ar: 'أدلة الصناعة',
+            fi: 'Toimialaoppaat', ru: 'Гиды по отраслям', uk: 'Галузеві гіди',
+            th: 'คู่มืออุตสาหกรรม', vi: 'Hướng dẫn ngành nghề',
+            zh: '行业指南', es: 'Guías por industria', tr: 'Sektör Rehberleri',
+            fa: 'راهنمای صنایع', ku: 'Rêberên pîşesaziyê', sq: 'Udhëzues industrie', pt: 'Guias da Indústria', so: 'Tilmaamaha Warshadaha'
         },
-        culture_society: {
-            en: 'Culture & Society', et: 'Kultuur ja Ühiskond', ar: 'الثقافة والمجتمع', so: 'Dhaqanka & Bulshada',
-            fa: 'فرهنگ و جامعه', ku: 'Çand & Civak', zh: '文化与社会', sq: 'Kultura & Shoqëria',
-            uk: 'Культура та Суспільство', es: 'Cultura y Sociedad', tr: 'Kültür ve Toplum',
-            vi: 'Văn hóa & Xã hội', ru: 'Культура и Общество', 'pt-br': 'Cultura', 'pt-pt': 'Cultura',
-            fi: 'Kulttuuri & Yhteiskunta', th: 'วัฒนธรรมและสังคม'
-        },
-        job_search: {
-            en: 'Job Search', et: 'Tööotsing', ar: 'البحث عن عمل', so: 'Raadinta Shaqada',
-            fa: 'جستجوی کار', ku: 'Lêgerîna Kar', zh: '求职', sq: 'Kërkimi i Punës',
-            uk: 'Пошук роботи', es: 'Búsqueda de Empleo', tr: 'İş Arama',
-            vi: 'Tìm việc', ru: 'Поиск работы', 'pt-br': 'Empregos', 'pt-pt': 'Empregos',
-            fi: 'Työnhaku', th: 'การหางาน'
-        },
-        work_culture: {
-            en: 'Work Culture', et: 'Töökultuur', ar: 'ثقافة العمل', so: 'Dhaqanka Shaqada',
-            fa: 'فرهنگ کار', ku: 'Çanda Xebatê', zh: '工作文化', sq: 'Kultura e Punës',
-            uk: 'Робоча культура', es: 'Cultura Laboral', tr: 'Çalışma Kültürü',
-            vi: 'Văn hóa làm việc', ru: 'Рабочая культура', 'pt-br': 'Cultura de Trabalho', 'pt-pt': 'Cultura de Trabalho',
-            fi: 'Työkulttuuri', th: 'วัฒนธรรมการทำงาน'
-        },
-        learning_finnish: {
-            en: 'Learning Finnish', et: 'Soome keele õpe', ar: 'تعلم الفنلندية', so: 'Barashada Finnishka',
-            fa: 'یادگیری فنلاندی', ku: 'Fêrbûna Fînî', zh: '学习芬兰语', sq: 'Mëso Finlandishten',
-            uk: 'Вивчення мови', es: 'Aprender Finés', tr: 'Fince Öğrenimi',
-            vi: 'Học tiếng Phần Lan', ru: 'Изучение финского', 'pt-br': 'Aprender Finlandês', 'pt-pt': 'Aprender Finlandês',
-            fi: 'Suomen kielen oppiminen', th: 'การเรียนภาษาฟินแลนด์'
+        life: {
+            en: 'Life & Balance', et: 'Elu ja tasakaal', ar: 'الحياة والتوازن',
+            fi: 'Elämä & Tasapaino', ru: 'Жизнь и баланс', uk: 'Життя та баланс',
+            th: 'ชีวิตและความสมดุล', vi: 'Cuộc sống & Cân bằng',
+            zh: '生活与平衡', es: 'Vida y equilibrio', tr: 'Yaşam ve Denge',
+            fa: 'زندگی و تعادل', ku: 'Jiyan û hevsengî', sq: 'Jeta dhe ekuilibri', pt: 'Vida e Equilíbrio', so: 'Nolosha & Dheelitirka'
         }
     };
     
+    // Normalize lang
+    const code = lang.toLowerCase();
+    const base = code.split('-')[0];
     const catTitles = titles[id];
-    return catTitles?.[lang] || catTitles?.['en'] || id;
+    
+    return catTitles?.[code] || catTitles?.[base] || catTitles?.['en'] || id;
+};
+
+const getSubTitle = (id: string, lang: LanguageCode): string => {
+    const titles: Record<string, Record<string, string>> = {
+        identity: { 
+            en: 'Identity & Permits', fi: 'Henkilöllisyys & luvat', vi: 'Danh tính & Giấy phép',
+            zh: '身份与许可', es: 'Identidad y permisos', tr: 'Kimlik ve İzinler', 
+            ar: 'الهوية والتصاريح', uk: 'Особистість та дозволи', pt: 'Identidade e Permissões',
+            ru: 'Личность и разрешения', fa: 'هویت و مجوزها'
+        },
+        security: { 
+            en: 'Social Security', fi: 'Sosiaaliturva', vi: 'An sinh xã hội',
+            zh: '社会保障', es: 'Seguridad Social', tr: 'Sosyal Güvenlik',
+            ar: 'الضمان الاجتماعي', uk: 'Соціальне забезпечення', pt: 'Segurança Social',
+            ru: 'Социальное обеспечение', fa: 'تامین اجتماعی'
+        },
+        market: { 
+            en: 'The Market', fi: 'Työmarkkinat', vi: 'Thị trường lao động',
+            zh: '就业市场', es: 'El Mercado', tr: 'İş Piyasası',
+            ar: 'سوق العمل', uk: 'Ринок праці', pt: 'O Mercado',
+            ru: 'Рынок труда', fa: 'بازار کار'
+        },
+        tools: { 
+            en: 'Tools', fi: 'Työkalut', vi: 'Công cụ',
+            zh: '求职工具', es: 'Herramientas', tr: 'Araçlar',
+            ar: 'الأدوات', uk: 'Інструменти', pt: 'Ferramentas',
+            ru: 'Инструменты', fa: 'ابزارها'
+        },
+        rights: { 
+            en: 'Rights & Bias', fi: 'Oikeudet & Syrjintä', vi: 'Quyền lợi',
+            zh: '权利与偏见', es: 'Derechos y sesgos', tr: 'Haklar',
+            ar: 'الحقوق والتحيز', uk: 'Права', pt: 'Direitos',
+            ru: 'Права', fa: 'حقوق'
+        },
+        social: { 
+            en: 'Social Rituals', fi: 'Sosiaaliset rituaalit', vi: 'Nghi thức xã hội',
+            zh: '社交礼仪', es: 'Rituales sociales', tr: 'Sosyal Ritüeller',
+            ar: 'الطقوس الاجتماعية', uk: 'Соціальні ритуали', pt: 'Rituais Sociais',
+            ru: 'Социальные ритуалы', fa: 'آداب اجتماعی'
+        },
+        norms: { 
+            en: 'Professional Norms', fi: 'Ammatilliset normit', vi: 'Quy tắc nghề nghiệp',
+            zh: '职业规范', es: 'Normas profesionales', tr: 'Profesyonel Normlar',
+            ar: 'المعايير المهنية', uk: 'Професійні норми', pt: 'Normas Profissionais',
+            ru: 'Профессиональные нормы', fa: 'هنجارهای حرفه‌ای'
+        },
+        specialist: { 
+            en: 'Specialist Roles', fi: 'Asiantuntijat', vi: 'Chuyên gia',
+            zh: '专家角色', es: 'Roles especializados', tr: 'Uzmanlık Rolleri',
+            ar: 'الأدوار المتخصصة', uk: 'Спеціалісти', pt: 'Funções Especializadas',
+            ru: 'Специалисты', fa: 'نقش‌های تخصصی'
+        },
+        hands_on: { 
+            en: 'Hands-on Work', fi: 'Käytännön työ', vi: 'Lao động phổ thông',
+            zh: '实操工作', es: 'Trabajo manual', tr: 'Pratik İşler',
+            ar: 'العمل اليدوي', uk: 'Робочі спеціальності', pt: 'Trabalho Prático',
+            ru: 'Рабочие специальности', fa: 'کارهای عملی'
+        },
+        housing: { 
+            en: 'Housing & Transport', fi: 'Asuminen & Liikenne', vi: 'Nhà ở & Đi lại',
+            zh: '住房与交通', es: 'Vivienda y transporte', tr: 'Konut ve Ulaşım',
+            ar: 'السكن والمواصلات', uk: 'Житло та транспорт', pt: 'Habitação e Transporte',
+            ru: 'Жилье и транспорт', fa: 'مسکن و حمل و نقل'
+        },
+        family: { 
+            en: 'Family Support', fi: 'Perhe', vi: 'Gia đình',
+            zh: '家庭支持', es: 'Apoyo familiar', tr: 'Aile Desteği',
+            ar: 'دعم الأسرة', uk: 'Підтримка сім\'ї', pt: 'Apoio Familiar',
+            ru: 'Поддержка семьи', fa: 'حمایت از خانواده'
+        },
+        language: { 
+            en: 'Language', fi: 'Kieli', vi: 'Ngôn ngữ',
+            zh: '语言', es: 'Idioma', tr: 'Dil',
+            ar: 'اللغة', uk: 'Мова', pt: 'Idioma',
+            ru: 'Язык', fa: 'زبان'
+        }
+    };
+    const code = lang.toLowerCase();
+    const base = code.split('-')[0];
+    const t = titles[id];
+    return t?.[code] || t?.[base] || t?.['en'] || id;
 };
 
 export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
@@ -456,190 +642,32 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
         shadow: 'hover:shadow-slate-100 dark:hover:shadow-slate-900/50',
         hoverBg: 'group-hover:bg-slate-50 dark:group-hover:bg-slate-900/50'
       },
-      articles: [
+      subsections: [
         {
-          id: 'guide_start',
-          icon: 'Flag',
-          tags: ['general', 'arrival', 'mandatory'],
-          ...getContent('guide_start', lang)
+            title: getSubTitle('identity', lang),
+            articles: [
+                { id: 'guide_start', icon: 'Flag', tags: ['general', 'arrival'], ...getContent('guide_start', lang) },
+                { id: 'bureaucracy_dvv', icon: 'Fingerprint', tags: ['general', 'arrival'], ...getContent('bureaucracy_dvv', lang) },
+                { id: 'bureaucracy_migri', icon: 'CreditCard', tags: ['general', 'arrival'], ...getContent('bureaucracy_migri', lang) },
+                { id: 'bureaucracy_strong_auth', icon: 'Key', tags: ['general', 'arrival'], ...getContent('bureaucracy_strong_auth', lang) },
+                { id: 'bureaucracy_tax', icon: 'Percent', tags: ['general', 'work'], ...getContent('bureaucracy_tax', lang) }
+            ]
         },
         {
-          id: 'bureaucracy_dvv',
-          icon: 'Fingerprint',
-          tags: ['general', 'arrival', 'mandatory'],
-          ...getContent('bureaucracy_dvv', lang)
-        },
-        {
-          id: 'bureaucracy_migri',
-          icon: 'CreditCard',
-          tags: ['general', 'arrival', 'mandatory'],
-          ...getContent('bureaucracy_migri', lang)
-        },
-        {
-          id: 'bureaucracy_strong_auth',
-          icon: 'Key',
-          tags: ['general', 'arrival', 'mandatory'],
-          ...getContent('bureaucracy_strong_auth', lang)
-        },
-        {
-          id: 'bureaucracy_tax',
-          icon: 'Percent',
-          tags: ['general', 'work', 'mandatory'],
-          ...getContent('bureaucracy_tax', lang)
-        },
-        {
-          id: 'bureaucracy_kela',
-          icon: 'Umbrella',
-          tags: ['general', 'family'],
-          ...getContent('bureaucracy_kela', lang)
+            title: getSubTitle('security', lang),
+            articles: [
+                { id: 'bureaucracy_kela', icon: 'Umbrella', tags: ['general', 'family'], ...getContent('bureaucracy_kela', lang) },
+                { id: 'health_services', icon: 'Stethoscope', tags: ['general', 'health'], ...getContent('health_services', lang) },
+                { id: 'social_unemployment', icon: 'Briefcase', tags: ['work', 'benefits'], ...getContent('social_unemployment', lang) },
+                { id: 'social_housing', icon: 'Home', tags: ['housing', 'benefits'], ...getContent('social_housing', lang) },
+                { id: 'social_pension', icon: 'Coins', tags: ['work', 'future'], ...getContent('social_pension', lang) }
+            ]
         }
       ]
     },
     {
-      id: 'professions',
-      title: getCatTitle('professions', lang),
-      icon: 'HardHat',
-      theme: { 
-        border: 'border-zinc-600 dark:border-zinc-500', 
-        text: 'text-zinc-600 dark:text-zinc-400', 
-        shadow: 'hover:shadow-zinc-100 dark:hover:shadow-zinc-900/50',
-        hoverBg: 'group-hover:bg-zinc-50 dark:group-hover:bg-zinc-900/50'
-      },
-      articles: [
-        {
-          id: 'prof_general',
-          icon: 'Briefcase',
-          tags: ['worker', 'general', 'mandatory'],
-          ...getContent('prof_general', lang)
-        },
-        {
-          id: 'prof_tech',
-          icon: 'Code',
-          tags: ['worker', 'tech', 'it'],
-          ...getContent('prof_tech', lang)
-        },
-        {
-          id: 'prof_health',
-          icon: 'Stethoscope',
-          tags: ['worker', 'health', 'nursing'],
-          ...getContent('prof_health', lang)
-        },
-        {
-          id: 'prof_service',
-          icon: 'Utensils',
-          tags: ['worker', 'service', 'cleaning'],
-          ...getContent('prof_service', lang)
-        },
-        {
-          id: 'prof_construction',
-          icon: 'Hammer',
-          tags: ['worker', 'construction', 'logistics'],
-          ...getContent('prof_construction', lang)
-        },
-        {
-          id: 'prof_academia',
-          icon: 'GraduationCap',
-          tags: ['worker', 'education', 'research'],
-          ...getContent('prof_academia', lang)
-        }
-      ]
-    },
-    {
-      id: 'family',
-      title: getCatTitle('family', lang),
-      icon: 'Baby',
-      theme: { 
-        border: 'border-pink-600 dark:border-pink-500', 
-        text: 'text-pink-600 dark:text-pink-400', 
-        shadow: 'hover:shadow-pink-100 dark:hover:shadow-pink-900/50',
-        hoverBg: 'group-hover:bg-pink-50 dark:group-hover:bg-pink-900/50'
-      },
-      articles: [
-        {
-          id: 'family_neuvola',
-          icon: 'Heart',
-          tags: ['family', 'health', 'arrival'],
-          ...getContent('family_neuvola', lang)
-        },
-        {
-          id: 'family_daycare',
-          icon: 'Sprout',
-          tags: ['family', 'education'],
-          ...getContent('family_daycare', lang)
-        },
-        {
-          id: 'family_teens',
-          icon: 'Headphones',
-          tags: ['family', 'youth'],
-          ...getContent('family_teens', lang)
-        }
-      ]
-    },
-    {
-      id: 'daily_life',
-      title: getCatTitle('daily_life', lang),
-      icon: 'Home',
-      theme: { 
-        border: 'border-orange-600 dark:border-orange-500', 
-        text: 'text-orange-600 dark:text-orange-400', 
-        shadow: 'hover:shadow-orange-100 dark:hover:shadow-orange-900/50',
-        hoverBg: 'group-hover:bg-orange-50 dark:group-hover:bg-orange-900/50'
-      },
-      articles: [
-        {
-          id: 'housing_general',
-          icon: 'Home',
-          tags: ['general', 'arrival'],
-          ...getContent('housing_general', lang)
-        },
-        {
-          id: 'health_services',
-          icon: 'Stethoscope',
-          tags: ['general', 'health'],
-          ...getContent('health_services', lang)
-        },
-        {
-          id: 'transport_public',
-          icon: 'Train',
-          tags: ['general', 'daily'],
-          ...getContent('transport_public', lang)
-        }
-      ]
-    },
-    {
-      id: 'culture_society',
-      title: getCatTitle('culture_society', lang),
-      icon: 'Globe',
-      theme: { 
-        border: 'border-purple-600 dark:border-purple-500', 
-        text: 'text-purple-600 dark:text-purple-400', 
-        shadow: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/50',
-        hoverBg: 'group-hover:bg-purple-50 dark:group-hover:bg-purple-900/50'
-      },
-      articles: [
-        {
-          id: 'culture_religion',
-          icon: 'Church',
-          tags: ['culture', 'daily'],
-          ...getContent('culture_religion', lang)
-        },
-        {
-          id: 'culture_holidays',
-          icon: 'Calendar',
-          tags: ['culture', 'daily'],
-          ...getContent('culture_holidays', lang)
-        },
-        {
-          id: 'culture_norms',
-          icon: 'Coffee',
-          tags: ['culture', 'daily'],
-          ...getContent('culture_norms', lang)
-        }
-      ]
-    },
-    {
-      id: 'job_search',
-      title: getCatTitle('job_search', lang),
+      id: 'job_strategy',
+      title: getCatTitle('job_strategy', lang),
       icon: 'Briefcase',
       theme: { 
         border: 'border-blue-600 dark:border-blue-500', 
@@ -647,36 +675,42 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
         shadow: 'hover:shadow-blue-100 dark:hover:shadow-blue-900/50',
         hoverBg: 'group-hover:bg-blue-50 dark:group-hover:bg-blue-900/50'
       },
-      articles: [
-        {
-          id: 'job_market_overview',
-          icon: 'LayoutGrid',
-          tags: ['worker', 'general'],
-          ...getContent('job_market_overview', lang)
-        },
-        {
-          id: 'job_networking',
-          icon: 'Users',
-          tags: ['worker', 'networking', 'mandatory'],
-          ...getContent('job_networking', lang)
-        },
-        {
-          id: 'job_cv_standards',
-          icon: 'FileText',
-          tags: ['worker', 'student', 'mandatory'],
-          ...getContent('job_cv_standards', lang)
-        },
-        {
-          id: 'job_bias',
-          icon: 'Scale',
-          tags: ['worker', 'discrimination'],
-          ...getContent('job_bias', lang)
-        }
+      subsections: [
+          {
+              title: getSubTitle('market', lang),
+              articles: [
+                  { id: 'job_market_overview', icon: 'LayoutGrid', tags: ['worker', 'general'], ...getContent('job_market_overview', lang) },
+                  { id: 'job_networking', icon: 'Users', tags: ['worker', 'networking'], ...getContent('job_networking', lang) },
+                  { id: 'job_te_office', icon: 'Building', tags: ['worker', 'unemployment'], ...getContent('job_te_office', lang) },
+                  { id: 'job_portals', icon: 'Search', tags: ['worker', 'search'], ...getContent('job_portals', lang) },
+                  { id: 'job_entrepreneurship', icon: 'Rocket', tags: ['worker', 'business'], ...getContent('job_entrepreneurship', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('tools', lang),
+              articles: [
+                  { id: 'job_cv_standards', icon: 'FileText', tags: ['worker', 'student'], ...getContent('job_cv_standards', lang) },
+                  { id: 'job_cover_letter', icon: 'PenTool', tags: ['worker', 'application'], ...getContent('job_cover_letter', lang) },
+                  { id: 'job_linkedin', icon: 'Linkedin', tags: ['worker', 'networking'], ...getContent('job_linkedin', lang) },
+                  { id: 'job_interview', icon: 'Mic', tags: ['worker', 'interview'], ...getContent('job_interview', lang) },
+                  { id: 'job_recognition', icon: 'Award', tags: ['worker', 'degree'], ...getContent('job_recognition', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('rights', lang),
+              articles: [
+                  { id: 'work_unions', icon: 'Handshake', tags: ['worker', 'rights'], ...getContent('work_unions', lang) },
+                  { id: 'job_bias', icon: 'Scale', tags: ['worker', 'discrimination'], ...getContent('job_bias', lang) },
+                  { id: 'work_contract', icon: 'FileSignature', tags: ['worker', 'contract'], ...getContent('work_contract', lang) },
+                  { id: 'work_hours', icon: 'Clock', tags: ['worker', 'contract'], ...getContent('work_hours', lang) },
+                  { id: 'work_holidays', icon: 'Palmtree', tags: ['worker', 'contract'], ...getContent('work_holidays', lang) }
+              ]
+          }
       ]
     },
     {
-      id: 'work_culture',
-      title: getCatTitle('work_culture', lang),
+      id: 'workplace',
+      title: getCatTitle('workplace', lang),
       icon: 'Coffee',
       theme: { 
         border: 'border-emerald-600 dark:border-emerald-500', 
@@ -684,56 +718,103 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
         shadow: 'hover:shadow-emerald-100 dark:hover:shadow-emerald-900/50',
         hoverBg: 'group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/50'
       },
-      articles: [
-        {
-          id: 'culture_essentials',
-          icon: 'Shield',
-          tags: ['culture', 'worker'],
-          ...getContent('culture_essentials', lang)
-        },
-        {
-          id: 'culture_hierarchy',
-          icon: 'Users',
-          tags: ['culture', 'worker'],
-          ...getContent('culture_hierarchy', lang)
-        },
-        {
-          id: 'work_coffee',
-          icon: 'Coffee',
-          tags: ['culture', 'worker', 'daily'],
-          ...getContent('work_coffee', lang)
-        },
-        {
-          id: 'work_social',
-          icon: 'GlassWater', // Fallback to icon
-          tags: ['culture', 'worker', 'social'],
-          ...getContent('work_social', lang)
-        },
-        {
-          id: 'work_unions',
-          icon: 'Handshake',
-          tags: ['worker', 'rights'],
-          ...getContent('work_unions', lang)
-        }
+      subsections: [
+          {
+              title: getSubTitle('norms', lang),
+              articles: [
+                  { id: 'culture_essentials', icon: 'Shield', tags: ['culture', 'worker'], ...getContent('culture_essentials', lang) },
+                  { id: 'culture_hierarchy', icon: 'Users', tags: ['culture', 'worker'], ...getContent('culture_hierarchy', lang) },
+                  { id: 'culture_meetings', icon: 'Calendar', tags: ['culture', 'worker'], ...getContent('culture_meetings', lang) },
+                  { id: 'culture_feedback', icon: 'MessageCircle', tags: ['culture', 'worker'], ...getContent('culture_feedback', lang) },
+                  { id: 'culture_emails', icon: 'Mail', tags: ['culture', 'worker'], ...getContent('culture_emails', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('social', lang),
+              articles: [
+                  { id: 'work_coffee', icon: 'Coffee', tags: ['culture', 'worker'], ...getContent('work_coffee', lang) },
+                  { id: 'work_social', icon: 'GlassWater', tags: ['culture', 'worker'], ...getContent('work_social', lang) },
+                  { id: 'culture_names', icon: 'Tag', tags: ['culture', 'social'], ...getContent('culture_names', lang) },
+                  { id: 'culture_lunch', icon: 'Utensils', tags: ['culture', 'social'], ...getContent('culture_lunch', lang) },
+                  { id: 'culture_afterwork', icon: 'Beer', tags: ['culture', 'social'], ...getContent('culture_afterwork', lang) }
+              ]
+          }
       ]
     },
     {
-      id: 'learning_finnish',
-      title: getCatTitle('learning_finnish', lang),
-      icon: 'Languages',
+      id: 'industries',
+      title: getCatTitle('industries', lang),
+      icon: 'HardHat',
       theme: { 
-        border: 'border-cyan-600 dark:border-cyan-500', 
-        text: 'text-cyan-600 dark:text-cyan-400', 
-        shadow: 'hover:shadow-cyan-100 dark:hover:shadow-cyan-900/50',
-        hoverBg: 'group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/50'
+        border: 'border-zinc-600 dark:border-zinc-500', 
+        text: 'text-zinc-600 dark:text-zinc-400', 
+        shadow: 'hover:shadow-zinc-100 dark:hover:shadow-zinc-900/50',
+        hoverBg: 'group-hover:bg-zinc-50 dark:group-hover:bg-zinc-900/50'
       },
-      articles: [
-        {
-          id: 'lang_roadmap',
-          icon: 'Map',
-          tags: ['language', 'education'],
-          ...getContent('lang_roadmap', lang)
-        }
+      subsections: [
+          {
+              title: getSubTitle('specialist', lang),
+              articles: [
+                  { id: 'prof_tech', icon: 'Code', tags: ['worker', 'tech'], ...getContent('prof_tech', lang) },
+                  { id: 'prof_academia', icon: 'GraduationCap', tags: ['worker', 'education'], ...getContent('prof_academia', lang) },
+                  { id: 'prof_engineering', icon: 'Settings', tags: ['worker', 'engineering'], ...getContent('prof_engineering', lang) },
+                  { id: 'prof_business', icon: 'Briefcase', tags: ['worker', 'business'], ...getContent('prof_business', lang) },
+                  { id: 'prof_creative', icon: 'PenTool', tags: ['worker', 'creative'], ...getContent('prof_creative', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('hands_on', lang),
+              articles: [
+                  { id: 'prof_general', icon: 'Briefcase', tags: ['worker', 'general'], ...getContent('prof_general', lang) },
+                  { id: 'prof_health', icon: 'Stethoscope', tags: ['worker', 'health'], ...getContent('prof_health', lang) },
+                  { id: 'prof_service', icon: 'Utensils', tags: ['worker', 'service'], ...getContent('prof_service', lang) },
+                  { id: 'prof_construction', icon: 'Hammer', tags: ['worker', 'construction'], ...getContent('prof_construction', lang) },
+                  { id: 'prof_logistics', icon: 'Truck', tags: ['worker', 'logistics'], ...getContent('prof_logistics', lang) }
+              ]
+          }
+      ]
+    },
+    {
+      id: 'life',
+      title: getCatTitle('life', lang),
+      icon: 'Home',
+      theme: { 
+        border: 'border-purple-600 dark:border-purple-500', 
+        text: 'text-purple-600 dark:text-purple-400', 
+        shadow: 'hover:shadow-purple-100 dark:hover:shadow-purple-900/50',
+        hoverBg: 'group-hover:bg-purple-50 dark:group-hover:bg-purple-900/50'
+      },
+      subsections: [
+          {
+              title: getSubTitle('housing', lang),
+              articles: [
+                  { id: 'housing_general', icon: 'Home', tags: ['general', 'arrival'], ...getContent('housing_general', lang) },
+                  { id: 'housing_contracts', icon: 'FileText', tags: ['housing', 'legal'], ...getContent('housing_contracts', lang) },
+                  { id: 'housing_recycling', icon: 'Recycle', tags: ['housing', 'daily'], ...getContent('housing_recycling', lang) },
+                  { id: 'transport_public', icon: 'Train', tags: ['general', 'daily'], ...getContent('transport_public', lang) },
+                  { id: 'transport_driving', icon: 'Car', tags: ['general', 'daily'], ...getContent('transport_driving', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('family', lang),
+              articles: [
+                  { id: 'family_neuvola', icon: 'Heart', tags: ['family', 'health'], ...getContent('family_neuvola', lang) },
+                  { id: 'family_daycare', icon: 'Sprout', tags: ['family', 'education'], ...getContent('family_daycare', lang) },
+                  { id: 'family_school_system', icon: 'Book', tags: ['family', 'education'], ...getContent('family_school_system', lang) },
+                  { id: 'family_hobbies', icon: 'Music', tags: ['family', 'leisure'], ...getContent('family_hobbies', lang) },
+                  { id: 'family_teens', icon: 'Headphones', tags: ['family', 'youth'], ...getContent('family_teens', lang) }
+              ]
+          },
+          {
+              title: getSubTitle('language', lang),
+              articles: [
+                  { id: 'lang_roadmap', icon: 'Map', tags: ['language'], ...getContent('lang_roadmap', lang) },
+                  { id: 'lang_courses', icon: 'School', tags: ['language'], ...getContent('lang_courses', lang) },
+                  { id: 'lang_yki', icon: 'Award', tags: ['language'], ...getContent('lang_yki', lang) },
+                  { id: 'lang_puhu', icon: 'MessageCircle', tags: ['language'], ...getContent('lang_puhu', lang) },
+                  { id: 'culture_norms', icon: 'Info', tags: ['culture', 'daily'], ...getContent('culture_norms', lang) }
+              ]
+          }
       ]
     }
   ];
@@ -742,12 +823,20 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
 export const getAllFlattenedArticles = (lang: LanguageCode): EnrichedWikiArticle[] => {
   const categories = getWikiCategories(lang);
   
-  return categories.flatMap((cat, catIdx) => 
-    cat.articles.map((art, artIdx) => ({
-      ...art,
-      categoryTitle: cat.title,
-      categoryId: cat.id,
-      displayId: `${catIdx + 1}.${artIdx + 1}` 
-    }))
-  );
+  const all: EnrichedWikiArticle[] = [];
+  
+  categories.forEach((cat, catIdx) => {
+      cat.subsections.forEach((sub, subIdx) => {
+          sub.articles.forEach((art, artIdx) => {
+              all.push({
+                  ...art,
+                  categoryTitle: cat.title,
+                  categoryId: cat.id,
+                  displayId: `${catIdx + 1}.${subIdx + 1}.${artIdx + 1}`
+              });
+          });
+      });
+  });
+  
+  return all;
 };

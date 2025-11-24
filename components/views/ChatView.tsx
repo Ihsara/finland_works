@@ -3,30 +3,27 @@ import React, { useEffect, useRef } from 'react';
 import { marked } from 'marked';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
-import { Conversation, Sender, LanguageCode } from '../../types';
-import { t } from '../../data/languages';
+import { Conversation, Sender } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ChatViewProps {
-  language: LanguageCode;
   conversation: Conversation;
   isTyping: boolean;
   inputText: string;
   onInputChange: (val: string) => void;
   onSendMessage: () => void;
   onEndSession: () => void;
-  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
 }
 
 export const ChatView: React.FC<ChatViewProps> = ({
-  language,
   conversation,
   isTyping,
   inputText,
   onInputChange,
   onSendMessage,
-  onEndSession,
-  onLanguageSelect
+  onEndSession
 }) => {
+  const { t } = useLanguage();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll logic internal to the view
@@ -43,19 +40,19 @@ export const ChatView: React.FC<ChatViewProps> = ({
             FW
           </div>
           <div>
-            <h2 className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{t('chat_header_assistant', language)}</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{t('chat_header_assistant')}</h2>
             <p className="text-[10px] md:text-xs text-green-700 dark:text-green-400 flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} className="hidden sm:block" />
+          <LanguageSelector className="hidden sm:block" />
           <button 
             onClick={onEndSession}
             className="text-sm text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-400 flex items-center gap-1 px-3 py-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 transition"
           >
-            <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session', language)}</span>
+            <Icons.LogOut className="w-4 h-4" /> <span className="hidden md:inline">{t('chat_end_session')}</span>
           </button>
         </div>
       </div>
@@ -114,7 +111,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
             value={inputText}
             onChange={(e) => onInputChange(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && onSendMessage()}
-            placeholder={t('chat_placeholder', language)}
+            placeholder={t('chat_placeholder')}
             disabled={isTyping}
             className="w-full pl-4 pr-12 py-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-base text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-500 focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 focus:outline-none transition shadow-sm"
           />

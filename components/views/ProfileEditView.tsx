@@ -1,40 +1,39 @@
+
 import React from 'react';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
-import { UserProfile, LanguageCode } from '../../types';
-import { t } from '../../data/languages';
+import { UserProfile } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ProfileEditViewProps {
-  language: LanguageCode;
   profile: UserProfile | null;
   yamlInput: string;
   onYamlChange: (val: string) => void;
   onSave: () => void;
   onCancel: () => void;
-  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
   onLoadDemo: () => void;
 }
 
 export const ProfileEditView: React.FC<ProfileEditViewProps> = ({
-  language,
   profile,
   yamlInput,
   onYamlChange,
   onSave,
   onCancel,
-  onLanguageSelect,
   onLoadDemo
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col h-full animate-in fade-in duration-500">
       <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center bg-white z-50">
         <div className="flex items-center gap-3">
           <h2 className="text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900">
-            <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile', language)} (YAML)
+            <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile')} (YAML)
           </h2>
         </div>
         <div className="flex items-center gap-3">
-          <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
+          <LanguageSelector />
           <button onClick={onCancel} className="text-gray-600 hover:text-gray-800">
             <Icons.X className="w-6 h-6" />
           </button>

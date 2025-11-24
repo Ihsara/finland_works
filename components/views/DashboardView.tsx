@@ -2,15 +2,13 @@
 import React from 'react';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
-import { UserProfile, LanguageCode } from '../../types';
-import { t } from '../../data/languages';
+import { UserProfile } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { getAvatarUrl } from '../../utils/profileUtils';
 
 interface DashboardViewProps {
-  language: LanguageCode;
   profile: UserProfile | null;
   profileCompleteness: number;
-  onLanguageSelect: (code: LanguageCode, supported: boolean) => void;
   onNavigateToProfile: () => void;
   onNavigateToWiki: () => void;
   onNavigateToQuiz: () => void;
@@ -21,10 +19,8 @@ interface DashboardViewProps {
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
-  language,
   profile,
   profileCompleteness,
-  onLanguageSelect,
   onNavigateToProfile,
   onNavigateToWiki,
   onNavigateToQuiz,
@@ -33,13 +29,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigateToCvImport,
   onNavigateToSettings
 }) => {
+  const { t } = useLanguage();
   const isGuest = !profile || profile.id === 'guest';
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 overflow-y-auto">
       {/* Simple Header */}
       <div className="p-6 flex justify-between items-center">
-        <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
+        <LanguageSelector />
 
         <div className="flex items-center gap-3">
             {onNavigateToSettings && (
@@ -85,14 +82,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-6">
-          {!isGuest ? t('dash_greeting', language, { name: profile!.name?.split(' ')[0] || 'Friend' }) : t('dash_greeting_guest', language)}
+          {!isGuest ? t('dash_greeting', { name: profile!.name?.split(' ')[0] || 'Friend' }) : t('dash_greeting_guest')}
         </h1>
         <p className="text-xl text-gray-800 dark:text-gray-300 mb-12 font-light">
           {profileCompleteness < 100 && !isGuest
-            ? t('profile_completeness_hint', language)
+            ? t('profile_completeness_hint')
             : !isGuest
-              ? t('dash_subtitle', language)
-              : t('dash_subtitle_guest', language)
+              ? t('dash_subtitle')
+              : t('dash_subtitle_guest')
           }
         </p>
 
@@ -106,14 +103,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
               >
                 <Icons.BookMarked className="w-5 h-5" /> 
-                {t('dash_btn_guide', language)}
+                {t('dash_btn_guide')}
               </button>
               <button 
                 onClick={onStartChat}
                 className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
               >
                 <Icons.MessageSquare className="w-5 h-5" /> 
-                {t('landing_btn_ask', language)}
+                {t('landing_btn_ask')}
               </button>
             </>
           ) : (
@@ -124,7 +121,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
               >
                 <Icons.CheckSquare className="w-5 h-5" /> 
-                {t('landing_btn_quiz', language)}
+                {t('landing_btn_quiz')}
               </button>
               
               <button 
@@ -132,7 +129,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
               >
                 <Icons.BookOpen className="w-5 h-5" /> 
-                {t('dash_btn_browse', language)}
+                {t('dash_btn_browse')}
               </button>
 
               <button 
@@ -140,7 +137,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
               >
                 <Icons.MessageSquare className="w-5 h-5" /> 
-                {t('landing_btn_ask', language)}
+                {t('landing_btn_ask')}
               </button>
             </>
           )}
@@ -154,14 +151,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                className="flex flex-col items-center justify-center gap-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 px-4 py-4 rounded-xl font-medium text-sm transition"
              >
                 <Icons.History className="w-6 h-6" />
-                {t('dash_btn_history', language)}
+                {t('dash_btn_history')}
              </button>
              <button
                onClick={onNavigateToCvImport}
                className="flex flex-col items-center justify-center gap-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 px-4 py-4 rounded-xl font-medium text-sm transition"
              >
                 <Icons.FileText className="w-6 h-6" />
-                {t('dash_btn_cv', language)}
+                {t('dash_btn_cv')}
              </button>
           </div>
         )}
