@@ -43,4 +43,24 @@ describe('ProfileWizard', () => {
     expect(input.value).toBeTruthy();
     expect(input.value).toContain(' '); // Should likely be "Emoji Adjective Animal"
   });
+
+  it('updates content language on subsequent steps (Step 2)', () => {
+    const { rerender } = render(<ProfileWizard {...mockProps} />);
+    
+    // Advance to Step 2
+    const input = screen.getByPlaceholderText('Your name');
+    fireEvent.change(input, { target: { value: 'Test User' } });
+    const nextBtn = screen.getByText('Next');
+    fireEvent.click(nextBtn);
+
+    // Check English Step 2
+    expect(screen.getByText('How old are you?')).toBeInTheDocument();
+
+    // Change Language to Finnish
+    rerender(<ProfileWizard {...mockProps} language="fi" />);
+    
+    // Check Finnish Step 2 navigation button to confirm refresh
+    // "Seuraava" is the translation for Next in Finnish
+    expect(screen.getByText('Seuraava')).toBeInTheDocument();
+  });
 });

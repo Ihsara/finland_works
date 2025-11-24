@@ -1419,7 +1419,10 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                     {getPhaseTitle()}
                  </p>
                  
-                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white animate-in fade-in slide-in-from-left-2 duration-300 key={formData.name}">
+                 <h1 
+                    className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white animate-in fade-in slide-in-from-left-2 duration-300"
+                    key={formData.name}
+                 >
                     {formData.name.trim().length > 0 
                         ? t('wizard_title_custom', language, { name: formData.name.split(' ')[0] }) 
                         : t('wizard_title_init', language)
@@ -1440,7 +1443,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
        </div>
 
        <div className="flex-1 px-6 md:px-8 overflow-y-auto pb-32">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto" key={`${step}-${language}`}>
              {renderStepContent()}
           </div>
        </div>
