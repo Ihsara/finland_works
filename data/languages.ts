@@ -4,19 +4,20 @@ import { AppLanguage, LanguageCode } from "../types";
 export const SUPPORTED_LANGUAGES: AppLanguage[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧', supported: true },
   { code: 'fi', name: 'Finnish', nativeName: 'Suomi', flag: '🇫🇮', supported: true },
-  { code: 'th', name: 'Thai', nativeName: 'ไทย', flag: '🇹🇭', supported: true },
-  { code: 'et', name: 'Estonian', nativeName: 'Eesti keel', flag: '🇪🇪', supported: true },
+  // Ordered by approximate speaker population in Finland / Strategic Importance
   { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', supported: true },
+  { code: 'et', name: 'Estonian', nativeName: 'Eesti keel', flag: '🇪🇪', supported: true },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', supported: true, rtl: true },
+  { code: 'uk', name: 'Ukrainian', nativeName: 'Українська', flag: '🇺🇦', supported: true },
   { code: 'so', name: 'Somali', nativeName: 'Af-Soomaali', flag: '🇸🇴', supported: true },
   { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷', supported: true, rtl: true },
   { code: 'ku', name: 'Kurdish', nativeName: 'Kurdî', flag: '🇹🇯', supported: true, rtl: true }, // Flag approximation
   { code: 'zh', name: 'Chinese', nativeName: '中文', flag: '🇨🇳', supported: true },
   { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳', supported: true },
+  { code: 'th', name: 'Thai', nativeName: 'ไทย', flag: '🇹🇭', supported: true },
   { code: 'sq', name: 'Albanian', nativeName: 'Shqip', flag: '🇦🇱', supported: true },
-  { code: 'uk', name: 'Ukrainian', nativeName: 'Українська', flag: '🇺🇦', supported: true },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', supported: true },
   { code: 'tr', name: 'Turkish', nativeName: 'Türkçe', flag: '🇹🇷', supported: true },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', supported: true },
   { code: 'pt-br', name: 'Portuguese (BR)', nativeName: 'Português (BR)', flag: '🇧🇷', supported: true },
   { code: 'pt-pt', name: 'Portuguese (PT)', nativeName: 'Português (PT)', flag: '🇵🇹', supported: true },
 ];

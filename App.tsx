@@ -69,10 +69,39 @@ const App: React.FC = () => {
       setApiKey(process.env.API_KEY);
     }
 
-    // 2. Language
+    // 2. Language Detection
     const storedLang = localStorage.getItem('fw_language') as LanguageCode;
     if (storedLang && SUPPORTED_LANGUAGES.some(l => l.code === storedLang)) {
       setLanguage(storedLang);
+    } else {
+      // Auto-detect from browser
+      const browserLangs = navigator.languages || [navigator.language];
+      
+      // Helper to match browser code to app code
+      const findMatch = (input: string): LanguageCode | undefined => {
+        const lower = input.toLowerCase();
+        // 1. Exact match (e.g. 'fi', 'pt-br')
+        const exact = SUPPORTED_LANGUAGES.find(l => l.code === lower);
+        if (exact) return exact.code;
+        
+        // 2. Base match (e.g. 'en-US' -> 'en')
+        const base = lower.split('-')[0];
+        const baseMatch = SUPPORTED_LANGUAGES.find(l => l.code === base);
+        if (baseMatch) return baseMatch.code;
+        
+        return undefined;
+      };
+
+      for (const lang of browserLangs) {
+          const match = findMatch(lang);
+          if (match) {
+              setLanguage(match);
+              // We do NOT automatically save this to localStorage yet.
+              // We let the user confirm it implicitly by using the app, 
+              // or explicitly by changing it.
+              break;
+          }
+      }
     }
 
     // 3. Theme Initialization
