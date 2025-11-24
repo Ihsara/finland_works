@@ -38,6 +38,7 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
       // Basic mappings for common profile values
       if (val.includes('Solo')) return t('wizard_marital_solo_title');
       if (val.includes('Partnered')) return t('wizard_marital_pair_title');
+      if (val.includes('Accompanied')) return t('wizard_marital_pair_title');
       // Fallback
       return val;
   };

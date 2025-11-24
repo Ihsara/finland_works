@@ -226,7 +226,7 @@ const MaritalSelector = ({ current, onSelect, t }: { current: string, onSelect: 
       },
       { 
           id: 'Partnered', 
-          value: "Partnered (Married/Cohabiting)",
+          value: "Accompanied (Partner/Family)", // Updated for clarity
           title: t('wizard_marital_pair_title'),
           desc: t('wizard_marital_pair_desc'),
           icon: Icons.Users,
@@ -245,7 +245,10 @@ const MaritalSelector = ({ current, onSelect, t }: { current: string, onSelect: 
   return (
       <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
           {options.map(opt => {
-               const isSelected = current === opt.value;
+               // Robust selection logic handling legacy values or complex strings (e.g. with children count)
+               const isSelected = current.includes(opt.value.split(' ')[0]) || 
+                                  (opt.id === 'Partnered' && current.includes('Partnered')); 
+
                return (
                   <button
                       key={opt.id}

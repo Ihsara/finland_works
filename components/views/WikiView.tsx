@@ -96,11 +96,16 @@ const WikiView: React.FC<WikiViewProps> = ({
     setOpenCategories(initialOpen);
   }, [profile]); 
 
-  // Sync activeArticle with ViewMode
+  // Sync activeArticle with ViewMode & Sidebar State
   useEffect(() => {
       if (activeArticle) {
           setIsMobileMenuOpen(false);
           setActiveSentence(null); // Reset active sentence when changing articles
+          
+          // Auto-expand the category of the active article
+          if (activeArticle.categoryId) {
+              setOpenCategories(prev => ({ ...prev, [activeArticle.categoryId]: true }));
+          }
       }
   }, [activeArticle]);
 
@@ -273,6 +278,16 @@ const WikiView: React.FC<WikiViewProps> = ({
           onClose();
       }
   };
+
+  // Helper to find next/prev
+  const allArticles = useMemo(() => getAllFlattenedArticles(language), [language]);
+  const currentArticleIndex = useMemo(() => {
+      if (!activeArticle) return -1;
+      return allArticles.findIndex(a => a.id === activeArticle.id);
+  }, [activeArticle, allArticles]);
+
+  const prevArticle = currentArticleIndex > 0 ? allArticles[currentArticleIndex - 1] : null;
+  const nextArticle = currentArticleIndex > -1 && currentArticleIndex < allArticles.length - 1 ? allArticles[currentArticleIndex + 1] : null;
 
   // Reusable list renderer for both Sidebar (Reader) and Full Screen List
   const renderCategoryList = (isSidebar: boolean = false) => {
@@ -507,7 +522,6 @@ const WikiView: React.FC<WikiViewProps> = ({
 
                 <div className="max-w-4xl mx-auto p-6 md:p-12 pb-24 space-y-12">
                     {wikiCategories.map(cat => {
-                        // Flatten for search
                         const allArticles = cat.subsections.flatMap(s => s.articles);
                         const matches = allArticles.filter(a => a.tags.includes(activeTag));
                         if (matches.length === 0) return null;
@@ -586,7 +600,6 @@ const WikiView: React.FC<WikiViewProps> = ({
                         {t('wiki_section_chapters')}
                     </h3>
 
-                    {/* Subsections Loop */}
                     <div className="space-y-10">
                         {activeCategory.subsections.map((sub, subIdx) => (
                             <div key={sub.title}>
@@ -730,6 +743,37 @@ const WikiView: React.FC<WikiViewProps> = ({
                             [&>ul]:pl-4 [&>ol]:pl-4">
                             <div dangerouslySetInnerHTML={{ __html: processedContent }} />
                         </article>
+
+                        {/* Explicit Navigation Footer */}
+                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-4">
+                            {prevArticle ? (
+                                <button 
+                                    onClick={() => handleArticleClick(prevArticle)}
+                                    className="flex flex-col items-start p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition group text-left hover:border-gray-200 dark:hover:border-gray-700"
+                                >
+                                    <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1">
+                                        <Icons.ArrowLeft className="w-3 h-3" /> {t('wizard_btn_prev')}
+                                    </span>
+                                    <span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">
+                                        {prevArticle.title}
+                                    </span>
+                                </button>
+                            ) : <div />}
+
+                            {nextArticle ? (
+                                <button 
+                                    onClick={() => handleArticleClick(nextArticle)}
+                                    className="flex flex-col items-end p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition group text-right bg-gray-50/50 dark:bg-gray-900/50 hover:border-gray-200 dark:hover:border-gray-700"
+                                >
+                                    <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1">
+                                        {t('wizard_btn_next')} <Icons.ArrowRight className="w-3 h-3" />
+                                    </span>
+                                    <span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">
+                                        {nextArticle.title}
+                                    </span>
+                                </button>
+                            ) : <div />}
+                        </div>
                     </div>
                 </div>
 
@@ -743,7 +787,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                     >
                         <button 
                             onClick={handleStartChat}
-                            className="flex items-center justify-center w-10 h-10 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 hover:scale-110 transition-all border-2 border-white"
+                            className="flex items-center justify-center w-10 h-10 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 hover:scale-110 transition-all border-2 border-white dark:border-gray-800"
                             title={t('wiki_ctx_ask')}
                         >
                             <Icons.MessageSquare className="w-5 h-5" />
@@ -759,3 +803,4 @@ const WikiView: React.FC<WikiViewProps> = ({
 };
 
 export default WikiView;
+    

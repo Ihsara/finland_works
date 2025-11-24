@@ -1,5 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+// CSS is linked in index.html to avoid bundler errors
+// import './styles.css'; 
+
 import Layout from './components/Layout';
 import { AppView, Conversation, Message, Sender, UserProfile } from './types';
 import * as Storage from './services/storageService';
@@ -469,6 +472,7 @@ const App: React.FC = () => {
             setView(AppView.QUIZ);
           }}
           onOpenGuide={() => setView(AppView.DASHBOARD)}
+          onBrowseWiki={() => setView(AppView.WIKI)}
           onStartChat={() => startNewChat()}
           onLoadDemo={handleLoadDemoProfile}
           onReset={handleResetData}

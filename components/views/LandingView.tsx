@@ -9,6 +9,7 @@ interface LandingViewProps {
   profile: UserProfile | null;
   onStartQuiz: () => void;
   onOpenGuide: () => void;
+  onBrowseWiki: () => void;
   onStartChat: () => void;
   onLoadDemo: (silent: boolean) => void;
   onReset: () => void;
@@ -20,6 +21,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
   profile,
   onStartQuiz,
   onOpenGuide,
+  onBrowseWiki,
   onStartChat,
   onLoadDemo,
   onReset,
@@ -74,7 +76,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
              <button
                onClick={() => {
                  onSetGuest(GUEST_PROFILE);
-                 onOpenGuide();
+                 onBrowseWiki();
                }}
                className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600 transition shadow-sm w-full sm:w-auto sm:min-w-[260px] min-h-[64px]"
              >
