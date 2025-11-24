@@ -84,7 +84,8 @@ import {
   Hammer,
   Utensils,
   Truck,
-  HardHat
+  HardHat,
+  GlassWater
 } from 'lucide-react';
 
 export const Icons = {
@@ -172,5 +173,6 @@ export const Icons = {
   Hammer,
   Utensils,
   Truck,
-  HardHat
+  HardHat,
+  GlassWater
 };

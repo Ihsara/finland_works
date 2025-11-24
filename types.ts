@@ -18,7 +18,24 @@ export enum Sender {
   MODEL = 'model'
 }
 
-export type LanguageCode = 'en' | 'vi' | 'pt-br' | 'pt-pt' | 'ru';
+export type LanguageCode = 
+  | 'en' // English
+  | 'fi' // Finnish (Host)
+  | 'th' // Thai
+  | 'vi' // Vietnamese
+  | 'pt-br' // Portuguese (Brazil)
+  | 'pt-pt' // Portuguese (Portugal)
+  | 'ru' // Russian
+  | 'et' // Estonian (Top 1)
+  | 'ar' // Arabic (Top 2)
+  | 'so' // Somali (Top 3)
+  | 'fa' // Persian/Farsi
+  | 'ku' // Kurdish
+  | 'zh' // Chinese
+  | 'sq' // Albanian
+  | 'uk' // Ukrainian (Recent growth)
+  | 'es' // Spanish
+  | 'tr'; // Turkish
 
 export type LengthPreference = 'short' | 'long' | 'ask';
 
@@ -30,6 +47,7 @@ export interface AppLanguage {
   nativeName: string; // Native name
   flag: string; // Emoji flag
   supported: boolean; // If false, greys out/defaults to EN
+  rtl?: boolean; // Right-to-left support
 }
 
 // Interfaces

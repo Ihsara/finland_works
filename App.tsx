@@ -111,6 +111,18 @@ const App: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  // Update HTML direction for RTL languages
+  useEffect(() => {
+      const rtlLangs = ['ar', 'fa', 'ku'];
+      if (rtlLangs.includes(language)) {
+          document.documentElement.dir = 'rtl';
+          document.documentElement.lang = language;
+      } else {
+          document.documentElement.dir = 'ltr';
+          document.documentElement.lang = language;
+      }
+  }, [language]);
+
   // Refresh stats whenever view changes to Dashboard or profile changes
   useEffect(() => {
     if (profile) {
