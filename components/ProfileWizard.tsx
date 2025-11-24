@@ -863,6 +863,9 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const renderStepContent = () => {
+    // Safe icon access
+    const BabyIcon = Icons.Baby || Icons.User;
+    
     switch(step) {
       case 1: // Name
         return (
@@ -1087,7 +1090,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                             : 'border-gray-200 hover:border-black hover:bg-gray-50'
                         }`}
                      >
-                         <Icons.Baby className="w-10 h-10" />
+                         <BabyIcon className="w-10 h-10" />
                          <span className="text-xl font-bold">{t('wizard_children_yes', language)}</span>
                      </button>
 
