@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // import './styles.css'; 
 
 import Layout from './components/Layout';
-import { AppView, Conversation, Message, Sender, UserProfile } from './types';
+import { AppView, Conversation, Message, Sender, UserProfile, LayoutPreference } from './types';
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
@@ -59,6 +59,9 @@ const App: React.FC = () => {
   // Profile Edit State
   const [yamlInput, setYamlInput] = useState('');
 
+  // App Settings State
+  const [layoutMode, setLayoutMode] = useState<LayoutPreference>('windowed');
+
   // Navigation Refs
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
 
@@ -90,6 +93,9 @@ const App: React.FC = () => {
         }
     };
     applyTheme();
+
+    // 3. Layout Initialization
+    setLayoutMode(Storage.getLayoutPreference());
 
     // Listen for system changes if preference is 'system'
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -453,17 +459,14 @@ const App: React.FC = () => {
 
   if (!apiKey) {
     return (
-      <Layout>
+      <Layout layoutMode={layoutMode}>
         <ApiKeyView onSave={handleSaveKey} />
       </Layout>
     );
   }
 
-  // NOTE: We removed `key={language}` here because we are using Context now.
-  // Components consuming Context will re-render automatically.
-
   return (
-    <Layout onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <Layout onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} layoutMode={layoutMode}>
       {view === AppView.LANDING && (
         <LandingView 
           profile={profile}
@@ -498,6 +501,7 @@ const App: React.FC = () => {
       {view === AppView.SETTINGS && (
         <SettingsView 
           onBack={() => setView(AppView.DASHBOARD)}
+          onToggleLayout={(mode) => setLayoutMode(mode)}
         />
       )}
 

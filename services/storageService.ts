@@ -1,6 +1,6 @@
 
 import jsYaml from 'js-yaml';
-import { UserProfile, Conversation, DEFAULT_PROFILE_YAML, LengthPreference, ThemePreference } from '../types';
+import { UserProfile, Conversation, DEFAULT_PROFILE_YAML, LengthPreference, ThemePreference, LayoutPreference } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Polyfill declaration for TypeScript
@@ -24,7 +24,8 @@ const KEYS = {
 
   // Settings
   PREF_RESPONSE_LENGTH: `${PREFIX}settings/response_length`,
-  PREF_THEME: `${PREFIX}settings/theme`
+  PREF_THEME: `${PREFIX}settings/theme`,
+  PREF_LAYOUT: `${PREFIX}settings/layout`
 };
 
 // --- API Key Management ---
@@ -71,6 +72,18 @@ export const getThemePreference = (): ThemePreference => {
 
 export const saveThemePreference = (pref: ThemePreference): void => {
   localStorage.setItem(KEYS.PREF_THEME, pref);
+};
+
+export const getLayoutPreference = (): LayoutPreference => {
+  const stored = localStorage.getItem(KEYS.PREF_LAYOUT);
+  if (stored === 'fullscreen' || stored === 'windowed') {
+    return stored as LayoutPreference;
+  }
+  return 'windowed'; // Default
+};
+
+export const saveLayoutPreference = (pref: LayoutPreference): void => {
+  localStorage.setItem(KEYS.PREF_LAYOUT, pref);
 };
 
 // --- Profile Management (Multi-User) ---

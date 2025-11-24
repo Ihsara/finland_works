@@ -41,6 +41,8 @@ export type LengthPreference = 'short' | 'long' | 'ask';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
+export type LayoutPreference = 'windowed' | 'fullscreen';
+
 export interface AppLanguage {
   code: LanguageCode;
   name: string; // English name

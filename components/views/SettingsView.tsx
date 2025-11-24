@@ -1,34 +1,43 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
-import { LengthPreference, ThemePreference } from '../../types';
+import { LengthPreference, ThemePreference, LayoutPreference } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { 
     getGlobalLengthPreference, 
     saveGlobalLengthPreference,
     getThemePreference,
     saveThemePreference,
+    getLayoutPreference,
+    saveLayoutPreference,
     resetApplicationData
 } from '../../services/storageService';
 
 interface SettingsViewProps {
   onBack: () => void;
+  onToggleLayout?: (mode: LayoutPreference) => void;
 }
 
-export const SettingsView: React.FC<SettingsViewProps> = ({ onBack }) => {
+export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayout }) => {
   const { t } = useLanguage();
   const [prefLength, setPrefLength] = useState<LengthPreference>('ask');
   const [prefTheme, setPrefTheme] = useState<ThemePreference>('system');
+  const [prefLayout, setPrefLayout] = useState<LayoutPreference>('windowed');
   const [expandedSection, setExpandedSection] = useState<string | null>('general');
 
   useEffect(() => {
     setPrefLength(getGlobalLengthPreference());
     setPrefTheme(getThemePreference());
+    setPrefLayout(getLayoutPreference());
   }, []);
 
   const handleSave = () => {
     saveGlobalLengthPreference(prefLength);
     saveThemePreference(prefTheme);
+    saveLayoutPreference(prefLayout);
+    
+    // Update parent state immediately
+    if (onToggleLayout) onToggleLayout(prefLayout);
     
     // Force Theme Apply Immediately
     const root = document.documentElement;
@@ -90,7 +99,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack }) => {
               </button>
               
               <div 
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
               >
                   <div className="p-5 pt-0">
                       {children}
@@ -143,7 +152,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack }) => {
 
                 {/* Appearance */}
                 <AccordionSection id="appearance" title={t('settings_sect_appearance')} icon={Icons.Eye}>
-                    <div className="space-y-4 pt-4">
+                    <div className="space-y-6 pt-4">
                         <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_theme_label')}</label>
                              <div className="grid grid-cols-3 gap-3">
@@ -158,6 +167,30 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack }) => {
                                      </button>
                                  ))}
                              </div>
+                        </div>
+
+                        {/* New Layout Toggle */}
+                        <div className="hidden md:block border-t border-gray-100 dark:border-gray-800 pt-4">
+                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop Layout</label>
+                             <div className="flex gap-3">
+                                <button
+                                    onClick={() => setPrefLayout('windowed')}
+                                    className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'windowed' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'}`}
+                                >
+                                    <div className="w-4 h-6 border-2 border-current rounded-sm"></div>
+                                    Windowed (Mobile)
+                                </button>
+                                <button
+                                    onClick={() => setPrefLayout('fullscreen')}
+                                    className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'fullscreen' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'}`}
+                                >
+                                    <div className="w-6 h-4 border-2 border-current rounded-sm"></div>
+                                    Full Screen
+                                </button>
+                             </div>
+                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                 "Windowed" simulates a mobile app experience. "Full Screen" uses your entire desktop window.
+                             </p>
                         </div>
                     </div>
                 </AccordionSection>
