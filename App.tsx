@@ -6,7 +6,7 @@ import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
-import WikiView from './components/WikiView';
+import WikiView from './components/views/WikiView';
 import ProfileWizard from './components/ProfileWizard';
 import { getAllFlattenedArticles, WikiArticle } from './data/wikiContent';
 import { SUPPORTED_LANGUAGES, t } from './data/languages';
@@ -21,6 +21,7 @@ import { ProfileDetailView } from './components/views/ProfileDetailView';
 import { ProfileEditView } from './components/views/ProfileEditView';
 import { HistoryView } from './components/views/HistoryView';
 import { CvImportView } from './components/views/CvImportView';
+import { SettingsView } from './components/views/SettingsView';
 
 // Configure marked options for basic GitHub Flavored Markdown support
 marked.use({
@@ -50,6 +51,7 @@ const App: React.FC = () => {
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [pendingChatQuery, setPendingChatQuery] = useState<string | null>(null);
 
   // Profile Edit State
   const [yamlInput, setYamlInput] = useState('');
@@ -72,7 +74,11 @@ const App: React.FC = () => {
     }
 
     refreshProfiles();
-    processPendingSummaries();
+    
+    // Process pending summaries in background
+    setTimeout(() => {
+        processPendingSummaries();
+    }, 1000);
   }, []);
 
   // Refresh stats whenever view changes to Dashboard or profile changes
@@ -178,19 +184,48 @@ const App: React.FC = () => {
     const pendingIds = Storage.getPendingSummaries();
     if (pendingIds.length === 0) return;
 
-    for (const id of pendingIds) {
-      const conv = Storage.getConversation(id);
-      if (conv && !conv.isSummarized && conv.messages.length > 0) {
+    // Process one by one to avoid rate limits
+    const id = pendingIds[0];
+    const conv = Storage.getConversation(id);
+      
+    if (conv && !conv.isSummarized && conv.messages.length > 0) {
         try {
-          const summary = await Gemini.summarizeConversation(conv.messages);
-          Storage.saveSummary(id, summary);
-          Storage.removePendingSummary(id);
+            // Update status to generating
+            conv.summaryStatus = 'generating';
+            Storage.saveConversation(conv);
+
+            // Fetch summary AND title
+            const result = await Gemini.summarizeConversation(conv.messages);
+            
+            // Re-fetch in case state changed
+            const freshConv = Storage.getConversation(id);
+            if (freshConv) {
+                freshConv.summary = result.summary;
+                freshConv.title = result.title;
+                freshConv.isSummarized = true;
+                freshConv.summaryStatus = 'completed';
+                Storage.saveConversation(freshConv);
+                Storage.saveSummary(id, result.summary, result.title);
+            }
+            Storage.removePendingSummary(id);
+            
+            // Recursive call for next items with delay
+            setTimeout(() => processPendingSummaries(), 2000);
         } catch (e) {
-          console.error(`Failed to summarize ${id}`, e);
+            console.error(`Failed to summarize ${id}`, e);
+            // Mark as failed but keep in pending to try again later or manually
+            const freshConv = Storage.getConversation(id);
+            if (freshConv) {
+                freshConv.summaryStatus = 'failed';
+                Storage.saveConversation(freshConv);
+            }
+            // For now, remove it to be safe, user can trigger again via retry logic if we implement it, 
+            // but cleaning up prevents infinite retry loops on error.
+            Storage.removePendingSummary(id); 
         }
-      } else {
+    } else {
         Storage.removePendingSummary(id);
-      }
+        setTimeout(() => processPendingSummaries(), 100);
     }
   };
 
@@ -206,6 +241,15 @@ const App: React.FC = () => {
     if (supported) {
       setLanguage(code);
       localStorage.setItem('fw_language', code);
+
+      // Force update the active article context to the new language immediately
+      if (activeWikiArticle) {
+          const allArticles = getAllFlattenedArticles(code);
+          const freshArticle = allArticles.find(a => a.id === activeWikiArticle.id);
+          if (freshArticle) {
+              setActiveWikiArticle(freshArticle);
+          }
+      }
     } else {
       alert(`We are working on ${code.toUpperCase()} support! Defaulting to English for now.`);
       setLanguage('en');
@@ -218,9 +262,11 @@ const App: React.FC = () => {
       id: uuidv4(),
       startTime: Date.now(),
       messages: [],
-      isSummarized: false
+      isSummarized: false,
+      summaryStatus: 'idle'
     };
     setCurrentConversation(newConv);
+    setPendingChatQuery(null); // Reset pending query on new chat
     Storage.saveConversation(newConv);
     setView(AppView.CHAT);
     return newConv;
@@ -237,19 +283,64 @@ const App: React.FC = () => {
         return;
     }
 
+    // 1. Check Preferences (Global vs Session)
+    const globalPref = Storage.getGlobalLengthPreference();
+    let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
+    
+    // Add user message to UI immediately
     const userMsg: Message = {
       id: uuidv4(),
       sender: Sender.USER,
       text: messageText,
       timestamp: Date.now()
     };
-
     const updatedMessages = [...conversation.messages, userMsg];
-    const updatedConv = { ...conversation, messages: updatedMessages };
-    
+    let updatedConv = { ...conversation, messages: updatedMessages };
     setCurrentConversation(updatedConv);
     Storage.saveConversation(updatedConv);
     setInputText('');
+
+    // --- INTERCEPTION LOGIC START ---
+    
+    // If no preference set yet, and we are not currently answering the preference question (no pending query)
+    if (!effectivePref && !pendingChatQuery) {
+        setPendingChatQuery(messageText); // Store original query
+        
+        // Add Bot Question to UI
+        const botQuestion: Message = {
+            id: uuidv4(),
+            sender: Sender.MODEL,
+            text: t('chat_ask_length', language),
+            timestamp: Date.now() + 100 // Slight delay
+        };
+        
+        updatedConv = { ...updatedConv, messages: [...updatedMessages, botQuestion] };
+        setCurrentConversation(updatedConv);
+        Storage.saveConversation(updatedConv);
+        return; // Stop here, wait for user answer
+    }
+
+    // If we have a pending query, this message IS the preference answer
+    let queryToSend = messageText;
+    let finalPref = effectivePref;
+
+    if (pendingChatQuery) {
+        // Simple heuristic for length preference
+        const lower = messageText.toLowerCase();
+        if (lower.match(/short|quick|brief|summary/)) finalPref = 'short';
+        else if (lower.match(/long|detail|deep|full/)) finalPref = 'long';
+        else finalPref = 'long'; // Default fallback
+
+        // Save preference to session
+        updatedConv.responseLength = finalPref;
+        // Restore the pending query as the actual payload for the AI
+        queryToSend = pendingChatQuery;
+        
+        setPendingChatQuery(null);
+    }
+    
+    // --- INTERCEPTION LOGIC END ---
+
     setIsTyping(true);
 
     try {
@@ -258,17 +349,19 @@ const App: React.FC = () => {
 
       // If contextOverride exists (from wiki), we prepend it to the message sent to Gemini
       // but NOT to the UI history above (to keep UI clean).
-      const messageToSend = contextOverride 
-         ? `${contextOverride}\n\nUSER QUESTION: ${messageText}` 
-         : messageText;
+      const messagePayload = contextOverride 
+         ? `${contextOverride}\n\nUSER QUESTION: ${queryToSend}` 
+         : queryToSend;
 
       const responseText = await Gemini.sendMessageToGemini(
-        updatedMessages.slice(0, -1), 
-        messageToSend, 
+        // We send the full history including negotiation for context consistency
+        updatedConv.messages, 
+        messagePayload, 
         activeProfile,
         progress,
         allArticles,
-        language
+        language,
+        finalPref as 'short' | 'long' | undefined
       );
 
       const modelMsg: Message = {
@@ -278,7 +371,7 @@ const App: React.FC = () => {
         timestamp: Date.now()
       };
 
-      const finalMessages = [...updatedMessages, modelMsg];
+      const finalMessages = [...updatedConv.messages, modelMsg];
       const finalConv = { ...updatedConv, messages: finalMessages };
       
       setCurrentConversation(finalConv);
@@ -306,22 +399,22 @@ const App: React.FC = () => {
   const handleEndSession = async () => {
     if (!currentConversation) return;
 
-    const shouldSummarize = window.confirm("Would you like to summarize this conversation before exiting? This helps track your progress.");
+    const convId = currentConversation.id;
 
-    if (shouldSummarize && apiKey) {
-      try {
-        setIsTyping(true);
-        const summary = await Gemini.summarizeConversation(currentConversation.messages);
-        Storage.saveSummary(currentConversation.id, summary);
-        alert("Summary saved.");
-      } catch (e) {
-        alert("Could not generate summary right now. Flagged for later.");
-        Storage.addPendingSummary(currentConversation.id);
-      } finally {
-        setIsTyping(false);
-      }
-    } else {
-      Storage.addPendingSummary(currentConversation.id);
+    // Automatically trigger summary generation if messages exist
+    if (currentConversation.messages.length > 0 && apiKey) {
+        // 1. Mark as generating immediately in local state and storage
+        const updatedConv: Conversation = { 
+            ...currentConversation, 
+            summaryStatus: 'generating' 
+        };
+        Storage.saveConversation(updatedConv);
+        
+        // 2. Queue for processing (Background)
+        Storage.addPendingSummary(convId);
+        
+        // 3. Trigger processor immediately (fire and forget)
+        processPendingSummaries();
     }
 
     setCurrentConversation(null);
@@ -429,6 +522,14 @@ const App: React.FC = () => {
           onStartChat={() => startNewChat()}
           onNavigateToHistory={() => setView(AppView.HISTORY)}
           onNavigateToCvImport={() => setView(AppView.CV_IMPORT)}
+          onNavigateToSettings={() => setView(AppView.SETTINGS)}
+        />
+      )}
+
+      {view === AppView.SETTINGS && (
+        <SettingsView 
+          language={language}
+          onBack={() => setView(AppView.DASHBOARD)}
         />
       )}
 

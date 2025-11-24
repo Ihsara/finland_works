@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from './Icon';
 import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../data/wikiContent';
@@ -35,7 +36,8 @@ const WikiView: React.FC<WikiViewProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Navigation State
-  const [activeCategory, setActiveCategory] = useState<WikiCategory | null>(null);
+  // Changed to store ID instead of object to prevent stale state on language change
+  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('icons');
 
@@ -45,6 +47,12 @@ const WikiView: React.FC<WikiViewProps> = ({
   
   // Dynamic Content based on Language
   const wikiCategories = useMemo(() => getWikiCategories(language), [language]);
+
+  // Derived Active Category to ensure instant language switch without useEffect lag
+  const activeCategory = useMemo(() => {
+    if (!activeCategoryId) return null;
+    return wikiCategories.find(c => c.id === activeCategoryId) || null;
+  }, [activeCategoryId, wikiCategories]);
 
   // Progress State
   const [progress, setProgress] = useState<WikiProgressData>({ 
@@ -62,8 +70,7 @@ const WikiView: React.FC<WikiViewProps> = ({
     }
 
     // Only track session once on mount, not on every language change
-    // We use a ref to track initialization if needed, but here simple logic suffices
-    if (language === 'en') { // Simple check to prevent double counting on some re-renders
+    if (language === 'en') { 
        Storage.trackWikiSession(profile.id);
     }
     
@@ -83,24 +90,6 @@ const WikiView: React.FC<WikiViewProps> = ({
     });
     setOpenCategories(initialOpen);
   }, [profile]); 
-
-  // --- CRITICAL FIX: Sync Active Article on Language Change ---
-  useEffect(() => {
-      if (activeArticle) {
-          const allArticles = getAllFlattenedArticles(language);
-          const freshArticle = allArticles.find(a => a.id === activeArticle.id);
-          if (freshArticle) {
-              onArticleSelect(freshArticle);
-          }
-      }
-      if (activeCategory) {
-          const freshCategory = wikiCategories.find(c => c.id === activeCategory.id);
-          if (freshCategory) {
-              setActiveCategory(freshCategory);
-          }
-      }
-  }, [language, wikiCategories]); 
-  // -----------------------------------------------------------
 
   // Sync activeArticle with ViewMode
   useEffect(() => {
@@ -239,28 +228,25 @@ const WikiView: React.FC<WikiViewProps> = ({
   const handleTagClick = (tag: string) => {
       setActiveTag(tag);
       onArticleSelect(null);
-      setActiveCategory(null);
+      setActiveCategoryId(null);
   };
 
   const handleIconCategoryClick = (catId: string) => {
-      const category = wikiCategories.find(c => c.id === catId) || null;
-      if (category) {
-          setActiveCategory(category);
-          setOpenCategories({ [catId]: true }); // Ensure open for sidebar sync
-      }
+      setActiveCategoryId(catId);
+      setOpenCategories({ [catId]: true }); // Ensure open for sidebar sync
   };
 
   const handleSwitchToIcons = () => {
       setViewMode('icons');
       onArticleSelect(null);
-      setActiveCategory(null);
+      setActiveCategoryId(null);
       setActiveTag(null);
   };
 
   const handleSwitchToList = () => {
       setViewMode('list');
       onArticleSelect(null);
-      setActiveCategory(null);
+      setActiveCategoryId(null);
       setActiveTag(null);
   };
 
@@ -271,7 +257,7 @@ const WikiView: React.FC<WikiViewProps> = ({
       } else if (activeTag) {
           setActiveTag(null);
       } else if (activeCategory) {
-          setActiveCategory(null);
+          setActiveCategoryId(null);
       } else if (viewMode === 'list') {
           setViewMode('icons');
       } else {
@@ -323,7 +309,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         onClick={() => {
                                             handleArticleClick(article);
                                             // Only update active category if we are not in tag view
-                                            if (!activeTag) setActiveCategory(category);
+                                            if (!activeTag) setActiveCategoryId(category.id);
                                         }}
                                         className={`w-full text-left px-3 py-3 rounded-md flex items-start gap-3 transition text-sm ${
                                             isActive && isSidebar

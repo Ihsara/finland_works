@@ -42,6 +42,7 @@ export type TranslationKey =
   | 'chat_end_session'
   | 'chat_header_assistant'
   | 'chat_prompt_context_inquiry'
+  | 'chat_ask_length'
   | 'btn_back_dashboard'
   | 'profile_btn_guide'
   | 'profile_btn_guide_desc'
@@ -109,6 +110,21 @@ export type TranslationKey =
   | 'wizard_marital_pair_desc'
   | 'wizard_marital_secret_title'
   | 'wizard_marital_secret_desc'
+  
+  // Children / Family Steps
+  | 'wizard_children_title'
+  | 'wizard_children_desc'
+  | 'wizard_children_yes'
+  | 'wizard_children_no'
+  | 'wizard_family_details_title'
+  | 'wizard_family_count_label'
+  | 'wizard_family_ages_label'
+  | 'wizard_family_ages_hint'
+  | 'wizard_age_group_0_6'
+  | 'wizard_age_group_7_12'
+  | 'wizard_age_group_13_17'
+  | 'wizard_age_group_18'
+
   | 'wizard_step4_title'
   | 'wizard_step4_desc'
   | 'wizard_step4_placeholder'
@@ -197,6 +213,8 @@ export type TranslationKey =
   | 'history_tab_summary'
   | 'history_tab_transcript'
   | 'history_no_summary'
+  | 'history_generating'
+  | 'history_generating_desc'
   | 'cv_title'
   | 'cv_subtitle'
   | 'cv_placeholder'
@@ -207,7 +225,18 @@ export type TranslationKey =
   | 'cv_key_required'
   | 'cv_key_desc'
   | 'cv_key_placeholder'
-  | 'cv_key_save';
+  | 'cv_key_save'
+  | 'cv_alert_success'
+  | 'cv_alert_error'
+  | 'cv_btn_manage_key'
+  
+  // Settings
+  | 'settings_title'
+  | 'settings_length_label'
+  | 'settings_opt_ask'
+  | 'settings_opt_short'
+  | 'settings_opt_long'
+  | 'btn_save';
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
   en: {
@@ -241,6 +270,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     chat_end_session: "End Session",
     chat_header_assistant: "Assistant",
     chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"",
+    chat_ask_length: "Should I keep it brief, or would you like the full details?",
     btn_back_dashboard: "Back to Dashboard",
     profile_btn_guide: "My Guide",
     profile_btn_guide_desc: "Recommended articles",
@@ -310,6 +340,20 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wizard_marital_pair_desc: "Married or partnered",
     wizard_marital_secret_title: "It's a Mystery",
     wizard_marital_secret_desc: "It's complicated / secret",
+
+    // Children steps
+    wizard_children_title: "Do you have children?",
+    wizard_children_desc: "This helps us give relevant advice about schools and daycare.",
+    wizard_children_yes: "Yes",
+    wizard_children_no: "No",
+    wizard_family_details_title: "Tell us about your family",
+    wizard_family_count_label: "How many children?",
+    wizard_family_ages_label: "What age groups are they in?",
+    wizard_family_ages_hint: "Select all that apply. This changes the advice for schools.",
+    wizard_age_group_0_6: "Daycare (0-6)",
+    wizard_age_group_7_12: "School (7-12)",
+    wizard_age_group_13_17: "Teens (13-17)",
+    wizard_age_group_18: "Adults (18+)",
 
     wizard_step4_title: "Where do you come from?",
     wizard_step4_desc: "Select your origin",
@@ -408,8 +452,10 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     history_title: "Past Conversations",
     history_empty: "No conversations recorded yet.",
     history_tab_summary: "Summary (AI)",
-    history_tab_transcript: "Full Transcript",
+    history_tab_transcript: "Summary (AI)",
     history_no_summary: "No summary available for this conversation.",
+    history_generating: "AI is writing summary...",
+    history_generating_desc: "This happens in the background. You can check back in a few seconds.",
     cv_title: "Analyze CV",
     cv_subtitle: "Paste your CV text to automatically update your profile.",
     cv_placeholder: "Paste your CV/Resume text here...",
@@ -420,7 +466,18 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_key_required: "API Key Required",
     cv_key_desc: "To analyze your CV securely, please provide your own Google Gemini API key. It is stored locally on your device.",
     cv_key_placeholder: "Paste API Key here...",
-    cv_key_save: "Save Key"
+    cv_key_save: "Save Key",
+    cv_alert_success: "API Key saved successfully.",
+    cv_alert_error: "Failed to analyze CV. Please try again or check your API key validity.",
+    cv_btn_manage_key: "API Key",
+    
+    // Settings
+    settings_title: "Settings",
+    settings_length_label: "Answer Length Preference",
+    settings_opt_ask: "Always Ask Me",
+    settings_opt_short: "Short & Concise",
+    settings_opt_long: "Detailed & Comprehensive",
+    btn_save: "Save"
   },
   vi: {
     history_title: "Lịch sử trò chuyện",
@@ -428,6 +485,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     history_tab_summary: "Tóm tắt (AI)",
     history_tab_transcript: "Nguyên văn",
     history_no_summary: "Chưa có tóm tắt.",
+    history_generating: "AI đang viết tóm tắt...",
+    history_generating_desc: "Quá trình này diễn ra trong nền. Bạn có thể kiểm tra lại sau vài giây.",
     cv_title: "Phân tích CV",
     cv_subtitle: "Dán nội dung CV để cập nhật hồ sơ tự động.",
     cv_placeholder: "Dán nội dung CV vào đây...",
@@ -439,6 +498,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_key_desc: "Để phân tích CV an toàn, vui lòng cung cấp khóa API Google Gemini của riêng bạn. Nó chỉ được lưu trên thiết bị của bạn.",
     cv_key_placeholder: "Dán Khóa API vào đây...",
     cv_key_save: "Lưu Khóa",
+    cv_alert_success: "Đã lưu khóa API thành công.",
+    cv_alert_error: "Không thể phân tích CV. Vui lòng thử lại hoặc kiểm tra khóa API.",
+    cv_btn_manage_key: "Khóa API",
     dash_btn_history: "Lịch sử trò chuyện",
     dash_btn_cv: "Nhập CV",
     // Base overwrites
@@ -462,7 +524,26 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_header_title: "Finland Works!",
     wiki_nav_list: "Danh sách",
     wiki_nav_icons: "Biểu tượng",
-    wiki_full_index: "Mục lục đầy đủ"
+    wiki_full_index: "Mục lục đầy đủ",
+    chat_ask_length: "Bạn muốn câu trả lời ngắn gọn hay chi tiết?",
+    settings_title: "Cài đặt",
+    settings_length_label: "Độ dài câu trả lời",
+    settings_opt_ask: "Luôn hỏi tôi",
+    settings_opt_short: "Ngắn gọn & Súc tích",
+    settings_opt_long: "Chi tiết & Đầy đủ",
+    btn_save: "Lưu",
+    wizard_children_title: "Bạn có con không?",
+    wizard_children_desc: "Điều này giúp chúng tôi tư vấn về trường học và nhà trẻ.",
+    wizard_children_yes: "Có",
+    wizard_children_no: "Không",
+    wizard_family_details_title: "Thông tin gia đình",
+    wizard_family_count_label: "Bao nhiêu trẻ?",
+    wizard_family_ages_label: "Độ tuổi của trẻ?",
+    wizard_family_ages_hint: "Chọn tất cả các mức phù hợp.",
+    wizard_age_group_0_6: "Nhà trẻ (0-6)",
+    wizard_age_group_7_12: "Tiểu học (7-12)",
+    wizard_age_group_13_17: "Thiếu niên (13-17)",
+    wizard_age_group_18: "Trưởng thành (18+)"
   },
   "pt-br": {
     history_title: "Conversas Anteriores",
@@ -470,6 +551,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     history_tab_summary: "Resumo (IA)",
     history_tab_transcript: "Transcrição Completa",
     history_no_summary: "Sem resumo disponível.",
+    history_generating: "A IA está a escrever o resumo...",
+    history_generating_desc: "Isto acontece em segundo plano. Podes verificar novamente em alguns segundos.",
     cv_title: "Analisar CV",
     cv_subtitle: "Cole seu CV para atualizar seu perfil automaticamente.",
     cv_placeholder: "Cole o texto do seu CV aqui...",
@@ -481,6 +564,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_key_desc: "Para analisar seu CV com segurança, forneça sua chave de API do Google Gemini. Ela é armazenada localmente.",
     cv_key_placeholder: "Cole a Chave API aqui...",
     cv_key_save: "Salvar Chave",
+    cv_alert_success: "Chave API salva com sucesso.",
+    cv_alert_error: "Falha ao analisar o CV. Verifique sua chave API.",
+    cv_btn_manage_key: "Chave API",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
     // Base overwrites
@@ -501,7 +587,26 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_header_title: "Finland Works!",
     wiki_nav_list: "Lista",
     wiki_nav_icons: "Ícones",
-    wiki_full_index: "Índice Completo"
+    wiki_full_index: "Índice Completo",
+    chat_ask_length: "Devo ser breve ou você prefere os detalhes completos?",
+    settings_title: "Configurações",
+    settings_length_label: "Preferência de Resposta",
+    settings_opt_ask: "Sempre Perguntar",
+    settings_opt_short: "Curto & Conciso",
+    settings_opt_long: "Detalhado & Completo",
+    btn_save: "Salvar",
+    wizard_children_title: "Tem filhos?",
+    wizard_children_desc: "Ajuda-nos a aconselhar sobre escolas e creches.",
+    wizard_children_yes: "Sim",
+    wizard_children_no: "Não",
+    wizard_family_details_title: "Detalhes da Família",
+    wizard_family_count_label: "Quantas crianças?",
+    wizard_family_ages_label: "Faixas etárias?",
+    wizard_family_ages_hint: "Selecione todas as aplicáveis.",
+    wizard_age_group_0_6: "Creche (0-6)",
+    wizard_age_group_7_12: "Escola (7-12)",
+    wizard_age_group_13_17: "Adolescentes (13-17)",
+    wizard_age_group_18: "Adultos (18+)"
   },
   "pt-pt": {
     history_title: "Conversas Anteriores",
@@ -509,6 +614,8 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     history_tab_summary: "Resumo (IA)",
     history_tab_transcript: "Transcrição Completa",
     history_no_summary: "Sem resumo disponível.",
+    history_generating: "A IA está a escrever o resumo...",
+    history_generating_desc: "Isto acontece em segundo plano. Podes verificar novamente em alguns segundos.",
     cv_title: "Analisar CV",
     cv_subtitle: "Cola o teu CV para atualizar o perfil automaticamente.",
     cv_placeholder: "Cola o texto do teu CV aqui...",
@@ -520,6 +627,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_key_desc: "Para analisar o teu CV com segurança, fornece a tua chave de API Google Gemini. Ela é guardada localmente.",
     cv_key_placeholder: "Cola a Chave API aqui...",
     cv_key_save: "Guardar Chave",
+    cv_alert_success: "Chave API guardada com sucesso.",
+    cv_alert_error: "Falha ao analisar o CV. Verifica a tua chave API.",
+    cv_btn_manage_key: "Chave API",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
     // Base overwrites
@@ -532,14 +642,35 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     profile_sect_languages: "Línguas",
     profile_sect_skills: "Competências",
     wiki_nav_list: "Lista",
-    wiki_nav_icons: "Ícones"
+    wiki_nav_icons: "Ícones",
+    chat_ask_length: "Devo ser breve ou preferes os detalhes completos?",
+    settings_title: "Definições",
+    settings_length_label: "Preferência de Resposta",
+    settings_opt_ask: "Perguntar Sempre",
+    settings_opt_short: "Curto & Conciso",
+    settings_opt_long: "Detalhado & Completo",
+    btn_save: "Guardar",
+    wizard_children_title: "Tens filhos?",
+    wizard_children_desc: "Ajuda-nos a aconselhar sobre escolas.",
+    wizard_children_yes: "Sim",
+    wizard_children_no: "Não",
+    wizard_family_details_title: "Detalhes da Família",
+    wizard_family_count_label: "Quantos filhos?",
+    wizard_family_ages_label: "Faixas etárias?",
+    wizard_family_ages_hint: "Seleciona todas as aplicáveis.",
+    wizard_age_group_0_6: "Creche (0-6)",
+    wizard_age_group_7_12: "Escola (7-12)",
+    wizard_age_group_13_17: "Adolescentes (13-17)",
+    wizard_age_group_18: "Adultos (18+)"
   },
-  ru: {
+  "ru": {
     history_title: "История чатов",
     history_empty: "Нет записанных разговоров.",
     history_tab_summary: "Сводка (ИИ)",
     history_tab_transcript: "Полный текст",
     history_no_summary: "Сводка недоступна.",
+    history_generating: "ИИ пишет сводку...",
+    history_generating_desc: "Это происходит в фоновом режиме. Вы можете проверить через несколько секунд.",
     cv_title: "Анализ CV",
     cv_subtitle: "Вставьте текст CV для автообновления профиля.",
     cv_placeholder: "Вставьте текст резюме сюда...",
@@ -551,6 +682,9 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     cv_key_desc: "Для безопасного анализа резюме укажите свой ключ Google Gemini API. Он хранится локально.",
     cv_key_placeholder: "Вставьте ключ API...",
     cv_key_save: "Сохранить",
+    cv_alert_success: "API ключ сохранен.",
+    cv_alert_error: "Ошибка анализа. Проверьте ключ.",
+    cv_btn_manage_key: "API Ключ",
     dash_btn_history: "История",
     dash_btn_cv: "Импорт CV",
     // Base overwrites
@@ -569,7 +703,26 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     wiki_header_title: "Finland Works!",
     wiki_nav_list: "Список",
     wiki_nav_icons: "Иконки",
-    wiki_full_index: "Полный индекс"
+    wiki_full_index: "Полный индекс",
+    chat_ask_length: "Ответить кратко или подробно?",
+    settings_title: "Настройки",
+    settings_length_label: "Длина ответа",
+    settings_opt_ask: "Всегда спрашивать",
+    settings_opt_short: "Кратко",
+    settings_opt_long: "Подробно",
+    btn_save: "Сохранить",
+    wizard_children_title: "У вас есть дети?",
+    wizard_children_desc: "Это поможет дать советы по школам и садам.",
+    wizard_children_yes: "Да",
+    wizard_children_no: "Нет",
+    wizard_family_details_title: "О семье",
+    wizard_family_count_label: "Сколько детей?",
+    wizard_family_ages_label: "Возраст детей?",
+    wizard_family_ages_hint: "Выберите все подходящие.",
+    wizard_age_group_0_6: "Сад (0-6)",
+    wizard_age_group_7_12: "Школа (7-12)",
+    wizard_age_group_13_17: "Подростки (13-17)",
+    wizard_age_group_18: "Взрослые (18+)"
   }
 };
 

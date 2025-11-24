@@ -33,7 +33,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
       setHasKey(true);
       setShowKeyInput(false);
       setKeyInput('');
-      alert("API Key saved successfully.");
+      alert(t('cv_alert_success', language));
     }
   };
 
@@ -68,7 +68,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
          onBack();
       }
     } catch (e) {
-      alert("Failed to analyze CV. Please try again or check your API key validity.");
+      alert(t('cv_alert_error', language));
     } finally {
       setIsAnalyzing(false);
     }
@@ -93,7 +93,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ language, onBack, on
             title="Manage API Key"
         >
             <Icons.Key className="w-4 h-4" /> 
-            <span className="hidden sm:inline">API Key</span>
+            <span className="hidden sm:inline">{t('cv_btn_manage_key', language)}</span>
         </button>
       </div>
 

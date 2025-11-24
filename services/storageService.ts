@@ -1,6 +1,6 @@
 
 import jsYaml from 'js-yaml';
-import { UserProfile, Conversation, DEFAULT_PROFILE_YAML } from '../types';
+import { UserProfile, Conversation, DEFAULT_PROFILE_YAML, LengthPreference } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Polyfill declaration for TypeScript
@@ -20,7 +20,10 @@ const KEYS = {
   PENDING_SUMMARIES: `${PREFIX}pending_summaries`,
   
   // Wiki Progress
-  WIKI_PROGRESS_PREFIX: `${PREFIX}data/wiki_progress_v2/`
+  WIKI_PROGRESS_PREFIX: `${PREFIX}data/wiki_progress_v2/`,
+
+  // Settings
+  PREF_RESPONSE_LENGTH: `${PREFIX}settings/response_length`
 };
 
 // --- API Key Management ---
@@ -41,6 +44,20 @@ export const getApiKey = (): string | null => {
 export const saveApiKey = (key: string): void => {
   localStorage.setItem(KEYS.API_KEY, key);
   process.env.API_KEY = key;
+};
+
+// --- Settings Management ---
+
+export const getGlobalLengthPreference = (): LengthPreference => {
+  const stored = localStorage.getItem(KEYS.PREF_RESPONSE_LENGTH);
+  if (stored === 'short' || stored === 'long' || stored === 'ask') {
+    return stored as LengthPreference;
+  }
+  return 'ask'; // Default
+};
+
+export const saveGlobalLengthPreference = (pref: LengthPreference): void => {
+  localStorage.setItem(KEYS.PREF_RESPONSE_LENGTH, pref);
 };
 
 // --- Profile Management (Multi-User) ---
@@ -233,7 +250,7 @@ export const getAllConversations = (): Conversation[] => {
 };
 
 // --- Summary Management ---
-export const saveSummary = (id: string, summaryText: string): void => {
+export const saveSummary = (id: string, summaryText: string, title?: string): void => {
   const key = `${KEYS.SUMMARY_DIR}${id}.txt`;
   localStorage.setItem(key, summaryText);
   
@@ -241,6 +258,7 @@ export const saveSummary = (id: string, summaryText: string): void => {
   if (conversation) {
     conversation.isSummarized = true;
     conversation.summary = summaryText;
+    if (title) conversation.title = title;
     saveConversation(conversation);
   }
 };

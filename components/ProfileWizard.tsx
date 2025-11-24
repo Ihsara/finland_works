@@ -4,7 +4,7 @@ import { Icons } from './Icon';
 import { UserProfile, LanguageCode } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { COUNTRIES, isEUCountry } from '../data/countries';
-import { SUPPORTED_LANGUAGES, t } from '../data/languages';
+import { t } from '../data/languages';
 import { LanguageSelector } from './LanguageSelector';
 import { generateNickname } from '../data/nicknameData';
 
@@ -20,6 +20,49 @@ interface OptionItem {
   label: string;
   value: string;
 }
+
+// --- HELPER FUNCTIONS ---
+
+const getFinnishLevelOptions = (lang: LanguageCode): OptionItem[] => [
+  { value: "None yet", label: t('wizard_opt_lang_none', lang) },
+  { value: "Basics (A1)", label: t('wizard_opt_lang_basics', lang) },
+  { value: "Intermediate (A2-B1)", label: t('wizard_opt_lang_inter', lang) },
+  { value: "Fluent (B2+)", label: t('wizard_opt_lang_fluent', lang) }
+];
+
+const getEnglishLevelOptions = (lang: LanguageCode): OptionItem[] => [
+  { value: "None", label: t('wizard_opt_lang_en_none', lang) },
+  { value: "Basic", label: t('wizard_opt_lang_en_basic', lang) },
+  { value: "Working Proficiency", label: t('wizard_opt_lang_en_working', lang) },
+  { value: "Native/Fluent", label: t('wizard_opt_lang_en_fluent', lang) }
+];
+
+const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
+    { value: "A beautiful mystery", label: t('wizard_opt_cult_low', lang) },
+    { value: "Happily observing", label: t('wizard_opt_cult_med', lang) },
+    { value: "Diving in deep", label: t('wizard_opt_cult_high', lang) },
+];
+
+const getInfoLevelOptions = (lang: LanguageCode): OptionItem[] => [
+    { value: "Foggy", label: t('wizard_opt_info_none', lang) },
+    { value: "Clearing up", label: t('wizard_opt_info_some', lang) },
+    { value: "Crystal clear", label: t('wizard_opt_info_high', lang) },
+];
+
+const getExcitementOptions = (lang: LanguageCode): OptionItem[] => [
+    { value: "Career opportunities", label: t('wizard_opt_excite_career', lang) },
+    { value: "Quality of life", label: t('wizard_opt_excite_life', lang) },
+    { value: "Nature and culture", label: t('wizard_opt_excite_nature', lang) },
+    { value: "Adventure", label: t('wizard_opt_excite_adventure', lang) },
+];
+
+const getDisplayLabel = (value: string, options: OptionItem[]) => {
+    if (!value) return null;
+    const found = options.find(o => o.value === value);
+    return found ? found.label : value;
+};
+
+// --- SUB-COMPONENTS ---
 
 const Logo = () => (
   <svg width="100" height="37" viewBox="0 0 100 37" fill="none" xmlns="http://www.w3.org/2000/svg" className="select-none cursor-pointer">
@@ -39,9 +82,379 @@ const Logo = () => (
   </svg>
 );
 
+const OptionGrid = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+    {options.map(opt => (
+      <button
+        key={opt.value}
+        onClick={() => onSelect(opt.value)}
+        className={`p-4 rounded-xl border text-sm font-medium transition-all duration-200 text-left flex items-center ${
+          current === opt.value 
+            ? 'border-black ring-1 ring-black text-gray-900 bg-gray-50 shadow-sm' 
+            : 'border-gray-200 text-gray-900 hover:border-gray-300 hover:shadow-sm'
+        }`}
+      >
+        {current === opt.value && <Icons.CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-black" />}
+        {opt.label}
+      </button>
+    ))}
+  </div>
+);
+
+const MultiSelectGrid = ({ options, selected, onToggle }: { options: OptionItem[], selected: string[], onToggle: (v: string) => void }) => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+    {options.map(opt => {
+      const isSelected = selected.includes(opt.value);
+      return (
+        <button
+            key={opt.value}
+            onClick={() => onToggle(opt.value)}
+            className={`p-4 rounded-xl border text-sm font-medium transition-all duration-200 text-left flex items-center ${
+            isSelected
+                ? 'border-black ring-1 ring-black text-gray-900 bg-blue-50 shadow-sm' 
+                : 'border-gray-200 text-gray-900 hover:border-gray-300 hover:shadow-sm'
+            }`}
+        >
+            <div className={`w-5 h-5 rounded border mr-3 flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-400 bg-white'}`}>
+                {isSelected && <Icons.CheckCircle className="w-3.5 h-3.5 text-white" />}
+            </div>
+            {opt.label}
+        </button>
+      );
+    })}
+  </div>
+);
+
+const RatingScale = ({ current, onSelect, minLabel, maxLabel, language }: { current: string, onSelect: (v: string) => void, minLabel: string, maxLabel: string, language: LanguageCode }) => {
+  const levels = [
+    { value: "1", icon: Icons.Snowflake, label: t('wizard_rating_winter', language), color: "text-cyan-400", activeBg: "bg-cyan-500", borderColor: "border-cyan-100 hover:border-cyan-300" },
+    { value: "2", icon: Icons.CloudSun, label: t('wizard_rating_thaw', language), color: "text-sky-400", activeBg: "bg-sky-500", borderColor: "border-sky-100 hover:border-sky-300" },
+    { value: "3", icon: Icons.Sprout, label: t('wizard_rating_growth', language), color: "text-green-500", activeBg: "bg-green-600", borderColor: "border-green-100 hover:border-green-300" },
+    { value: "4", icon: Icons.Flower2, label: t('wizard_rating_bloom', language), color: "text-pink-400", activeBg: "bg-pink-500", borderColor: "border-pink-100 hover:border-pink-300" },
+    { value: "5", icon: Icons.Sun, label: t('wizard_rating_summer', language), color: "text-amber-400", activeBg: "bg-amber-500", borderColor: "border-amber-100 hover:border-amber-300" }
+  ];
+
+  return (
+    <div className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <div className="flex justify-between items-center mb-4 px-2">
+          <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight">{minLabel}</span>
+          <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight text-right">{maxLabel}</span>
+      </div>
+      <div className="flex justify-between items-center gap-2 sm:gap-3">
+        {levels.map((lvl) => {
+           const isActive = current === lvl.value;
+           const Icon = lvl.icon;
+           return (
+             <button
+               key={lvl.value}
+               onClick={() => onSelect(lvl.value)}
+               className={`
+                  group relative flex flex-col items-center justify-center gap-2 transition-all duration-300
+                  flex-1
+               `}
+             >
+               <div className={`
+                  w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border-2
+                  ${isActive 
+                      ? `${lvl.activeBg} border-transparent shadow-md scale-110 z-10 ring-2 ring-offset-2 ring-gray-100` 
+                      : `bg-white ${lvl.borderColor} ${lvl.color}`
+                  }
+               `}>
+                  <Icon className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 ${isActive ? 'text-white scale-110' : ''}`} />
+               </div>
+               <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wide ${isActive ? 'text-gray-900' : 'text-gray-400'}`}>
+                   {lvl.label}
+               </span>
+             </button>
+           )
+        })}
+      </div>
+    </div>
+  );
+};
+
+const ProgressiveSelector = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      {options.map((opt, idx) => {
+          const isSelected = current === opt.value;
+          const position = idx / (options.length - 1 || 1);
+          
+          let baseColorClass = 'border-gray-200 hover:border-gray-300 text-gray-700 bg-white';
+          let selectedColorClass = 'ring-1 shadow-md text-black';
+          let iconColor = 'text-gray-400';
+          
+          if (position <= 0.25) {
+               if (isSelected) selectedColorClass += ' border-blue-300 ring-blue-300 bg-blue-50';
+               iconColor = isSelected ? 'text-blue-500' : 'text-gray-300';
+          } else if (position <= 0.75) {
+               if (isSelected) selectedColorClass += ' border-purple-300 ring-purple-300 bg-purple-50';
+               iconColor = isSelected ? 'text-purple-500' : 'text-gray-300';
+          } else {
+               if (isSelected) selectedColorClass += ' border-green-300 ring-green-300 bg-green-50';
+               iconColor = isSelected ? 'text-green-500' : 'text-gray-300';
+          }
+
+          return (
+              <button
+                  key={opt.value}
+                  onClick={() => onSelect(opt.value)}
+                  className={`
+                      relative p-4 rounded-xl border-2 text-left transition-all duration-200 group
+                      ${isSelected ? selectedColorClass : baseColorClass}
+                  `}
+              >
+                  <div className="flex items-center justify-between w-full">
+                      <span className={`font-medium ${isSelected ? 'font-bold' : ''}`}>{opt.label}</span>
+                      {isSelected && <Icons.CheckCircle className={`w-5 h-5 ${iconColor}`} />}
+                  </div>
+              </button>
+          );
+      })}
+    </div>
+  );
+};
+
+const MaritalSelector = ({ current, onSelect, language }: { current: string, onSelect: (v: string) => void, language: LanguageCode }) => {
+  const options = [
+      { 
+          id: 'Solo', 
+          value: "Solo (Single/Divorced/Widowed)",
+          title: t('wizard_marital_solo_title', language),
+          desc: t('wizard_marital_solo_desc', language),
+          icon: Icons.User,
+          color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
+      },
+      { 
+          id: 'Partnered', 
+          value: "Partnered (Married/Cohabiting)",
+          title: t('wizard_marital_pair_title', language),
+          desc: t('wizard_marital_pair_desc', language),
+          icon: Icons.Users,
+          color: 'bg-pink-100 text-pink-600 border-pink-200 hover:bg-pink-200'
+      },
+      { 
+          id: 'Secret', 
+          value: "Prefer not to say",
+          title: t('wizard_marital_secret_title', language),
+          desc: t('wizard_marital_secret_desc', language),
+          icon: Icons.Ghost,
+          color: 'bg-purple-100 text-purple-600 border-purple-200 hover:bg-purple-200'
+      }
+  ];
+
+  return (
+      <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          {options.map(opt => {
+               const isSelected = current === opt.value;
+               return (
+                  <button
+                      key={opt.id}
+                      onClick={() => onSelect(opt.value)}
+                      className={`
+                          flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                          ${isSelected 
+                              ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                              : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                          }
+                      `}
+                  >
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                          <opt.icon className="w-8 h-8" />
+                      </div>
+                      <div>
+                          <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                          <p className="text-gray-500 text-sm">{opt.desc}</p>
+                      </div>
+                      {isSelected && (
+                           <div className="ml-auto">
+                              <Icons.CheckCircle className="w-6 h-6 text-black" />
+                           </div>
+                      )}
+                  </button>
+               );
+          })}
+      </div>
+  );
+};
+
+const EducationSelector = ({ current, onSelect, language }: { current: string, onSelect: (v: string) => void, language: LanguageCode }) => {
+    const options = [
+      {
+          id: 'General',
+          value: "High School / General",
+          title: t('wizard_edu_general_title', language),
+          desc: t('wizard_edu_general_desc', language),
+          icon: Icons.BookOpen,
+          color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200'
+      },
+      {
+          id: 'Vocational_AMK',
+          value: "Vocational / AMK",
+          title: t('wizard_edu_applied_title', language),
+          desc: t('wizard_edu_applied_desc', language),
+          icon: Icons.Briefcase,
+          color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200'
+      },
+      {
+          id: 'University',
+          value: "University Degree",
+          title: t('wizard_edu_uni_title', language),
+          desc: t('wizard_edu_uni_desc', language),
+          icon: Icons.GraduationCap,
+          color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200'
+      }
+    ];
+
+    return (
+      <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          {options.map(opt => {
+               const isSelected = current === opt.value;
+               return (
+                  <button
+                      key={opt.id}
+                      onClick={() => onSelect(opt.value)}
+                      className={`
+                          flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                          ${isSelected 
+                              ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                              : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                          }
+                      `}
+                  >
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                          <opt.icon className="w-8 h-8" />
+                      </div>
+                      <div>
+                          <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                          <p className="text-gray-500 text-sm">{opt.desc}</p>
+                      </div>
+                      {isSelected && (
+                           <div className="ml-auto">
+                              <Icons.CheckCircle className="w-6 h-6 text-black" />
+                           </div>
+                      )}
+                  </button>
+               );
+          })}
+      </div>
+  );
+};
+
+const PermitSelector = ({ current, onSelect, language }: { current: string, onSelect: (v: string) => void, language: LanguageCode }) => {
+    const options = [
+      {
+          id: 'Unlimited',
+          value: "Unlimited (Family/Permanent/Asylum)",
+          title: t('wizard_permit_full_title', language),
+          desc: t('wizard_permit_full_desc', language),
+          icon: Icons.CheckCircle,
+          color: 'bg-green-100 text-green-600 border-green-200 hover:bg-green-200'
+      },
+      {
+          id: 'Restricted',
+          value: "Work-based (Restricted)",
+          title: t('wizard_permit_restricted_title', language),
+          desc: t('wizard_permit_restricted_desc', language),
+          icon: Icons.Building2,
+          color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
+      },
+      {
+          id: 'Student',
+          value: "Student",
+          title: t('wizard_permit_student_title', language),
+          desc: t('wizard_permit_student_desc', language),
+          icon: Icons.GraduationCap,
+          color: 'bg-orange-100 text-orange-600 border-orange-200 hover:bg-orange-200'
+      }
+    ];
+
+    return (
+      <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          {options.map(opt => {
+               const isSelected = current === opt.value;
+               return (
+                  <button
+                      key={opt.id}
+                      onClick={() => onSelect(opt.value)}
+                      className={`
+                          flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
+                          ${isSelected 
+                              ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
+                              : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
+                          }
+                      `}
+                  >
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
+                          <opt.icon className="w-8 h-8" />
+                      </div>
+                      <div>
+                          <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
+                          <p className="text-gray-500 text-sm">{opt.desc}</p>
+                      </div>
+                      {isSelected && (
+                           <div className="ml-auto">
+                              <Icons.CheckCircle className="w-6 h-6 text-black" />
+                           </div>
+                      )}
+                  </button>
+               );
+          })}
+      </div>
+  );
+};
+
+interface RegionGridProps {
+  originCountry: string;
+  isEuropeSelected: boolean;
+  onSelect: (id: string, value: string) => void;
+  language: LanguageCode;
+}
+
+const RegionGrid: React.FC<RegionGridProps> = ({ originCountry, isEuropeSelected, onSelect, language }) => {
+    const regions = [
+        { id: 'europe', value: 'Europe', label: t('wizard_region_europe', language), icon: Icons.Landmark, color: 'text-blue-600 bg-blue-50 border-blue-200' },
+        { id: 'americas', value: 'Americas', label: t('wizard_region_americas', language), icon: Icons.Map, color: 'text-green-600 bg-green-50 border-green-200' },
+        { id: 'asia', value: 'Asia', label: t('wizard_region_asia', language), icon: Icons.Mountain, color: 'text-red-600 bg-red-50 border-red-200' },
+        { id: 'africa', value: 'Africa', label: t('wizard_region_africa', language), icon: Icons.Sun, color: 'text-orange-600 bg-orange-50 border-orange-200' },
+        { id: 'oceania', value: 'Oceania', label: t('wizard_region_oceania', language), icon: Icons.Waves, color: 'text-cyan-600 bg-cyan-50 border-cyan-200' },
+        { id: 'middle_east', value: 'Middle East', label: t('wizard_region_middle_east', language), icon: Icons.Palmtree, color: 'text-purple-600 bg-purple-50 border-purple-200' }, 
+    ];
+
+    return (
+           <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+               {regions.map(r => {
+                   // Check against stable value (English), not translated label
+                   const isSelected = originCountry.includes(r.value) || (r.id === 'europe' && isEuropeSelected);
+                   return (
+                      <button
+                          key={r.id}
+                          // Pass canonical value
+                          onClick={() => onSelect(r.id, r.value)}
+                          className={`
+                              flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all duration-200 gap-3
+                              ${isSelected 
+                                  ? 'border-black bg-gray-50 shadow-md ring-1 ring-black' 
+                                  : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1'
+                              }
+                          `}
+                      >
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${r.color}`}>
+                              <r.icon className="w-6 h-6" />
+                          </div>
+                          <span className={`font-bold text-sm ${isSelected ? 'text-black' : 'text-gray-700'}`}>{r.label}</span>
+                      </button>
+                   );
+               })}
+           </div>
+    );
+};
+
+// --- MAIN COMPONENT ---
+
 const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, language, onLanguageSelect, initialData }) => {
   const [step, setStep] = useState(1);
-  const totalSteps = 15;
+  const totalSteps = 17; // Increased steps for family details logic
   const [showCountryList, setShowCountryList] = useState(false);
   const countryWrapperRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -53,12 +466,18 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   // Accordion State Management
   const [activeSection, setActiveSection] = useState<string>('origin');
 
+  // Form Data
   const [formData, setFormData] = useState({
     name: '',
     ageRange: '',
     originCountry: '',
     residencePermitType: '',
     maritalStatus: '',
+    // Children logic temporary state
+    hasChildren: null as boolean | null,
+    childCount: '1',
+    childAgeGroups: [] as string[],
+    
     educationDegree: '',
     profession: '',
     languageFinnish: '',
@@ -77,7 +496,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   // Pre-fill data if editing
   useEffect(() => {
     if (initialData) {
-        setFormData({
+        setFormData(prev => ({
+            ...prev,
             name: (initialData.name === 'Friend' || initialData.name === 'Guest') ? '' : initialData.name,
             ageRange: initialData.ageRange === 'Unknown' ? '' : initialData.ageRange,
             originCountry: (initialData.originCountry === 'Unknown' || initialData.originCountry === 'Abroad') ? '' : initialData.originCountry,
@@ -95,7 +515,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             confidenceCareer: initialData.confidenceCareer || '',
             infoLevel: initialData.infoLevel || '',
             primaryExcitement: initialData.primaryExcitement || ''
-        });
+        }));
         
         // Determine Origin Mode & Accordion state
         if (initialData.originCountry && initialData.originCountry.startsWith('Region:')) {
@@ -107,6 +527,36 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         }
     }
   }, [initialData]);
+
+  // Helper to display origin nicely
+  const getOriginDisplay = () => {
+      const val = formData.originCountry;
+      if (!val) return t('wizard_step4_desc', language);
+      
+      if (val.startsWith('Region: ')) {
+          const region = val.replace('Region: ', '');
+          
+          // Sub-cases for Europe
+          if (region.includes('Europe')) {
+              const base = t('wizard_region_europe', language);
+              if (region.includes('EU/EEA')) return `${base} (EU/EEA)`;
+              if (region.includes('Non-EU')) return `${base} (Non-EU)`;
+              return base;
+          }
+
+          // Direct mapping
+          const map: Record<string, string> = {
+              'Americas': t('wizard_region_americas', language),
+              'Asia': t('wizard_region_asia', language),
+              'Africa': t('wizard_region_africa', language),
+              'Oceania': t('wizard_region_oceania', language),
+              'Middle East': t('wizard_region_middle_east', language)
+          };
+          
+          return map[region] || val; // Fallback
+      }
+      return val;
+  };
 
   // Calculate filtered countries
   const filteredCountries = formData.originCountry 
@@ -176,18 +626,59 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         setFormData(prev => ({ ...prev, name: nickname }));
     }
 
-    // Check special conditions for step skipping logic
-    // If step is 4 (Marital) and EU citizen -> Skip Step 5 (Permit) -> Go to 6 (English)
-    if (step === 4 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
-       setStep(6);
-       setActiveSection('level');
-       return;
+    // --- NAVIGATION LOGIC ---
+
+    // 1. From Marital Status (Step 4)
+    if (step === 4) {
+        // If Solo -> Skip child logic, Go to Permit (Step 7)
+        if (formData.maritalStatus.includes('Solo')) {
+            setStep(7);
+            return;
+        }
+        // If Partnered/Secret -> Go to Child Question (Step 5)
+        setStep(5);
+        return;
     }
-    
+
+    // 2. From "Has Children?" (Step 5)
+    if (step === 5) {
+        // If No -> Skip child details, Go to Permit (Step 7)
+        if (formData.hasChildren === false) {
+             setStep(7);
+             return;
+        }
+        // If Yes -> Go to Child Details (Step 6)
+        setStep(6);
+        return;
+    }
+
+    // 3. From "Child Details" (Step 6) -> Go to Permit (Step 7)
+    if (step === 6) {
+        setStep(7);
+        return;
+    }
+
+    // 4. From Permit (Step 7) -> Logic for EU Skip
+    if (step === 7) {
+        if (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration') {
+            // Skip Education (Step 10) or standard path? 
+            // In original code: if Step 4 (Marital) and EU -> Skip Step 5 (Permit) -> Go to 6 (English).
+            // Let's preserve the jump to English (now Step 8).
+            setStep(8);
+            setActiveSection('level');
+            return;
+        }
+        // Standard path to Education/Language
+        setStep(8);
+        setActiveSection('level');
+        return;
+    }
+
+    // Standard increment
     if (step < totalSteps) {
         setStep(step + 1);
         if (step + 1 === 2) setActiveSection('origin');
-        if (step + 1 === 7) setActiveSection('level');
+        if (step + 1 === 9) setActiveSection('level'); // Finnish language section
     }
     else finishWizard();
   };
@@ -198,36 +689,67 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
         setActiveSection('origin');
         return;
     }
-    if (step === 7 && activeSection === 'motivation') {
+    if (step === 9 && activeSection === 'motivation') {
         setActiveSection('level');
         return;
     }
 
-    // 2. Skip Logic Back
-    if (step === 6 && (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration')) {
+    // 2. Backward Logic from English (Step 8)
+    if (step === 8) {
+        // If EU, we came from Permit (Step 7), OR in original logic we skipped Permit?
+        // Original logic: "If step 4 (Marital) and EU -> Skip Step 5 (Permit)".
+        // New logic: Everyone goes through Permit step (Step 7) because Marital splits to Family.
+        // So just go back to Permit (Step 7).
+        setStep(7);
+        return;
+    }
+
+    // 3. Backward from Permit (Step 7)
+    if (step === 7) {
+        // Did we come from Child Details (Step 6), Child Boolean (Step 5), or Marital (Step 4)?
+        if (formData.maritalStatus.includes('Solo')) {
+            // Came from Step 4
+            setStep(4);
+        } else {
+             // Came from Step 5 or 6. 
+             // If we have children = true, came from 6. If false, came from 5.
+             if (formData.hasChildren === true) setStep(6);
+             else setStep(5);
+        }
+        return;
+    }
+
+    // 4. Backward from Child Details (Step 6) -> Step 5
+    if (step === 6) {
+        setStep(5);
+        return;
+    }
+
+    // 5. Backward from Child Boolean (Step 5) -> Step 4
+    if (step === 5) {
         setStep(4);
         return;
     }
 
-    // 3. Standard Back
+    // Standard Back
     if (step > 1) {
         setStep(step - 1);
         
         if (step - 1 === 2) {
              setActiveSection(formData.originCountry.includes('Europe') || isEUCountry(formData.originCountry) ? 'eu' : 'origin');
         }
-        if (step - 1 === 7) {
+        if (step - 1 === 9) {
             setActiveSection(formData.languageFinnish ? 'motivation' : 'level');
         }
     }
   };
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | boolean | string[]) => {
     if (field === 'originCountry') {
-        const isEU = isEUCountry(value);
+        const isEU = isEUCountry(value as string);
         setFormData(prev => ({ 
             ...prev, 
-            [field]: value,
+            [field]: value as string,
             residencePermitType: isEU ? 'EU Registration' : (prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType)
         }));
     } else {
@@ -242,21 +764,32 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
     }, 350);
   };
 
+  const handleChildToggle = (group: string) => {
+      setFormData(prev => {
+          const current = prev.childAgeGroups;
+          if (current.includes(group)) {
+              return { ...prev, childAgeGroups: current.filter(g => g !== group) };
+          } else {
+              return { ...prev, childAgeGroups: [...current, group] };
+          }
+      });
+  };
+
   const handleGenerateName = () => {
       const nickname = generateNickname(language);
       handleChange('name', nickname);
   };
 
-  const handleRegionSelect = (regionKey: string, label: string) => {
+  const handleRegionSelect = (regionKey: string, regionName: string) => {
       if (regionKey === 'europe') {
           setIsEuropeSelected(true); 
           setActiveSection('eu'); 
-          setFormData(prev => ({ ...prev, originCountry: `Region: ${label}` }));
+          setFormData(prev => ({ ...prev, originCountry: `Region: ${regionName}` }));
       } else {
           setIsEuropeSelected(false);
           setFormData(prev => ({ 
             ...prev, 
-            originCountry: `Region: ${label}`,
+            originCountry: `Region: ${regionName}`,
             residencePermitType: prev.residencePermitType === 'EU Registration' ? '' : prev.residencePermitType
           }));
           setTimeout(() => {
@@ -283,13 +816,22 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
   };
 
   const finishWizard = () => {
+    // Construct sophisticated marital status string
+    let finalMarital = formData.maritalStatus || 'Single';
+    if (formData.hasChildren) {
+        const count = formData.childCount || 'some';
+        const ages = formData.childAgeGroups.join(', ');
+        // E.g. "Partnered, with 2 children (0-6, 7-12)"
+        finalMarital = `${finalMarital}, with ${count} children${ages ? ` (${ages})` : ''}`;
+    }
+
     const profile: UserProfile = {
       id: initialData?.id || uuidv4(),
       name: formData.name || 'Friend',
       ageRange: formData.ageRange || 'Unknown',
       originCountry: formData.originCountry || 'Abroad',
       residencePermitType: formData.residencePermitType || 'General',
-      maritalStatus: formData.maritalStatus || 'Single',
+      maritalStatus: finalMarital,
       languages: [
         { language: 'Finnish', level: formData.languageFinnish || 'None' },
         { language: 'English', level: formData.languageEnglish || 'None' }
@@ -313,380 +855,12 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
 
   const getPhaseTitle = () => {
       if (step <= 1) return t('wizard_phase_identity', language);
-      if (step <= 4) return t('wizard_phase_demo', language);
-      if (step === 5) return t('wizard_phase_status', language);
-      if (step <= 9) return t('wizard_phase_skills', language);
-      if (step <= 14) return t('wizard_phase_mindset', language);
+      if (step <= 6) return t('wizard_phase_demo', language);
+      if (step === 7) return t('wizard_phase_status', language);
+      if (step <= 11) return t('wizard_phase_skills', language);
+      if (step <= 16) return t('wizard_phase_mindset', language);
       return t('wizard_phase_vision', language);
   };
-
-  const OptionGrid = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-      {options.map(opt => (
-        <button
-          key={opt.value}
-          onClick={() => onSelect(opt.value)}
-          className={`p-4 rounded-xl border text-sm font-medium transition-all duration-200 text-left flex items-center ${
-            current === opt.value 
-              ? 'border-black ring-1 ring-black text-gray-900 bg-gray-50 shadow-sm' 
-              : 'border-gray-200 text-gray-900 hover:border-gray-300 hover:shadow-sm'
-          }`}
-        >
-          {current === opt.value && <Icons.CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-black" />}
-          {opt.label}
-        </button>
-      ))}
-    </div>
-  );
-
-  const RatingScale = ({ current, onSelect, minLabel, maxLabel }: { current: string, onSelect: (v: string) => void, minLabel: string, maxLabel: string }) => {
-    const levels = [
-      { value: "1", icon: Icons.Snowflake, label: t('wizard_rating_winter', language), color: "text-cyan-400", activeBg: "bg-cyan-500", borderColor: "border-cyan-100 hover:border-cyan-300" },
-      { value: "2", icon: Icons.CloudSun, label: t('wizard_rating_thaw', language), color: "text-sky-400", activeBg: "bg-sky-500", borderColor: "border-sky-100 hover:border-sky-300" },
-      { value: "3", icon: Icons.Sprout, label: t('wizard_rating_growth', language), color: "text-green-500", activeBg: "bg-green-600", borderColor: "border-green-100 hover:border-green-300" },
-      { value: "4", icon: Icons.Flower2, label: t('wizard_rating_bloom', language), color: "text-pink-400", activeBg: "bg-pink-500", borderColor: "border-pink-100 hover:border-pink-300" },
-      { value: "5", icon: Icons.Sun, label: t('wizard_rating_summer', language), color: "text-amber-400", activeBg: "bg-amber-500", borderColor: "border-amber-100 hover:border-amber-300" }
-    ];
-
-    return (
-      <div className="mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-        <div className="flex justify-between items-center mb-4 px-2">
-            <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight">{minLabel}</span>
-            <span className="text-xs font-bold text-gray-400 uppercase max-w-[100px] leading-tight text-right">{maxLabel}</span>
-        </div>
-        <div className="flex justify-between items-center gap-2 sm:gap-3">
-          {levels.map((lvl) => {
-             const isActive = current === lvl.value;
-             const Icon = lvl.icon;
-             return (
-               <button
-                 key={lvl.value}
-                 onClick={() => onSelect(lvl.value)}
-                 className={`
-                    group relative flex flex-col items-center justify-center gap-2 transition-all duration-300
-                    flex-1
-                 `}
-               >
-                 <div className={`
-                    w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border-2
-                    ${isActive 
-                        ? `${lvl.activeBg} border-transparent shadow-md scale-110 z-10 ring-2 ring-offset-2 ring-gray-100` 
-                        : `bg-white ${lvl.borderColor} ${lvl.color}`
-                    }
-                 `}>
-                    <Icon className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 ${isActive ? 'text-white scale-110' : ''}`} />
-                 </div>
-                 <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wide ${isActive ? 'text-gray-900' : 'text-gray-400'}`}>
-                     {lvl.label}
-                 </span>
-               </button>
-             )
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  const ProgressiveSelector = ({ options, current, onSelect }: { options: OptionItem[], current: string, onSelect: (v: string) => void }) => {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-        {options.map((opt, idx) => {
-            const isSelected = current === opt.value;
-            const position = idx / (options.length - 1 || 1);
-            
-            let baseColorClass = 'border-gray-200 hover:border-gray-300 text-gray-700 bg-white';
-            let selectedColorClass = 'ring-1 shadow-md text-black';
-            let iconColor = 'text-gray-400';
-            
-            if (position <= 0.25) {
-                 if (isSelected) selectedColorClass += ' border-blue-300 ring-blue-300 bg-blue-50';
-                 iconColor = isSelected ? 'text-blue-500' : 'text-gray-300';
-            } else if (position <= 0.75) {
-                 if (isSelected) selectedColorClass += ' border-purple-300 ring-purple-300 bg-purple-50';
-                 iconColor = isSelected ? 'text-purple-500' : 'text-gray-300';
-            } else {
-                 if (isSelected) selectedColorClass += ' border-green-300 ring-green-300 bg-green-50';
-                 iconColor = isSelected ? 'text-green-500' : 'text-gray-300';
-            }
-
-            return (
-                <button
-                    key={opt.value}
-                    onClick={() => onSelect(opt.value)}
-                    className={`
-                        relative p-4 rounded-xl border-2 text-left transition-all duration-200 group
-                        ${isSelected ? selectedColorClass : baseColorClass}
-                    `}
-                >
-                    <div className="flex items-center justify-between w-full">
-                        <span className={`font-medium ${isSelected ? 'font-bold' : ''}`}>{opt.label}</span>
-                        {isSelected && <Icons.CheckCircle className={`w-5 h-5 ${iconColor}`} />}
-                    </div>
-                </button>
-            );
-        })}
-      </div>
-    );
-  };
-
-  const MaritalSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
-    const options = [
-        { 
-            id: 'Solo', 
-            value: "Solo (Single/Divorced/Widowed)",
-            title: t('wizard_marital_solo_title', language),
-            desc: t('wizard_marital_solo_desc', language),
-            icon: Icons.User,
-            color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
-        },
-        { 
-            id: 'Partnered', 
-            value: "Partnered (Married/Cohabiting)",
-            title: t('wizard_marital_pair_title', language),
-            desc: t('wizard_marital_pair_desc', language),
-            icon: Icons.Users,
-            color: 'bg-pink-100 text-pink-600 border-pink-200 hover:bg-pink-200'
-        },
-        { 
-            id: 'Secret', 
-            value: "Prefer not to say",
-            title: t('wizard_marital_secret_title', language),
-            desc: t('wizard_marital_secret_desc', language),
-            icon: Icons.Ghost,
-            color: 'bg-purple-100 text-purple-600 border-purple-200 hover:bg-purple-200'
-        }
-    ];
-
-    return (
-        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            {options.map(opt => {
-                 const isSelected = current === opt.value;
-                 return (
-                    <button
-                        key={opt.id}
-                        onClick={() => onSelect(opt.value)}
-                        className={`
-                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
-                            ${isSelected 
-                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
-                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
-                            }
-                        `}
-                    >
-                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
-                            <opt.icon className="w-8 h-8" />
-                        </div>
-                        <div>
-                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
-                            <p className="text-gray-500 text-sm">{opt.desc}</p>
-                        </div>
-                        {isSelected && (
-                             <div className="ml-auto">
-                                <Icons.CheckCircle className="w-6 h-6 text-black" />
-                             </div>
-                        )}
-                    </button>
-                 );
-            })}
-        </div>
-    );
-  };
-
-  const EducationSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
-      const options = [
-        {
-            id: 'General',
-            value: "High School / General",
-            title: t('wizard_edu_general_title', language),
-            desc: t('wizard_edu_general_desc', language),
-            icon: Icons.BookOpen,
-            color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200'
-        },
-        {
-            id: 'Vocational_AMK',
-            value: "Vocational / AMK",
-            title: t('wizard_edu_applied_title', language),
-            desc: t('wizard_edu_applied_desc', language),
-            icon: Icons.Briefcase,
-            color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200'
-        },
-        {
-            id: 'University',
-            value: "University Degree",
-            title: t('wizard_edu_uni_title', language),
-            desc: t('wizard_edu_uni_desc', language),
-            icon: Icons.GraduationCap,
-            color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200'
-        }
-      ];
-
-      return (
-        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            {options.map(opt => {
-                 const isSelected = current === opt.value;
-                 return (
-                    <button
-                        key={opt.id}
-                        onClick={() => onSelect(opt.value)}
-                        className={`
-                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
-                            ${isSelected 
-                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
-                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
-                            }
-                        `}
-                    >
-                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
-                            <opt.icon className="w-8 h-8" />
-                        </div>
-                        <div>
-                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
-                            <p className="text-gray-500 text-sm">{opt.desc}</p>
-                        </div>
-                        {isSelected && (
-                             <div className="ml-auto">
-                                <Icons.CheckCircle className="w-6 h-6 text-black" />
-                             </div>
-                        )}
-                    </button>
-                 );
-            })}
-        </div>
-    );
-  };
-
-  const PermitSelector = ({ current, onSelect }: { current: string, onSelect: (v: string) => void }) => {
-      const options = [
-        {
-            id: 'Unlimited',
-            value: "Unlimited (Family/Permanent/Asylum)",
-            title: t('wizard_permit_full_title', language),
-            desc: t('wizard_permit_full_desc', language),
-            icon: Icons.CheckCircle,
-            color: 'bg-green-100 text-green-600 border-green-200 hover:bg-green-200'
-        },
-        {
-            id: 'Restricted',
-            value: "Work-based (Restricted)",
-            title: t('wizard_permit_restricted_title', language),
-            desc: t('wizard_permit_restricted_desc', language),
-            icon: Icons.Building2,
-            color: 'bg-blue-100 text-blue-600 border-blue-200 hover:bg-blue-200'
-        },
-        {
-            id: 'Student',
-            value: "Student",
-            title: t('wizard_permit_student_title', language),
-            desc: t('wizard_permit_student_desc', language),
-            icon: Icons.GraduationCap,
-            color: 'bg-orange-100 text-orange-600 border-orange-200 hover:bg-orange-200'
-        }
-      ];
-
-      return (
-        <div className="grid grid-cols-1 gap-4 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            {options.map(opt => {
-                 const isSelected = current === opt.value;
-                 return (
-                    <button
-                        key={opt.id}
-                        onClick={() => onSelect(opt.value)}
-                        className={`
-                            flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 group text-left
-                            ${isSelected 
-                                ? 'border-black bg-gray-50 shadow-md scale-[1.02]' 
-                                : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50'
-                            }
-                        `}
-                    >
-                        <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black text-white' : opt.color}`}>
-                            <opt.icon className="w-8 h-8" />
-                        </div>
-                        <div>
-                            <h3 className={`font-bold text-lg ${isSelected ? 'text-black' : 'text-gray-900'}`}>{opt.title}</h3>
-                            <p className="text-gray-500 text-sm">{opt.desc}</p>
-                        </div>
-                        {isSelected && (
-                             <div className="ml-auto">
-                                <Icons.CheckCircle className="w-6 h-6 text-black" />
-                             </div>
-                        )}
-                    </button>
-                 );
-            })}
-        </div>
-    );
-  };
-
-  const RegionGrid = () => {
-      const regions = [
-          { id: 'europe', label: t('wizard_region_europe', language), icon: Icons.Landmark, color: 'text-blue-600 bg-blue-50 border-blue-200' },
-          { id: 'americas', label: t('wizard_region_americas', language), icon: Icons.Map, color: 'text-green-600 bg-green-50 border-green-200' },
-          { id: 'asia', label: t('wizard_region_asia', language), icon: Icons.Mountain, color: 'text-red-600 bg-red-50 border-red-200' },
-          { id: 'africa', label: t('wizard_region_africa', language), icon: Icons.Sun, color: 'text-orange-600 bg-orange-50 border-orange-200' },
-          { id: 'oceania', label: t('wizard_region_oceania', language), icon: Icons.Waves, color: 'text-cyan-600 bg-cyan-50 border-cyan-200' },
-          { id: 'middle_east', label: t('wizard_region_middle_east', language), icon: Icons.Palmtree, color: 'text-purple-600 bg-purple-50 border-purple-200' }, 
-      ];
-
-      return (
-             <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                 {regions.map(r => {
-                     const isSelected = formData.originCountry.includes(r.label) || (r.id === 'europe' && isEuropeSelected);
-                     return (
-                        <button
-                            key={r.id}
-                            onClick={() => handleRegionSelect(r.id, r.label)}
-                            className={`
-                                flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all duration-200 gap-3
-                                ${isSelected 
-                                    ? 'border-black bg-gray-50 shadow-md ring-1 ring-black' 
-                                    : 'border-gray-100 bg-white hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-1'
-                                }
-                            `}
-                        >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${r.color}`}>
-                                <r.icon className="w-6 h-6" />
-                            </div>
-                            <span className={`font-bold text-sm ${isSelected ? 'text-black' : 'text-gray-700'}`}>{r.label}</span>
-                        </button>
-                     );
-                 })}
-             </div>
-      );
-  };
-
-  const getFinnishLevelOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "None yet", label: t('wizard_opt_lang_none', lang) },
-    { value: "Basics (A1)", label: t('wizard_opt_lang_basics', lang) },
-    { value: "Intermediate (A2-B1)", label: t('wizard_opt_lang_inter', lang) },
-    { value: "Fluent (B2+)", label: t('wizard_opt_lang_fluent', lang) }
-  ];
-
-  const getEnglishLevelOptions = (lang: LanguageCode): OptionItem[] => [
-    { value: "None", label: t('wizard_opt_lang_en_none', lang) },
-    { value: "Basic", label: t('wizard_opt_lang_en_basic', lang) },
-    { value: "Working Proficiency", label: t('wizard_opt_lang_en_working', lang) },
-    { value: "Native/Fluent", label: t('wizard_opt_lang_en_fluent', lang) }
-  ];
-
-  const getCultureOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "A beautiful mystery", label: t('wizard_opt_cult_low', lang) },
-      { value: "Happily observing", label: t('wizard_opt_cult_med', lang) },
-      { value: "Diving in deep", label: t('wizard_opt_cult_high', lang) },
-  ];
-
-  const getInfoLevelOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "Foggy", label: t('wizard_opt_info_none', lang) },
-      { value: "Clearing up", label: t('wizard_opt_info_some', lang) },
-      { value: "Crystal clear", label: t('wizard_opt_info_high', lang) },
-  ];
-
-  const getExcitementOptions = (lang: LanguageCode): OptionItem[] => [
-      { value: "Career opportunities", label: t('wizard_opt_excite_career', lang) },
-      { value: "Quality of life", label: t('wizard_opt_excite_life', lang) },
-      { value: "Nature and culture", label: t('wizard_opt_excite_nature', lang) },
-      { value: "Adventure", label: t('wizard_opt_excite_adventure', lang) },
-  ];
 
   const renderStepContent = () => {
     switch(step) {
@@ -738,7 +912,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                              <Icons.Map className="w-4 h-4" />
                          </div>
                          <span className="font-bold text-gray-900 text-lg">
-                             {formData.originCountry || t('wizard_step4_desc', language)}
+                             {getOriginDisplay()}
                          </span>
                     </div>
                     {activeSection === 'origin' ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
@@ -804,7 +978,12 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                                 )}
                             </div>
                         ) : (
-                            <RegionGrid />
+                            <RegionGrid 
+                              originCountry={formData.originCountry}
+                              isEuropeSelected={isEuropeSelected}
+                              onSelect={handleRegionSelect}
+                              language={language}
+                            />
                         )}
                      </div>
                  )}
@@ -885,10 +1064,100 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             <MaritalSelector 
                 current={formData.maritalStatus}
                 onSelect={(v) => handleSelectionNext('maritalStatus', v)}
+                language={language}
             />
           </div>
         );
-      case 5: // Permit
+      case 5: // Has Children (New Step)
+         return (
+             <div className="space-y-6 animate-in fade-in duration-500">
+                 <div>
+                    <h2 className="text-2xl font-bold text-gray-900">{t('wizard_children_title', language)}</h2>
+                    <p className="text-gray-600 mt-2">{t('wizard_children_desc', language)}</p>
+                 </div>
+                 <div className="grid grid-cols-2 gap-4 mt-6">
+                     <button
+                        onClick={() => {
+                            handleChange('hasChildren', true);
+                            setTimeout(handleNext, 200);
+                        }}
+                        className={`p-6 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all ${
+                            formData.hasChildren === true
+                            ? 'border-black bg-blue-50 text-black'
+                            : 'border-gray-200 hover:border-black hover:bg-gray-50'
+                        }`}
+                     >
+                         <Icons.Baby className="w-10 h-10" />
+                         <span className="text-xl font-bold">{t('wizard_children_yes', language)}</span>
+                     </button>
+
+                     <button
+                        onClick={() => {
+                            handleChange('hasChildren', false);
+                            setTimeout(handleNext, 200);
+                        }}
+                        className={`p-6 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all ${
+                            formData.hasChildren === false
+                            ? 'border-black bg-gray-100 text-black'
+                            : 'border-gray-200 hover:border-black hover:bg-gray-50'
+                        }`}
+                     >
+                         <Icons.X className="w-10 h-10" />
+                         <span className="text-xl font-bold">{t('wizard_children_no', language)}</span>
+                     </button>
+                 </div>
+             </div>
+         );
+      case 6: // Children Details (New Step)
+         return (
+             <div className="space-y-8 animate-in fade-in duration-500">
+                 <div>
+                    <h2 className="text-2xl font-bold text-gray-900">{t('wizard_family_details_title', language)}</h2>
+                 </div>
+                 
+                 {/* Question 1: How Many */}
+                 <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                    <label className="block text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
+                        {t('wizard_family_count_label', language)}
+                    </label>
+                    <div className="flex gap-2">
+                        {['1', '2', '3', '4+'].map(num => (
+                            <button
+                                key={num}
+                                onClick={() => handleChange('childCount', num)}
+                                className={`w-12 h-12 rounded-full font-bold transition-all ${
+                                    formData.childCount === num 
+                                    ? 'bg-black text-white scale-110 shadow-lg' 
+                                    : 'bg-white border border-gray-300 text-gray-600 hover:border-black'
+                                }`}
+                            >
+                                {num}
+                            </button>
+                        ))}
+                    </div>
+                 </div>
+
+                 {/* Question 2: Age Ranges */}
+                 <div>
+                    <label className="block text-sm font-bold text-gray-900 uppercase tracking-wide mb-2">
+                        {t('wizard_family_ages_label', language)}
+                    </label>
+                    <p className="text-xs text-gray-500 mb-4">{t('wizard_family_ages_hint', language)}</p>
+                    
+                    <MultiSelectGrid 
+                        options={[
+                            { value: '0-6', label: t('wizard_age_group_0_6', language) },
+                            { value: '7-12', label: t('wizard_age_group_7_12', language) },
+                            { value: '13-17', label: t('wizard_age_group_13_17', language) },
+                            { value: '18+', label: t('wizard_age_group_18', language) },
+                        ]}
+                        selected={formData.childAgeGroups}
+                        onToggle={handleChildToggle}
+                    />
+                 </div>
+             </div>
+         );
+      case 7: // Permit
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
@@ -897,10 +1166,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
             <PermitSelector 
                 current={formData.residencePermitType}
                 onSelect={(v) => handleSelectionNext('residencePermitType', v)}
+                language={language}
             />
           </div>
         );
-      case 6: // English
+      case 8: // English
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -913,7 +1183,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 7: // Finnish
+      case 9: // Finnish
         return (
           <div className="space-y-4 animate-in fade-in duration-500">
              <div>
@@ -929,7 +1199,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                              <Icons.Languages className="w-4 h-4" />
                          </div>
                          <span className="font-bold text-gray-900 text-lg">
-                             {formData.languageFinnish || t('wizard_lbl_finnish_level', language)}
+                             {getDisplayLabel(formData.languageFinnish, getFinnishLevelOptions(language)) || t('wizard_lbl_finnish_level', language)}
                          </span>
                     </div>
                     {activeSection === 'level' ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
@@ -964,6 +1234,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                                 onSelect={(v) => handleSelectionNext('finnishMotivation', v)}
                                 minLabel={t('wizard_scale_1_motivation', language)}
                                 maxLabel={t('wizard_scale_5_motivation', language)}
+                                language={language}
                              />
                          )}
                     </div>
@@ -971,7 +1242,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              )}
           </div>
         );
-      case 8: // Education
+      case 10: // Education
          return (
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -981,10 +1252,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              <EducationSelector 
                 current={formData.educationDegree}
                 onSelect={(v) => handleSelectionNext('educationDegree', v)}
+                language={language}
              />
            </div>
          );
-      case 9: // Profession
+      case 11: // Profession
          return (
            <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1001,7 +1273,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
               />
            </div>
          );
-      case 10: // Career Confidence
+      case 12: // Career Confidence
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1012,10 +1284,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                 onSelect={(v) => handleSelectionNext('confidenceCareer', v)}
                 minLabel={t('wizard_scale_1_career', language)}
                 maxLabel={t('wizard_scale_5_career', language)}
+                language={language}
              />
           </div>
         );
-      case 11: // Life Confidence
+      case 13: // Life Confidence
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1026,10 +1299,11 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
                 onSelect={(v) => handleSelectionNext('confidenceLife', v)}
                 minLabel={t('wizard_scale_1_life', language)}
                 maxLabel={t('wizard_scale_5_life', language)}
+                language={language}
              />
           </div>
         );
-      case 12: // Culture
+      case 14: // Culture
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1042,7 +1316,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 13: // Info Level
+      case 15: // Info Level
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1055,7 +1329,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 14: // Excitement
+      case 16: // Excitement
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>
@@ -1068,7 +1342,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, lan
              />
           </div>
         );
-      case 15: // Goals/Vision
+      case 17: // Goals/Vision
         return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <div>

@@ -17,6 +17,7 @@ interface DashboardViewProps {
   onStartChat: () => void;
   onNavigateToHistory?: () => void;
   onNavigateToCvImport?: () => void;
+  onNavigateToSettings?: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -29,7 +30,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigateToQuiz,
   onStartChat,
   onNavigateToHistory,
-  onNavigateToCvImport
+  onNavigateToCvImport,
+  onNavigateToSettings
 }) => {
   const isGuest = !profile || profile.id === 'guest';
 
@@ -39,21 +41,32 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="p-6 flex justify-between items-center">
         <LanguageSelector currentLanguage={language} onSelect={onLanguageSelect} />
 
-        <button 
-          onClick={onNavigateToProfile}
-          className="p-1 hover:scale-105 transition transform duration-200 group relative"
-        >
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-black shadow-sm">
-            <img 
-              src={getAvatarUrl(profile)} 
-              alt="Avatar" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
-            ME
-          </div>
-        </button>
+        <div className="flex items-center gap-3">
+            {onNavigateToSettings && (
+                <button 
+                  onClick={onNavigateToSettings}
+                  className="p-2 hover:bg-gray-100 rounded-full transition text-gray-600"
+                  title="Settings"
+                >
+                    <Icons.Settings className="w-6 h-6" />
+                </button>
+            )}
+            <button 
+              onClick={onNavigateToProfile}
+              className="p-1 hover:scale-105 transition transform duration-200 group relative"
+            >
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-black shadow-sm">
+                <img 
+                  src={getAvatarUrl(profile)} 
+                  alt="Avatar" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-1 -right-1 bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
+                ME
+              </div>
+            </button>
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center px-8 pb-32 text-center max-w-2xl mx-auto w-full">

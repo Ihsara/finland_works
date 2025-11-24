@@ -33,12 +33,13 @@ TONE & LANGUAGE INSTRUCTIONS:
 4. **Celebratory:** When they complete a task, celebrate it warmly!
 `;
 
-// Modified to accept LanguageCode
+// Modified to accept LanguageCode and responseLength
 export const createSystemInstruction = (
   profile: UserProfile,
   wikiProgress: WikiProgressData,
   articles: EnrichedWikiArticle[],
-  language: LanguageCode
+  language: LanguageCode,
+  responseLength?: 'short' | 'long'
 ): string => {
   
   const isGuest = profile.id === 'guest';
@@ -184,12 +185,34 @@ export const createSystemInstruction = (
       `;
   }
 
+  // Add Length Constraint
+  let lengthInstruction = "";
+  if (responseLength === 'short') {
+      lengthInstruction = `
+      [RESPONSE LENGTH]: SHORT & CONCISE
+      The user explicitly requested a short answer. 
+      - Keep your response brief (under 100 words if possible).
+      - Use bullet points.
+      - Get straight to the point.
+      `;
+  } else if (responseLength === 'long') {
+      lengthInstruction = `
+      [RESPONSE LENGTH]: DETAILED & COMPREHENSIVE
+      The user explicitly requested a detailed answer.
+      - Provide a thorough explanation.
+      - Include examples, nuances, and context.
+      - Break down complex topics fully.
+      `;
+  }
+
   return `${SYSTEM_INSTRUCTION_BASE}
   
   LANGUAGE INSTRUCTION:
   The user is currently viewing the app in language code: "${language}".
   **You MUST reply in this language.**
   However, if referring to specific Finnish institutions (Kela, Migri, DVV, TE-toimisto), ALWAYS keep the Finnish name in parentheses if you translate it, e.g. "Social Insurance Institution (Kela)".
+
+  ${lengthInstruction}
 
   USER PROFILE:
   Name: ${profile.name}
@@ -243,11 +266,12 @@ export const sendMessageToGemini = async (
   profile: UserProfile,
   wikiProgress: WikiProgressData,
   articles: EnrichedWikiArticle[],
-  language: LanguageCode
+  language: LanguageCode,
+  responseLength?: 'short' | 'long'
 ): Promise<string> => {
   const ai = getClient();
   
-  const systemInstruction = createSystemInstruction(profile, wikiProgress, articles, language);
+  const systemInstruction = createSystemInstruction(profile, wikiProgress, articles, language, responseLength);
 
   const chat = ai.chats.create({
     model: 'gemini-2.5-flash',
@@ -273,17 +297,24 @@ export const sendMessageToGemini = async (
   }
 };
 
+export interface SummaryResult {
+  summary: string;
+  title: string;
+}
+
 export const summarizeConversation = async (
   messages: Message[]
-): Promise<string> => {
+): Promise<SummaryResult> => {
   const ai = getClient();
   
   const transcript = messages.map(m => `${m.sender.toUpperCase()}: ${m.text}`).join('\n');
   const prompt = `
-  Summarize the following conversation between a user and an advisor about moving to/living in Finland.
-  Highlight key advice given and any action items for the user.
-  Keep it brief (under 150 words).
+  Analyze the following conversation between a user and an advisor about moving to/living in Finland.
   
+  Please provide:
+  1. A short, friendly title for this conversation (max 6 words). It should be human-readable and describe the main topic.
+  2. A summary of key advice given and action items (under 150 words).
+
   TRANSCRIPT:
   ${transcript}
   `;
@@ -292,8 +323,23 @@ export const summarizeConversation = async (
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            summary: { type: Type.STRING },
+            title: { type: Type.STRING }
+          }
+        }
+      }
     });
-    return response.text || "Summary not available.";
+
+    const json = JSON.parse(response.text || '{}');
+    return {
+        summary: json.summary || "Summary not available.",
+        title: json.title || "Conversation"
+    };
   } catch (error) {
     console.error("Summary Error:", error);
     throw error;
