@@ -22,6 +22,8 @@ export type LanguageCode = 'en' | 'vi' | 'pt-br' | 'pt-pt' | 'ru';
 
 export type LengthPreference = 'short' | 'long' | 'ask';
 
+export type ThemePreference = 'system' | 'light' | 'dark';
+
 export interface AppLanguage {
   code: LanguageCode;
   name: string; // English name

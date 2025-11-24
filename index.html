@@ -1,16 +1,36 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <script>
-      // Polyfill process.env for browser environment
+      // 1. Polyfill process.env
       if (typeof process === 'undefined') {
         window.process = { env: { API_KEY: '' } };
       }
+
+      // 2. Immediate Theme Detection (Prevents Flash of White)
+      (function() {
+        try {
+          var stored = localStorage.getItem('fw_settings/theme');
+          var userPref = stored;
+          var sysPref = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          
+          if (userPref === 'dark' || (!userPref && sysPref) || (userPref === 'system' && sysPref)) {
+            document.documentElement.classList.add('dark');
+            // Update meta theme color for mobile browsers
+            var metaTheme = document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]');
+            if(metaTheme) metaTheme.setAttribute('content', '#111827');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
     </script>
     <meta charset="UTF-8" />
     <!-- viewport-fit=cover ensures the app uses the full screen area including notch areas on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Finland Works!" />
@@ -26,11 +46,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        darkMode: 'class', // FORCE Manual Dark Mode to prevent OS overrides crashing contrast
+        darkMode: 'class', // Manual Dark Mode
         theme: {
           extend: {
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              gray: {
+                850: '#1f2937', // Custom dark shade
+                950: '#030712', // Darker background
+              }
             },
             animation: {
               'fade-in': 'fadeIn 0.5s ease-out',

@@ -1,7 +1,6 @@
 
 import { AppLanguage, LanguageCode } from "../types";
 
-// Requested Languages: English, Vietnamese, Portuguese (BR), Portuguese (PT), Russian
 export const SUPPORTED_LANGUAGES: AppLanguage[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧', supported: true },
   { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳', supported: true },
@@ -10,737 +9,991 @@ export const SUPPORTED_LANGUAGES: AppLanguage[] = [
   { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', supported: true },
 ];
 
-// UI Dictionary Type
 export type TranslationKey = 
-  | 'landing_welcome'
-  | 'landing_subtitle'
-  | 'landing_btn_quiz'
-  | 'landing_btn_continue'
-  | 'landing_btn_ask'
-  | 'landing_load_sample'
-  | 'landing_erase'
-  | 'landing_add_key'
-  | 'landing_choose_lang'
-  | 'dash_greeting'
-  | 'dash_greeting_guest'
-  | 'dash_subtitle'
-  | 'dash_subtitle_guest'
-  | 'dash_btn_guide'
-  | 'dash_btn_ask'
-  | 'dash_btn_history'
-  | 'dash_btn_cv'
-  | 'dash_switch_profile'
-  | 'dash_new_profile'
-  | 'dash_edit_profile'
-  | 'dash_profile_overview'
-  | 'dash_education'
-  | 'dash_profession'
-  | 'dash_languages'
-  | 'dash_narrative_aspirations'
-  | 'dash_narrative_challenges'
-  | 'chat_placeholder'
-  | 'chat_end_session'
-  | 'chat_header_assistant'
-  | 'chat_prompt_context_inquiry'
-  | 'chat_ask_length'
-  | 'btn_back_dashboard'
-  | 'profile_btn_guide'
-  | 'profile_btn_guide_desc'
-  | 'profile_btn_plan'
-  | 'profile_btn_plan_desc'
-  | 'profile_sect_languages'
-  | 'profile_sect_skills'
-  | 'profile_sect_narrative'
-  | 'profile_label_aspirations'
-  | 'profile_label_challenges'
-  | 'profile_label_education'
-  | 'profile_label_profession'
-  | 'profile_completeness'
-  | 'profile_completeness_hint'
-  | 'profile_btn_update'
-  | 'profile_btn_continue'
-  | 'wiki_header_title'
-  | 'wiki_header_subtitle'
-  | 'wiki_nav_list'
-  | 'wiki_nav_icons'
-  | 'wiki_explore_cats'
-  | 'wiki_explore_subtitle'
-  | 'wiki_full_index'
-  | 'wiki_full_index_subtitle'
-  | 'wiki_section_chapters'
-  | 'wiki_btn_saved'
-  | 'wiki_btn_later'
-  | 'wiki_btn_completed'
-  | 'wiki_btn_mark_done'
-  | 'wiki_ctx_ask' 
-  | 'wiki_topic_label'
-  | 'wiki_topic_desc'
-  | 'wiki_guide_prefix'
-  | 'wiki_stat_articles'
-  | 'wiki_stat_complete'
-  | 'wiki_section_prefix'
-  | 'wizard_header_quiz'
-  | 'wizard_greeting_short'
-  | 'wizard_title_init'
-  | 'wizard_title_custom'
-  | 'wizard_phase_identity'
-  | 'wizard_phase_demo'
-  | 'wizard_phase_status'
-  | 'wizard_phase_skills'
-  | 'wizard_phase_mindset'
-  | 'wizard_phase_vision'
-  | 'wizard_nickname_hint'
-  | 'wizard_btn_ask'
-  | 'wizard_btn_next'
-  | 'wizard_btn_prev'
-  | 'wizard_btn_submit'
-  | 'wizard_btn_finish_early'
-  | 'wizard_btn_generate_name'
-  | 'wizard_ribbon_greeting'
-  | 'wizard_title_name'
-  | 'wizard_desc_name'
-  | 'wizard_placeholder_name'
-  | 'wizard_step2_title'
-  | 'wizard_step2_desc'
-  | 'wizard_step2_placeholder'
-  | 'wizard_step3_title'
-  | 'wizard_marital_solo_title'
-  | 'wizard_marital_solo_desc'
-  | 'wizard_marital_pair_title'
-  | 'wizard_marital_pair_desc'
-  | 'wizard_marital_secret_title'
-  | 'wizard_marital_secret_desc'
-  
-  // Children / Family Steps
-  | 'wizard_children_title'
-  | 'wizard_children_desc'
-  | 'wizard_children_yes'
-  | 'wizard_children_no'
-  | 'wizard_family_details_title'
-  | 'wizard_family_count_label'
-  | 'wizard_family_ages_label'
-  | 'wizard_family_ages_hint'
-  | 'wizard_age_group_0_6'
-  | 'wizard_age_group_7_12'
-  | 'wizard_age_group_13_17'
-  | 'wizard_age_group_18'
+  | 'landing_welcome' | 'landing_subtitle' | 'landing_btn_quiz' | 'landing_btn_continue' | 'landing_btn_ask' | 'landing_load_sample' | 'landing_erase' | 'landing_add_key' | 'landing_choose_lang'
+  | 'dash_greeting' | 'dash_greeting_guest' | 'dash_subtitle' | 'dash_subtitle_guest' | 'dash_btn_guide' | 'dash_btn_ask' | 'dash_btn_history' | 'dash_btn_cv' | 'dash_switch_profile' | 'dash_new_profile' | 'dash_edit_profile' | 'dash_profile_overview'
+  | 'dash_education' | 'dash_profession' | 'dash_languages' | 'dash_narrative_aspirations' | 'dash_narrative_challenges'
+  | 'chat_placeholder' | 'chat_end_session' | 'chat_header_assistant' | 'chat_prompt_context_inquiry' | 'chat_ask_length'
+  | 'btn_back_dashboard' | 'btn_save'
+  | 'profile_btn_guide' | 'profile_btn_guide_desc' | 'profile_btn_plan' | 'profile_btn_plan_desc' | 'profile_sect_languages' | 'profile_sect_skills' | 'profile_sect_narrative' | 'profile_label_aspirations' | 'profile_label_challenges' | 'profile_label_education' | 'profile_label_profession' | 'profile_completeness' | 'profile_completeness_hint' | 'profile_btn_update' | 'profile_btn_continue'
+  | 'wiki_header_title' | 'wiki_header_subtitle' | 'wiki_nav_list' | 'wiki_nav_icons' | 'wiki_explore_cats' | 'wiki_explore_subtitle' | 'wiki_full_index' | 'wiki_full_index_subtitle' | 'wiki_section_chapters' | 'wiki_btn_saved' | 'wiki_btn_later' | 'wiki_btn_completed' | 'wiki_btn_mark_done' | 'wiki_ctx_ask' | 'wiki_topic_label' | 'wiki_topic_desc' | 'wiki_guide_prefix' | 'wiki_stat_articles' | 'wiki_stat_complete' | 'wiki_section_prefix'
+  | 'wizard_header_quiz' | 'wizard_greeting_short' | 'wizard_title_init' | 'wizard_title_custom' | 'wizard_phase_identity' | 'wizard_phase_demo' | 'wizard_phase_status' | 'wizard_phase_skills' | 'wizard_phase_mindset' | 'wizard_phase_vision' | 'wizard_nickname_hint' | 'wizard_btn_ask' | 'wizard_btn_next' | 'wizard_btn_prev' | 'wizard_btn_submit' | 'wizard_btn_finish_early' | 'wizard_btn_generate_name' | 'wizard_ribbon_greeting' | 'wizard_title_name' | 'wizard_desc_name' | 'wizard_placeholder_name'
+  | 'wizard_step2_title' | 'wizard_step2_desc' | 'wizard_step2_placeholder' | 'wizard_step3_title'
+  | 'wizard_marital_solo_title' | 'wizard_marital_solo_desc' | 'wizard_marital_pair_title' | 'wizard_marital_pair_desc' | 'wizard_marital_secret_title' | 'wizard_marital_secret_desc'
+  | 'wizard_children_title' | 'wizard_children_desc' | 'wizard_children_yes' | 'wizard_children_no' | 'wizard_family_details_title' | 'wizard_family_count_label' | 'wizard_family_ages_label' | 'wizard_family_ages_hint' | 'wizard_age_group_0_6' | 'wizard_age_group_7_12' | 'wizard_age_group_13_17' | 'wizard_age_group_18'
+  | 'wizard_step4_title' | 'wizard_step4_desc' | 'wizard_step4_placeholder' | 'wizard_step4_no_match' | 'wizard_btn_search_country' | 'wizard_btn_select_region' | 'wizard_region_europe' | 'wizard_region_americas' | 'wizard_region_asia' | 'wizard_region_africa' | 'wizard_region_oceania' | 'wizard_region_middle_east' | 'wizard_eu_question' | 'wizard_eu_yes' | 'wizard_eu_no'
+  | 'wizard_step5_title' | 'wizard_permit_full_title' | 'wizard_permit_full_desc' | 'wizard_permit_restricted_title' | 'wizard_permit_restricted_desc' | 'wizard_permit_student_title' | 'wizard_permit_student_desc'
+  | 'wizard_step6_title' | 'wizard_step6_desc' | 'wizard_step6_field_label' | 'wizard_step6_field_placeholder' | 'wizard_edu_general_title' | 'wizard_edu_general_desc' | 'wizard_edu_applied_title' | 'wizard_edu_applied_desc' | 'wizard_edu_uni_title' | 'wizard_edu_uni_desc'
+  | 'wizard_step7_title' | 'wizard_step7_desc' | 'wizard_step7_placeholder'
+  | 'wizard_step8_title' | 'wizard_lbl_finnish_level' | 'wizard_lbl_finnish_motivation' | 'wizard_opt_lang_none' | 'wizard_opt_lang_basics' | 'wizard_opt_lang_inter' | 'wizard_opt_lang_fluent' | 'wizard_scale_1_motivation' | 'wizard_scale_5_motivation'
+  | 'wizard_step9_title' | 'wizard_opt_lang_en_none' | 'wizard_opt_lang_en_basic' | 'wizard_opt_lang_en_working' | 'wizard_opt_lang_en_fluent'
+  | 'wizard_step10_title' | 'wizard_step10_aspirations_label' | 'wizard_step10_aspirations_placeholder' | 'wizard_step10_challenges_label' | 'wizard_step10_challenges_placeholder'
+  | 'wizard_step12_title' | 'wizard_opt_cult_high' | 'wizard_opt_cult_med' | 'wizard_opt_cult_low'
+  | 'wizard_step13_title' | 'wizard_scale_1_life' | 'wizard_scale_5_life'
+  | 'wizard_step14_title' | 'wizard_scale_1_career' | 'wizard_scale_5_career'
+  | 'wizard_step15_title' | 'wizard_opt_info_none' | 'wizard_opt_info_some' | 'wizard_opt_info_high'
+  | 'wizard_step16_title' | 'wizard_opt_excite_career' | 'wizard_opt_excite_life' | 'wizard_opt_excite_nature' | 'wizard_opt_excite_adventure'
+  | 'wizard_rating_winter' | 'wizard_rating_thaw' | 'wizard_rating_growth' | 'wizard_rating_bloom' | 'wizard_rating_summer'
+  | 'history_title' | 'history_empty' | 'history_tab_summary' | 'history_tab_transcript' | 'history_no_summary' | 'history_generating' | 'history_generating_desc'
+  | 'cv_title' | 'cv_subtitle' | 'cv_placeholder' | 'cv_btn_analyze' | 'cv_btn_processing' | 'cv_warning_key' | 'cv_key_update' | 'cv_key_required' | 'cv_key_desc' | 'cv_key_placeholder' | 'cv_key_save' | 'cv_alert_success' | 'cv_alert_error' | 'cv_btn_manage_key'
+  | 'settings_title' | 'settings_sect_general' | 'settings_sect_appearance' | 'settings_sect_data' | 'settings_length_label' | 'settings_theme_label' | 'settings_theme_system' | 'settings_theme_light' | 'settings_theme_dark' | 'settings_opt_ask' | 'settings_opt_short' | 'settings_opt_long' | 'settings_clear_data' | 'settings_clear_data_desc' | 'settings_btn_clear';
 
-  | 'wizard_step4_title'
-  | 'wizard_step4_desc'
-  | 'wizard_step4_placeholder'
-  | 'wizard_step4_no_match'
-  | 'wizard_btn_search_country'
-  | 'wizard_btn_select_region'
-  | 'wizard_region_europe'
-  | 'wizard_region_americas'
-  | 'wizard_region_asia'
-  | 'wizard_region_africa'
-  | 'wizard_region_oceania'
-  | 'wizard_region_middle_east'
-  | 'wizard_eu_question'
-  | 'wizard_eu_yes'
-  | 'wizard_eu_no'
-  | 'wizard_step5_title'
-  | 'wizard_permit_full_title'
-  | 'wizard_permit_full_desc'
-  | 'wizard_permit_restricted_title'
-  | 'wizard_permit_restricted_desc'
-  | 'wizard_permit_student_title'
-  | 'wizard_permit_student_desc'
-  | 'wizard_step6_title'
-  | 'wizard_step6_desc'
-  | 'wizard_step6_field_label'
-  | 'wizard_step6_field_placeholder'
-  | 'wizard_edu_general_title'
-  | 'wizard_edu_general_desc'
-  | 'wizard_edu_applied_title'
-  | 'wizard_edu_applied_desc'
-  | 'wizard_edu_uni_title'
-  | 'wizard_edu_uni_desc'
-  | 'wizard_step7_title'
-  | 'wizard_step7_desc'
-  | 'wizard_step7_placeholder'
-  | 'wizard_step8_title'
-  | 'wizard_lbl_finnish_level'
-  | 'wizard_lbl_finnish_motivation'
-  | 'wizard_opt_lang_none'
-  | 'wizard_opt_lang_basics'
-  | 'wizard_opt_lang_inter'
-  | 'wizard_opt_lang_fluent'
-  | 'wizard_step9_title'
-  | 'wizard_opt_lang_en_none'
-  | 'wizard_opt_lang_en_basic'
-  | 'wizard_opt_lang_en_working'
-  | 'wizard_opt_lang_en_fluent'
-  | 'wizard_step10_title'
-  | 'wizard_step10_aspirations_label'
-  | 'wizard_step10_aspirations_placeholder'
-  | 'wizard_step10_challenges_label'
-  | 'wizard_step10_challenges_placeholder'
-  | 'wizard_scale_1_motivation'
-  | 'wizard_scale_5_motivation'
-  | 'wizard_scale_1_career'
-  | 'wizard_scale_5_career'
-  | 'wizard_scale_1_life'
-  | 'wizard_scale_5_life'
-  | 'wizard_step12_title'
-  | 'wizard_opt_cult_high'
-  | 'wizard_opt_cult_med'
-  | 'wizard_opt_cult_low'
-  | 'wizard_step13_title'
-  | 'wizard_opt_conf_life_low'
-  | 'wizard_opt_conf_life_med'
-  | 'wizard_opt_conf_life_high'
-  | 'wizard_step14_title'
-  | 'wizard_step15_title'
-  | 'wizard_opt_info_none'
-  | 'wizard_opt_info_some'
-  | 'wizard_opt_info_high'
-  | 'wizard_step16_title'
-  | 'wizard_opt_excite_career'
-  | 'wizard_opt_excite_life'
-  | 'wizard_opt_excite_nature'
-  | 'wizard_opt_excite_adventure'
-  | 'wizard_rating_winter'
-  | 'wizard_rating_thaw'
-  | 'wizard_rating_growth'
-  | 'wizard_rating_bloom'
-  | 'wizard_rating_summer'
-  
-  // History & CV
-  | 'history_title'
-  | 'history_empty'
-  | 'history_tab_summary'
-  | 'history_tab_transcript'
-  | 'history_no_summary'
-  | 'history_generating'
-  | 'history_generating_desc'
-  | 'cv_title'
-  | 'cv_subtitle'
-  | 'cv_placeholder'
-  | 'cv_btn_analyze'
-  | 'cv_btn_processing'
-  | 'cv_warning_key'
-  | 'cv_key_update'
-  | 'cv_key_required'
-  | 'cv_key_desc'
-  | 'cv_key_placeholder'
-  | 'cv_key_save'
-  | 'cv_alert_success'
-  | 'cv_alert_error'
-  | 'cv_btn_manage_key'
-  
-  // Settings
-  | 'settings_title'
-  | 'settings_length_label'
-  | 'settings_opt_ask'
-  | 'settings_opt_short'
-  | 'settings_opt_long'
-  | 'btn_save';
+const EN_DEFAULTS: Record<TranslationKey, string> = {
+    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", landing_btn_quiz: "Tell me about yourself", landing_btn_continue: "Explore My Guide", landing_btn_ask: "Start a conversation", landing_load_sample: "Load Sample", landing_erase: "Erase Cache", landing_add_key: "Add Gemini API Key", landing_choose_lang: "Choose Language",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's set up your profile to get started.", dash_btn_guide: "Open My Guide", dash_btn_ask: "Start a conversation", dash_btn_history: "Past Conversations", dash_btn_cv: "Import CV", dash_switch_profile: "Switch Profile", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "My Profile Overview",
+    dash_education: "Education", dash_profession: "Profession", dash_languages: "Languages", dash_narrative_aspirations: "Aspirations", dash_narrative_challenges: "Challenges",
+    chat_placeholder: "Ask something...", chat_end_session: "End Session", chat_header_assistant: "Assistant", chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"", chat_ask_length: "Should I keep it brief, or would you like the full details?",
+    btn_back_dashboard: "Back to Dashboard", btn_save: "Save",
+    profile_btn_guide: "My Guide", profile_btn_guide_desc: "Recommended articles", profile_btn_plan: "My Plan", profile_btn_plan_desc: "Coming soon", profile_sect_languages: "Languages", profile_sect_skills: "Skills", profile_sect_narrative: "Personal Narrative", profile_label_aspirations: "Aspirations", profile_label_challenges: "Fears / challenges", profile_label_education: "Education", profile_label_profession: "Profession", profile_completeness: "{percentage}% complete", profile_completeness_hint: "Answer a few more questions for better advice", profile_btn_update: "Update Profile", profile_btn_continue: "Continue the Quiz",
+    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Curated for {name}", wiki_nav_list: "List", wiki_nav_icons: "Icons", wiki_explore_cats: "Explore Categories", wiki_explore_subtitle: "Select a topic to dive into the details.", wiki_full_index: "Full Index", wiki_full_index_subtitle: "Browse all topics below.", wiki_section_chapters: "Chapters", wiki_btn_saved: "Saved", wiki_btn_later: "Later", wiki_btn_completed: "Completed", wiki_btn_mark_done: "Mark Done", wiki_ctx_ask: "Start a chat with this sentence", wiki_topic_label: "Topic: {tag}", wiki_topic_desc: "Topic Overview & Related Articles", wiki_guide_prefix: "GUIDE", wiki_stat_articles: "Articles", wiki_stat_complete: "Complete", wiki_section_prefix: "Section",
+    wizard_header_quiz: "Quiz", wizard_greeting_short: "Hi, {name}!", wizard_title_init: "Create Your Profile", wizard_title_custom: "{name} Character Creation", wizard_phase_identity: "PHASE 1: IDENTITY", wizard_phase_demo: "PHASE 2: BACKGROUND", wizard_phase_status: "PHASE 3: STATUS", wizard_phase_skills: "PHASE 4: SKILLS", wizard_phase_mindset: "PHASE 5: MINDSET", wizard_phase_vision: "PHASE 6: VISION", wizard_nickname_hint: "* You can use a generated nickname to stay anonymous.", wizard_btn_ask: "Ask a question", wizard_btn_next: "Next", wizard_btn_prev: "Previous", wizard_btn_submit: "Submit", wizard_btn_finish_early: "Save & Finish Now", wizard_btn_generate_name: "Give me a nickname!", wizard_ribbon_greeting: "Nice to meet you, {name}!", wizard_title_name: "What would you like to be called?", wizard_desc_name: "Enter your own name or choose", wizard_placeholder_name: "Your name",
+    wizard_step2_title: "How old are you?", wizard_step2_desc: "Select your age group", wizard_step2_placeholder: "Your age (e.g. 29)",
+    wizard_step3_title: "What's your marital status?", wizard_marital_solo_title: "Flying Solo", wizard_marital_solo_desc: "Single, divorced, or widowed", wizard_marital_pair_title: "Partnered Up", wizard_marital_pair_desc: "Married or partnered", wizard_marital_secret_title: "It's a Mystery", wizard_marital_secret_desc: "It's complicated / secret",
+    wizard_children_title: "Do you have children?", wizard_children_desc: "This helps us give relevant advice about schools and daycare.", wizard_children_yes: "Yes", wizard_children_no: "No", wizard_family_details_title: "Tell us about your family", wizard_family_count_label: "How many children?", wizard_family_ages_label: "What age groups are they in?", wizard_family_ages_hint: "Select all that apply. This changes the advice for schools.", wizard_age_group_0_6: "Daycare (0-6)", wizard_age_group_7_12: "School (7-12)", wizard_age_group_13_17: "Teens (13-17)", wizard_age_group_18: "Adults (18+)",
+    wizard_step4_title: "Where do you come from?", wizard_step4_desc: "Select your origin", wizard_step4_placeholder: "Start typing country name...", wizard_step4_no_match: "No matches found", wizard_btn_search_country: "Search Country", wizard_btn_select_region: "Select Region", wizard_region_europe: "Europe", wizard_region_americas: "Americas", wizard_region_asia: "Asia", wizard_region_africa: "Africa", wizard_region_oceania: "Oceania", wizard_region_middle_east: "Middle East", wizard_eu_question: "EU/EEA Citizen?", wizard_eu_yes: "Yes", wizard_eu_no: "No",
+    wizard_step5_title: "Working Rights & Permit", wizard_permit_full_title: "Unlimited Rights", wizard_permit_full_desc: "Permanent, Family, EU, or Finnish Degree", wizard_permit_restricted_title: "Sector Restricted", wizard_permit_restricted_desc: "Work Permit tied to a specific field/employer", wizard_permit_student_title: "Student Permit", wizard_permit_student_desc: "Limited hours allowed alongside studies",
+    wizard_step6_title: "Highest Education Level", wizard_step6_desc: "Which path best describes your background?", wizard_step6_field_label: "Field of Study (Optional)", wizard_step6_field_placeholder: "e.g. Engineering, Arts", wizard_edu_general_title: "General Education", wizard_edu_general_desc: "High School / Lukio only. No trade qualification.", wizard_edu_applied_title: "Vocational & Applied", wizard_edu_applied_desc: "Trade School (Amis) or Applied Sciences (AMK).", wizard_edu_uni_title: "University Degree", wizard_edu_uni_desc: "Academic degree (Bachelor's, Master's, PhD).",
+    wizard_step7_title: "What is your profession?", wizard_step7_desc: "Or what job are you looking for?", wizard_step7_placeholder: "e.g. Nurse, Welder, Developer",
+    wizard_step8_title: "Finnish Language", wizard_lbl_finnish_level: "Current Level", wizard_lbl_finnish_motivation: "Motivation to Learn", wizard_opt_lang_none: "None yet", wizard_opt_lang_basics: "Basics (A1)", wizard_opt_lang_inter: "Intermediate (A2-B1)", wizard_opt_lang_fluent: "Fluent (B2+)", wizard_scale_1_motivation: "Curious", wizard_scale_5_motivation: "Unstoppable",
+    wizard_step9_title: "English Language Level", wizard_opt_lang_en_none: "None", wizard_opt_lang_en_basic: "Basic", wizard_opt_lang_en_working: "Working Proficiency", wizard_opt_lang_en_fluent: "Native/Fluent",
+    wizard_step10_title: "Your Vision", wizard_step10_aspirations_label: "Aspirations", wizard_step10_aspirations_placeholder: "What do you hope to achieve?", wizard_step10_challenges_label: "Challenges", wizard_step10_challenges_placeholder: "Any specific worries?",
+    wizard_step12_title: "How does Finnish culture feel to you right now?", wizard_opt_cult_low: "It's a beautiful mystery", wizard_opt_cult_med: "I'm happily observing", wizard_opt_cult_high: "I'm diving in deep",
+    wizard_step13_title: "How are you finding the rhythm of life here?", wizard_scale_1_life: "Still thawing", wizard_scale_5_life: "Feels like home",
+    wizard_step14_title: "How confident are you in your job search?", wizard_scale_1_career: "I need direction", wizard_scale_5_career: "I have a plan",
+    wizard_step15_title: "How clear is your path forward?", wizard_opt_info_none: "It's a bit foggy", wizard_opt_info_some: "The clouds are clearing", wizard_opt_info_high: "Crystal clear",
+    wizard_step16_title: "What brings you the most joy here?", wizard_opt_excite_career: "Building my career", wizard_opt_excite_life: "The peace & safety", wizard_opt_excite_nature: "Nature & seasons", wizard_opt_excite_adventure: "Just being on an adventure",
+    wizard_rating_winter: "Winter", wizard_rating_thaw: "Thaw", wizard_rating_growth: "Growth", wizard_rating_bloom: "Bloom", wizard_rating_summer: "Summer",
+    history_title: "Past Conversations", history_empty: "No conversations recorded yet.", history_tab_summary: "Summary (AI)", history_tab_transcript: "Transcript", history_no_summary: "No summary available for this conversation.", history_generating: "AI is writing summary...", history_generating_desc: "This happens in the background. You can check back in a few seconds.",
+    cv_title: "Analyze CV", cv_subtitle: "Paste your CV text to automatically update your profile.", cv_placeholder: "Paste your CV/Resume text here...", cv_btn_analyze: "Analyze & Import", cv_btn_processing: "Processing...", cv_warning_key: "Personalized API Key required.", cv_key_update: "Update API Key", cv_key_required: "API Key Required", cv_key_desc: "To analyze your CV securely, please provide your own Google Gemini API key. It is stored locally on your device.", cv_key_placeholder: "Paste API Key here...", cv_key_save: "Save Key", cv_alert_success: "API Key saved successfully.", cv_alert_error: "Failed to analyze CV. Please try again or check your API key validity.", cv_btn_manage_key: "API Key",
+    settings_title: "Settings", settings_sect_general: "General", settings_sect_appearance: "Appearance", settings_sect_data: "Data & Privacy", settings_length_label: "Answer Length", settings_theme_label: "Theme", settings_theme_system: "System Default", settings_theme_light: "Light", settings_theme_dark: "Dark", settings_opt_ask: "Always Ask Me", settings_opt_short: "Short & Concise", settings_opt_long: "Detailed", settings_clear_data: "Reset Application Data", settings_clear_data_desc: "This will erase all profiles, history, and keys.", settings_btn_clear: "Reset Everything"
+};
 
 export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, string>>> = {
-  en: {
-    landing_welcome: "Welcome!",
-    landing_subtitle: "Find your way to work in Finland",
-    landing_btn_quiz: "Tell me about yourself",
-    landing_btn_continue: "Explore My Guide",
-    landing_btn_ask: "Start a conversation",
-    landing_load_sample: "Load Sample (Gabriela)",
-    landing_erase: "Erase Cache",
-    landing_add_key: "Add Gemini API Key",
-    landing_choose_lang: "Choose Language",
+  en: EN_DEFAULTS,
+  vi: {
+    ...EN_DEFAULTS,
+    landing_welcome: "Chào mừng!",
+    landing_subtitle: "Tìm đường đến Phần Lan làm việc",
+    landing_btn_quiz: "Giới thiệu bản thân",
+    landing_btn_continue: "Khám phá hướng dẫn",
+    landing_btn_ask: "Bắt đầu trò chuyện",
+    landing_load_sample: "Tải mẫu thử",
+    landing_erase: "Xóa dữ liệu",
+    landing_add_key: "Thêm khóa API",
+    landing_choose_lang: "Chọn ngôn ngữ",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
-    dash_subtitle: "Welcome back to your personal Finland guide.",
-    dash_subtitle_guest: "Let's set up your profile to get started.",
-    dash_btn_guide: "Open My Guide",
-    dash_btn_ask: "Start a conversation",
-    dash_btn_history: "Past Conversations",
-    dash_btn_cv: "Import CV",
-    dash_switch_profile: "Switch Profile",
-    dash_new_profile: "New",
-    dash_edit_profile: "Edit",
-    dash_profile_overview: "My Profile Overview",
-    dash_education: "Education",
-    dash_profession: "Profession",
-    dash_languages: "Languages",
-    dash_narrative_aspirations: "Aspirations",
-    dash_narrative_challenges: "Challenges",
-    chat_placeholder: "Ask something...",
-    chat_end_session: "End Session",
-    chat_header_assistant: "Assistant",
-    chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"",
-    chat_ask_length: "Should I keep it brief, or would you like the full details?",
-    btn_back_dashboard: "Back to Dashboard",
-    profile_btn_guide: "My Guide",
-    profile_btn_guide_desc: "Recommended articles",
-    profile_btn_plan: "My Plan",
-    profile_btn_plan_desc: "Coming soon",
-    profile_sect_languages: "Languages",
-    profile_sect_skills: "Skills",
-    profile_sect_narrative: "Personal Narrative",
-    profile_label_aspirations: "Aspirations",
-    profile_label_challenges: "Fears / challenges",
-    profile_label_education: "Education",
-    profile_label_profession: "Profession",
-    profile_completeness: "{percentage}% complete",
-    profile_completeness_hint: "Answer a few more questions for better advice",
-    profile_btn_update: "Update Profile",
-    profile_btn_continue: "Continue the Quiz",
+    dash_subtitle: "Chào mừng trở lại với hướng dẫn cá nhân của bạn.",
+    dash_subtitle_guest: "Hãy thiết lập hồ sơ để bắt đầu.",
+    dash_btn_guide: "Mở Hướng dẫn",
+    dash_btn_ask: "Hỏi AI",
+    dash_btn_history: "Lịch sử trò chuyện",
+    dash_btn_cv: "Nhập CV",
+    dash_switch_profile: "Đổi hồ sơ",
+    dash_new_profile: "Mới",
+    dash_edit_profile: "Sửa",
+    dash_profile_overview: "Tổng quan hồ sơ",
+    dash_education: "Giáo dục",
+    dash_profession: "Nghề nghiệp",
+    dash_languages: "Ngôn ngữ",
+    dash_narrative_aspirations: "Nguyện vọng",
+    dash_narrative_challenges: "Thử thách",
+    chat_placeholder: "Hỏi gì đó...",
+    chat_end_session: "Kết thúc",
+    chat_header_assistant: "Trợ lý",
+    chat_prompt_context_inquiry: "Hãy nói thêm về \"{sentence}\"",
+    chat_ask_length: "Bạn muốn câu trả lời ngắn gọn hay chi tiết?",
+    btn_back_dashboard: "Quay lại",
+    btn_save: "Lưu",
+    profile_btn_guide: "Hướng dẫn của tôi",
+    profile_btn_guide_desc: "Các bài viết gợi ý",
+    profile_btn_plan: "Kế hoạch",
+    profile_btn_plan_desc: "Sắp ra mắt",
+    profile_sect_languages: "Ngôn ngữ",
+    profile_sect_skills: "Kỹ năng",
+    profile_sect_narrative: "Câu chuyện cá nhân",
+    profile_label_aspirations: "Nguyện vọng",
+    profile_label_challenges: "Nỗi lo / Thử thách",
+    profile_label_education: "Giáo dục",
+    profile_label_profession: "Nghề nghiệp",
+    profile_completeness: "{percentage}% hoàn thành",
+    profile_completeness_hint: "Trả lời thêm để nhận lời khuyên tốt hơn",
+    profile_btn_update: "Cập nhật",
+    profile_btn_continue: "Tiếp tục",
     wiki_header_title: "Finland Works!",
-    wiki_header_subtitle: "Curated for {name}",
-    wiki_nav_list: "List",
-    wiki_nav_icons: "Icons",
-    wiki_explore_cats: "Explore Categories",
-    wiki_explore_subtitle: "Select a topic to dive into the details.",
-    wiki_full_index: "Full Index",
-    wiki_full_index_subtitle: "Browse all topics below.",
-    wiki_section_chapters: "Chapters",
-    wiki_btn_saved: "Saved",
-    wiki_btn_later: "Later",
-    wiki_btn_completed: "Completed",
-    wiki_btn_mark_done: "Mark Done",
-    wiki_ctx_ask: "Start a chat with this sentence",
-    wiki_topic_label: "Topic: {tag}",
-    wiki_topic_desc: "Topic Overview & Related Articles",
-    wiki_guide_prefix: "GUIDE",
-    wiki_stat_articles: "Articles",
-    wiki_stat_complete: "Complete",
-    wiki_section_prefix: "Section",
-
-    wizard_header_quiz: "Quiz",
-    wizard_greeting_short: "Hi, {name}!",
-    wizard_title_init: "Create Your Profile",
-    wizard_title_custom: "{name} Character Creation",
-    wizard_phase_identity: "PHASE 1: IDENTITY",
-    wizard_phase_demo: "PHASE 2: BACKGROUND",
-    wizard_phase_status: "PHASE 3: STATUS",
-    wizard_phase_skills: "PHASE 4: SKILLS",
-    wizard_phase_mindset: "PHASE 5: MINDSET",
-    wizard_phase_vision: "PHASE 6: VISION",
-    wizard_nickname_hint: "* You can use a generated nickname to stay anonymous.",
-    wizard_btn_ask: "Ask a question",
-    wizard_btn_next: "Next",
-    wizard_btn_prev: "Previous",
-    wizard_btn_submit: "Submit",
-    wizard_btn_finish_early: "Save & Finish Now",
-    wizard_btn_generate_name: "Give me a nickname!",
-    wizard_ribbon_greeting: "Nice to meet you, {name}!",
-    wizard_title_name: "What would you like to be called?",
-    wizard_desc_name: "Enter your own name or choose",
-    wizard_placeholder_name: "Your name",
-    wizard_step2_title: "How old are you?",
-    wizard_step2_desc: "Select your age group",
-    wizard_step2_placeholder: "Your age (e.g. 29)",
-    wizard_step3_title: "What's your marital status?",
-    
-    wizard_marital_solo_title: "Flying Solo",
-    wizard_marital_solo_desc: "Single, divorced, or widowed",
-    wizard_marital_pair_title: "Partnered Up",
-    wizard_marital_pair_desc: "Married or partnered",
-    wizard_marital_secret_title: "It's a Mystery",
-    wizard_marital_secret_desc: "It's complicated / secret",
-
-    // Children steps
-    wizard_children_title: "Do you have children?",
-    wizard_children_desc: "This helps us give relevant advice about schools and daycare.",
-    wizard_children_yes: "Yes",
-    wizard_children_no: "No",
-    wizard_family_details_title: "Tell us about your family",
-    wizard_family_count_label: "How many children?",
-    wizard_family_ages_label: "What age groups are they in?",
-    wizard_family_ages_hint: "Select all that apply. This changes the advice for schools.",
-    wizard_age_group_0_6: "Daycare (0-6)",
-    wizard_age_group_7_12: "School (7-12)",
-    wizard_age_group_13_17: "Teens (13-17)",
-    wizard_age_group_18: "Adults (18+)",
-
-    wizard_step4_title: "Where do you come from?",
-    wizard_step4_desc: "Select your origin",
-    wizard_step4_placeholder: "Start typing country name...",
-    wizard_step4_no_match: "No matches found",
-    
-    wizard_btn_search_country: "Search Country",
-    wizard_btn_select_region: "Select Region",
-    wizard_region_europe: "Europe",
-    wizard_region_americas: "Americas",
-    wizard_region_asia: "Asia",
-    wizard_region_africa: "Africa",
-    wizard_region_oceania: "Oceania",
-    wizard_region_middle_east: "Middle East",
-    wizard_eu_question: "EU/EEA Citizen?",
-    wizard_eu_yes: "Yes",
-    wizard_eu_no: "No",
-
-    wizard_step5_title: "Working Rights & Permit",
-    wizard_permit_full_title: "Unlimited Rights",
-    wizard_permit_full_desc: "Permanent, Family, EU, or Finnish Degree",
-    wizard_permit_restricted_title: "Sector Restricted",
-    wizard_permit_restricted_desc: "Work Permit tied to a specific field/employer",
-    wizard_permit_student_title: "Student Permit",
-    wizard_permit_student_desc: "Limited hours allowed alongside studies",
-
-    wizard_step6_title: "Highest Education Level",
-    wizard_step6_desc: "Which path best describes your background?",
-    wizard_step6_field_label: "Field of Study (Optional)",
-    wizard_step6_field_placeholder: "e.g. Engineering, Arts",
-    
-    wizard_edu_general_title: "General Education",
-    wizard_edu_general_desc: "High School / Lukio only. No trade qualification.",
-    wizard_edu_applied_title: "Vocational & Applied",
-    wizard_edu_applied_desc: "Trade School (Amis) or Applied Sciences (AMK).",
-    wizard_edu_uni_title: "University Degree",
-    wizard_edu_uni_desc: "Academic degree (Bachelor's, Master's, PhD).",
-
-    wizard_step7_title: "What is your profession?",
-    wizard_step7_desc: "Or what job are you looking for?",
-    wizard_step7_placeholder: "e.g. Nurse, Welder, Developer",
-    wizard_step8_title: "Finnish Language",
-    wizard_lbl_finnish_level: "Current Level",
-    wizard_lbl_finnish_motivation: "Motivation to Learn",
-    wizard_opt_lang_none: "None yet",
-    wizard_opt_lang_basics: "Basics (A1)",
-    wizard_opt_lang_inter: "Intermediate (A2-B1)",
-    wizard_opt_lang_fluent: "Fluent (B2+)",
-    
-    wizard_scale_1_motivation: "Curious",
-    wizard_scale_5_motivation: "Unstoppable",
-    
-    wizard_step9_title: "English Language Level",
-    wizard_opt_lang_en_none: "None",
-    wizard_opt_lang_en_basic: "Basic",
-    wizard_opt_lang_en_working: "Working Proficiency",
-    wizard_opt_lang_en_fluent: "Native/Fluent",
-    wizard_step10_title: "Your Vision",
-    wizard_step10_aspirations_label: "Aspirations",
-    wizard_step10_aspirations_placeholder: "What do you hope to achieve?",
-    wizard_step10_challenges_label: "Challenges",
-    wizard_step10_challenges_placeholder: "Any specific worries?",
-    
-    wizard_scale_1_career: "I need direction",
-    wizard_scale_5_career: "I have a plan",
-
-    wizard_scale_1_life: "Still thawing",
-    wizard_scale_5_life: "Feels like home",
-
-    wizard_rating_winter: "Winter",
-    wizard_rating_thaw: "Thaw",
-    wizard_rating_growth: "Growth",
-    wizard_rating_bloom: "Bloom",
-    wizard_rating_summer: "Summer",
-
-    wizard_step12_title: "How does Finnish culture feel to you right now?",
-    wizard_opt_cult_low: "It's a beautiful mystery",
-    wizard_opt_cult_med: "I'm happily observing",
-    wizard_opt_cult_high: "I'm diving in deep",
-
-    wizard_step13_title: "How are you finding the rhythm of life here?",
-    wizard_step14_title: "How confident are you in your job search?",
-
-    wizard_step15_title: "How clear is your path forward?",
-    wizard_opt_info_none: "It's a bit foggy (I need a map)",
-    wizard_opt_info_some: "The clouds are clearing",
-    wizard_opt_info_high: "Crystal clear",
-
-    wizard_step16_title: "What brings you the most joy here?",
-    wizard_opt_excite_career: "Building my career",
-    wizard_opt_excite_life: "The peace & safety",
-    wizard_opt_excite_nature: "Nature & seasons",
-    wizard_opt_excite_adventure: "Just being on an adventure",
-
-    // History & CV
-    history_title: "Past Conversations",
-    history_empty: "No conversations recorded yet.",
-    history_tab_summary: "Summary (AI)",
-    history_tab_transcript: "Summary (AI)",
-    history_no_summary: "No summary available for this conversation.",
-    history_generating: "AI is writing summary...",
-    history_generating_desc: "This happens in the background. You can check back in a few seconds.",
-    cv_title: "Analyze CV",
-    cv_subtitle: "Paste your CV text to automatically update your profile.",
-    cv_placeholder: "Paste your CV/Resume text here...",
-    cv_btn_analyze: "Analyze & Import",
-    cv_btn_processing: "Processing...",
-    cv_warning_key: "Personalized API Key required.",
-    cv_key_update: "Update API Key",
-    cv_key_required: "API Key Required",
-    cv_key_desc: "To analyze your CV securely, please provide your own Google Gemini API key. It is stored locally on your device.",
-    cv_key_placeholder: "Paste API Key here...",
-    cv_key_save: "Save Key",
-    cv_alert_success: "API Key saved successfully.",
-    cv_alert_error: "Failed to analyze CV. Please try again or check your API key validity.",
-    cv_btn_manage_key: "API Key",
-    
-    // Settings
-    settings_title: "Settings",
-    settings_length_label: "Answer Length Preference",
-    settings_opt_ask: "Always Ask Me",
-    settings_opt_short: "Short & Concise",
-    settings_opt_long: "Detailed & Comprehensive",
-    btn_save: "Save"
-  },
-  vi: {
+    wiki_header_subtitle: "Dành cho {name}",
+    wiki_nav_list: "Danh sách",
+    wiki_nav_icons: "Biểu tượng",
+    wiki_explore_cats: "Khám phá danh mục",
+    wiki_explore_subtitle: "Chọn chủ đề để xem chi tiết.",
+    wiki_full_index: "Mục lục đầy đủ",
+    wiki_full_index_subtitle: "Duyệt tất cả chủ đề bên dưới.",
+    wiki_section_chapters: "Chương",
+    wiki_btn_saved: "Đã lưu",
+    wiki_btn_later: "Để sau",
+    wiki_btn_completed: "Hoàn thành",
+    wiki_btn_mark_done: "Đánh dấu xong",
+    wiki_ctx_ask: "Bắt đầu trò chuyện với câu này",
+    wiki_topic_label: "Chủ đề: {tag}",
+    wiki_topic_desc: "Tổng quan chủ đề & Bài viết liên quan",
+    wiki_guide_prefix: "HƯỚNG DẪN",
+    wiki_stat_articles: "Bài viết",
+    wiki_stat_complete: "Hoàn thành",
+    wiki_section_prefix: "Phần",
+    wizard_header_quiz: "Câu hỏi",
+    wizard_greeting_short: "Chào, {name}!",
+    wizard_title_init: "Tạo hồ sơ của bạn",
+    wizard_title_custom: "Tạo nhân vật {name}",
+    wizard_phase_identity: "GIAI ĐOẠN 1: DANH TÍNH",
+    wizard_phase_demo: "GIAI ĐOẠN 2: CƠ BẢN",
+    wizard_phase_status: "GIAI ĐOẠN 3: TÌNH TRẠNG",
+    wizard_phase_skills: "GIAI ĐOẠN 4: KỸ NĂNG",
+    wizard_phase_mindset: "GIAI ĐOẠN 5: TƯ DUY",
+    wizard_phase_vision: "GIAI ĐOẠN 6: TẦM NHÌN",
+    wizard_nickname_hint: "* Bạn có thể dùng biệt danh để ẩn danh.",
+    wizard_btn_ask: "Đặt câu hỏi",
+    wizard_btn_next: "Tiếp theo",
+    wizard_btn_prev: "Quay lại",
+    wizard_btn_submit: "Gửi",
+    wizard_btn_finish_early: "Lưu & Kết thúc ngay",
+    wizard_btn_generate_name: "Tạo biệt danh!",
+    wizard_ribbon_greeting: "Rất vui được gặp, {name}!",
+    wizard_title_name: "Bạn muốn được gọi là gì?",
+    wizard_desc_name: "Nhập tên hoặc chọn biệt danh",
+    wizard_placeholder_name: "Tên của bạn",
+    wizard_step2_title: "Bạn bao nhiêu tuổi?",
+    wizard_step2_desc: "Chọn nhóm tuổi",
+    wizard_step2_placeholder: "Tuổi (vd: 29)",
+    wizard_step3_title: "Tình trạng hôn nhân?",
+    wizard_marital_solo_title: "Độc thân",
+    wizard_marital_solo_desc: "Độc thân, ly hôn hoặc góa",
+    wizard_marital_pair_title: "Có đôi",
+    wizard_marital_pair_desc: "Đã kết hôn hoặc sống chung",
+    wizard_marital_secret_title: "Bí mật",
+    wizard_marital_secret_desc: "Phức tạp / Không muốn nói",
+    wizard_children_title: "Bạn có con không?",
+    wizard_children_desc: "Điều này giúp tư vấn về trường học.",
+    wizard_children_yes: "Có",
+    wizard_children_no: "Không",
+    wizard_family_details_title: "Chi tiết gia đình",
+    wizard_family_count_label: "Số lượng trẻ?",
+    wizard_family_ages_label: "Độ tuổi?",
+    wizard_family_ages_hint: "Chọn tất cả các nhóm phù hợp.",
+    wizard_age_group_0_6: "Nhà trẻ (0-6)",
+    wizard_age_group_7_12: "Tiểu học (7-12)",
+    wizard_age_group_13_17: "Thiếu niên (13-17)",
+    wizard_age_group_18: "Trưởng thành (18+)",
+    wizard_step4_title: "Bạn đến từ đâu?",
+    wizard_step4_desc: "Chọn nguồn gốc",
+    wizard_step4_placeholder: "Nhập tên quốc gia...",
+    wizard_step4_no_match: "Không tìm thấy",
+    wizard_btn_search_country: "Tìm quốc gia",
+    wizard_btn_select_region: "Chọn khu vực",
+    wizard_region_europe: "Châu Âu",
+    wizard_region_americas: "Châu Mỹ",
+    wizard_region_asia: "Châu Á",
+    wizard_region_africa: "Châu Phi",
+    wizard_region_oceania: "Châu Đại Dương",
+    wizard_region_middle_east: "Trung Đông",
+    wizard_eu_question: "Công dân EU/EEA?",
+    wizard_eu_yes: "Có",
+    wizard_eu_no: "Không",
+    wizard_step5_title: "Quyền làm việc & Giấy phép",
+    wizard_permit_full_title: "Quyền không giới hạn",
+    wizard_permit_full_desc: "Vĩnh trú, Gia đình, EU, hoặc Bằng cấp Phần Lan",
+    wizard_permit_restricted_title: "Hạn chế",
+    wizard_permit_restricted_desc: "Giấy phép làm việc gắn với ngành/chủ cụ thể",
+    wizard_permit_student_title: "Sinh viên",
+    wizard_permit_student_desc: "Giờ làm việc hạn chế khi đang học",
+    wizard_step6_title: "Trình độ học vấn cao nhất",
+    wizard_step6_desc: "Con đường nào mô tả đúng nhất?",
+    wizard_step6_field_label: "Ngành học (Tùy chọn)",
+    wizard_step6_field_placeholder: "vd: Kỹ thuật, Nghệ thuật",
+    wizard_edu_general_title: "Phổ thông",
+    wizard_edu_general_desc: "Chỉ tốt nghiệp cấp 3 / Lukio.",
+    wizard_edu_applied_title: "Nghề & Ứng dụng",
+    wizard_edu_applied_desc: "Trường nghề (Amis) hoặc Đại học Ứng dụng (AMK).",
+    wizard_edu_uni_title: "Đại học",
+    wizard_edu_uni_desc: "Bằng cấp hàn lâm (Cử nhân, Thạc sĩ, Tiến sĩ).",
+    wizard_step7_title: "Nghề nghiệp của bạn?",
+    wizard_step7_desc: "Hoặc công việc bạn đang tìm?",
+    wizard_step7_placeholder: "vd: Y tá, Thợ hàn, Lập trình viên",
+    wizard_step8_title: "Tiếng Phần Lan",
+    wizard_lbl_finnish_level: "Trình độ hiện tại",
+    wizard_lbl_finnish_motivation: "Động lực học",
+    wizard_opt_lang_none: "Chưa biết",
+    wizard_opt_lang_basics: "Cơ bản (A1)",
+    wizard_opt_lang_inter: "Trung cấp (A2-B1)",
+    wizard_opt_lang_fluent: "Thành thạo (B2+)",
+    wizard_scale_1_motivation: "Tò mò",
+    wizard_scale_5_motivation: "Quyết tâm",
+    wizard_step9_title: "Tiếng Anh",
+    wizard_opt_lang_en_none: "Không",
+    wizard_opt_lang_en_basic: "Cơ bản",
+    wizard_opt_lang_en_working: "Dùng trong công việc",
+    wizard_opt_lang_en_fluent: "Bản ngữ/Thành thạo",
+    wizard_step10_title: "Tầm nhìn",
+    wizard_step10_aspirations_label: "Nguyện vọng",
+    wizard_step10_aspirations_placeholder: "Bạn hy vọng đạt được gì?",
+    wizard_step10_challenges_label: "Thử thách",
+    wizard_step10_challenges_placeholder: "Có lo lắng gì cụ thể không?",
+    wizard_step12_title: "Bạn cảm thấy thế nào về văn hóa Phần Lan?",
+    wizard_opt_cult_low: "Một bí ẩn đẹp đẽ",
+    wizard_opt_cult_med: "Vui vẻ quan sát",
+    wizard_opt_cult_high: "Hòa nhập sâu sắc",
+    wizard_step13_title: "Bạn thấy nhịp sống ở đây thế nào?",
+    wizard_scale_1_life: "Vẫn đang tan băng",
+    wizard_scale_5_life: "Như ở nhà",
+    wizard_step14_title: "Bạn tự tin thế nào khi tìm việc?",
+    wizard_scale_1_career: "Cần định hướng",
+    wizard_scale_5_career: "Đã có kế hoạch",
+    wizard_step15_title: "Con đường phía trước có rõ ràng không?",
+    wizard_opt_info_none: "Hơi mù mịt",
+    wizard_opt_info_some: "Mây đang tan",
+    wizard_opt_info_high: "Rất rõ ràng",
+    wizard_step16_title: "Điều gì làm bạn vui nhất ở đây?",
+    wizard_opt_excite_career: "Xây dựng sự nghiệp",
+    wizard_opt_excite_life: "Sự bình yên & an toàn",
+    wizard_opt_excite_nature: "Thiên nhiên & bốn mùa",
+    wizard_opt_excite_adventure: "Chỉ là một cuộc phiêu lưu",
+    wizard_rating_winter: "Đông",
+    wizard_rating_thaw: "Tan băng",
+    wizard_rating_growth: "Mọc",
+    wizard_rating_bloom: "Nở rộ",
+    wizard_rating_summer: "Hè",
     history_title: "Lịch sử trò chuyện",
     history_empty: "Chưa có cuộc trò chuyện nào.",
     history_tab_summary: "Tóm tắt (AI)",
     history_tab_transcript: "Nguyên văn",
     history_no_summary: "Chưa có tóm tắt.",
     history_generating: "AI đang viết tóm tắt...",
-    history_generating_desc: "Quá trình này diễn ra trong nền. Bạn có thể kiểm tra lại sau vài giây.",
+    history_generating_desc: "Quá trình này diễn ra trong nền.",
     cv_title: "Phân tích CV",
-    cv_subtitle: "Dán nội dung CV để cập nhật hồ sơ tự động.",
+    cv_subtitle: "Dán nội dung CV để cập nhật hồ sơ.",
     cv_placeholder: "Dán nội dung CV vào đây...",
     cv_btn_analyze: "Phân tích & Nhập",
     cv_btn_processing: "Đang xử lý...",
     cv_warning_key: "Cần có Khóa API Cá nhân.",
     cv_key_update: "Cập nhật Khóa API",
     cv_key_required: "Yêu cầu Khóa API",
-    cv_key_desc: "Để phân tích CV an toàn, vui lòng cung cấp khóa API Google Gemini của riêng bạn. Nó chỉ được lưu trên thiết bị của bạn.",
+    cv_key_desc: "Để phân tích CV an toàn, vui lòng cung cấp khóa API Google Gemini của riêng bạn.",
     cv_key_placeholder: "Dán Khóa API vào đây...",
     cv_key_save: "Lưu Khóa",
     cv_alert_success: "Đã lưu khóa API thành công.",
-    cv_alert_error: "Không thể phân tích CV. Vui lòng thử lại hoặc kiểm tra khóa API.",
+    cv_alert_error: "Không thể phân tích CV.",
     cv_btn_manage_key: "Khóa API",
-    dash_btn_history: "Lịch sử trò chuyện",
-    dash_btn_cv: "Nhập CV",
-    // Base overwrites
-    landing_welcome: "Chào mừng!",
-    landing_subtitle: "Tìm đường đến Phần Lan làm việc",
-    landing_btn_quiz: "Giới thiệu bản thân",
-    landing_btn_continue: "Khám phá hướng dẫn",
-    landing_btn_ask: "Bắt đầu trò chuyện",
-    dash_greeting: "Moi, {name}!",
-    dash_greeting_guest: "Moi!",
-    dash_subtitle: "Chào mừng trở lại với hướng dẫn cá nhân của bạn.",
-    dash_btn_guide: "Mở Hướng dẫn",
-    dash_btn_ask: "Hỏi AI",
-    profile_btn_guide: "Hướng dẫn của tôi",
-    profile_btn_guide_desc: "Các bài viết gợi ý",
-    profile_sect_languages: "Ngôn ngữ",
-    profile_sect_skills: "Kỹ năng",
-    profile_sect_narrative: "Câu chuyện cá nhân",
-    profile_completeness: "{percentage}% hoàn thành",
-    profile_completeness_hint: "Trả lời thêm vài câu hỏi để nhận lời khuyên tốt hơn",
-    wiki_header_title: "Finland Works!",
-    wiki_nav_list: "Danh sách",
-    wiki_nav_icons: "Biểu tượng",
-    wiki_full_index: "Mục lục đầy đủ",
-    chat_ask_length: "Bạn muốn câu trả lời ngắn gọn hay chi tiết?",
     settings_title: "Cài đặt",
+    settings_sect_general: "Chung",
+    settings_sect_appearance: "Giao diện",
+    settings_sect_data: "Dữ liệu & Quyền riêng tư",
     settings_length_label: "Độ dài câu trả lời",
+    settings_theme_label: "Chủ đề",
+    settings_theme_system: "Mặc định hệ thống",
+    settings_theme_light: "Sáng",
+    settings_theme_dark: "Tối",
     settings_opt_ask: "Luôn hỏi tôi",
-    settings_opt_short: "Ngắn gọn & Súc tích",
-    settings_opt_long: "Chi tiết & Đầy đủ",
-    btn_save: "Lưu",
-    wizard_children_title: "Bạn có con không?",
-    wizard_children_desc: "Điều này giúp chúng tôi tư vấn về trường học và nhà trẻ.",
-    wizard_children_yes: "Có",
-    wizard_children_no: "Không",
-    wizard_family_details_title: "Thông tin gia đình",
-    wizard_family_count_label: "Bao nhiêu trẻ?",
-    wizard_family_ages_label: "Độ tuổi của trẻ?",
-    wizard_family_ages_hint: "Chọn tất cả các mức phù hợp.",
-    wizard_age_group_0_6: "Nhà trẻ (0-6)",
-    wizard_age_group_7_12: "Tiểu học (7-12)",
-    wizard_age_group_13_17: "Thiếu niên (13-17)",
-    wizard_age_group_18: "Trưởng thành (18+)"
+    settings_opt_short: "Ngắn gọn",
+    settings_opt_long: "Chi tiết",
+    settings_clear_data: "Đặt lại ứng dụng",
+    settings_clear_data_desc: "Thao tác này sẽ xóa mọi hồ sơ, lịch sử và khóa.",
+    settings_btn_clear: "Đặt lại tất cả"
   },
   "pt-br": {
-    history_title: "Conversas Anteriores",
-    history_empty: "Nenhuma conversa gravada.",
-    history_tab_summary: "Resumo (IA)",
-    history_tab_transcript: "Transcrição Completa",
-    history_no_summary: "Sem resumo disponível.",
-    history_generating: "A IA está a escrever o resumo...",
-    history_generating_desc: "Isto acontece em segundo plano. Podes verificar novamente em alguns segundos.",
-    cv_title: "Analisar CV",
-    cv_subtitle: "Cole seu CV para atualizar seu perfil automaticamente.",
-    cv_placeholder: "Cole o texto do seu CV aqui...",
-    cv_btn_analyze: "Analisar & Importar",
-    cv_btn_processing: "Processando...",
-    cv_warning_key: "Chave de API Personalizada necessária.",
-    cv_key_update: "Atualizar Chave API",
-    cv_key_required: "Chave API Necessária",
-    cv_key_desc: "Para analisar seu CV com segurança, forneça sua chave de API do Google Gemini. Ela é armazenada localmente.",
-    cv_key_placeholder: "Cole a Chave API aqui...",
-    cv_key_save: "Salvar Chave",
-    cv_alert_success: "Chave API salva com sucesso.",
-    cv_alert_error: "Falha ao analisar o CV. Verifique sua chave API.",
-    cv_btn_manage_key: "Chave API",
-    dash_btn_history: "Histórico",
-    dash_btn_cv: "Importar CV",
-    // Base overwrites
+    ...EN_DEFAULTS,
     landing_welcome: "Bem-vindo!",
-    landing_subtitle: "Encontre seu caminho para trabalhar na Finlândia",
+    landing_subtitle: "Encontre seu caminho na Finlândia",
     landing_btn_quiz: "Conte sobre você",
     landing_btn_continue: "Explorar Guia",
     landing_btn_ask: "Começar conversa",
+    landing_load_sample: "Carregar Exemplo",
+    landing_erase: "Limpar Dados",
+    landing_add_key: "Adicionar Chave API",
+    landing_choose_lang: "Escolher Idioma",
     dash_greeting: "Moi, {name}!",
     dash_greeting_guest: "Moi!",
     dash_subtitle: "Bem-vindo de volta ao seu guia pessoal.",
+    dash_subtitle_guest: "Vamos configurar seu perfil para começar.",
     dash_btn_guide: "Abrir Guia",
     dash_btn_ask: "Perguntar AI",
+    dash_btn_history: "Histórico",
+    dash_btn_cv: "Importar CV",
+    dash_switch_profile: "Trocar Perfil",
+    dash_new_profile: "Novo",
+    dash_edit_profile: "Editar",
+    dash_profile_overview: "Visão Geral",
+    dash_education: "Educação",
+    dash_profession: "Profissão",
+    dash_languages: "Idiomas",
+    dash_narrative_aspirations: "Aspirações",
+    dash_narrative_challenges: "Desafios",
+    chat_placeholder: "Pergunte algo...",
+    chat_end_session: "Encerrar",
+    chat_header_assistant: "Assistente",
+    chat_prompt_context_inquiry: "Me conte mais sobre \"{sentence}\"",
+    chat_ask_length: "Devo ser breve ou você prefere detalhes?",
+    btn_back_dashboard: "Voltar",
+    btn_save: "Salvar",
     profile_btn_guide: "Meu Guia",
+    profile_btn_guide_desc: "Artigos recomendados",
+    profile_btn_plan: "Meu Plano",
+    profile_btn_plan_desc: "Em breve",
     profile_sect_languages: "Idiomas",
     profile_sect_skills: "Habilidades",
+    profile_sect_narrative: "Narrativa Pessoal",
+    profile_label_aspirations: "Aspirações",
+    profile_label_challenges: "Medos / Desafios",
+    profile_label_education: "Educação",
+    profile_label_profession: "Profissão",
     profile_completeness: "{percentage}% completo",
+    profile_completeness_hint: "Responda mais perguntas para melhores conselhos",
+    profile_btn_update: "Atualizar Perfil",
+    profile_btn_continue: "Continuar Quiz",
     wiki_header_title: "Finland Works!",
+    wiki_header_subtitle: "Curado para {name}",
     wiki_nav_list: "Lista",
     wiki_nav_icons: "Ícones",
+    wiki_explore_cats: "Explorar Categorias",
+    wiki_explore_subtitle: "Selecione um tópico para ver detalhes.",
     wiki_full_index: "Índice Completo",
-    chat_ask_length: "Devo ser breve ou você prefere os detalhes completos?",
-    settings_title: "Configurações",
-    settings_length_label: "Preferência de Resposta",
-    settings_opt_ask: "Sempre Perguntar",
-    settings_opt_short: "Curto & Conciso",
-    settings_opt_long: "Detalhado & Completo",
-    btn_save: "Salvar",
+    wiki_full_index_subtitle: "Navegue por todos os tópicos.",
+    wiki_section_chapters: "Capítulos",
+    wiki_btn_saved: "Salvo",
+    wiki_btn_later: "Depois",
+    wiki_btn_completed: "Concluído",
+    wiki_btn_mark_done: "Marcar Feito",
+    wiki_ctx_ask: "Chat sobre isso",
+    wiki_topic_label: "Tópico: {tag}",
+    wiki_topic_desc: "Visão Geral & Artigos",
+    wiki_guide_prefix: "GUIA",
+    wiki_stat_articles: "Artigos",
+    wiki_stat_complete: "Completo",
+    wiki_section_prefix: "Seção",
+    wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Oi, {name}!",
+    wizard_title_init: "Criar Perfil",
+    wizard_title_custom: "Criação de {name}",
+    wizard_phase_identity: "FASE 1: IDENTIDADE",
+    wizard_phase_demo: "FASE 2: ORIGEM",
+    wizard_phase_status: "FASE 3: STATUS",
+    wizard_phase_skills: "FASE 4: SKILLS",
+    wizard_phase_mindset: "FASE 5: MINDSET",
+    wizard_phase_vision: "FASE 6: VISÃO",
+    wizard_nickname_hint: "* Você pode usar um apelido gerado.",
+    wizard_btn_ask: "Perguntar",
+    wizard_btn_next: "Próximo",
+    wizard_btn_prev: "Anterior",
+    wizard_btn_submit: "Enviar",
+    wizard_btn_finish_early: "Salvar & Sair",
+    wizard_btn_generate_name: "Gerar Apelido!",
+    wizard_ribbon_greeting: "Prazer, {name}!",
+    wizard_title_name: "Como quer ser chamado?",
+    wizard_desc_name: "Digite seu nome ou escolha um",
+    wizard_placeholder_name: "Seu nome",
+    wizard_step2_title: "Qual sua idade?",
+    wizard_step2_desc: "Selecione a faixa etária",
+    wizard_step2_placeholder: "Sua idade",
+    wizard_step3_title: "Estado civil?",
+    wizard_marital_solo_title: "Solo",
+    wizard_marital_solo_desc: "Solteiro(a), divorciado(a) ou viúvo(a)",
+    wizard_marital_pair_title: "Com Parceiro",
+    wizard_marital_pair_desc: "Casado(a) ou união estável",
+    wizard_marital_secret_title: "Segredo",
+    wizard_marital_secret_desc: "Complicado / Prefiro não dizer",
     wizard_children_title: "Tem filhos?",
-    wizard_children_desc: "Ajuda-nos a aconselhar sobre escolas e creches.",
+    wizard_children_desc: "Ajuda a aconselhar sobre escolas.",
     wizard_children_yes: "Sim",
     wizard_children_no: "Não",
     wizard_family_details_title: "Detalhes da Família",
     wizard_family_count_label: "Quantas crianças?",
     wizard_family_ages_label: "Faixas etárias?",
-    wizard_family_ages_hint: "Selecione todas as aplicáveis.",
+    wizard_family_ages_hint: "Selecione todas aplicáveis.",
     wizard_age_group_0_6: "Creche (0-6)",
     wizard_age_group_7_12: "Escola (7-12)",
     wizard_age_group_13_17: "Adolescentes (13-17)",
-    wizard_age_group_18: "Adultos (18+)"
+    wizard_age_group_18: "Adultos (18+)",
+    wizard_step4_title: "De onde você vem?",
+    wizard_step4_desc: "Selecione origem",
+    wizard_step4_placeholder: "Digite o país...",
+    wizard_step4_no_match: "Não encontrado",
+    wizard_btn_search_country: "Buscar País",
+    wizard_btn_select_region: "Selecionar Região",
+    wizard_region_europe: "Europa",
+    wizard_region_americas: "Américas",
+    wizard_region_asia: "Ásia",
+    wizard_region_africa: "África",
+    wizard_region_oceania: "Oceania",
+    wizard_region_middle_east: "Oriente Médio",
+    wizard_eu_question: "Cidadão UE/EEE?",
+    wizard_eu_yes: "Sim",
+    wizard_eu_no: "Não",
+    wizard_step5_title: "Direitos de Trabalho & Visto",
+    wizard_permit_full_title: "Direitos Ilimitados",
+    wizard_permit_full_desc: "Permanente, Família, UE",
+    wizard_permit_restricted_title: "Restrito",
+    wizard_permit_restricted_desc: "Visto ligado a um empregador/setor",
+    wizard_permit_student_title: "Estudante",
+    wizard_permit_student_desc: "Horas limitadas",
+    wizard_step6_title: "Nível Educacional",
+    wizard_step6_desc: "Qual melhor descreve?",
+    wizard_step6_field_label: "Área de Estudo (Opcional)",
+    wizard_step6_field_placeholder: "ex: Engenharia, Artes",
+    wizard_edu_general_title: "Ensino Médio",
+    wizard_edu_general_desc: "Apenas ensino médio.",
+    wizard_edu_applied_title: "Técnico / Tecnólogo",
+    wizard_edu_applied_desc: "Escola técnica ou faculdade aplicada.",
+    wizard_edu_uni_title: "Universidade",
+    wizard_edu_uni_desc: "Bacharelado, Mestrado, Doutorado.",
+    wizard_step7_title: "Sua profissão?",
+    wizard_step7_desc: "Ou qual trabalho procura?",
+    wizard_step7_placeholder: "ex: Enfermeiro, Dev",
+    wizard_step8_title: "Finlandês",
+    wizard_lbl_finnish_level: "Nível Atual",
+    wizard_lbl_finnish_motivation: "Motivação",
+    wizard_opt_lang_none: "Nenhum",
+    wizard_opt_lang_basics: "Básico (A1)",
+    wizard_opt_lang_inter: "Intermediário (A2-B1)",
+    wizard_opt_lang_fluent: "Fluente (B2+)",
+    wizard_scale_1_motivation: "Curioso",
+    wizard_scale_5_motivation: "Imparável",
+    wizard_step9_title: "Inglês",
+    wizard_opt_lang_en_none: "Nenhum",
+    wizard_opt_lang_en_basic: "Básico",
+    wizard_opt_lang_en_working: "Profissional",
+    wizard_opt_lang_en_fluent: "Fluente/Nativo",
+    wizard_step10_title: "Sua Visão",
+    wizard_step10_aspirations_label: "Aspirações",
+    wizard_step10_aspirations_placeholder: "O que espera alcançar?",
+    wizard_step10_challenges_label: "Desafios",
+    wizard_step10_challenges_placeholder: "Alguma preocupação?",
+    wizard_step12_title: "Como sente a cultura finlandesa?",
+    wizard_opt_cult_low: "Mistério bonito",
+    wizard_opt_cult_med: "Observando feliz",
+    wizard_opt_cult_high: "Mergulhando fundo",
+    wizard_step13_title: "Como está o ritmo de vida?",
+    wizard_scale_1_life: "Ainda descongelando",
+    wizard_scale_5_life: "Sinto-me em casa",
+    wizard_step14_title: "Quão confiante está na busca de emprego?",
+    wizard_scale_1_career: "Preciso de direção",
+    wizard_scale_5_career: "Tenho um plano",
+    wizard_step15_title: "O caminho está claro?",
+    wizard_opt_info_none: "Meio nebuloso",
+    wizard_opt_info_some: "Nuvens limpando",
+    wizard_opt_info_high: "Cristalino",
+    wizard_step16_title: "O que traz mais alegria?",
+    wizard_opt_excite_career: "Carreira",
+    wizard_opt_excite_life: "Paz & Segurança",
+    wizard_opt_excite_nature: "Natureza",
+    wizard_opt_excite_adventure: "Aventura",
+    wizard_rating_winter: "Inverno",
+    wizard_rating_thaw: "Degelo",
+    wizard_rating_growth: "Crescer",
+    wizard_rating_bloom: "Florescer",
+    wizard_rating_summer: "Verão",
+    history_title: "Histórico",
+    history_empty: "Nenhuma conversa.",
+    history_tab_summary: "Resumo",
+    history_tab_transcript: "Transcrição",
+    history_no_summary: "Sem resumo.",
+    history_generating: "Gerando resumo...",
+    history_generating_desc: "Isso acontece em segundo plano.",
+    cv_title: "Analisar CV",
+    cv_subtitle: "Cole seu CV para atualizar.",
+    cv_placeholder: "Cole o texto aqui...",
+    cv_btn_analyze: "Analisar",
+    cv_btn_processing: "Processando...",
+    cv_warning_key: "Chave API necessária.",
+    cv_key_update: "Atualizar Chave",
+    cv_key_required: "Requer Chave",
+    cv_key_desc: "Para segurança, use sua própria chave Gemini.",
+    cv_key_placeholder: "Cole a chave...",
+    cv_key_save: "Salvar",
+    cv_alert_success: "Chave salva.",
+    cv_alert_error: "Erro ao analisar.",
+    cv_btn_manage_key: "Chave API",
+    settings_title: "Configurações",
+    settings_sect_general: "Geral",
+    settings_sect_appearance: "Aparência",
+    settings_sect_data: "Dados",
+    settings_length_label: "Tamanho da Resposta",
+    settings_theme_label: "Tema",
+    settings_theme_system: "Sistema",
+    settings_theme_light: "Claro",
+    settings_theme_dark: "Escuro",
+    settings_opt_ask: "Perguntar Sempre",
+    settings_opt_short: "Curto",
+    settings_opt_long: "Detalhado",
+    settings_clear_data: "Resetar App",
+    settings_clear_data_desc: "Apaga tudo.",
+    settings_btn_clear: "Resetar Tudo"
   },
   "pt-pt": {
-    history_title: "Conversas Anteriores",
-    history_empty: "Nenhuma conversa gravada.",
-    history_tab_summary: "Resumo (IA)",
-    history_tab_transcript: "Transcrição Completa",
-    history_no_summary: "Sem resumo disponível.",
-    history_generating: "A IA está a escrever o resumo...",
-    history_generating_desc: "Isto acontece em segundo plano. Podes verificar novamente em alguns segundos.",
-    cv_title: "Analisar CV",
-    cv_subtitle: "Cola o teu CV para atualizar o perfil automaticamente.",
-    cv_placeholder: "Cola o texto do teu CV aqui...",
-    cv_btn_analyze: "Analisar & Importar",
-    cv_btn_processing: "A processar...",
-    cv_warning_key: "Chave de API Personalizada necessária.",
-    cv_key_update: "Atualizar Chave API",
-    cv_key_required: "Chave API Necessária",
-    cv_key_desc: "Para analisar o teu CV com segurança, fornece a tua chave de API Google Gemini. Ela é guardada localmente.",
-    cv_key_placeholder: "Cola a Chave API aqui...",
-    cv_key_save: "Guardar Chave",
-    cv_alert_success: "Chave API guardada com sucesso.",
-    cv_alert_error: "Falha ao analisar o CV. Verifica a tua chave API.",
-    cv_btn_manage_key: "Chave API",
-    dash_btn_history: "Histórico",
-    dash_btn_cv: "Importar CV",
-    // Base overwrites
+    ...EN_DEFAULTS,
+    // (Essentially same as BR but with minor European Portuguese nuances)
     landing_welcome: "Bem-vindo!",
     landing_subtitle: "Encontra o teu caminho na Finlândia",
     landing_btn_quiz: "Fala sobre ti",
     landing_btn_continue: "Explorar Guia",
+    landing_btn_ask: "Começar conversa",
+    landing_load_sample: "Carregar Exemplo",
+    landing_erase: "Limpar Dados",
+    landing_add_key: "Adicionar Chave API",
+    landing_choose_lang: "Escolher Idioma",
     dash_greeting: "Moi, {name}!",
+    dash_greeting_guest: "Moi!",
+    dash_subtitle: "Bem-vindo de volta ao teu guia pessoal.",
+    dash_subtitle_guest: "Vamos configurar o teu perfil para começar.",
     dash_btn_guide: "Abrir Guia",
+    dash_btn_ask: "Perguntar AI",
+    dash_btn_history: "Histórico",
+    dash_btn_cv: "Importar CV",
+    dash_switch_profile: "Trocar Perfil",
+    dash_new_profile: "Novo",
+    dash_edit_profile: "Editar",
+    dash_profile_overview: "Visão Geral",
+    dash_education: "Educação",
+    dash_profession: "Profissão",
+    dash_languages: "Idiomas",
+    dash_narrative_aspirations: "Aspirações",
+    dash_narrative_challenges: "Desafios",
+    chat_placeholder: "Pergunta algo...",
+    chat_end_session: "Terminar",
+    chat_header_assistant: "Assistente",
+    chat_prompt_context_inquiry: "Conta-me mais sobre \"{sentence}\"",
+    chat_ask_length: "Devo ser breve ou preferes detalhes?",
+    btn_back_dashboard: "Voltar",
+    btn_save: "Guardar",
+    profile_btn_guide: "Meu Guia",
+    profile_btn_guide_desc: "Artigos recomendados",
+    profile_btn_plan: "Meu Plano",
+    profile_btn_plan_desc: "Em breve",
     profile_sect_languages: "Línguas",
     profile_sect_skills: "Competências",
+    profile_sect_narrative: "Narrativa Pessoal",
+    profile_label_aspirations: "Aspirações",
+    profile_label_challenges: "Medos / Desafios",
+    profile_label_education: "Educação",
+    profile_label_profession: "Profissão",
+    profile_completeness: "{percentage}% completo",
+    profile_completeness_hint: "Responde a mais perguntas para melhores conselhos",
+    profile_btn_update: "Atualizar Perfil",
+    profile_btn_continue: "Continuar Quiz",
+    wiki_header_title: "Finland Works!",
+    wiki_header_subtitle: "Curado para {name}",
     wiki_nav_list: "Lista",
     wiki_nav_icons: "Ícones",
-    chat_ask_length: "Devo ser breve ou preferes os detalhes completos?",
-    settings_title: "Definições",
-    settings_length_label: "Preferência de Resposta",
-    settings_opt_ask: "Perguntar Sempre",
-    settings_opt_short: "Curto & Conciso",
-    settings_opt_long: "Detalhado & Completo",
-    btn_save: "Guardar",
+    wiki_explore_cats: "Explorar Categorias",
+    wiki_explore_subtitle: "Seleciona um tópico para ver detalhes.",
+    wiki_full_index: "Índice Completo",
+    wiki_full_index_subtitle: "Navega por todos os tópicos.",
+    wiki_section_chapters: "Capítulos",
+    wiki_btn_saved: "Guardado",
+    wiki_btn_later: "Depois",
+    wiki_btn_completed: "Concluído",
+    wiki_btn_mark_done: "Marcar Feito",
+    wiki_ctx_ask: "Chat sobre isto",
+    wiki_topic_label: "Tópico: {tag}",
+    wiki_topic_desc: "Visão Geral & Artigos",
+    wiki_guide_prefix: "GUIA",
+    wiki_stat_articles: "Artigos",
+    wiki_stat_complete: "Completo",
+    wiki_section_prefix: "Secção",
+    wizard_header_quiz: "Quiz",
+    wizard_greeting_short: "Olá, {name}!",
+    wizard_title_init: "Criar Perfil",
+    wizard_title_custom: "Criação de {name}",
+    wizard_phase_identity: "FASE 1: IDENTIDADE",
+    wizard_phase_demo: "FASE 2: ORIGEM",
+    wizard_phase_status: "FASE 3: ESTATUTO",
+    wizard_phase_skills: "FASE 4: SKILLS",
+    wizard_phase_mindset: "FASE 5: MENTALIDADE",
+    wizard_phase_vision: "FASE 6: VISÃO",
+    wizard_nickname_hint: "* Podes usar um apelido gerado.",
+    wizard_btn_ask: "Perguntar",
+    wizard_btn_next: "Próximo",
+    wizard_btn_prev: "Anterior",
+    wizard_btn_submit: "Enviar",
+    wizard_btn_finish_early: "Guardar & Sair",
+    wizard_btn_generate_name: "Gerar Apelido!",
+    wizard_ribbon_greeting: "Prazer, {name}!",
+    wizard_title_name: "Como queres ser tratado?",
+    wizard_desc_name: "Introduz o teu nome ou escolhe um",
+    wizard_placeholder_name: "O teu nome",
+    wizard_step2_title: "Qual a tua idade?",
+    wizard_step2_desc: "Seleciona a faixa etária",
+    wizard_step2_placeholder: "A tua idade",
+    wizard_step3_title: "Estado civil?",
+    wizard_marital_solo_title: "Solo",
+    wizard_marital_solo_desc: "Solteiro(a), divorciado(a) ou viúvo(a)",
+    wizard_marital_pair_title: "Com Parceiro",
+    wizard_marital_pair_desc: "Casado(a) ou união de facto",
+    wizard_marital_secret_title: "Segredo",
+    wizard_marital_secret_desc: "Complicado / Prefiro não dizer",
     wizard_children_title: "Tens filhos?",
-    wizard_children_desc: "Ajuda-nos a aconselhar sobre escolas.",
+    wizard_children_desc: "Ajuda a aconselhar sobre escolas.",
     wizard_children_yes: "Sim",
     wizard_children_no: "Não",
     wizard_family_details_title: "Detalhes da Família",
-    wizard_family_count_label: "Quantos filhos?",
+    wizard_family_count_label: "Quantas crianças?",
     wizard_family_ages_label: "Faixas etárias?",
-    wizard_family_ages_hint: "Seleciona todas as aplicáveis.",
+    wizard_family_ages_hint: "Seleciona todas aplicáveis.",
     wizard_age_group_0_6: "Creche (0-6)",
     wizard_age_group_7_12: "Escola (7-12)",
     wizard_age_group_13_17: "Adolescentes (13-17)",
-    wizard_age_group_18: "Adultos (18+)"
+    wizard_age_group_18: "Adultos (18+)",
+    wizard_step4_title: "De onde vens?",
+    wizard_step4_desc: "Seleciona origem",
+    wizard_step4_placeholder: "Escreve o país...",
+    wizard_step4_no_match: "Não encontrado",
+    wizard_btn_search_country: "Procurar País",
+    wizard_btn_select_region: "Selecionar Região",
+    wizard_region_europe: "Europa",
+    wizard_region_americas: "Américas",
+    wizard_region_asia: "Ásia",
+    wizard_region_africa: "África",
+    wizard_region_oceania: "Oceânia",
+    wizard_region_middle_east: "Médio Oriente",
+    wizard_eu_question: "Cidadão UE/EEE?",
+    wizard_eu_yes: "Sim",
+    wizard_eu_no: "Não",
+    wizard_step5_title: "Direitos de Trabalho & Visto",
+    wizard_permit_full_title: "Direitos Ilimitados",
+    wizard_permit_full_desc: "Permanente, Família, UE",
+    wizard_permit_restricted_title: "Restrito",
+    wizard_permit_restricted_desc: "Visto ligado a um empregador/setor",
+    wizard_permit_student_title: "Estudante",
+    wizard_permit_student_desc: "Horas limitadas",
+    wizard_step6_title: "Nível Educacional",
+    wizard_step6_desc: "Qual melhor descreve?",
+    wizard_step6_field_label: "Área de Estudo (Opcional)",
+    wizard_step6_field_placeholder: "ex: Engenharia, Artes",
+    wizard_edu_general_title: "Ensino Secundário",
+    wizard_edu_general_desc: "Apenas ensino secundário.",
+    wizard_edu_applied_title: "Técnico / Politécnico",
+    wizard_edu_applied_desc: "Escola profissional ou politécnico.",
+    wizard_edu_uni_title: "Universidade",
+    wizard_edu_uni_desc: "Licenciatura, Mestrado, Doutoramento.",
+    wizard_step7_title: "A tua profissão?",
+    wizard_step7_desc: "Ou que trabalho procuras?",
+    wizard_step7_placeholder: "ex: Enfermeiro, Dev",
+    wizard_step8_title: "Finlandês",
+    wizard_lbl_finnish_level: "Nível Atual",
+    wizard_lbl_finnish_motivation: "Motivação",
+    wizard_opt_lang_none: "Nenhum",
+    wizard_opt_lang_basics: "Básico (A1)",
+    wizard_opt_lang_inter: "Intermédio (A2-B1)",
+    wizard_opt_lang_fluent: "Fluente (B2+)",
+    wizard_scale_1_motivation: "Curioso",
+    wizard_scale_5_motivation: "Imparável",
+    wizard_step9_title: "Inglês",
+    wizard_opt_lang_en_none: "Nenhum",
+    wizard_opt_lang_en_basic: "Básico",
+    wizard_opt_lang_en_working: "Profissional",
+    wizard_opt_lang_en_fluent: "Fluente/Nativo",
+    wizard_step10_title: "A tua Visão",
+    wizard_step10_aspirations_label: "Aspirações",
+    wizard_step10_aspirations_placeholder: "O que esperas alcançar?",
+    wizard_step10_challenges_label: "Desafios",
+    wizard_step10_challenges_placeholder: "Alguma preocupação?",
+    wizard_step12_title: "Como sentes a cultura finlandesa?",
+    wizard_opt_cult_low: "Mistério bonito",
+    wizard_opt_cult_med: "Observando feliz",
+    wizard_opt_cult_high: "Mergulhando fundo",
+    wizard_step13_title: "Como está o ritmo de vida?",
+    wizard_scale_1_life: "Ainda a descongelar",
+    wizard_scale_5_life: "Sinto-me em casa",
+    wizard_step14_title: "Quão confiante estás na procura de emprego?",
+    wizard_scale_1_career: "Preciso de direção",
+    wizard_scale_5_career: "Tenho um plano",
+    wizard_step15_title: "O caminho está claro?",
+    wizard_opt_info_none: "Meio nebuloso",
+    wizard_opt_info_some: "Nuvens a limpar",
+    wizard_opt_info_high: "Cristalino",
+    wizard_step16_title: "O que traz mais alegria?",
+    wizard_opt_excite_career: "Carreira",
+    wizard_opt_excite_life: "Paz & Segurança",
+    wizard_opt_excite_nature: "Natureza",
+    wizard_opt_excite_adventure: "Aventura",
+    wizard_rating_winter: "Inverno",
+    wizard_rating_thaw: "Degelo",
+    wizard_rating_growth: "Crescer",
+    wizard_rating_bloom: "Florescer",
+    wizard_rating_summer: "Verão",
+    history_title: "Histórico",
+    history_empty: "Nenhuma conversa.",
+    history_tab_summary: "Resumo",
+    history_tab_transcript: "Transcrição",
+    history_no_summary: "Sem resumo.",
+    history_generating: "A gerar resumo...",
+    history_generating_desc: "Isto acontece em segundo plano.",
+    cv_title: "Analisar CV",
+    cv_subtitle: "Cola o teu CV para atualizar.",
+    cv_placeholder: "Cola o texto aqui...",
+    cv_btn_analyze: "Analisar",
+    cv_btn_processing: "A processar...",
+    cv_warning_key: "Chave API necessária.",
+    cv_key_update: "Atualizar Chave",
+    cv_key_required: "Requer Chave",
+    cv_key_desc: "Para segurança, usa a tua própria chave Gemini.",
+    cv_key_placeholder: "Cola a chave...",
+    cv_key_save: "Guardar",
+    cv_alert_success: "Chave guardada.",
+    cv_alert_error: "Erro ao analisar.",
+    cv_btn_manage_key: "Chave API",
+    settings_title: "Definições",
+    settings_sect_general: "Geral",
+    settings_sect_appearance: "Aparência",
+    settings_sect_data: "Dados",
+    settings_length_label: "Tamanho da Resposta",
+    settings_theme_label: "Tema",
+    settings_theme_system: "Sistema",
+    settings_theme_light: "Claro",
+    settings_theme_dark: "Escuro",
+    settings_opt_ask: "Perguntar Sempre",
+    settings_opt_short: "Curto",
+    settings_opt_long: "Detalhado",
+    settings_clear_data: "Repor App",
+    settings_clear_data_desc: "Apaga tudo.",
+    settings_btn_clear: "Repor Tudo"
   },
-  "ru": {
-    history_title: "История чатов",
-    history_empty: "Нет записанных разговоров.",
-    history_tab_summary: "Сводка (ИИ)",
-    history_tab_transcript: "Полный текст",
-    history_no_summary: "Сводка недоступна.",
-    history_generating: "ИИ пишет сводку...",
-    history_generating_desc: "Это происходит в фоновом режиме. Вы можете проверить через несколько секунд.",
-    cv_title: "Анализ CV",
-    cv_subtitle: "Вставьте текст CV для автообновления профиля.",
-    cv_placeholder: "Вставьте текст резюме сюда...",
-    cv_btn_analyze: "Анализ и Импорт",
-    cv_btn_processing: "Обработка...",
-    cv_warning_key: "Требуется персональный API ключ.",
-    cv_key_update: "Обновить API ключ",
-    cv_key_required: "Требуется API ключ",
-    cv_key_desc: "Для безопасного анализа резюме укажите свой ключ Google Gemini API. Он хранится локально.",
-    cv_key_placeholder: "Вставьте ключ API...",
-    cv_key_save: "Сохранить",
-    cv_alert_success: "API ключ сохранен.",
-    cv_alert_error: "Ошибка анализа. Проверьте ключ.",
-    cv_btn_manage_key: "API Ключ",
-    dash_btn_history: "История",
-    dash_btn_cv: "Импорт CV",
-    // Base overwrites
+  ru: {
+    ...EN_DEFAULTS,
     landing_welcome: "Добро пожаловать!",
     landing_subtitle: "Ваш путь к работе в Финляндии",
     landing_btn_quiz: "Расскажите о себе",
     landing_btn_continue: "Открыть гид",
     landing_btn_ask: "Начать чат",
+    landing_load_sample: "Загрузить пример",
+    landing_erase: "Сброс данных",
+    landing_add_key: "Добавить API ключ",
+    landing_choose_lang: "Выбрать язык",
     dash_greeting: "Moi, {name}!",
+    dash_greeting_guest: "Moi!",
     dash_subtitle: "Добро пожаловать в ваш персональный гид.",
+    dash_subtitle_guest: "Давайте настроим ваш профиль.",
     dash_btn_guide: "Открыть гид",
+    dash_btn_ask: "Спросить AI",
+    dash_btn_history: "История",
+    dash_btn_cv: "Импорт CV",
+    dash_switch_profile: "Сменить профиль",
+    dash_new_profile: "Новый",
+    dash_edit_profile: "Ред.",
+    dash_profile_overview: "Обзор профиля",
+    dash_education: "Образование",
+    dash_profession: "Профессия",
+    dash_languages: "Языки",
+    dash_narrative_aspirations: "Цели",
+    dash_narrative_challenges: "Сложности",
+    chat_placeholder: "Спросите что-нибудь...",
+    chat_end_session: "Завершить",
+    chat_header_assistant: "Ассистент",
+    chat_prompt_context_inquiry: "Расскажи подробнее о \"{sentence}\"",
+    chat_ask_length: "Ответить кратко или подробно?",
+    btn_back_dashboard: "Назад",
+    btn_save: "Сохранить",
     profile_btn_guide: "Мой гид",
+    profile_btn_guide_desc: "Рекомендации",
+    profile_btn_plan: "Мой план",
+    profile_btn_plan_desc: "Скоро",
     profile_sect_languages: "Языки",
     profile_sect_skills: "Навыки",
+    profile_sect_narrative: "О себе",
+    profile_label_aspirations: "Стремления",
+    profile_label_challenges: "Страхи / Вызовы",
+    profile_label_education: "Образование",
+    profile_label_profession: "Профессия",
     profile_completeness: "Заполнено: {percentage}%",
+    profile_completeness_hint: "Ответьте на вопросы для лучших советов",
+    profile_btn_update: "Обновить профиль",
+    profile_btn_continue: "Продолжить",
     wiki_header_title: "Finland Works!",
+    wiki_header_subtitle: "Для {name}",
     wiki_nav_list: "Список",
     wiki_nav_icons: "Иконки",
+    wiki_explore_cats: "Категории",
+    wiki_explore_subtitle: "Выберите тему.",
     wiki_full_index: "Полный индекс",
-    chat_ask_length: "Ответить кратко или подробно?",
-    settings_title: "Настройки",
-    settings_length_label: "Длина ответа",
-    settings_opt_ask: "Всегда спрашивать",
-    settings_opt_short: "Кратко",
-    settings_opt_long: "Подробно",
-    btn_save: "Сохранить",
-    wizard_children_title: "У вас есть дети?",
-    wizard_children_desc: "Это поможет дать советы по школам и садам.",
+    wiki_full_index_subtitle: "Все темы ниже.",
+    wiki_section_chapters: "Главы",
+    wiki_btn_saved: "Сохранено",
+    wiki_btn_later: "Позже",
+    wiki_btn_completed: "Готово",
+    wiki_btn_mark_done: "Отметить",
+    wiki_ctx_ask: "Чат об этом",
+    wiki_topic_label: "Тема: {tag}",
+    wiki_topic_desc: "Обзор и статьи",
+    wiki_guide_prefix: "ГИД",
+    wiki_stat_articles: "Статьи",
+    wiki_stat_complete: "Готово",
+    wiki_section_prefix: "Раздел",
+    wizard_header_quiz: "Опрос",
+    wizard_greeting_short: "Привет, {name}!",
+    wizard_title_init: "Создать профиль",
+    wizard_title_custom: "Персонаж {name}",
+    wizard_phase_identity: "ЭТАП 1: ЛИЧНОСТЬ",
+    wizard_phase_demo: "ЭТАП 2: ФОН",
+    wizard_phase_status: "ЭТАП 3: СТАТУС",
+    wizard_phase_skills: "ЭТАП 4: НАВЫКИ",
+    wizard_phase_mindset: "ЭТАП 5: МЫШЛЕНИЕ",
+    wizard_phase_vision: "ЭТАП 6: ВИДЕНИЕ",
+    wizard_nickname_hint: "* Можно использовать никнейм.",
+    wizard_btn_ask: "Спросить",
+    wizard_btn_next: "Далее",
+    wizard_btn_prev: "Назад",
+    wizard_btn_submit: "Готово",
+    wizard_btn_finish_early: "Сохранить и выйти",
+    wizard_btn_generate_name: "Сгенерировать!",
+    wizard_ribbon_greeting: "Рад встрече, {name}!",
+    wizard_title_name: "Как вас называть?",
+    wizard_desc_name: "Введите имя или выберите",
+    wizard_placeholder_name: "Ваше имя",
+    wizard_step2_title: "Сколько вам лет?",
+    wizard_step2_desc: "Выберите группу",
+    wizard_step2_placeholder: "Возраст",
+    wizard_step3_title: "Семейное положение?",
+    wizard_marital_solo_title: "Соло",
+    wizard_marital_solo_desc: "Холост/Разведен/Вдовец",
+    wizard_marital_pair_title: "В паре",
+    wizard_marital_pair_desc: "Женат/Замужем/Партнер",
+    wizard_marital_secret_title: "Секрет",
+    wizard_marital_secret_desc: "Сложно / Не хочу говорить",
+    wizard_children_title: "Есть дети?",
+    wizard_children_desc: "Поможет с советами по школам.",
     wizard_children_yes: "Да",
     wizard_children_no: "Нет",
-    wizard_family_details_title: "О семье",
+    wizard_family_details_title: "Детали семьи",
     wizard_family_count_label: "Сколько детей?",
-    wizard_family_ages_label: "Возраст детей?",
+    wizard_family_ages_label: "Возраст?",
     wizard_family_ages_hint: "Выберите все подходящие.",
     wizard_age_group_0_6: "Сад (0-6)",
     wizard_age_group_7_12: "Школа (7-12)",
     wizard_age_group_13_17: "Подростки (13-17)",
-    wizard_age_group_18: "Взрослые (18+)"
+    wizard_age_group_18: "Взрослые (18+)",
+    wizard_step4_title: "Откуда вы?",
+    wizard_step4_desc: "Выберите происхождение",
+    wizard_step4_placeholder: "Введите страну...",
+    wizard_step4_no_match: "Нет совпадений",
+    wizard_btn_search_country: "Поиск страны",
+    wizard_btn_select_region: "Выбор региона",
+    wizard_region_europe: "Европа",
+    wizard_region_americas: "Америка",
+    wizard_region_asia: "Азия",
+    wizard_region_africa: "Африка",
+    wizard_region_oceania: "Океания",
+    wizard_region_middle_east: "Ближний Восток",
+    wizard_eu_question: "Гражданин ЕС?",
+    wizard_eu_yes: "Да",
+    wizard_eu_no: "Нет",
+    wizard_step5_title: "Права и ВНЖ",
+    wizard_permit_full_title: "Без ограничений",
+    wizard_permit_full_desc: "ПМЖ, Семья, ЕС",
+    wizard_permit_restricted_title: "Ограниченные",
+    wizard_permit_restricted_desc: "Рабочий ВНЖ (привязка)",
+    wizard_permit_student_title: "Студент",
+    wizard_permit_student_desc: "Ограниченные часы",
+    wizard_step6_title: "Образование",
+    wizard_step6_desc: "Какой путь ваш?",
+    wizard_step6_field_label: "Сфера (Опционально)",
+    wizard_step6_field_placeholder: "напр. Инженерия",
+    wizard_edu_general_title: "Среднее",
+    wizard_edu_general_desc: "Только школа / Lukio.",
+    wizard_edu_applied_title: "Профессиональное",
+    wizard_edu_applied_desc: "Колледж или AMK.",
+    wizard_edu_uni_title: "Университет",
+    wizard_edu_uni_desc: "Бакалавр, Магистр, PhD.",
+    wizard_step7_title: "Профессия?",
+    wizard_step7_desc: "Или какую работу ищете?",
+    wizard_step7_placeholder: "напр. Медсестра, Dev",
+    wizard_step8_title: "Финский язык",
+    wizard_lbl_finnish_level: "Уровень",
+    wizard_lbl_finnish_motivation: "Мотивация",
+    wizard_opt_lang_none: "Нет",
+    wizard_opt_lang_basics: "Базовый (A1)",
+    wizard_opt_lang_inter: "Средний (A2-B1)",
+    wizard_opt_lang_fluent: "Свободный (B2+)",
+    wizard_scale_1_motivation: "Любопытно",
+    wizard_scale_5_motivation: "Решительно",
+    wizard_step9_title: "Английский",
+    wizard_opt_lang_en_none: "Нет",
+    wizard_opt_lang_en_basic: "Базовый",
+    wizard_opt_lang_en_working: "Рабочий",
+    wizard_opt_lang_en_fluent: "Свободный",
+    wizard_step10_title: "Видение",
+    wizard_step10_aspirations_label: "Цели",
+    wizard_step10_aspirations_placeholder: "Чего хотите достичь?",
+    wizard_step10_challenges_label: "Вызовы",
+    wizard_step10_challenges_placeholder: "Чего боитесь?",
+    wizard_step12_title: "Как вам финская культура?",
+    wizard_opt_cult_low: "Красивая загадка",
+    wizard_opt_cult_med: "Наблюдаю",
+    wizard_opt_cult_high: "Погружаюсь",
+    wizard_step13_title: "Как ритм жизни?",
+    wizard_scale_1_life: "Привыкаю",
+    wizard_scale_5_life: "Как дома",
+    wizard_step14_title: "Уверенность в поиске работы?",
+    wizard_scale_1_career: "Нужен совет",
+    wizard_scale_5_career: "Есть план",
+    wizard_step15_title: "Путь ясен?",
+    wizard_opt_info_none: "Туманно",
+    wizard_opt_info_some: "Проясняется",
+    wizard_opt_info_high: "Кристально ясно",
+    wizard_step16_title: "Что радует?",
+    wizard_opt_excite_career: "Карьера",
+    wizard_opt_excite_life: "Безопасность",
+    wizard_opt_excite_nature: "Природа",
+    wizard_opt_excite_adventure: "Приключение",
+    wizard_rating_winter: "Зима",
+    wizard_rating_thaw: "Оттепель",
+    wizard_rating_growth: "Рост",
+    wizard_rating_bloom: "Цветение",
+    wizard_rating_summer: "Лето",
+    history_title: "История",
+    history_empty: "Нет записей.",
+    history_tab_summary: "Сводка",
+    history_tab_transcript: "Транскрипт",
+    history_no_summary: "Нет сводки.",
+    history_generating: "Пишу сводку...",
+    history_generating_desc: "Фоновый процесс.",
+    cv_title: "Анализ CV",
+    cv_subtitle: "Вставьте CV для обновления.",
+    cv_placeholder: "Текст резюме...",
+    cv_btn_analyze: "Анализ",
+    cv_btn_processing: "Обработка...",
+    cv_warning_key: "Нужен ключ API.",
+    cv_key_update: "Обновить ключ",
+    cv_key_required: "Нужен ключ",
+    cv_key_desc: "Безопасно используйте свой ключ.",
+    cv_key_placeholder: "Ключ здесь...",
+    cv_key_save: "Сохранить",
+    cv_alert_success: "Сохранено.",
+    cv_alert_error: "Ошибка.",
+    cv_btn_manage_key: "API Ключ",
+    settings_title: "Настройки",
+    settings_sect_general: "Общие",
+    settings_sect_appearance: "Вид",
+    settings_sect_data: "Данные",
+    settings_length_label: "Длина ответа",
+    settings_theme_label: "Тема",
+    settings_theme_system: "Системная",
+    settings_theme_light: "Светлая",
+    settings_theme_dark: "Темная",
+    settings_opt_ask: "Спрашивать",
+    settings_opt_short: "Кратко",
+    settings_opt_long: "Подробно",
+    settings_clear_data: "Сброс",
+    settings_clear_data_desc: "Удалить всё.",
+    settings_btn_clear: "Сбросить всё"
   }
 };
 
 export const t = (key: TranslationKey, lang: LanguageCode, params?: Record<string, string>): string => {
-  // 1. Try to get translation in requested language
   let text = TRANSLATIONS[lang]?.[key];
-  
-  // 2. Fallback to English
   if (!text) {
     text = TRANSLATIONS['en'][key] || key;
   }
-
-  // 3. Replace params {name}, etc.
   if (params) {
     Object.entries(params).forEach(([k, v]) => {
       text = text!.replace(`{${k}}`, v);
     });
   }
-
   return text!;
 };

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   User, 
@@ -74,7 +73,11 @@ import {
   Palmtree,
   History,
   Upload,
-  Lock
+  Lock,
+  Moon,
+  Eye,
+  Database,
+  Trash2
 } from 'lucide-react';
 
 export const Icons = {
@@ -151,5 +154,9 @@ export const Icons = {
   Palmtree,
   History,
   Upload,
-  Lock
+  Lock,
+  Moon,
+  Eye,
+  Database,
+  Trash2
 };

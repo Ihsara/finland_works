@@ -5,9 +5,12 @@
   line-height: 1.5;
   font-weight: 400;
   
-  /* Color synthesis - Force Light Mode Defaults */
+  /* Color synthesis */
   color-scheme: light;
-  background-color: #F3F4F6; /* gray-100 */
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -21,9 +24,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  /* CRITICAL: Enforce Dark Text on White Background Global Default */
-  color: #111827; /* gray-900 */
-  background-color: #ffffff;
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
 }
 
 /* App Root Container */
@@ -68,8 +69,18 @@ body {
   background-color: #fef3c7; /* amber-100 */
 }
 
+/* Dark Mode Hover */
+.dark .interactive-sentence:hover {
+  background-color: #4b5563; /* gray-600 */
+}
+
+/* Improved Active Highlight Visibility */
 .interactive-sentence.highlight-active {
     position: relative;
-    z-index: 1; 
-    background-color: #fef9c3; /* yellow-100 */
+    z-index: 10; 
+    background-color: #fde047; /* bright yellow-300 */
+    color: #000000 !important; /* Force black text for contrast against yellow */
+    box-shadow: 0 0 0 2px #fde047; /* Spread highlight slightly */
+    border-radius: 4px;
+    font-weight: 600;
 }

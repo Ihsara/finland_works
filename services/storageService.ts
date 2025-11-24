@@ -1,6 +1,6 @@
 
 import jsYaml from 'js-yaml';
-import { UserProfile, Conversation, DEFAULT_PROFILE_YAML, LengthPreference } from '../types';
+import { UserProfile, Conversation, DEFAULT_PROFILE_YAML, LengthPreference, ThemePreference } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Polyfill declaration for TypeScript
@@ -23,7 +23,8 @@ const KEYS = {
   WIKI_PROGRESS_PREFIX: `${PREFIX}data/wiki_progress_v2/`,
 
   // Settings
-  PREF_RESPONSE_LENGTH: `${PREFIX}settings/response_length`
+  PREF_RESPONSE_LENGTH: `${PREFIX}settings/response_length`,
+  PREF_THEME: `${PREFIX}settings/theme`
 };
 
 // --- API Key Management ---
@@ -58,6 +59,18 @@ export const getGlobalLengthPreference = (): LengthPreference => {
 
 export const saveGlobalLengthPreference = (pref: LengthPreference): void => {
   localStorage.setItem(KEYS.PREF_RESPONSE_LENGTH, pref);
+};
+
+export const getThemePreference = (): ThemePreference => {
+  const stored = localStorage.getItem(KEYS.PREF_THEME);
+  if (stored === 'light' || stored === 'dark' || stored === 'system') {
+    return stored as ThemePreference;
+  }
+  return 'system';
+};
+
+export const saveThemePreference = (pref: ThemePreference): void => {
+  localStorage.setItem(KEYS.PREF_THEME, pref);
 };
 
 // --- Profile Management (Multi-User) ---

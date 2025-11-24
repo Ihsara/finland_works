@@ -256,7 +256,7 @@ const WikiView: React.FC<WikiViewProps> = ({
           onArticleSelect(null);
       } else if (activeTag) {
           setActiveTag(null);
-      } else if (activeCategory) { // Using Derived Object to check existence
+      } else if (activeCategory) {
           setActiveCategoryId(null);
       } else if (viewMode === 'list') {
           setViewMode('icons');
@@ -275,19 +275,19 @@ const WikiView: React.FC<WikiViewProps> = ({
             const catNumber = catIndex + 1;
 
             return (
-                <div key={category.id} className={`select-none ${!isSidebar ? 'bg-white rounded-xl p-2 border border-transparent hover:border-gray-100 transition-colors' : ''}`}>
+                <div key={category.id} className={`select-none ${!isSidebar ? 'bg-white dark:bg-gray-800 rounded-xl p-2 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 transition-colors' : ''}`}>
                     <button 
                         onClick={() => toggleCategory(category.id)}
                         className={`flex items-center justify-between w-full group ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
                     >
-                        <div className="flex items-center gap-3 font-bold text-gray-800 group-hover:text-black overflow-hidden">
-                            <span className="text-xs text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
-                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 group-hover:text-gray-700 flex-shrink-0")}
+                        <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white overflow-hidden">
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono w-5 flex-shrink-0">{catNumber}.</span>
+                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 flex-shrink-0")}
                             <span className="text-sm uppercase tracking-wide truncate">{category.title}</span>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                             {catProgress > 0 && (
-                                <span className="text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                <span className="text-[10px] font-bold bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full">
                                     {catProgress}%
                                 </span>
                             )}
@@ -296,7 +296,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                     </button>
 
                     {isOpen && (
-                        <div className={`pl-8 space-y-1 ${isSidebar ? 'border-l-2 border-gray-200 ml-3' : 'ml-3'}`}>
+                        <div className={`pl-8 space-y-1 ${isSidebar ? 'border-l-2 border-gray-200 dark:border-gray-700 ml-3' : 'ml-3'}`}>
                             {category.articles.map((article, artIndex) => {
                                 const isActive = activeArticle?.id === article.id;
                                 const itemData = progress.items[article.id];
@@ -313,15 +313,15 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         }}
                                         className={`w-full text-left px-3 py-3 rounded-md flex items-start gap-3 transition text-sm ${
                                             isActive && isSidebar
-                                                ? 'bg-white shadow-sm text-blue-700 font-medium ring-1 ring-gray-100' 
-                                                : 'text-gray-700 hover:bg-gray-100/50 hover:text-gray-900'
+                                                ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-700 dark:text-blue-300 font-medium ring-1 ring-gray-100 dark:ring-gray-600' 
+                                                : 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white'
                                         }`}
                                     >
-                                        <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-500'}`}>
+                                        <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500 dark:text-blue-400' : 'text-gray-500 dark:text-gray-600'}`}>
                                             {status === 'done' ? (
-                                                <Icons.CheckCircle className="w-4 h-4 text-green-500" />
+                                                <Icons.CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400" />
                                             ) : status === 'later' ? (
-                                                <Icons.Clock className="w-4 h-4 text-amber-500" />
+                                                <Icons.Clock className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                                             ) : (
                                                 <span className="text-xs font-mono font-medium w-5 inline-block">{numbering}</span>
                                             )}
@@ -340,16 +340,16 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white relative overflow-hidden font-sans">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-950 relative overflow-hidden font-sans">
       {/* Header */}
-      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 flex items-center bg-white z-50 shadow-sm md:px-6 md:py-4">
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex items-center bg-white dark:bg-gray-950 z-50 shadow-sm md:px-6 md:py-4 transition-colors">
         {/* Left Controls */}
         <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
            {/* Back / Close Button Logic */}
            {(activeArticle || activeCategory || activeTag || viewMode === 'list') ? (
                <button 
                    onClick={handleBack}
-                   className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full transition"
+                   className="p-2 -ml-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition"
                >
                    <Icons.ArrowLeft className="w-6 h-6" />
                </button>
@@ -361,7 +361,7 @@ const WikiView: React.FC<WikiViewProps> = ({
            {activeArticle && (
             <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                className="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             >
                 {isMobileMenuOpen ? <Icons.ChevronDown className="w-6 h-6" /> : <Icons.MessageSquare className="w-6 h-6 rotate-90" />} 
             </button>
@@ -370,7 +370,7 @@ const WikiView: React.FC<WikiViewProps> = ({
 
         {/* Title (Responsive) */}
         <div className="flex-1 min-w-0 mx-2 text-center md:text-left">
-            <h2 className="font-bold text-gray-900 text-base md:text-lg leading-tight truncate">
+            <h2 className="font-bold text-gray-900 dark:text-gray-100 text-base md:text-lg leading-tight truncate">
                 {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : activeTag ? t('wiki_topic_label', language, { tag: activeTag }) : t('wiki_header_title', language)}
             </h2>
         </div>
@@ -384,11 +384,11 @@ const WikiView: React.FC<WikiViewProps> = ({
             />
 
             {/* View Mode Toggles - Hidden if deeply nested */}
-            <div className={`hidden sm:flex bg-gray-100 rounded-lg p-1 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
+            <div className={`hidden sm:flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
                 <button
                     onClick={handleSwitchToList}
                     className={`flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
-                    (viewMode === 'list' && !activeCategory) ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
+                    (viewMode === 'list' && !activeCategory) ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                     }`}
                 >
                     <Icons.FileText className="w-3 h-3" /> {t('wiki_nav_list', language)}
@@ -396,7 +396,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                 <button
                     onClick={handleSwitchToIcons}
                     className={`flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
-                    (viewMode === 'icons' && !activeCategory) ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'
+                    (viewMode === 'icons' && !activeCategory) ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                     }`}
                 >
                     <Icons.LayoutGrid className="w-3 h-3" /> {t('wiki_nav_icons', language)}
@@ -405,7 +405,7 @@ const WikiView: React.FC<WikiViewProps> = ({
 
             <button 
                 onClick={onClose}
-                className="text-gray-400 hover:text-red-600 p-2 hover:bg-gray-100 rounded-full transition"
+                className="text-gray-400 hover:text-red-600 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition"
             >
                 <Icons.X className="w-6 h-6" />
             </button>
@@ -420,11 +420,11 @@ const WikiView: React.FC<WikiViewProps> = ({
             Conditions: Icons Mode AND No Selection
         */}
         {viewMode === 'icons' && !activeArticle && !activeCategory && !activeTag && (
-            <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in fade-in zoom-in-95 duration-300">
+            <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 animate-in fade-in zoom-in-95 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
-                         <h3 className="text-2xl font-bold text-gray-900">{t('wiki_explore_cats', language)}</h3>
-                         <p className="text-gray-600 mt-2">{t('wiki_explore_subtitle', language)}</p>
+                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_explore_cats', language)}</h3>
+                         <p className="text-gray-600 dark:text-gray-400 mt-2">{t('wiki_explore_subtitle', language)}</p>
                      </div>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
                         {wikiCategories.map((category) => {
@@ -434,7 +434,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     key={category.id}
                                     onClick={() => handleIconCategoryClick(category.id)}
                                     className={`
-                                        group relative aspect-square rounded-[2rem] bg-white 
+                                        group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800
                                         border-2 ${category.theme.border} 
                                         flex flex-col items-center justify-center 
                                         shadow-sm ${category.theme.shadow}
@@ -483,11 +483,11 @@ const WikiView: React.FC<WikiViewProps> = ({
             Conditions: List Mode AND No Selection
         */}
         {viewMode === 'list' && !activeArticle && !activeCategory && !activeTag && (
-             <div className="w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
+             <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
-                        <h3 className="text-2xl font-bold text-gray-900">{t('wiki_full_index', language)}</h3>
-                        <p className="text-gray-600 mt-1">{t('wiki_full_index_subtitle', language)}</p>
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_full_index', language)}</h3>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">{t('wiki_full_index_subtitle', language)}</p>
                     </div>
                     {renderCategoryList(false)}
                 </div>
@@ -499,16 +499,16 @@ const WikiView: React.FC<WikiViewProps> = ({
             Conditions: Active Tag set, No Article set
         */}
         {activeTag && !activeArticle && (
-            <div className="w-full h-full overflow-y-auto bg-white animate-in fade-in slide-in-from-bottom-4 duration-300">
+            <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
                 {/* Header */}
-                <div className="w-full p-8 md:p-12 bg-gray-50 border-b border-gray-100">
+                <div className="w-full p-8 md:p-12 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
                     <div className="max-w-4xl mx-auto flex items-center gap-6">
-                         <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 text-black">
+                         <div className="w-20 h-20 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 dark:border-gray-700 text-black dark:text-white">
                               <Icons.Tag className="w-10 h-10" />
                          </div>
                          <div>
-                              <h1 className="text-3xl md:text-4xl font-black text-gray-900 capitalize tracking-tight">{activeTag}</h1>
-                              <p className="text-gray-500 font-medium mt-1">{t('wiki_topic_desc', language)}</p>
+                              <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white capitalize tracking-tight">{activeTag}</h1>
+                              <p className="text-gray-500 dark:text-gray-400 font-medium mt-1">{t('wiki_topic_desc', language)}</p>
                          </div>
                     </div>
                 </div>
@@ -521,7 +521,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                         
                         return (
                             <div key={cat.id} className="animate-in fade-in slide-in-from-bottom-2">
-                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 ${cat.theme.text}`}>
+                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 dark:border-gray-800 ${cat.theme.text}`}>
                                      {renderIcon(cat.icon, "w-5 h-5")} {cat.title}
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -535,18 +535,18 @@ const WikiView: React.FC<WikiViewProps> = ({
                                                 className={`
                                                     text-left group flex flex-col gap-3 p-5 rounded-xl border-2 transition-all duration-200
                                                     ${status === 'done' 
-                                                        ? 'border-green-200 bg-green-50/50 hover:border-green-300' 
-                                                        : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md'
+                                                        ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/20 hover:border-green-300' 
+                                                        : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md'
                                                     }
                                                 `}
                                             >
                                                 <div className="flex justify-between items-start w-full">
-                                                    <span className={`text-sm font-bold ${status==='done' ? 'text-green-600' : 'text-gray-400 group-hover:text-black'}`}>
+                                                    <span className={`text-sm font-bold ${status==='done' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white'}`}>
                                                         {t('wiki_guide_prefix', language)} #{idx + 1}
                                                     </span>
                                                     {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500" />}
                                                 </div>
-                                                <h4 className="font-bold text-lg text-gray-900 leading-snug group-hover:text-blue-600 transition-colors">
+                                                <h4 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                                     {article.title}
                                                 </h4>
                                             </button>
@@ -565,23 +565,23 @@ const WikiView: React.FC<WikiViewProps> = ({
             Conditions: Active Category set, No Article set
         */}
         {activeCategory && !activeArticle && !activeTag && (
-            <div className="w-full h-full overflow-y-auto bg-white animate-in fade-in slide-in-from-bottom-4 duration-300">
+            <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
                 {/* Hero Header for Category */}
                 <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} border-b ${activeCategory.theme.border}`}>
                     <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-end gap-6">
-                        <div className={`p-6 bg-white rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} ${activeCategory.theme.text}`}>
+                        <div className={`p-6 bg-white dark:bg-gray-800 rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} ${activeCategory.theme.text}`}>
                             {renderIcon(activeCategory.icon as any, "w-16 h-16")}
                         </div>
                         <div className="text-center md:text-left flex-1">
                             <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} mb-2`}>
                                 {activeCategory.title}
                             </h1>
-                            <div className="flex items-center justify-center md:justify-start gap-4 text-gray-600 font-medium">
+                            <div className="flex items-center justify-center md:justify-start gap-4 text-gray-600 dark:text-gray-300 font-medium">
                                 <span className="flex items-center gap-1">
                                     <Icons.FileText className="w-4 h-4" /> {activeCategory.articles.length} {t('wiki_stat_articles', language)}
                                 </span>
                                 {getCategoryProgress(activeCategory) > 0 && (
-                                    <span className="flex items-center gap-1 text-green-600 bg-green-50 px-2 py-0.5 rounded-full border border-green-200 text-sm font-bold">
+                                    <span className="flex items-center gap-1 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full border border-green-200 dark:border-green-800 text-sm font-bold">
                                         <Icons.CheckCircle className="w-4 h-4" /> {getCategoryProgress(activeCategory)}% {t('wiki_stat_complete', language)}
                                     </span>
                                 )}
@@ -593,7 +593,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                 {/* Articles Grid */}
                 <div className="max-w-4xl mx-auto p-6 md:p-12 pb-24">
                     {/* Section Title */}
-                    <h3 className="text-xl font-bold text-gray-900 mb-6 px-1 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 px-1 flex items-center gap-2">
                         <Icons.List className="w-5 h-5 text-gray-400" />
                         {t('wiki_section_chapters', language)}
                     </h3>
@@ -610,8 +610,8 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     className={`
                                         text-left group flex flex-col gap-3 p-6 rounded-2xl border-2 transition-all duration-200
                                         ${status === 'done' 
-                                            ? 'border-green-200 bg-green-50/50 hover:border-green-300' 
-                                            : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-md'
+                                            ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/20 hover:border-green-300' 
+                                            : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md'
                                         }
                                     `}
                                 >
@@ -620,7 +620,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                             w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border
                                             ${status === 'done' 
                                                 ? 'bg-green-500 text-white border-green-500' 
-                                                : 'bg-gray-50 text-gray-500 border-gray-200 group-hover:bg-gray-900 group-hover:text-white group-hover:border-gray-900 transition-colors'
+                                                : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 group-hover:bg-gray-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black group-hover:border-gray-900 dark:group-hover:border-white transition-colors'
                                             }
                                         `}>
                                             {idx + 1}
@@ -630,7 +630,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     </div>
                                     
                                     <div>
-                                        <h3 className="font-bold text-lg text-gray-900 leading-snug group-hover:text-blue-600 transition-colors">
+                                        <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                             {article.title}
                                         </h3>
                                         {article.tags.length > 0 && (
@@ -642,7 +642,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                                             e.stopPropagation();
                                                             handleTagClick(t);
                                                         }}
-                                                        className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded hover:bg-gray-200 hover:text-black transition-colors"
+                                                        className="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white transition-colors"
                                                     >
                                                         {t}
                                                     </span>
@@ -666,8 +666,8 @@ const WikiView: React.FC<WikiViewProps> = ({
             <div className="flex h-full relative animate-in fade-in duration-300">
                 {/* Sidebar */}
                 <div className={`
-                    absolute inset-0 z-40 bg-gray-50 flex flex-col transform transition-transform duration-300 ease-in-out
-                    md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 md:flex
+                    absolute inset-0 z-40 bg-gray-50 dark:bg-gray-900 flex flex-col transform transition-transform duration-300 ease-in-out
+                    md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 dark:md:border-gray-800 md:flex
                     ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
                 `}>
                     <div className="p-4 overflow-y-auto h-full">
@@ -676,12 +676,12 @@ const WikiView: React.FC<WikiViewProps> = ({
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto relative bg-white w-full" ref={contentRef}>
+                <div className="flex-1 overflow-y-auto relative bg-white dark:bg-gray-950 w-full" ref={contentRef}>
                     <div className="max-w-3xl mx-auto p-6 md:p-12 pb-32">
                         {/* Article Header */}
-                        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100">
+                        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100 dark:border-gray-800">
                             <div className="flex flex-col gap-2">
-                                <span className="text-sm font-mono text-blue-600 font-bold tracking-tight">
+                                <span className="text-sm font-mono text-blue-600 dark:text-blue-400 font-bold tracking-tight">
                                     {t('wiki_section_prefix', language)} {getCurrentDisplayId(activeArticle)}
                                 </span>
                                 <div className="flex flex-wrap gap-2">
@@ -689,7 +689,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         <button 
                                             key={tag} 
                                             onClick={() => handleTagClick(tag)}
-                                            className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border border-gray-200 hover:bg-gray-200 hover:text-black transition-colors"
+                                            className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white transition-colors"
                                         >
                                             {tag}
                                         </button>
@@ -703,8 +703,8 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     title={progress.items[activeArticle.id]?.status === 'later' ? t('wiki_btn_saved', language) : t('wiki_btn_later', language)}
                                     className={`p-3 rounded-full transition-all duration-200 border ${
                                         progress.items[activeArticle.id]?.status === 'later'
-                                            ? 'bg-amber-100 border-amber-200 text-amber-700 shadow-inner'
-                                            : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50 hover:text-gray-600 hover:border-gray-300 shadow-sm'
+                                            ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-400 shadow-inner'
+                                            : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 shadow-sm'
                                     }`}
                                 >
                                     <Icons.Clock className="w-5 h-5" strokeWidth={2.5} />
@@ -715,8 +715,8 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     title={progress.items[activeArticle.id]?.status === 'done' ? t('wiki_btn_completed', language) : t('wiki_btn_mark_done', language)}
                                     className={`p-3 rounded-full transition-all duration-200 border ${
                                         progress.items[activeArticle.id]?.status === 'done'
-                                            ? 'bg-green-100 border-green-200 text-green-700 shadow-inner'
-                                            : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50 hover:text-gray-600 hover:border-gray-300 shadow-sm'
+                                            ? 'bg-green-100 dark:bg-green-900/30 border-green-200 dark:border-green-700 text-green-700 dark:text-green-400 shadow-inner'
+                                            : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 shadow-sm'
                                     }`}
                                 >
                                     {progress.items[activeArticle.id]?.status === 'done' 
@@ -728,13 +728,14 @@ const WikiView: React.FC<WikiViewProps> = ({
                         </div>
                         
                         {/* Markdown Content */}
-                        <article className="prose prose-slate prose-sm md:prose-base max-w-none text-gray-900
-                            prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
+                        <article className="prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none 
+                            text-gray-900 dark:text-gray-200
+                            prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
                             prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3
-                            prose-p:text-gray-800 prose-p:leading-relaxed
-                            prose-a:text-blue-600 hover:prose-a:text-blue-800 
-                            prose-li:text-gray-800 prose-li:marker:text-gray-500
-                            prose-strong:text-gray-900
+                            prose-p:text-gray-800 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+                            prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300
+                            prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-li:marker:text-gray-500
+                            prose-strong:text-gray-900 dark:prose-strong:text-white
                             [&>ul]:pl-4 [&>ol]:pl-4">
                             <div dangerouslySetInnerHTML={{ __html: processedContent }} />
                         </article>

@@ -61,6 +61,7 @@ const App: React.FC = () => {
 
   // Initialization
   useEffect(() => {
+    // 1. API Key
     const localKey = Storage.initializeEnv();
     if (localKey) {
       setApiKey(localKey);
@@ -68,10 +69,37 @@ const App: React.FC = () => {
       setApiKey(process.env.API_KEY);
     }
 
+    // 2. Language
     const storedLang = localStorage.getItem('fw_language') as LanguageCode;
     if (storedLang && SUPPORTED_LANGUAGES.some(l => l.code === storedLang)) {
       setLanguage(storedLang);
     }
+
+    // 3. Theme Initialization
+    const applyTheme = () => {
+        const pref = Storage.getThemePreference();
+        const root = document.documentElement;
+        if (pref === 'dark') {
+            root.classList.add('dark');
+        } else if (pref === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // System
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+    applyTheme();
+
+    // Listen for system changes if preference is 'system'
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+        if (Storage.getThemePreference() === 'system') applyTheme();
+    };
+    mediaQuery.addEventListener('change', handleChange);
 
     refreshProfiles();
     
@@ -79,6 +107,8 @@ const App: React.FC = () => {
     setTimeout(() => {
         processPendingSummaries();
     }, 1000);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   // Refresh stats whenever view changes to Dashboard or profile changes
