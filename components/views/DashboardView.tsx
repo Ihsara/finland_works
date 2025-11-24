@@ -97,31 +97,53 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </p>
 
         {/* Primary Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center mb-6 flex-wrap">
           {!isGuest ? (
-            <button 
-              onClick={onNavigateToWiki}
-              className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
-            >
-              <Icons.BookMarked className="w-5 h-5" /> 
-              {t('dash_btn_guide', language)}
-            </button>
+            // Standard Profile Actions
+            <>
+              <button 
+                onClick={onNavigateToWiki}
+                className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
+              >
+                <Icons.BookMarked className="w-5 h-5" /> 
+                {t('dash_btn_guide', language)}
+              </button>
+              <button 
+                onClick={onStartChat}
+                className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
+              >
+                <Icons.MessageSquare className="w-5 h-5" /> 
+                {t('landing_btn_ask', language)}
+              </button>
+            </>
           ) : (
-            <button 
-              onClick={onNavigateToQuiz}
-              className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
-            >
-              <Icons.CheckSquare className="w-5 h-5" /> 
-              {t('landing_btn_quiz', language)}
-            </button>
+            // Guest Actions
+            <>
+              <button 
+                onClick={onNavigateToQuiz}
+                className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
+              >
+                <Icons.CheckSquare className="w-5 h-5" /> 
+                {t('landing_btn_quiz', language)}
+              </button>
+              
+              <button 
+                onClick={onNavigateToWiki}
+                className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
+              >
+                <Icons.BookOpen className="w-5 h-5" /> 
+                {t('dash_btn_browse', language)}
+              </button>
+
+              <button 
+                onClick={onStartChat}
+                className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
+              >
+                <Icons.MessageSquare className="w-5 h-5" /> 
+                {t('landing_btn_ask', language)}
+              </button>
+            </>
           )}
-          <button 
-            onClick={onStartChat}
-            className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
-          >
-            <Icons.MessageSquare className="w-5 h-5" /> 
-            {t('landing_btn_ask', language)}
-          </button>
         </div>
 
         {/* Secondary Actions (History & CV) */}

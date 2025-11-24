@@ -10,8 +10,8 @@ export const SUPPORTED_LANGUAGES: AppLanguage[] = [
 ];
 
 export type TranslationKey = 
-  | 'landing_welcome' | 'landing_subtitle' | 'landing_btn_quiz' | 'landing_btn_continue' | 'landing_btn_ask' | 'landing_load_sample' | 'landing_erase' | 'landing_add_key' | 'landing_choose_lang'
-  | 'dash_greeting' | 'dash_greeting_guest' | 'dash_subtitle' | 'dash_subtitle_guest' | 'dash_btn_guide' | 'dash_btn_ask' | 'dash_btn_history' | 'dash_btn_cv' | 'dash_switch_profile' | 'dash_new_profile' | 'dash_edit_profile' | 'dash_profile_overview'
+  | 'landing_welcome' | 'landing_subtitle' | 'landing_btn_quiz' | 'landing_btn_continue' | 'landing_btn_ask' | 'landing_btn_browse' | 'landing_load_sample' | 'landing_erase' | 'landing_add_key' | 'landing_choose_lang'
+  | 'dash_greeting' | 'dash_greeting_guest' | 'dash_subtitle' | 'dash_subtitle_guest' | 'dash_btn_guide' | 'dash_btn_browse' | 'dash_btn_ask' | 'dash_btn_history' | 'dash_btn_cv' | 'dash_switch_profile' | 'dash_new_profile' | 'dash_edit_profile' | 'dash_profile_overview'
   | 'dash_education' | 'dash_profession' | 'dash_languages' | 'dash_narrative_aspirations' | 'dash_narrative_challenges'
   | 'chat_placeholder' | 'chat_end_session' | 'chat_header_assistant' | 'chat_prompt_context_inquiry' | 'chat_ask_length'
   | 'btn_back_dashboard' | 'btn_save'
@@ -39,8 +39,8 @@ export type TranslationKey =
   | 'settings_title' | 'settings_sect_general' | 'settings_sect_appearance' | 'settings_sect_data' | 'settings_length_label' | 'settings_theme_label' | 'settings_theme_system' | 'settings_theme_light' | 'settings_theme_dark' | 'settings_opt_ask' | 'settings_opt_short' | 'settings_opt_long' | 'settings_clear_data' | 'settings_clear_data_desc' | 'settings_btn_clear';
 
 const EN_DEFAULTS: Record<TranslationKey, string> = {
-    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", landing_btn_quiz: "Tell me about yourself", landing_btn_continue: "Explore My Guide", landing_btn_ask: "Start a conversation", landing_load_sample: "Load Sample", landing_erase: "Erase Cache", landing_add_key: "Add Gemini API Key", landing_choose_lang: "Choose Language",
-    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's set up your profile to get started.", dash_btn_guide: "Open My Guide", dash_btn_ask: "Start a conversation", dash_btn_history: "Past Conversations", dash_btn_cv: "Import CV", dash_switch_profile: "Switch Profile", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "My Profile Overview",
+    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", landing_btn_quiz: "Tell me about yourself", landing_btn_continue: "Explore My Guide", landing_btn_ask: "Start a conversation", landing_btn_browse: "Browse the Guide", landing_load_sample: "Load Sample", landing_erase: "Erase Cache", landing_add_key: "Add Gemini API Key", landing_choose_lang: "Choose Language",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's set up your profile to get started.", dash_btn_guide: "Open My Guide", dash_btn_browse: "Browse Guide", dash_btn_ask: "Start a conversation", dash_btn_history: "Past Conversations", dash_btn_cv: "Import CV", dash_switch_profile: "Switch Profile", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "My Profile Overview",
     dash_education: "Education", dash_profession: "Profession", dash_languages: "Languages", dash_narrative_aspirations: "Aspirations", dash_narrative_challenges: "Challenges",
     chat_placeholder: "Ask something...", chat_end_session: "End Session", chat_header_assistant: "Assistant", chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"", chat_ask_length: "Should I keep it brief, or would you like the full details?",
     btn_back_dashboard: "Back to Dashboard", btn_save: "Save",
@@ -77,6 +77,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_quiz: "Giới thiệu bản thân",
     landing_btn_continue: "Khám phá hướng dẫn",
     landing_btn_ask: "Bắt đầu trò chuyện",
+    landing_btn_browse: "Xem Hướng dẫn",
     landing_load_sample: "Tải mẫu thử",
     landing_erase: "Xóa dữ liệu",
     landing_add_key: "Thêm khóa API",
@@ -86,6 +87,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_subtitle: "Chào mừng trở lại với hướng dẫn cá nhân của bạn.",
     dash_subtitle_guest: "Hãy thiết lập hồ sơ để bắt đầu.",
     dash_btn_guide: "Mở Hướng dẫn",
+    dash_btn_browse: "Xem Hướng dẫn",
     dash_btn_ask: "Hỏi AI",
     dash_btn_history: "Lịch sử trò chuyện",
     dash_btn_cv: "Nhập CV",
@@ -305,6 +307,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_quiz: "Conte sobre você",
     landing_btn_continue: "Explorar Guia",
     landing_btn_ask: "Começar conversa",
+    landing_btn_browse: "Navegar no Guia",
     landing_load_sample: "Carregar Exemplo",
     landing_erase: "Limpar Dados",
     landing_add_key: "Adicionar Chave API",
@@ -314,6 +317,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_subtitle: "Bem-vindo de volta ao seu guia pessoal.",
     dash_subtitle_guest: "Vamos configurar seu perfil para começar.",
     dash_btn_guide: "Abrir Guia",
+    dash_btn_browse: "Navegar no Guia",
     dash_btn_ask: "Perguntar AI",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
@@ -534,6 +538,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_quiz: "Fala sobre ti",
     landing_btn_continue: "Explorar Guia",
     landing_btn_ask: "Começar conversa",
+    landing_btn_browse: "Navegar no Guia",
     landing_load_sample: "Carregar Exemplo",
     landing_erase: "Limpar Dados",
     landing_add_key: "Adicionar Chave API",
@@ -543,6 +548,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_subtitle: "Bem-vindo de volta ao teu guia pessoal.",
     dash_subtitle_guest: "Vamos configurar o teu perfil para começar.",
     dash_btn_guide: "Abrir Guia",
+    dash_btn_browse: "Navegar no Guia",
     dash_btn_ask: "Perguntar AI",
     dash_btn_history: "Histórico",
     dash_btn_cv: "Importar CV",
@@ -762,6 +768,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     landing_btn_quiz: "Расскажите о себе",
     landing_btn_continue: "Открыть гид",
     landing_btn_ask: "Начать чат",
+    landing_btn_browse: "Читать гид",
     landing_load_sample: "Загрузить пример",
     landing_erase: "Сброс данных",
     landing_add_key: "Добавить API ключ",
@@ -771,6 +778,7 @@ export const TRANSLATIONS: Record<LanguageCode, Partial<Record<TranslationKey, s
     dash_subtitle: "Добро пожаловать в ваш персональный гид.",
     dash_subtitle_guest: "Давайте настроим ваш профиль.",
     dash_btn_guide: "Открыть гид",
+    dash_btn_browse: "Читать гид",
     dash_btn_ask: "Спросить AI",
     dash_btn_history: "История",
     dash_btn_cv: "Импорт CV",

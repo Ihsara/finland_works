@@ -77,7 +77,14 @@ import {
   Moon,
   Eye,
   Database,
-  Trash2
+  Trash2,
+  Headphones,
+  Church,
+  Code,
+  Hammer,
+  Utensils,
+  Truck,
+  HardHat
 } from 'lucide-react';
 
 export const Icons = {
@@ -158,5 +165,12 @@ export const Icons = {
   Moon,
   Eye,
   Database,
-  Trash2
+  Trash2,
+  Headphones,
+  Church,
+  Code,
+  Hammer,
+  Utensils,
+  Truck,
+  HardHat
 };

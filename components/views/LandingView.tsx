@@ -48,7 +48,8 @@ export const LandingView: React.FC<LandingViewProps> = ({
         <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">{t('landing_welcome', language)}</h1>
         <p className="text-xl text-gray-700 dark:text-gray-300 mb-12 font-light">{t('landing_subtitle', language)}</p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center w-full flex-wrap">
+          {/* Primary Action: Quiz or Continue */}
           <button 
             onClick={() => {
               if (showGuideBtn) {
@@ -62,6 +63,8 @@ export const LandingView: React.FC<LandingViewProps> = ({
             {showGuideBtn ? <Icons.BookMarked className="w-5 h-5" /> : <Icons.CheckSquare className="w-5 h-5" />}
             {showGuideBtn ? t('landing_btn_continue', language) : t('landing_btn_quiz', language)}
           </button>
+
+          {/* Secondary Action: Chat */}
           <button 
             onClick={() => {
               onSetGuest(GUEST_PROFILE);
@@ -72,6 +75,20 @@ export const LandingView: React.FC<LandingViewProps> = ({
             <Icons.MessageSquare className="w-5 h-5" />
             {t('landing_btn_ask', language)}
           </button>
+
+          {/* Guest Action: Browse Guide (Only if no profile yet) */}
+          {!showGuideBtn && (
+             <button
+               onClick={() => {
+                 onSetGuest(GUEST_PROFILE);
+                 onOpenGuide();
+               }}
+               className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600 transition shadow-sm w-full sm:w-auto sm:min-w-[260px] min-h-[64px]"
+             >
+               <Icons.BookOpen className="w-5 h-5" />
+               {t('landing_btn_browse', language)}
+             </button>
+          )}
         </div>
       </div>
 
