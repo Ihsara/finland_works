@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   User, 
@@ -86,7 +87,6 @@ import {
   Truck, 
   HardHat, 
   GlassWater,
-  // Missing icons added to fix errors in wikiContent.ts
   Coins,
   Building,
   Search,
@@ -103,7 +103,14 @@ import {
   Book,
   Music,
   School,
-  Info
+  Info,
+  // New additions
+  Laptop,
+  Watch,
+  Wind,
+  Droplets,
+  Bike,
+  HelpCircle
 } from 'lucide-react';
 
 export const Icons = {
@@ -193,7 +200,6 @@ export const Icons = {
   Truck, 
   HardHat, 
   GlassWater,
-  // Added to support Wiki content
   Coins,
   Building,
   Search,
@@ -210,5 +216,11 @@ export const Icons = {
   Book,
   Music,
   School,
-  Info
+  Info,
+  Laptop,
+  Watch,
+  Wind,
+  Droplets,
+  Bike,
+  HelpCircle
 };

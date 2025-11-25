@@ -1,3 +1,4 @@
+
 import { TranslationKey } from "../languages";
 
 // Structure for a single language's data
@@ -12,7 +13,8 @@ export interface TranslationResource {
     // Full Article Content
     articles: Record<string, {
       title: string;
-      content: string;
+      summary: string; // Short form for AI Context & Intro
+      content: string;  // Detailed content
     }>;
   };
 }

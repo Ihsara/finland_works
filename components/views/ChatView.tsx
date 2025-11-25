@@ -11,8 +11,9 @@ interface ChatViewProps {
   isTyping: boolean;
   inputText: string;
   onInputChange: (val: string) => void;
-  onSendMessage: () => void;
+  onSendMessage: (text?: string, displayLabel?: string) => void; // Modified to accept displayLabel
   onEndSession: () => void;
+  onNavigateToArticle?: (articleId: string) => void;
 }
 
 export const ChatView: React.FC<ChatViewProps> = ({
@@ -21,7 +22,8 @@ export const ChatView: React.FC<ChatViewProps> = ({
   inputText,
   onInputChange,
   onSendMessage,
-  onEndSession
+  onEndSession,
+  onNavigateToArticle
 }) => {
   const { t } = useLanguage();
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -30,6 +32,11 @@ export const ChatView: React.FC<ChatViewProps> = ({
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [conversation.messages, isTyping]);
+
+  const handleOptionClick = (value: string, label: string) => {
+      // Send both the technical value (ID) and the localized label for display
+      onSendMessage(value, label);
+  };
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500">
@@ -62,13 +69,13 @@ export const ChatView: React.FC<ChatViewProps> = ({
         {conversation.messages.length === 0 && (
           <div className="text-center text-gray-500 dark:text-gray-400 py-10">
             <Icons.MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-20" />
-            <p>Start the conversation by asking a question below.</p>
+            <p>{t('chat_empty_state')}</p>
           </div>
         )}
         {conversation.messages.map((msg) => (
           <div 
             key={msg.id} 
-            className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}
+            className={`flex flex-col ${msg.sender === Sender.USER ? 'items-end' : 'items-start'}`}
           >
             <div 
               className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden
@@ -86,7 +93,42 @@ export const ChatView: React.FC<ChatViewProps> = ({
                 `}
                 dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
               />
+              
+              {/* Render Link Action if present */}
+              {msg.structuredData && msg.structuredData.type === 'navigation_link' && onNavigateToArticle && (
+                  <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
+                      <button
+                          onClick={() => onNavigateToArticle((msg.structuredData as any).data.articleId)}
+                          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold hover:underline"
+                      >
+                          <Icons.BookOpen className="w-4 h-4" />
+                          {(msg.structuredData as any).data.buttonText || t('profile_btn_guide')}
+                      </button>
+                  </div>
+              )}
             </div>
+
+            {/* Render Interactive Options if Present */}
+            {msg.structuredData && msg.structuredData.type === 'interactive_choice' && (
+                <div className="mt-3 w-full max-w-[85%] md:max-w-[75%] animate-in fade-in slide-in-from-top-2">
+                    {msg.structuredData.data.question_header && (
+                        <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide ml-1">
+                            {msg.structuredData.data.question_header}
+                        </p>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                        {msg.structuredData.data.options.map((opt) => (
+                            <button
+                                key={opt.id}
+                                onClick={() => handleOptionClick(opt.value, opt.label)}
+                                className="bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500 text-gray-800 dark:text-gray-200 text-sm px-4 py-2 rounded-full transition-all shadow-sm active:scale-95 text-left"
+                            >
+                                {opt.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
           </div>
         ))}
         {isTyping && (
@@ -116,7 +158,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
             className="w-full pl-4 pr-12 py-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-base text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-500 focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 focus:outline-none transition shadow-sm"
           />
           <button 
-            onClick={onSendMessage}
+            onClick={() => onSendMessage()}
             disabled={!inputText.trim() || isTyping}
             className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 disabled:opacity-30 transition"
           >

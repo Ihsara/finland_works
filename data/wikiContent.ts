@@ -1,3 +1,4 @@
+
 import { Icons } from "../components/Icon";
 import { LanguageCode } from "../types";
 import { getResource } from "./translations";
@@ -11,6 +12,7 @@ export interface WikiArticle {
   title: string;       
   icon: keyof typeof Icons; 
   tags: string[];      
+  summary?: string; // Short summary for UI/AI
   content: string;     
 }
 
@@ -48,20 +50,32 @@ const getLocalizedTitle = (key: string, lang: LanguageCode, defaultText: string)
   return resource.wiki.titles[key] || getResource('en').wiki.titles[key] || defaultText;
 };
 
-const getLocalizedArticle = (id: string, lang: LanguageCode): { title: string, content: string } => {
+const getLocalizedArticle = (id: string, lang: LanguageCode): { title: string, summary: string, content: string } => {
   const resource = getResource(lang);
   const article = resource.wiki.articles[id];
   
-  if (article) return article;
+  // If article exists in target language
+  if (article) {
+      return {
+          title: article.title,
+          // If summary exists, use it. If not, try to grab first paragraph of content as fallback.
+          summary: article.summary || article.content.split('\n\n')[0].replace(/[#*]/g, '').trim(), 
+          content: article.content
+      };
+  }
   
-  // Fallback to English content but try to use a Translated Title from the titles map if the article itself isn't translated
+  // Fallback to English content but try to use a Translated Title
   const enArticle = getResource('en').wiki.articles[id];
   if (enArticle) {
       const localTitle = getLocalizedTitle(id, lang, enArticle.title);
-      return { title: localTitle, content: enArticle.content };
+      return { 
+          title: localTitle, 
+          summary: enArticle.summary || enArticle.content.split('\n\n')[0], // English fallback summary
+          content: enArticle.content 
+      };
   }
 
-  return { title: "Content Pending", content: "This guide is being updated." };
+  return { title: "Content Pending", summary: "No summary available.", content: "This guide is being updated." };
 };
 
 // ---------------------------------------------------------------------------
@@ -84,16 +98,19 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
         {
             title: getLocalizedTitle('identity', lang, 'Identity'),
             articles: [
-                { id: 'guide_start', icon: 'Flag', tags: ['general', 'arrival'], ...getLocalizedArticle('guide_start', lang) },
-                { id: 'bureaucracy_dvv', icon: 'Fingerprint', tags: ['general', 'arrival'], ...getLocalizedArticle('bureaucracy_dvv', lang) },
-                { id: 'bureaucracy_migri', icon: 'CreditCard', tags: ['general', 'arrival'], ...getLocalizedArticle('bureaucracy_migri', lang) },
-                { id: 'bureaucracy_tax', icon: 'Percent', tags: ['general', 'work'], ...getLocalizedArticle('bureaucracy_tax', lang) }
+                { id: 'guide_start', icon: 'Flag', tags: ['general', 'arrival', 'mandatory'], ...getLocalizedArticle('guide_start', lang) },
+                { id: 'bureaucracy_dvv', icon: 'Fingerprint', tags: ['general', 'arrival', 'mandatory'], ...getLocalizedArticle('bureaucracy_dvv', lang) },
+                { id: 'bureaucracy_migri', icon: 'Globe', tags: ['general', 'arrival'], ...getLocalizedArticle('bureaucracy_migri', lang) },
+                { id: 'bureaucracy_tax', icon: 'Percent', tags: ['general', 'work'], ...getLocalizedArticle('bureaucracy_tax', lang) },
+                { id: 'bureaucracy_bank', icon: 'CreditCard', tags: ['general', 'arrival'], ...getLocalizedArticle('bureaucracy_bank', lang) }
             ]
         },
         {
             title: getLocalizedTitle('security', lang, 'Social Security'),
             articles: [
-                { id: 'social_unemployment', icon: 'Briefcase', tags: ['work', 'benefits'], ...getLocalizedArticle('social_unemployment', lang) },
+                { id: 'social_kela_card', icon: 'Heart', tags: ['health', 'benefits'], ...getLocalizedArticle('social_kela_card', lang) },
+                { id: 'social_health', icon: 'Stethoscope', tags: ['health', 'general'], ...getLocalizedArticle('social_health', lang) },
+                { id: 'social_unemployment', icon: 'Umbrella', tags: ['work', 'benefits'], ...getLocalizedArticle('social_unemployment', lang) },
                 { id: 'social_housing', icon: 'Home', tags: ['housing', 'benefits'], ...getLocalizedArticle('social_housing', lang) },
                 { id: 'social_pension', icon: 'Coins', tags: ['work', 'future'], ...getLocalizedArticle('social_pension', lang) }
             ]
@@ -117,12 +134,14 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
                   { id: 'job_market_overview', icon: 'LayoutGrid', tags: ['worker', 'general'], ...getLocalizedArticle('job_market_overview', lang) },
                   { id: 'job_te_office', icon: 'Building', tags: ['worker', 'unemployment'], ...getLocalizedArticle('job_te_office', lang) },
                   { id: 'job_portals', icon: 'Search', tags: ['worker', 'search'], ...getLocalizedArticle('job_portals', lang) },
+                  { id: 'job_networking', icon: 'Users', tags: ['worker', 'networking'], ...getLocalizedArticle('job_networking', lang) },
                   { id: 'job_entrepreneurship', icon: 'Rocket', tags: ['worker', 'business'], ...getLocalizedArticle('job_entrepreneurship', lang) }
               ]
           },
           {
               title: getLocalizedTitle('tools', lang, 'Tools'),
               articles: [
+                  { id: 'job_cv_tips', icon: 'FileText', tags: ['worker', 'application'], ...getLocalizedArticle('job_cv_tips', lang) },
                   { id: 'job_cover_letter', icon: 'PenTool', tags: ['worker', 'application'], ...getLocalizedArticle('job_cover_letter', lang) },
                   { id: 'job_linkedin', icon: 'Linkedin', tags: ['worker', 'networking'], ...getLocalizedArticle('job_linkedin', lang) },
                   { id: 'job_interview', icon: 'Mic', tags: ['worker', 'interview'], ...getLocalizedArticle('job_interview', lang) },
@@ -134,7 +153,9 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
               articles: [
                   { id: 'work_contract', icon: 'FileSignature', tags: ['worker', 'contract'], ...getLocalizedArticle('work_contract', lang) },
                   { id: 'work_hours', icon: 'Clock', tags: ['worker', 'contract'], ...getLocalizedArticle('work_hours', lang) },
-                  { id: 'work_holidays', icon: 'Palmtree', tags: ['worker', 'contract'], ...getLocalizedArticle('work_holidays', lang) }
+                  { id: 'work_holidays', icon: 'Palmtree', tags: ['worker', 'contract'], ...getLocalizedArticle('work_holidays', lang) },
+                  { id: 'work_unions', icon: 'Shield', tags: ['worker', 'union'], ...getLocalizedArticle('work_unions', lang) },
+                  { id: 'work_probation', icon: 'HelpCircle', tags: ['worker', 'contract'], ...getLocalizedArticle('work_probation', lang) }
               ]
           }
       ]
@@ -153,15 +174,21 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('norms', lang, 'Norms'),
               articles: [
-                  { id: 'culture_essentials', icon: 'Shield', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_essentials', lang) },
+                  { id: 'culture_essentials', icon: 'Scale', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_essentials', lang) },
+                  { id: 'culture_punctuality', icon: 'Watch', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_punctuality', lang) },
                   { id: 'culture_meetings', icon: 'Calendar', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_meetings', lang) },
-                  { id: 'culture_feedback', icon: 'MessageCircle', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_feedback', lang) }
+                  { id: 'culture_feedback', icon: 'MessageCircle', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_feedback', lang) },
+                  { id: 'culture_coffee', icon: 'Coffee', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_coffee', lang) }
               ]
           },
           {
               title: getLocalizedTitle('social', lang, 'Social'),
               articles: [
-                  { id: 'culture_names', icon: 'Tag', tags: ['culture', 'social'], ...getLocalizedArticle('culture_names', lang) }
+                  { id: 'culture_names', icon: 'Tag', tags: ['culture', 'social'], ...getLocalizedArticle('culture_names', lang) },
+                  { id: 'culture_smalltalk', icon: 'Wind', tags: ['culture', 'social'], ...getLocalizedArticle('culture_smalltalk', lang) },
+                  { id: 'culture_afterwork', icon: 'Beer', tags: ['culture', 'social'], ...getLocalizedArticle('culture_afterwork', lang) },
+                  { id: 'culture_sauna', icon: 'ThermometerSun', tags: ['culture', 'social'], ...getLocalizedArticle('culture_sauna', lang) },
+                  { id: 'culture_party', icon: 'Gift', tags: ['culture', 'social'], ...getLocalizedArticle('culture_party', lang) }
               ]
           }
       ]
@@ -180,8 +207,11 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('specialist', lang, 'Specialist'),
               articles: [
+                  { id: 'prof_it', icon: 'Laptop', tags: ['worker', 'engineering'], ...getLocalizedArticle('prof_it', lang) },
                   { id: 'prof_engineering', icon: 'Settings', tags: ['worker', 'engineering'], ...getLocalizedArticle('prof_engineering', lang) },
-                  { id: 'prof_business', icon: 'Briefcase', tags: ['worker', 'business'], ...getLocalizedArticle('prof_business', lang) }
+                  { id: 'prof_business', icon: 'Briefcase', tags: ['worker', 'business'], ...getLocalizedArticle('prof_business', lang) },
+                  { id: 'prof_health', icon: 'Stethoscope', tags: ['worker', 'health'], ...getLocalizedArticle('prof_health', lang) },
+                  { id: 'prof_service', icon: 'Utensils', tags: ['worker', 'service'], ...getLocalizedArticle('prof_service', lang) }
               ]
           }
       ]
@@ -200,13 +230,21 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('housing', lang, 'Housing'),
               articles: [
-                  { id: 'housing_contracts', icon: 'FileText', tags: ['housing', 'legal'], ...getLocalizedArticle('housing_contracts', lang) }
+                  { id: 'housing_finding', icon: 'Search', tags: ['housing', 'general'], ...getLocalizedArticle('housing_finding', lang) },
+                  { id: 'housing_contracts', icon: 'FileText', tags: ['housing', 'legal'], ...getLocalizedArticle('housing_contracts', lang) },
+                  { id: 'housing_utilities', icon: 'Zap', tags: ['housing', 'general'], ...getLocalizedArticle('housing_utilities', lang) },
+                  { id: 'housing_recycling', icon: 'Recycle', tags: ['housing', 'general'], ...getLocalizedArticle('housing_recycling', lang) },
+                  { id: 'housing_sauna', icon: 'Droplets', tags: ['housing', 'general'], ...getLocalizedArticle('housing_sauna', lang) }
               ]
           },
           {
               title: getLocalizedTitle('family', lang, 'Family'),
               articles: [
-                  { id: 'family_school', icon: 'Book', tags: ['family', 'education'], ...getLocalizedArticle('family_school', lang) }
+                  { id: 'family_daycare', icon: 'Baby', tags: ['family', 'education'], ...getLocalizedArticle('family_daycare', lang) },
+                  { id: 'family_school', icon: 'Book', tags: ['family', 'education'], ...getLocalizedArticle('family_school', lang) },
+                  { id: 'family_activities', icon: 'Bike', tags: ['family', 'general'], ...getLocalizedArticle('family_activities', lang) },
+                  { id: 'family_winter', icon: 'Snowflake', tags: ['family', 'general'], ...getLocalizedArticle('family_winter', lang) },
+                  { id: 'family_safety', icon: 'Shield', tags: ['family', 'general'], ...getLocalizedArticle('family_safety', lang) }
               ]
           }
       ]

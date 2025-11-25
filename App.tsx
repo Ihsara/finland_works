@@ -14,6 +14,7 @@ import ProfileWizard from './components/ProfileWizard';
 import { getAllFlattenedArticles } from './data/wikiContent';
 import { calculateProfileCompleteness } from './utils/profileUtils';
 import { useLanguage } from './contexts/LanguageContext';
+import { extractJsonFromText, parseTaggedResponse } from './utils/textUtils';
 
 // Import Views
 import { ApiKeyView } from './components/views/ApiKeyView';
@@ -263,13 +264,41 @@ const App: React.FC = () => {
   };
 
   const startNewChat = () => {
+    const globalPref = Storage.getGlobalLengthPreference();
+    
+    let initialMessages: Message[] = [];
+    
+    // If preference is to always ask, inject the question immediately
+    if (globalPref === 'ask') {
+        initialMessages.push({
+            id: uuidv4(),
+            sender: Sender.MODEL,
+            text: t('chat_ask_length'),
+            timestamp: Date.now(),
+            structuredData: {
+                type: 'interactive_choice',
+                data: {
+                    message: t('chat_ask_length'),
+                    question_header: t('settings_length_label'), 
+                    options: [
+                        { id: 'short', label: t('settings_opt_short'), value: 'short' },
+                        { id: 'long', label: t('settings_opt_long'), value: 'long' }
+                    ]
+                }
+            }
+        });
+    }
+
     const newConv: Conversation = {
       id: uuidv4(),
       startTime: Date.now(),
-      messages: [],
+      messages: initialMessages,
       isSummarized: false,
-      summaryStatus: 'idle'
+      summaryStatus: 'idle',
+      // If a global preference exists (short/long), use it immediately
+      responseLength: globalPref !== 'ask' ? globalPref : undefined
     };
+    
     setCurrentConversation(newConv);
     setPendingChatQuery(null); 
     Storage.saveConversation(newConv);
@@ -277,7 +306,7 @@ const App: React.FC = () => {
     return newConv;
   };
 
-  const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation) => {
+  const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation, displayLabel?: string) => {
     const conversation = conversationOverride || currentConversation;
     if (!messageText.trim() || !conversation) return;
     
@@ -291,47 +320,91 @@ const App: React.FC = () => {
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
-    const userMsg: Message = {
-      id: uuidv4(),
-      sender: Sender.USER,
-      text: messageText,
-      timestamp: Date.now()
-    };
-    const updatedMessages = [...conversation.messages, userMsg];
-    let updatedConv = { ...conversation, messages: updatedMessages };
-    setCurrentConversation(updatedConv);
-    Storage.saveConversation(updatedConv);
-    setInputText('');
-
-    if (!effectivePref && !pendingChatQuery) {
-        setPendingChatQuery(messageText); 
+    // HANDLE LENGTH SELECTION RESPONSE: If no preference set and user sends 'short' or 'long'
+    if (!effectivePref && (messageText === 'short' || messageText === 'long')) {
+        const newPref = messageText as 'short' | 'long';
         
-        const botQuestion: Message = {
+        // Add User selection message visually using localized label if provided, or fallback
+        const selectionMsg: Message = {
             id: uuidv4(),
-            sender: Sender.MODEL,
-            text: t('chat_ask_length'),
-            timestamp: Date.now() + 100 
+            sender: Sender.USER,
+            text: displayLabel || (messageText === 'short' ? t('settings_opt_short') : t('settings_opt_long')),
+            timestamp: Date.now()
         };
+
+        let nextMessages = [...conversation.messages, selectionMsg];
+        let nextConv = { ...conversation, messages: nextMessages, responseLength: newPref };
+
+        // Case A: "Ask First" flow completed (User opened chat -> Bot asked -> User answered). No pending query.
+        if (!pendingChatQuery) {
+            const confirmMsg: Message = {
+                id: uuidv4(),
+                sender: Sender.MODEL,
+                text: t('chat_length_set_confirm'),
+                timestamp: Date.now() + 100
+            };
+            nextConv.messages.push(confirmMsg);
+            setCurrentConversation(nextConv);
+            Storage.saveConversation(nextConv);
+            return; // Stop here, waiting for user's actual question
+        } 
         
-        updatedConv = { ...updatedConv, messages: [...updatedMessages, botQuestion] };
+        // Case B: "Interruption" flow. Pending query exists.
+        // Update conversation state, then allow logic to fall through to send the pending query to Gemini.
+        effectivePref = newPref;
+        messageText = pendingChatQuery; // Swap input for the pending query
+        setPendingChatQuery(null);
+        
+        // Update conversation reference so subsequent logic uses correct history
+        setCurrentConversation(nextConv);
+        Storage.saveConversation(nextConv);
+        conversation.messages = nextMessages; 
+        conversation.responseLength = newPref;
+    } else {
+        // NORMAL FLOW: Add user message
+        const userMsg: Message = {
+          id: uuidv4(),
+          sender: Sender.USER,
+          text: displayLabel || messageText, // Use display label if available (e.g. "Design" button clicked)
+          timestamp: Date.now()
+        };
+        const updatedMessages = [...conversation.messages, userMsg];
+        let updatedConv = { ...conversation, messages: updatedMessages };
         setCurrentConversation(updatedConv);
         Storage.saveConversation(updatedConv);
-        return; 
+        setInputText('');
+
+        // INTERRUPTION CHECK: If preference is still needed and we aren't in a selection flow
+        if (!effectivePref && !pendingChatQuery) {
+            setPendingChatQuery(messageText); 
+            
+            const botQuestion: Message = {
+                id: uuidv4(),
+                sender: Sender.MODEL,
+                text: t('chat_ask_length'),
+                timestamp: Date.now() + 100,
+                structuredData: {
+                    type: 'interactive_choice',
+                    data: {
+                        message: t('chat_ask_length'),
+                        question_header: t('settings_length_label'),
+                        options: [
+                            { id: 'short', label: t('settings_opt_short'), value: 'short' },
+                            { id: 'long', label: t('settings_opt_long'), value: 'long' }
+                        ]
+                    }
+                }
+            };
+            
+            updatedConv = { ...updatedConv, messages: [...updatedMessages, botQuestion] };
+            setCurrentConversation(updatedConv);
+            Storage.saveConversation(updatedConv);
+            return; // Stop and wait for user selection
+        }
     }
 
     let queryToSend = messageText;
     let finalPref = effectivePref;
-
-    if (pendingChatQuery) {
-        const lower = messageText.toLowerCase();
-        if (lower.match(/short|quick|brief|summary/)) finalPref = 'short';
-        else if (lower.match(/long|detail|deep|full/)) finalPref = 'long';
-        else finalPref = 'long'; 
-
-        updatedConv.responseLength = finalPref;
-        queryToSend = pendingChatQuery;
-        setPendingChatQuery(null);
-    }
     
     setIsTyping(true);
 
@@ -344,7 +417,7 @@ const App: React.FC = () => {
          : queryToSend;
 
       const responseText = await Gemini.sendMessageToGemini(
-        updatedConv.messages, 
+        conversation.messages, // Use current state of messages
         messagePayload, 
         activeProfile,
         progress,
@@ -353,15 +426,37 @@ const App: React.FC = () => {
         finalPref as 'short' | 'long' | undefined
       );
 
-      const modelMsg: Message = {
+      // Use New XML Tag Parser logic primarily
+      const parsed = parseTaggedResponse(responseText);
+      
+      let modelMsg: Message = {
         id: uuidv4(),
         sender: Sender.MODEL,
-        text: responseText,
+        text: parsed.text || '',
         timestamp: Date.now()
       };
 
-      const finalMessages = [...updatedConv.messages, modelMsg];
-      const finalConv = { ...updatedConv, messages: finalMessages };
+      if (parsed.structuredData) {
+          // 1. It was a new format XML interactive response
+          modelMsg.structuredData = parsed.structuredData as any;
+      } else {
+          // 2. Fallback: Check if it was an old JSON response (e.g. Networking Interception Link)
+          const json = extractJsonFromText(responseText);
+          if (json && (json.type === 'navigation_link' || json.type === 'interactive_choice')) {
+              modelMsg.structuredData = json;
+              if (json.data?.message) {
+                  modelMsg.text = json.data.message;
+              }
+          }
+      }
+
+      // Ensure text is at least empty string if undefined
+      if (!modelMsg.text) modelMsg.text = "";
+
+      // Re-fetch conversation from state or use local reference carefully
+      const msgsToAppendTo = conversation.messages; 
+      const finalMessages = [...msgsToAppendTo, modelMsg];
+      const finalConv = { ...conversation, messages: finalMessages };
       
       setCurrentConversation(finalConv);
       Storage.saveConversation(finalConv);
@@ -455,6 +550,12 @@ const App: React.FC = () => {
           Storage.resetApplicationData();
           window.location.reload();
       }
+  };
+
+  // New handler to navigate to specific articles
+  const handleNavigateToArticle = (articleId: string) => {
+      setActiveWikiArticleId(articleId);
+      setView(AppView.WIKI);
   };
 
   if (!apiKey) {
@@ -553,8 +654,9 @@ const App: React.FC = () => {
           isTyping={isTyping}
           inputText={inputText}
           onInputChange={setInputText}
-          onSendMessage={() => handleSendMessage(inputText)}
+          onSendMessage={(text, label) => handleSendMessage(text || inputText, undefined, undefined, label)}
           onEndSession={handleEndSession}
+          onNavigateToArticle={handleNavigateToArticle}
         />
       )}
 

@@ -53,11 +53,37 @@ export interface AppLanguage {
 }
 
 // Interfaces
+export interface InteractiveOption {
+  id: string;
+  label: string;
+  value: string;
+}
+
+export interface InteractiveData {
+  message?: string;
+  question_header?: string;
+  options: InteractiveOption[];
+}
+
+export interface NavigationLinkData {
+  message: string;
+  articleId: string;
+  articleTitle?: string;
+  buttonText?: string;
+}
+
 export interface Message {
   id: string;
   sender: Sender;
   text: string;
   timestamp: number;
+  structuredData?: {
+    type: 'interactive_choice';
+    data: InteractiveData;
+  } | {
+    type: 'navigation_link';
+    data: NavigationLinkData;
+  };
 }
 
 export type SummaryStatus = 'idle' | 'generating' | 'completed' | 'failed';

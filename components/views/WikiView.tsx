@@ -732,6 +732,18 @@ const WikiView: React.FC<WikiViewProps> = ({
                             </div>
                         </div>
                         
+                        {/* NEW COMPOSITE VIEW: Summary + Content */}
+                        {activeArticle.summary && (
+                            <div className="mb-10 p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-l-4 border-blue-500 dark:border-blue-400">
+                                <h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">
+                                    Quick Summary
+                                </h3>
+                                <p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed">
+                                    {activeArticle.summary}
+                                </p>
+                            </div>
+                        )}
+
                         <article className="prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none 
                             text-gray-900 dark:text-gray-200
                             prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight
@@ -803,4 +815,3 @@ const WikiView: React.FC<WikiViewProps> = ({
 };
 
 export default WikiView;
-    

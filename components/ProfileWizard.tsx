@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Icons } from './Icon';
 import { UserProfile } from '../types';
 import { v4 as uuidv4 } from 'uuid';
@@ -53,6 +53,12 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     primaryExcitement: ''
   });
 
+  // Use Ref to track latest formData for async callbacks (setTimeout)
+  const formDataRef = useRef(formData);
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
   useEffect(() => {
     if (initialData) {
         setFormData(prev => ({
@@ -104,27 +110,40 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
   };
 
   const handleNext = () => {
-    if (step === 1 && !formData.name.trim()) {
+    // ALWAYS use ref to get the latest state, preventing stale closures in setTimeouts
+    const currentData = formDataRef.current;
+
+    if (step === 1 && !currentData.name.trim()) {
         const nickname = generateNickname(language);
         setFormData(prev => ({ ...prev, name: nickname }));
     }
 
     // Navigation Logic
     if (step === 4) { // Marital
-        if (formData.maritalStatus.includes('Solo')) { setStep(7); return; }
+        // Strict Rule: If Solo, clear children data and skip questions
+        if (currentData.maritalStatus.includes('Solo')) { 
+            setFormData(prev => ({
+                ...prev,
+                hasChildren: false,
+                childCount: '0',
+                childAgeGroups: []
+            }));
+            setStep(7); 
+            return; 
+        }
         setStep(5); return;
     }
     if (step === 5) { // Children Bool
-        if (formData.hasChildren === false) { setStep(7); return; }
+        if (currentData.hasChildren === false) { setStep(7); return; }
         setStep(6); return;
     }
     if (step === 6) { // Child Details
         setStep(7); return;
     }
     if (step === 7) { // Permit
-        if (isEUCountry(formData.originCountry) || formData.residencePermitType === 'EU Registration') {
+        if (isEUCountry(currentData.originCountry) || currentData.residencePermitType === 'EU Registration') {
             setStep(8);
-            setActiveSection('level'); // Prepare next complex step state if needed, actually step 8 is English
+            setActiveSection('level'); 
             return;
         }
         setStep(8); return;
@@ -146,10 +165,15 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
 
     if (step === 8) { setStep(7); return; }
     if (step === 7) {
-        if (formData.maritalStatus.includes('Solo')) { setStep(4); } 
-        else {
-             if (formData.hasChildren === true) setStep(6);
-             else setStep(5);
+        // Back logic respecting strict rules based on current state
+        // Use ref to be safe, though normal state access in click handler is usually fine
+        const currentData = formDataRef.current; 
+        
+        if (currentData.maritalStatus.includes('Solo')) { 
+            setStep(4); // Go straight back to marital status
+        } else {
+             if (currentData.hasChildren === true) setStep(6); // Go back to details
+             else setStep(5); // Go back to boolean check
         }
         return;
     }
@@ -168,37 +192,39 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
   };
 
   const finishWizard = () => {
-    let finalMarital = formData.maritalStatus || 'Single';
-    if (formData.hasChildren) {
-        const count = formData.childCount || 'some';
-        const ages = formData.childAgeGroups.join(', ');
+    const currentData = formDataRef.current;
+    
+    let finalMarital = currentData.maritalStatus || 'Single';
+    if (currentData.hasChildren) {
+        const count = currentData.childCount || 'some';
+        const ages = currentData.childAgeGroups.join(', ');
         finalMarital = `${finalMarital}, with ${count} children${ages ? ` (${ages})` : ''}`;
     }
 
     const profile: UserProfile = {
       id: initialData?.id || uuidv4(),
-      name: formData.name || 'Friend',
-      ageRange: formData.ageRange || 'Unknown',
-      originCountry: formData.originCountry || 'Abroad',
-      residencePermitType: formData.residencePermitType || 'General',
+      name: currentData.name || 'Friend',
+      ageRange: currentData.ageRange || 'Unknown',
+      originCountry: currentData.originCountry || 'Abroad',
+      residencePermitType: currentData.residencePermitType || 'General',
       maritalStatus: finalMarital,
       languages: [
-        { language: 'Finnish', level: formData.languageFinnish || 'None' },
-        { language: 'English', level: formData.languageEnglish || 'None' }
+        { language: 'Finnish', level: currentData.languageFinnish || 'None' },
+        { language: 'English', level: currentData.languageEnglish || 'None' }
       ],
       education: {
-        degree: formData.educationDegree || 'Not specified',
+        degree: currentData.educationDegree || 'Not specified',
         field: 'General'
       },
-      profession: formData.profession || 'Job Seeker',
-      aspirations: formData.aspirations.split(',').map(s => s.trim()).filter(s => s),
-      challenges: formData.challenges.split(',').map(s => s.trim()).filter(s => s),
-      finnishMotivation: formData.finnishMotivation,
-      cultureInterest: formData.cultureInterest,
-      confidenceLife: formData.confidenceLife,
-      confidenceCareer: formData.confidenceCareer,
-      infoLevel: formData.infoLevel,
-      primaryExcitement: formData.primaryExcitement
+      profession: currentData.profession || 'Job Seeker',
+      aspirations: currentData.aspirations.split(',').map(s => s.trim()).filter(s => s),
+      challenges: currentData.challenges.split(',').map(s => s.trim()).filter(s => s),
+      finnishMotivation: currentData.finnishMotivation,
+      cultureInterest: currentData.cultureInterest,
+      confidenceLife: currentData.confidenceLife,
+      confidenceCareer: currentData.confidenceCareer,
+      infoLevel: currentData.infoLevel,
+      primaryExcitement: currentData.primaryExcitement
     };
     onComplete(profile);
   };

@@ -146,3 +146,101 @@ const fallbackSegment = (text: string, ranges: any[], startId: number) => {
         }
     }
 };
+
+/**
+ * Robustly extracts a JSON object from a string that might contain Markdown or conversational filler.
+ * It looks for the outermost { } pair.
+ */
+export const extractJsonFromText = (text: string): any | null => {
+  if (!text) return null;
+
+  // 1. Try simple parse first (best case)
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    // Continue to advanced extraction
+  }
+
+  // 2. Extract from Markdown Code Blocks (```json ... ```)
+  const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (codeBlockMatch && codeBlockMatch[1]) {
+    try {
+      return JSON.parse(codeBlockMatch[1]);
+    } catch (e) {
+      // Failed to parse code block content
+    }
+  }
+
+  // 3. Extract outermost braces
+  const firstOpen = text.indexOf('{');
+  const lastClose = text.lastIndexOf('}');
+  
+  if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
+    const candidate = text.substring(firstOpen, lastClose + 1);
+    try {
+      return JSON.parse(candidate);
+    } catch (e) {
+      // Failed to parse brace content
+    }
+  }
+
+  return null;
+};
+
+export const parseTaggedResponse = (text: string) => {
+  // 1. Extract content between <reply> tags
+  const replyMatch = text.match(/<reply>([\s\S]*?)<\/reply>/i);
+  const cleanReply = replyMatch ? replyMatch[1].trim() : null;
+
+  // 2. Extract content between <question> tags
+  const questionMatch = text.match(/<question>([\s\S]*?)<\/question>/i);
+  let structuredData = null;
+
+  if (questionMatch) {
+    const qContent = questionMatch[1];
+    // Extract Header
+    const headerMatch = qContent.match(/<header>([\s\S]*?)<\/header>/i);
+    const header = headerMatch ? headerMatch[1].trim() : '';
+    
+    // Extract Options
+    const options: { id: string; label: string; value: string }[] = [];
+    // Regex to handle <option value="...">Label</option>
+    // Note: quotes around value are expected
+    const optionRegex = /<option\s+value=["'](.*?)["']>([\s\S]*?)<\/option>/gi;
+    let match;
+    let idx = 1;
+    while ((match = optionRegex.exec(qContent)) !== null) {
+      options.push({
+        id: `opt-${idx++}`,
+        value: match[1], // Group 1: value attribute
+        label: match[2].trim() // Group 2: inner text
+      });
+    }
+
+    if (options.length > 0) {
+      structuredData = {
+        type: 'interactive_choice',
+        data: {
+          question_header: header,
+          options: options
+        }
+      };
+    }
+  }
+
+  // Determine final display text
+  let displayText = cleanReply;
+  if (displayText === null) {
+      // If no <reply> tag was found:
+      if (structuredData) {
+          // If we have a question but no reply tag, assuming the model mixed text with <question> block.
+          // Remove the <question> block from the text to avoid showing raw XML tags to user.
+          displayText = text.replace(/<question>[\s\S]*?<\/question>/i, '').trim();
+      } else {
+          // No tags at all, just return the raw text
+          displayText = text;
+      }
+  }
+
+  return { text: displayText, structuredData };
+};
