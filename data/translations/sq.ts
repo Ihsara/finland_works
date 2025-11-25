@@ -1,0 +1,61 @@
+
+import { TranslationResource } from "./types";
+
+export const sq: TranslationResource = {
+  ui: {
+    landing_welcome: "Mirë se vini!", landing_subtitle: "Gjeni rrugën tuaj për punë në Finlandë", landing_btn_quiz: "Më trego për veten", landing_btn_continue: "Hap udhëzuesin", landing_btn_ask: "Fillo bisedën", landing_btn_browse: "Shfleto udhëzuesin", landing_load_sample: "Ngarko Shembull", landing_erase: "Fshi të dhënat", landing_add_key: "Shto API", landing_choose_lang: "Gjuha",
+    dash_greeting: "Përshëndetje, {name}!", dash_greeting_guest: "Përshëndetje!", dash_subtitle: "Mirë se vini përsëri në udhëzuesin tuaj.", dash_subtitle_guest: "Le të krijojmë një profil.", dash_btn_guide: "Udhëzuesi", dash_btn_browse: "Shfleto", dash_btn_ask: "Pyet AI", dash_btn_history: "Historia", dash_btn_cv: "Importo CV", dash_switch_profile: "Ndrysho", dash_new_profile: "I ri", dash_edit_profile: "Redakto", dash_profile_overview: "Profili",
+    dash_education: "Arsimi", dash_profession: "Profesioni", dash_languages: "Gjuhët", dash_narrative_aspirations: "Qëllimet", dash_narrative_challenges: "Sfidat",
+    chat_placeholder: "Pyet diçka...", chat_end_session: "Përfundo", chat_header_assistant: "Asistenti", chat_prompt_context_inquiry: "Më trego për \"{sentence}\"", chat_ask_length: "Përgjigje e shkurtër apo e gjatë?",
+    btn_back_dashboard: "Kthehu", btn_save: "Ruaj",
+    profile_btn_guide: "Udhëzuesi Im", profile_btn_guide_desc: "Artikuj të rekomanduar", profile_btn_plan: "Plani Im", profile_btn_plan_desc: "Së shpejti", profile_sect_languages: "Gjuhët", profile_sect_skills: "Aftësitë", profile_sect_narrative: "Historia", profile_label_aspirations: "Shpresat", profile_label_challenges: "Frikërat", profile_label_education: "Arsimi", profile_label_profession: "Profesioni", profile_completeness: "{percentage}% e plotë", profile_completeness_hint: "Përgjigju disa pyetjeve", profile_btn_update: "Përditëso", profile_btn_continue: "Vazhdo",
+    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Për {name}", wiki_explore_cats: "Kategoritë", wiki_explore_subtitle: "Zgjidh një temë.", wiki_full_index: "Indeksi", wiki_full_index_subtitle: "Të gjitha.", wiki_nav_list: "Lista", wiki_nav_icons: "Ikona", wiki_section_chapters: "Kapitujt", wiki_btn_mark_done: "E kryer", wiki_btn_later: "Më vonë", wiki_btn_saved: "Ruajtur", wiki_btn_completed: "Përfunduar", wiki_ctx_ask: "Pyet për këtë", wiki_topic_label: "Tema: {tag}", wiki_topic_desc: "Përmbledhje & Artikuj", wiki_guide_prefix: "UDHËZUES", wiki_stat_articles: "artikuj", wiki_stat_complete: "kryer", wiki_section_prefix: "Pjesa",
+    wizard_header_quiz: "Kuiz", wizard_greeting_short: "Tung, {name}!", wizard_title_init: "Krijo Profilin", wizard_title_custom: "Krijimi i {name}", wizard_phase_identity: "FAZA 1: IDENTITETI", wizard_phase_demo: "FAZA 2: SFONDI", wizard_phase_status: "FAZA 3: STATUSI", wizard_phase_skills: "FAZA 4: AFTËSITË", wizard_phase_mindset: "FAZA 5: MENDËSIA", wizard_phase_vision: "FAZA 6: VIZIONI", wizard_nickname_hint: "* Mund të përdorni nofkë.", wizard_btn_ask: "Pyet", wizard_btn_next: "Tjetra", wizard_btn_prev: "Kaluara", wizard_btn_submit: "Dërgo", wizard_btn_finish_early: "Ruaj & Mbaro", wizard_btn_generate_name: "Gjej një emër", wizard_ribbon_greeting: "Gëzohem, {name}!", wizard_title_name: "Si e keni emrin?", wizard_desc_name: "Shkruaj emrin", wizard_placeholder_name: "Emri juaj",
+    wizard_step2_title: "Sa vjeç jeni?", wizard_step2_desc: "Zgjidh grupin", wizard_step2_placeholder: "Mosha",
+    wizard_step3_title: "Gjendja civile?",
+    wizard_marital_solo_title: "Vetëm", wizard_marital_solo_desc: "Pa partner apo fëmijë", wizard_marital_pair_title: "Me familje", wizard_marital_pair_desc: "Partner apo fëmijë", wizard_marital_secret_title: "Sekret", wizard_marital_secret_desc: "Nuk e them",
+    wizard_children_title: "A keni fëmijë?", wizard_children_desc: "Për këshilla shkolle.", wizard_children_yes: "Po", wizard_children_no: "Jo", wizard_family_details_title: "Detajet e Familjes", wizard_family_count_label: "Sa fëmijë?", wizard_family_ages_label: "Mosha?", wizard_family_ages_hint: "Zgjidh të gjitha.", wizard_age_group_0_6: "Kopsht (0-6)", wizard_age_group_7_12: "Shkollë (7-12)", wizard_age_group_13_17: "Adoleshentë (13-17)", wizard_age_group_18: "Të rritur (18+)",
+    wizard_step4_title: "Nga jeni?", wizard_step4_desc: "Vendi i origjinës", wizard_step4_placeholder: "Emri i shtetit...", wizard_step4_no_match: "Nuk u gjet", wizard_btn_search_country: "Kërko", wizard_btn_select_region: "Zgjidh Rajonin", wizard_region_europe: "Evropë", wizard_region_americas: "Amerikë", wizard_region_asia: "Azi", wizard_region_africa: "Afrikë", wizard_region_oceania: "Oqeani", wizard_region_middle_east: "Lindja e Mesme", wizard_eu_question: "Qytetar i BE?", wizard_eu_yes: "Po", wizard_eu_no: "Jo",
+    wizard_step5_title: "Të drejtat e punës", wizard_permit_full_title: "E pakufizuar", wizard_permit_full_desc: "E përhershme, Familje, BE", wizard_permit_restricted_title: "E kufizuar", wizard_permit_restricted_desc: "E lidhur me punëdhënësin", wizard_permit_student_title: "Student", wizard_permit_student_desc: "Orë të kufizuara",
+    wizard_step6_title: "Arsimi", wizard_step6_desc: "Cila ju përshkruan?", wizard_step6_field_label: "Fusha (Opsionale)", wizard_step6_field_placeholder: "psh. Inxhinieri", wizard_edu_general_title: "I përgjithshëm", wizard_edu_general_desc: "Gjimnaz.", wizard_edu_applied_title: "Profesional", wizard_edu_applied_desc: "Shkollë profesionale.", wizard_edu_uni_title: "Universitet", wizard_edu_uni_desc: "Diplomë akademike.",
+    wizard_step7_title: "Profesioni?", wizard_step7_desc: "Apo puna që kërkoni?", wizard_step7_placeholder: "psh. Infermier",
+    wizard_step8_title: "Gjuha Finlandeze", wizard_lbl_finnish_level: "Niveli", wizard_lbl_finnish_motivation: "Motivimi", wizard_opt_lang_none: "Aspak", wizard_opt_lang_basics: "Bazike (A1)", wizard_opt_lang_inter: "Mesatare (A2-B1)", wizard_opt_lang_fluent: "Rrjedhshëm (B2+)", wizard_scale_1_motivation: "Kurioz", wizard_scale_5_motivation: "I pandalshëm",
+    wizard_step9_title: "Anglisht", wizard_opt_lang_en_none: "Jo", wizard_opt_lang_en_basic: "Bazike", wizard_opt_lang_en_working: "Pune", wizard_opt_lang_en_fluent: "Rrjedhshëm",
+    wizard_step10_title: "Vizioni", wizard_step10_aspirations_label: "Qëllimet", wizard_step10_aspirations_placeholder: "Çfarë dëshironi të arrini?", wizard_step10_challenges_label: "Sfidat", wizard_step10_challenges_placeholder: "Çfarë ju shqetëson?",
+    wizard_step12_title: "Kultura?", wizard_opt_cult_low: "Mister", wizard_opt_cult_med: "Vëzhgim", wizard_opt_cult_high: "Përfshirje",
+    wizard_step13_title: "Ritmi i jetës?", wizard_scale_1_life: "I huaj", wizard_scale_5_life: "Shtëpi",
+    wizard_step14_title: "Besimi në punë?", wizard_scale_1_career: "Dua udhëzim", wizard_scale_5_career: "Kam plan",
+    wizard_step15_title: "Qartësia?", wizard_opt_info_none: "E paqartë", wizard_opt_info_some: "Po qartësohet", wizard_opt_info_high: "Kristal",
+    wizard_step16_title: "Çfarë ju gëzon?", wizard_opt_excite_career: "Karriera", wizard_opt_excite_life: "Siguria", wizard_opt_excite_nature: "Natyra", wizard_opt_excite_adventure: "Aventura",
+    wizard_rating_winter: "Dimër", wizard_rating_thaw: "Shkrirje", wizard_rating_growth: "Rritje", wizard_rating_bloom: "Lulëzim", wizard_rating_summer: "Verë",
+    history_title: "Historia", history_empty: "Bosh.", history_tab_summary: "Përmbledhje", history_tab_transcript: "Teksti", history_no_summary: "S'ka.", history_generating: "Po shkruan...", history_generating_desc: "Në sfond.",
+    cv_title: "Analizo CV", cv_subtitle: "Ngjit tekstin e CV.", cv_placeholder: "Teksti...", cv_btn_analyze: "Analizo", cv_btn_processing: "Po punon...", cv_warning_key: "Duhet API Key.", cv_key_update: "Përditëso", cv_key_required: "Duhet çelës", cv_key_desc: "Për siguri.", cv_key_placeholder: "Çelësi...", cv_key_save: "Ruaj", cv_alert_success: "U ruajt.", cv_alert_error: "Gabim.", cv_btn_manage_key: "API Key",
+    settings_title: "Cilësimet", settings_sect_general: "Të përgjithshme", settings_sect_appearance: "Pamja", settings_sect_data: "Të dhënat", settings_length_label: "Gjatësia", settings_theme_label: "Tema", settings_theme_system: "Sistemi", settings_theme_light: "Dritë", settings_theme_dark: "Errët", settings_opt_ask: "Pyet", settings_opt_short: "Shkurt", settings_opt_long: "Gjatë", settings_clear_data: "Fshi të dhënat", settings_clear_data_desc: "Fshin gjithçka.", settings_btn_clear: "Fshi të gjitha"
+  },
+  wiki: {
+    titles: {
+      foundation: 'Thelbësore', job_strategy: 'Strategjia', workplace: 'Kultura e Punës', industries: 'Industritë', life: 'Jeta',
+      identity: 'Identiteti', security: 'Siguria Sociale', market: 'Tregu', tools: 'Mjetet', rights: 'Të Drejtat',
+      social: 'Sociale', norms: 'Normat', specialist: 'Specialist', hands_on: 'Punë Fizike', housing: 'Strehimi',
+      family: 'Familja', language: 'Gjuha',
+      social_unemployment: 'Papunësia', social_housing: 'Ndihma për Qira', social_pension: 'Pensioni',
+      bureaucracy_dvv: 'DVV & ID', bureaucracy_migri: 'Emigracioni', bureaucracy_tax: 'Karta e Taksave',
+      job_te_office: 'Zyra TE', job_portals: 'Portalet', job_entrepreneurship: 'Sipërmarrja',
+      job_cover_letter: 'Letra Motivuese', job_interview: 'Intervista', job_linkedin: 'LinkedIn', job_recognition: 'Njohja e Diplomës',
+      work_contract: 'Kontrata', work_hours: 'Orët', work_holidays: 'Pushimet',
+      culture_meetings: 'Takimet', culture_feedback: 'Reagimet', culture_names: 'Emrat',
+      prof_engineering: 'Inxhinieri', prof_business: 'Biznes',
+      housing_contracts: 'Kontrata e Qirasë', family_school: 'Shkolla'
+    },
+    articles: {
+      'guide_start': { title: 'Mirë se vini në Finlandë! 🇫🇮', content: `# Udhëzuesi i Mbijetesës\n\n**Filozofia:**\nFinlanda funksionon me besim, heshtje dhe kafe.\n\n### Si ta përdorni\n1. **Lexo:** Shfleto udhëzuesit.\n2. **Bisedo:** Pyet AI.\n3. **Profili:** Mbaje të përditësuar.` },
+      'bureaucracy_dvv': { title: 'DVV & ID', content: `# DVV 🆔\n\n**Prioriteti: MENJËHERË**\n\n### Misioni\nTë ekzistosh zyrtarisht. Merr **Numrin Personal**.\n\n### Pse?\nBanka, telefoni, taksat.` },
+      'bureaucracy_migri': { title: 'Migri', content: `# Migri 🛂\n\n### Misioni\nLeja e Qëndrimit.\n\n### Këshilla\n* **Rezervo herët:** Radha është e gjatë.\n* **Fast Track:** Për specialistët.` },
+      'bureaucracy_tax': { title: 'Karta e Taksave', content: `# Verokortti 💳\n\n**Rregulli:** Pa kartë = 60% taksë.\n\n### Procesi\n1. Hyni në **OmaVero**.\n2. Vlerëso të ardhurat.\n3. Merr PDF.\n4. Dërgoja punëdhënësit.` },
+      'social_unemployment': { title: 'Papunësia', content: `# Pa punë? 📉\n\n### 1. Regjistrohu\nRegjistrohu në **Zyra TE** ditën e parë.\n\n### 2. Pagesat\n* **Kela:** Bazike.\n* **Fondi:** Bazuar në rrogë (nëse je anëtar).` },
+      'job_market_overview': { title: 'Tregu i Punës', content: `# Tregu i Fshehur 📉\n\n**70-80% e punëve nuk shpallen.**\n\n### Strategjitë\n* **Rrjeti:** Miqtë dhe të njohurit.\n* **Direkt:** Shkruaju kompanive.` },
+      'culture_meetings': { title: 'Takimet', content: `# Takimet 📅\n\n**Efektive & Të përpikta.**\n\n* **Fillimi:** Në kohë.\n* **Axhenda:** Përmbaju.\n* **Pa fjalë të tepërta.**` },
+      'culture_essentials': { title: 'Vlerat', content: `# Besimi & Heshtja 🤫\n\n1. **Besimi:** Mbaj fjalën.\n2. **Heshtja:** Mos ki frikë nga heshtja.` }
+    }
+  }
+};
