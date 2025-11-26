@@ -54,9 +54,10 @@ export const fi: TranslationResource = {
       work_contract: 'Työsopimus', work_hours: 'Työajat', work_holidays: 'Vuosiloma', work_unions: 'Ammattiliitot', work_probation: 'Koeaika',
       culture_meetings: 'Kokouskulttuuri', culture_feedback: 'Palautteenanto', culture_names: 'Sinuttelu', culture_punctuality: 'Täsmällisyys', culture_coffee: 'Kahvitauot',
       culture_afterwork: 'Afterwork', culture_sauna: 'Saunadiplomatia', culture_smalltalk: 'Hiljaisuus & Small Talk', culture_party: 'Pikkujoulut',
-      prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Terveydenhuolto', prof_service: 'Palveluala',
+      prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Sosiaali- ja terveysala', prof_service: 'Palveluala',
       housing_contracts: 'Vuokrasopimus', housing_finding: 'Asunnon löytäminen', housing_utilities: 'Sähkö & Internet', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
-      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus'
+      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus',
+      net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi'
     },
     articles: {
       'guide_start': { 

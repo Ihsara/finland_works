@@ -1,3 +1,4 @@
+
 import { describe, it, expect } from 'vitest';
 import { getWikiCategories, getAllFlattenedArticles } from './wikiContent';
 import { SUPPORTED_LANGUAGES } from './languages';
@@ -44,13 +45,33 @@ describe('Wiki Content System (DoD)', () => {
   // NEW FEATURE: Profession Guides
   it('includes the new Profession Guides category', () => {
     const enCats = getWikiCategories('en');
-    const profCat = enCats.find(c => c.id === 'professions');
+    const profCat = enCats.find(c => c.id === 'industries');
     
     expect(profCat).toBeDefined();
-    expect(profCat?.articles.length).toBeGreaterThanOrEqual(6); // We added 6 guides
+    expect(profCat?.subsections[0].articles.length).toBeGreaterThanOrEqual(5);
     
     // Check specific new guide existence
-    const techGuide = profCat?.articles.find(a => a.id === 'prof_tech');
-    expect(techGuide).toBeDefined();
+    const itGuide = profCat?.subsections[0].articles.find(a => a.id === 'prof_it');
+    expect(itGuide).toBeDefined();
+  });
+
+  // NEW FEATURE: Networking Articles
+  it('includes the new Networking articles', () => {
+    const articles = getAllFlattenedArticles('en');
+    
+    // Check if key new networking IDs exist
+    const deepNet = articles.find(a => a.id === 'net_intro_deep');
+    const introvert = articles.find(a => a.id === 'net_introvert');
+    const parents = articles.find(a => a.id === 'net_parents');
+    const linkedin = articles.find(a => a.id === 'net_linkedin');
+
+    expect(deepNet).toBeDefined();
+    expect(introvert).toBeDefined();
+    expect(parents).toBeDefined();
+    expect(linkedin).toBeDefined();
+
+    // Check content exists
+    expect(deepNet?.content).toContain('Hidden Job Market');
+    expect(introvert?.content).toContain('Low-Pressure');
   });
 });

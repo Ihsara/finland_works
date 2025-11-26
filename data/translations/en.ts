@@ -17,7 +17,7 @@ export const en: TranslationResource = {
     wizard_children_title: "Do you have children?", wizard_children_desc: "This helps us tailor advice on schools and daycare.", wizard_children_yes: "Yes", wizard_children_no: "No", wizard_family_details_title: "Family Details", wizard_family_count_label: "How many children?", wizard_family_ages_label: "Ages?", wizard_family_ages_hint: "Select all that apply.", wizard_age_group_0_6: "Daycare (0-6)", wizard_age_group_7_12: "School (7-12)", wizard_age_group_13_17: "Teenagers (13-17)", wizard_age_group_18: "Adults (18+)",
     wizard_step4_title: "Where are you from?", wizard_step4_desc: "Country of Origin", wizard_step4_placeholder: "Type country name...", wizard_step4_no_match: "No matches found", wizard_btn_search_country: "Search Country", wizard_btn_select_region: "Select Region", wizard_region_europe: "Europe", wizard_region_americas: "Americas", wizard_region_asia: "Asia", wizard_region_africa: "Africa", wizard_region_oceania: "Oceania", wizard_region_middle_east: "Middle East", wizard_eu_question: "EU/EEA Citizen?", wizard_eu_yes: "Yes", wizard_eu_no: "No",
     wizard_step5_title: "Right to Work & Permit", wizard_permit_full_title: "Unlimited", wizard_permit_full_desc: "Permanent, Family, EU, or Finnish Degree", wizard_permit_restricted_title: "Restricted", wizard_permit_restricted_desc: "Work permit tied to employer/field", wizard_permit_student_title: "Student", wizard_permit_student_desc: "Limited hours",
-    wizard_step6_title: "Highest Education", wizard_step6_desc: "Which describes you best?", wizard_step6_field_label: "Field of Study (Optional)", wizard_step6_field_placeholder: "e.g. Engineering, Arts", wizard_edu_general_title: "General Education", wizard_edu_general_desc: "High School / Secondary. No vocational qualification.", wizard_edu_applied_title: "Vocational / Applied", wizard_edu_applied_desc: "Vocational school or University of Applied Sciences (AMK).", wizard_edu_uni_title: "University Degree", wizard_edu_uni_desc: "Academic degree (Bachelor, Master, PhD).",
+    wizard_step6_title: "Highest Education", wizard_step6_desc: "Which describes you best?", wizard_step6_field_label: "Field of Study (Optional)", wizard_step6_field_placeholder: "e.g. Engineering, Arts", wizard_edu_general_title: "General", wizard_edu_general_desc: "High School / Secondary. No vocational qualification.", wizard_edu_applied_title: "Vocational / Applied", wizard_edu_applied_desc: "Vocational school or University of Applied Sciences (AMK).", wizard_edu_uni_title: "University Degree", wizard_edu_uni_desc: "Academic degree (Bachelor, Master, PhD).",
     wizard_step7_title: "What is your profession?", wizard_step7_desc: "Or what work are you looking for?", wizard_step7_placeholder: "e.g. Nurse, Welder, Coder",
     wizard_step8_title: "Finnish Language", wizard_lbl_finnish_level: "Current Level", wizard_lbl_finnish_motivation: "Motivation to Learn", wizard_opt_lang_none: "None yet", wizard_opt_lang_basics: "Basics (A1)", wizard_opt_lang_inter: "Intermediate (A2-B1)", wizard_opt_lang_fluent: "Fluent (B2+)", wizard_scale_1_motivation: "Curious", wizard_scale_5_motivation: "Unstoppable",
     wizard_step9_title: "English Language", wizard_opt_lang_en_none: "None", wizard_opt_lang_en_basic: "Basic", wizard_opt_lang_en_working: "Working Proficiency", wizard_opt_lang_en_fluent: "Native/Fluent",
@@ -49,13 +49,14 @@ export const en: TranslationResource = {
       social_unemployment: 'Unemployment Benefits', social_housing: 'Housing Allowance', social_pension: 'Pension System', social_kela_card: 'Kela Card', social_health: 'Public Healthcare',
       bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Migri (Immigration)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening a Bank Account',
       job_te_office: 'TE Office', job_portals: 'Job Sites', job_entrepreneurship: 'Entrepreneurship', job_networking: 'Networking',
-      job_cover_letter: 'Cover Letter', job_interview: 'Job Interview', job_linkedin: 'LinkedIn Tips', job_recognition: 'Degree Recognition', job_cv_tips: 'Finnish CV Style',
+      job_cover_letter: 'Cover Letter', job_interview: 'Job Interview', job_linkedin: 'LinkedIn Strategy', job_recognition: 'Degree Recognition', job_cv_tips: 'Finnish CV Style',
       work_contract: 'Employment Contract', work_hours: 'Working Hours', work_holidays: 'Annual Leave', work_unions: 'Trade Unions', work_probation: 'Probation Period',
       culture_meetings: 'Meeting Culture', culture_feedback: 'Giving Feedback', culture_names: 'First Names', culture_punctuality: 'Punctuality', culture_coffee: 'Coffee Breaks',
       culture_afterwork: 'Afterwork', culture_sauna: 'Sauna Diplomacy', culture_smalltalk: 'Silence & Small Talk', culture_party: 'Office Parties',
       prof_engineering: 'Engineering', prof_business: 'Business & Finance', prof_it: 'IT & Tech', prof_health: 'Healthcare & Nursing', prof_service: 'Service Industry',
       housing_contracts: 'Rental Contracts', housing_finding: 'Finding an Apartment', housing_utilities: 'Electricity & Internet', housing_recycling: 'Recycling Guide', housing_sauna: 'Laundry & Sauna',
-      family_school: 'School System', family_daycare: 'Daycare (Päiväkoti)', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety & Independence'
+      family_school: 'School System', family_daycare: 'Daycare (Päiväkoti)', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety & Independence',
+      net_intro: 'Why Networking Matters', net_design: 'Design Community', net_parents: 'Networking for Parents', net_introvert: 'Low-Pressure Networking', net_hobbies: 'Hobby Networking', net_plan: 'Your Action Plan'
     },
     articles: {
       'guide_start': { 
@@ -63,15 +64,40 @@ export const en: TranslationResource = {
         summary: 'Finland runs on trust, silence, and coffee. This guide is your survival manual.', 
         content: `# Your Survival Manual\n\n**The Philosophy:**\nFinland runs on trust, silence, and coffee. It is a society where systems work, but you must know how to use them. Trust is the currency of interaction, and silence is a sign of respect.\n\n### How to use this app\n1. **Read:** Browse the guides on bureaucracy and work culture.\n2. **Chat:** Ask the AI Assistant about your specific situation.\n3. **Profile:** Keep your data fresh to get accurate advice.\n\n*Sisu* (Guts) is all you need!` 
       },
-      'net_culture': {
-        title: 'Networking: The Finnish Way',
-        summary: 'Finns build networks through doing things together, not small talk. Trust is everything.',
-        content: `### The "Talkoot" Spirit\nNetworking in Finland is rarely about handing out business cards at a cocktail party. It is about **doing work together**.\n\n* **Volunteering:** Join the team of an event (like Slush, Nordic Business Forum, or a local festival). When you work side-by-side with a Finn, you build trust. Trust leads to job recommendations.\n* **Associations:** Finland has an association (yhdistys) for everything. Find the one for your profession.\n* **Quality over Quantity:** One meaningful connection is worth more than 100 loose contacts.`
+      'net_intro_deep': {
+        title: 'Why Networking Matters (A Lot)',
+        summary: 'Networking isn\'t just "nice to have" - it\'s one of the most powerful tools you can use in Finland.',
+        content: `# The Power of "Knowing Someone"\n\nIf there’s one thing you should know about finding your place in the Finnish job market, it’s this: networking isn’t just “nice to have” - it’s one of the **most powerful tools** you can use.\n\n### It’s not about showing off\nNetworking in Finland doesn’t mean handing out business cards or trying to impress people at big events. It’s much more down-to-earth, relaxed, and human.\n\n### Trust is Currency\nIn Finland, **trust** plays a huge role. Employers want to know not only what you can do, but also **who can vouch for you** - your work style, your attitude, your reliability.\n\n### The "Hidden Job Market"\nBecause of this trust factor, many jobs never make it to job portals. This is the so-called “hidden job market”. These jobs are filled quietly through recommendations, small circles, and informal connections. The hidden job market holds **70 percent** of Finland’s actual open job positions.\n\n### Planting Seeds\nThink of networking as planting seeds. Some grow quickly, others take time. Some lead to job opportunities, others to advice, ideas, or just feeling more connected.`
+      },
+      'net_design': {
+        title: 'Meet people in the Design Field',
+        summary: 'The design community is small, warm, and approachable. Show up with genuine interest.',
+        content: `# The Design Circle\n\nThe design community in Finland is relatively small, but that’s exactly what makes it warm, approachable, and surprisingly easy to enter once you take the first step.\n\n### Characteristics\n* **Closeness:** People often know each other across companies and disciplines.\n* **Informal:** Events are usually relaxed. You don’t need a perfect portfolio or fluent Finnish to participate.\n* **International:** Many studios work in English and welcome diverse perspectives.\n\n### How to start?\n* **Just Ask:** Most Finnish designers are happy to help newcomers. Asking a simple question about their work is enough to start a conversation.\n* **Be Consistent:** People remember faces. Show up to events repeatedly.\n\n### Where to meet people?\n* **Helsinki Design District:** Small events and gallery openings.\n* **Aalto University:** Open lectures and meetups (often free).\n* **Grafia ry:** The Association of Visual Communication Designers.\n* **UX Hel / IxDA:** Great for digital designers.`
       },
       'net_linkedin': {
-        title: 'LinkedIn Strategy',
-        summary: 'LinkedIn is the primary search engine for recruiters in Finland.',
-        content: `### Your Digital Face\n* **Keywords:** Recruiters search for skills, not titles. Ensure your headline says "Java", "Project Management", "B2B Sales".\n* **Location:** Set it to Finland. If you are abroad, change it to "Helsinki" (and note in the About section you are relocating) to appear in local searches.\n* **Open to Work:** The green banner is culturally accepted here. It shows motivation.\n* **Activity:** Comment on local posts. It makes you visible to the author's network.`
+        title: 'Build a Finnish-Friendly LinkedIn',
+        summary: 'LinkedIn is the go-to place where people present skills and recruiters search for talent.',
+        content: `# Your Digital Portfolio\n\nLinkedIn plays a much bigger role in Finland than many expect. Recruiters actively search for candidates there, and many employers check profiles before interviewing.\n\n### Accessibility\nOne of the biggest strengths of LinkedIn in Finland is accessibility. People at every level — from juniors to CEOs — are approachable. A short, polite message is often enough to start a chat.\n\n### Quick Wins\n1. **Update Your Headline:** Keywords feed the algorithm. Instead of just "Designer", use "Aspiring Product Designer | 3D Modeling | Graphic Design".\n2. **Post Consistency:** Post every 2-3 weeks. Share a sketch, a project photo, or a "Today I learned" about Finnish design. This teaches the algorithm you are active.\n3. **Follow Local Teams:** Follow companies like *Reaktor*, *Kone*, or *Marimekko*. This signals your interest to their recruiters.\n4. **Join Groups:** Groups like "Finnish Graphic Designers" or "Women in Tech Finland" are where the hidden jobs often appear first.`
+      },
+      'net_hobbies': {
+        title: 'Networking Through Activities',
+        summary: 'Some of the most meaningful connections grow out of everyday activities and shared hobbies.',
+        content: `# Soft Networking\n\nNot all networking happens at professional events. In fact, the best connections often grow out of shared routines.\n\n### Why it works\n* **Authenticity:** You show up as a person first, not a job seeker.\n* **Trust:** Repeated shared moments (like a weekly class) build trust naturally over time.\n* **Low Pressure:** You are there to do pottery or play football, not to "sell" yourself.\n\n### Where to go?\n1. **Kansalaisopisto (Adult Education Centres):** Take a cheap course in photography, woodwork, or Finnish.\n2. **Libraries:** Places like Oodi host open workshops and craft circles.\n3. **Volunteer:** Offer to help at a festival or a local charity. Working side-by-side is the Finnish way of bonding.`
+      },
+      'net_parents': {
+        title: 'Networking for Busy Parents',
+        summary: 'Building connections through micro-interactions in your daily rhythm.',
+        content: `# Efficiency is Key\n\nWhen you’re balancing work, family, and settling in, time is luxury. But you can weave networking into your life.\n\n### Micro-Interactions\n* **Playground:** Saying a quick "Moi" to another parent at the park is the start. You see the same people every day.\n* **Daycare (Päiväkoti):** Chatting at pick-up time counts. Join the "talkoot" (volunteer cleaning day) at the daycare to earn instant respect.\n* **Online:** Join local Facebook groups like "Helsinki Moms" or "Espoo Parents". Many job tips are shared there.`
+      },
+      'net_introvert': {
+        title: 'Low-Pressure Networking',
+        summary: 'Networking doesn\'t require extroversion. It can be calm, intentional, and quiet.',
+        content: `# The Quiet Way\n\nIn Finland, many people prefer quieter environments. Being reserved is not seen as a negative; it is seen as respectful.\n\n### Strategies for Introverts\n1. **Structured Spaces:** Join a book club or a knitting circle where there is a clear activity to focus on, reducing the pressure to talk constantly.\n2. **Online First:** Communities like Discord groups or LinkedIn allow you to observe first and engage when ready.\n3. **One-on-One:** Finns prefer deep conversation over mingling. Ask one person for a quick virtual coffee (15 mins). It is much less draining than a big party.`
+      },
+      'net_plan': {
+        title: 'Your Networking Action Plan',
+        summary: 'Concrete steps you can take this week to build your circle.',
+        content: `# Make it Happen\n\nDon't just read—act. Pick one small thing from this list.\n\n### 5-Minute Tasks\n* **LinkedIn:** Comment on 3 posts by local professionals ("Great insight!", "Thanks for sharing").\n* **Connection:** Send one connection request with a note: "Hi, I'm new to Helsinki and love your work on [Project]. Would love to connect."\n\n### 1-Hour Tasks\n* **Research:** Find one meetup (meetup.com) or library workshop happening next week and put it in your calendar.\n* **Visit:** Go to a library (like Oodi) just to sit and work for an hour. Being in the environment matters.\n\n### The "Coffee" Challenge\n* Ask one person (a colleague, a neighbor, or a LinkedIn contact) for a 15-minute coffee or virtual chat. "I'm looking to understand the field better, could I ask you 2 questions?"`
       },
       'net_hidden': {
         title: 'Hacking the Hidden Market',
@@ -241,7 +267,7 @@ export const en: TranslationResource = {
       'prof_engineering': {
         title: 'Engineering in Finland',
         summary: 'Huge sector. English is widely used.',
-        content: `### The Giants\nKone, Wärtsilä, Nokia, Metso.\n\n### Culture\nFact-based. Prepare technical details. Accuracy is valued over sales pitches.`
+        content: `### The Giants\nKone, Wärtsilä, Nokia, Metso, ABB.\n\n### Culture\nFact-based. Prepare technical details. Accuracy is valued over sales pitches.`
       },
       'prof_business': {
         title: 'Business & Finance',
@@ -251,7 +277,7 @@ export const en: TranslationResource = {
       'prof_it': {
         title: 'IT & Tech',
         summary: 'The easiest sector for English speakers.',
-        content: `### The Hub\nFinland needs coders. English is the company language in almost all tech firms (Wolt, Supercell, Relex).\n\n### Hiring\nExpect code tests. Show your GitHub.`
+        content: `### The Hub\nFinland needs coders. English is the company language in almost all tech firms (Wolt, Supercell, Relex, Aiven).\n\n### Hiring\nExpect code tests. Show your GitHub.`
       },
       'prof_health': {
         title: 'Healthcare & Nursing',
