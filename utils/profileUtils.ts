@@ -1,10 +1,26 @@
 import { UserProfile } from '../types';
 
 export const getAvatarUrl = (p: UserProfile | null) => {
-  const name = p?.name || 'Guest';
-  // Seed composition: Name + Country + Age + ID to ensure diversity even with similar names
-  const extraSeed = (p?.originCountry || '') + (p?.ageRange || '') + (p?.id || '');
-  const seed = encodeURIComponent(name + extraSeed);
+  if (!p) return `https://api.dicebear.com/9.x/micah/svg?seed=Guest&backgroundColor=transparent`;
+
+  // FIXED: Specific Override for the Demo Profile "Gabriela" to ensure she looks female and matches her bio.
+  // Gabriela is Brazilian, female, 26-35. We use a curated config to prevent random male assignment.
+  if (p.id === 'demo-gabriela') {
+     return `https://api.dicebear.com/9.x/micah/svg?seed=GabrielaFixed&facialHairProbability=0&hair=full&mouth=smile&baseColor=f9c9b6&earringsProbability=40`;
+  }
+
+  // Dynamic Generation for other profiles
+  // We include name, ageRange, and originCountry in the seed.
+  // This ensures that if a user edits their age in the wizard (e.g. 18-25 vs 51+), 
+  // the avatar visually updates, giving feedback that the profile has changed.
+  const name = p.name || 'Guest';
+  const ageInfo = p.ageRange || '';
+  const originInfo = p.originCountry || '';
+  
+  // Combine fields to create a unique visual seed based on their specific demographics
+  const seedString = `${name}-${originInfo}-${ageInfo}-${p.id}`;
+  const seed = encodeURIComponent(seedString);
+
   return `https://api.dicebear.com/9.x/micah/svg?seed=${seed}&backgroundColor=transparent`;
 };
 
