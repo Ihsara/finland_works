@@ -30,18 +30,26 @@ export const ku: TranslationResource = {
     wizard_rating_winter: "Zivistan", wizard_rating_thaw: "Buhar", wizard_rating_growth: "Mezinbûn", wizard_rating_bloom: "Kulîlk", wizard_rating_summer: "Havîn",
     history_title: "Dîrok", history_empty: "Tiştek tune.", history_tab_summary: "Kurte", history_tab_transcript: "Nivîs", history_no_summary: "Kurte tune.", history_generating: "Dinivîse...", history_generating_desc: "Li paş.",
     cv_title: "CV Analîz Bike", cv_subtitle: "Nivîsa CV binivîse.", cv_placeholder: "Nivîs...", cv_btn_analyze: "Analîz", cv_btn_processing: "Dixebite...", cv_warning_key: "Mifteya API lazim e.", cv_key_update: "Mifte Nû Bike", cv_key_required: "Mifte Lazim e", cv_key_desc: "Ji bo ewlehiyê.", cv_key_placeholder: "Mifte...", cv_key_save: "Tomar bike", cv_alert_success: "Tomar bû.", cv_alert_error: "Çewtî.", cv_btn_manage_key: "Mifteya API",
-    settings_title: "Mîheng", settings_sect_general: "Giştî", settings_sect_appearance: "Dîtin", settings_sect_data: "Dane", settings_length_label: "Dirêjahiya Bersivê", settings_theme_label: "Tem", settings_theme_system: "Sîstem", settings_theme_light: "Ronahî", settings_theme_dark: "Tarî", settings_opt_ask: "Bipirse", settings_opt_short: "Kurt", settings_opt_long: "Dirêj", settings_clear_data: "Daneyan Paqij Bike", settings_clear_data_desc: "Hemû tişt jê bibe.", settings_btn_clear: "Hemûyan Jê Bibe"
+    settings_title: "Mîheng", settings_sect_general: "Giştî", settings_sect_appearance: "Dîtin", settings_sect_data: "Dane", settings_length_label: "Dirêjahiya Bersivê", settings_theme_label: "Tem", settings_theme_system: "Sîstem", settings_theme_light: "Ronahî", settings_theme_dark: "Tarî", settings_opt_ask: "Bipirse", settings_opt_short: "Kurt", settings_opt_long: "Dirêj", settings_clear_data: "Daneyan Paqij Bike", settings_clear_data_desc: "Hemû tişt jê bibe.", settings_btn_clear: "Hemûyan Jê Bibe",
+    net_intro: "Bi xêr hatî tora pêwendiyan. Rêya xwe hilbijêre.",
+    net_header: "Divê em bala xwe bidin ser çi?",
+    net_opt_design: "Civaka Sêwiranê",
+    net_opt_linkedin: "Stratejiya LinkedIn",
+    net_opt_hobbies: "Hobî & Çalakî",
+    net_opt_parents: "Tora ji bo Dêûbavan",
+    net_opt_introvert: "Şîretên ji bo Introvertan",
   },
   wiki: {
     titles: {
       foundation: 'Bingehîn', job_strategy: 'Lêgerîna Kar', workplace: 'Çanda Kar', industries: 'Sektor', life: 'Jiyan',
-      identity: 'Nasname', security: 'Ewlehî', market: 'Bazar', tools: 'Amûr', rights: 'Maf',
+      identity: 'Nasname', security: 'Ewlehî', market: 'Bazar', tools: 'Amûr', rights: 'Maf', networking: 'Torî & Bazara Veşartî',
       social: 'Civakî', norms: 'Norm', specialist: 'Pispor', hands_on: 'Karê Destan', housing: 'Xanî',
       family: 'Malbat', language: 'Ziman',
       social_unemployment: 'Bêkarî', social_housing: 'Alîkariya Xanî', social_pension: 'Teqawidî', social_kela_card: 'Kela Kart', social_health: 'Tenduristî',
       bureaucracy_dvv: 'DVV & Nasname', bureaucracy_migri: 'Koçberî', bureaucracy_tax: 'Karta Bacê', bureaucracy_bank: 'Hesabê Bankê',
-      job_te_office: 'Ofîsa TE', job_portals: 'Malperên Kar', job_entrepreneurship: 'Karsazî', job_networking: 'Torî',
-      job_cover_letter: 'Nameya Serlêdanê', job_interview: 'Hevpeyvîn', job_linkedin: 'LinkedIn', job_recognition: 'Naskirina Dîplomayê', job_cv_tips: 'CV Fînlandî',
+      job_te_office: 'Ofîsa TE', job_portals: 'Malperên Kar', job_entrepreneurship: 'Karsazî',
+      net_culture: 'Rêya Fînî', net_linkedin: 'Stratejiya LinkedIn', net_hidden: 'Bazara Kar a Veşartî', net_volunteering: 'Dilxwazî',
+      job_cover_letter: 'Nameya Serlêdanê', job_interview: 'Hevpeyvîn', job_recognition: 'Naskirina Dîplomayê', job_cv_tips: 'CV Fînlandî',
       work_contract: 'Peyman', work_hours: 'Saet', work_holidays: 'Betlane', work_unions: 'Sendîka', work_probation: 'Ceribandin',
       culture_meetings: 'Civîn', culture_feedback: 'Bersiv', culture_names: 'Nav', culture_punctuality: 'Wextnasî', culture_coffee: 'Qehwe',
       culture_afterwork: 'Piştî Kar', culture_sauna: 'Sauna', culture_smalltalk: 'Axaftin', culture_party: 'Şahî',
@@ -50,14 +58,266 @@ export const ku: TranslationResource = {
       family_school: 'Dibistan', family_daycare: 'Baxçe', family_activities: 'Hobî', family_winter: 'Zivistan', family_safety: 'Ewlehî'
     },
     articles: {
-      'guide_start': { title: 'Bi xêr hatî Fînlandiyayê! 🇫🇮', summary: 'Fînlandiya bi bawerî, bêdengî û qehweyê dixebite.', content: `# Rêbera Jiyanê\n\n**Felsefe:**\nFînlandiya bi bawerî, bêdengî û qehweyê dixebite.\n\n### Çawa bikar bînî\n1. **Bixwîne:** Rêbernameyan bigere.\n2. **Bipirse:** Ji AI bipirse.\n3. **Profîl:** Agahiyan nû bike.` },
-      'bureaucracy_dvv': { title: 'DVV & Nasname', summary: 'Hejmara Nasnameyê bistîne da ku fermî bî.', content: `# DVV 🆔\n\n**Pêşîn: ZÛ**\n\n### Armanc\nFermîbûn. Tu **Hejmara Nasnameyê** distînî.\n\n### Çima?\nBanka, telefon, bac.` },
-      'bureaucracy_migri': { title: 'Migri', summary: 'Destûra rûniştinê û tomarkirina zû.', content: `# Migri 🛂\n\n### Armanc\nDestûra rûniştinê.\n\n### Şîret\n* **Zû tomar bike:** Dor dirêj in.\n* **Riya bilez:** Ji bo pisporan.` },
-      'bureaucracy_tax': { title: 'Karta Bacê', summary: 'Bê karta bacê, bac %60 e.', content: `# Verokortti 💳\n\n**Rêzik:** Bê kart = 60% bac.\n\n### Pêvajo\n1. Têkeve **OmaVero**.\n2. Dahatê texmîn bike.\n3. PDF bistîne.\n4. Ji patron re bişîne.` },
-      'social_unemployment': { title: 'Alîkariya Bêkariyê', summary: 'Roja yekem li Ofîsa TE tomar bike.', content: `# Bêkar? 📉\n\n### 1. Tomar bike\nLi **Ofîsa TE** roja yekem tomar bike.\n\n### 2. Pere\n* **Kela:** Bingehîn.\n* **Kassa:** Li gorî mûçeyê (eger endam bî).` },
-      'job_market_overview': { title: 'Bazara Kar', summary: '70-80% kar nayên îlankirin.', content: `# Bazara Veşartî 📉\n\n**70-80% kar nayên îlankirin.**\n\n### Stratejî\n* **Tora têkiliyan:** Heval û nas.\n* **Têkiliya rasterast:** E-nameyan bişîne.` },
-      'culture_meetings': { title: 'Civîn', summary: 'Civîn bikêrhatî û di wextê xwe de ne.', content: `# Civîn 📅\n\n**Bikêrhatî & Rast.**\n\n* **Destpêk:** Di wextê xwe de.\n* **Rojev:** Pê ve girêdayî be.\n* **Bê gotinên zêde.**` },
-      'culture_essentials': { title: 'Nirx', summary: 'Bawerî û bêdengî nirxên bingehîn in.', content: `# Bawerî & Bêdengî 🤫\n\n1. **Bawerî:** Soza xwe bi cih bîne.\n2. **Bêdengî:** Ji bêdengiyê netirse.` }
+      'guide_start': { 
+        title: 'Bi xêr hatî Fînlandiyayê! 🇫🇮', 
+        summary: 'Fînlandiya bi bawerî, bêdengî û qehweyê dixebite. Ev rêber ji bo te ye.', 
+        content: `# Rêbera Jiyanê\n\n**Felsefe:**\nFînlandiya bi bawerî, bêdengî û qehweyê dixebite. Ev civakek e ku sîstem dixebitin, lê divê tu bizanibî çawa wan bikar bînî.\n\n### Çawa bikar bînî\n1. **Bixwîne:** Rêbernameyên li ser burokrasiyê bigere.\n2. **Bipirse:** Ji AI bipirse.\n3. **Profîl:** Agahiyan nû bike.` 
+      },
+      'net_culture': {
+        title: 'Torî: Rêya Fînî',
+        summary: 'Fînlandî bi kirina tiştan bi hev re têkiliyan ava dikin, ne bi axaftinên vala.',
+        content: `### Ruhê "Talkoot"\nTorî li Fînlandiyayê ne belavkirina kartvîzîtan e. Ew **hevkari** ye.\n\n* **Dilxwazî:** Tevlî tîmekê bibe (Slush, festîval). Dema tu bi Fînlandiyek re dixebitî, tu baweriyê ava dikî. Bawerî dibe sedema pêşniyara kar.\n* **Komele:** Li Fînlandiyayê ji bo her tiştî komeleyek (yhdistys) heye. Ya pîşeya xwe bibîne.\n* **Qelîte li pêş e:** Yek têkiliya rastîn ji 100 têkiliyên vala çêtir e.`
+      },
+      'net_linkedin': {
+        title: 'Stratejiya LinkedIn',
+        summary: 'LinkedIn motora lêgerînê ya sereke ye ji bo kardêran.',
+        content: `### Rûyê te yê dîjîtal\n* **Peyvên sereke:** Kardêr li huneran digerin, ne li navan. "Java", "Rêveberiya Projeyê" bikar bîne.\n* **Cih:** Bike Fînlandiya. Heger tu li derve yî, bike "Helsinki" (û binivîse ku tu têyî) da ku di lêgerînan de derkevî.\n* **Open to Work:** Ala kesk li vir tê qebûlkirin. Ew motîvasyonê nîşan dide.\n* **Çalakî:** Li ser postên herêmî şîrove bike. Ev te dide xuyakirin.`
+      },
+      'net_hidden': {
+        title: 'Bazara Kar a Veşartî',
+        summary: '70-80% kar nayên îlankirin. Divê tu wan bibînî.',
+        content: `### Piilotyöpaikat (Karên Veşartî)\nŞirket kar îlan nakin ji ber ku giran e.\n\n1. **Nexşeya Şirketan:** Lîsteyek ji 20 şirketan çêke. Li rûpela "Kar" mêze neke.\n2. **Serlêdana Vekirî (Avoin hakemus):** E-nameyê rasterast ji Rêveber re bişîne. "Min şopandina karê we kir. Hunerên min ev in. Em dikarin qehweyekê vexwin?"\n3. **Hevpeyvîna Agahdariyê:** Ji mirovan li ser karê wan bipirse, ne kar *bixwaze*. "Ez nû me. Dikari 3 pirsan bibersivînî?" Piranî dibêjin erê.`
+      },
+      'net_volunteering': {
+        title: 'Dilxwazî',
+        summary: 'Riya herî zû ji bo tevlîbûn û îsbatkirina huneran.',
+        content: `### Çima dilxwazî?\n1. **Ziman:** Jîngehek bê stres ji bo Fînî.\n2. **Referans:** Tu kesekî herêmî nas dikî ku dikare behsa te bike.\n3. **Tor:** Tu mirovên çalak dibînî.\n\n### Li ku?\nXaça Sor, bûyerên startup, klûbên werzîşê, pirtûkxane.`
+      },
+      'bureaucracy_dvv': { 
+        title: 'DVV & Nasname', 
+        summary: 'Hejmara Nasnameyê bistîne da ku fermî bî.', 
+        content: `# DVV 🆔\n\n**Pêşîn: ZÛ**\n\n### Armanc\nFermîbûn. Tu **Hejmara Nasnameyê** (henkilötunnus) distînî. Format: *DDMMYY-XXXX*.\n\n### Çima?\n1. Banka.\n2. Telefon.\n3. Karta bacê.\n4. Tenduristî.` 
+      },
+      'bureaucracy_migri': { 
+        title: 'Migri (Koçberî)', 
+        summary: 'Destûra rûniştinê û tomarkirina zû.', 
+        content: `# Migri 🛂\n\n### Armanc\nDestûra rûniştinê (oleskelulupa).\n\n### Şîret\n* **Enter Finland:** Online bikar bîne.\n* **Tomarkirin:** Divê tu herî wir.\n* **Riya bilez:** Ji bo pisporan (14 roj).` 
+      },
+      'bureaucracy_tax': { 
+        title: 'Karta Bacê', 
+        summary: 'Bê karta bacê, bac %60 e.', 
+        content: `# Verokortti 💳\n\n**Rêzik:** Bê kart = 60% bac.\n\n### Pêvajo\n1. Têkeve **OmaVero**.\n2. Dahatê texmîn bike.\n3. PDF bistîne.\n4. Ji patron re bişîne.` 
+      },
+      'bureaucracy_bank': { 
+        title: 'Hesabê Bankê', 
+        summary: 'Hesabê bankê nasnameya dîjîtal dide te.', 
+        content: `# Zehmetî\nQanûnên li dijî şûştina pereyan dijwar in.\n\n### Çi lazim e\n1. Pasaport.\n2. Destûra rûniştinê.\n3. Peymana kar.\n4. Hejmara nasnameyê (DVV).\n\n### Xelat\n**Nasnameya Elektronîk** (verkkopankkitunnukset). Bi vê tu dikevî Kela û hwd.` 
+      },
+      'social_kela_card': {
+        title: 'Kela Kart',
+        summary: 'Karta şîn a sîgortaya tenduristiyê.',
+        content: `# Çi ye?\nKarta ku nîşan dide tu di sîstemê de yî.\n\n### Bikaranîn\nLi dermanxaneyê nîşan bide.`
+      },
+      'social_health': {
+        title: 'Tenduristiya Giştî vs Kar',
+        summary: 'Karker divê ewil Tenduristiya Kar bikar bînin. Zû û bêpere.',
+        content: `# Du Sîstem\n\n**1. Giştî (Terveysasema)**\n* **Her kes:** Ji bo niştecihan.\n* **Biha:** Erzan (~20€).\n* **Lez:** Hêdî.\n\n**2. Kar (Työterveys)**\n* **Karker.**\n* **Biha:** Bêpere (kardêr dide).\n* **Lez:** Zû.`
+      },
+      'social_unemployment': {
+        title: 'Alîkariya Bêkariyê',
+        summary: 'Roja yekem li Ofîsa TE tomar bike.',
+        content: `# Bêkar? 📉\n\n### 1. Tomar bike\nLi **Ofîsa TE** roja yekem tomar bike. Heger dereng bimînî, pere diçe.\n\n### 2. Kî dide?\n* **Kela:** Bingehîn.\n* **Kassa:** Li gorî mûçeyê (eger endam bî).`
+      },
+      'social_housing': {
+        title: 'Alîkariya Xanî',
+        summary: 'Kela dikare beşek ji kirê bide.',
+        content: `# Asumistuki 🏠\n\nHeger dahat kêm be, Kela alîkariyê dike.\n\n### Serlêdan\nOnline li Kela.`
+      },
+      'social_pension': {
+        title: 'Teqawidî',
+        summary: 'Tu ji her euroyê teqawidiyê kom dikî.',
+        content: `# Çawa dixebite\nKardêr bixweber dibire. Tu tiştek nakî.\n\n### Kontrol\nLi **Tyoelake.fi** binêre.`
+      },
+      'job_market_overview': { 
+        title: 'Bazara Kar', 
+        summary: 'Fêmkirina bazarê.', 
+        content: `### Giştî\nFînlandiya qîmetê dide huner û helwestê.` 
+      },
+      'job_te_office': {
+        title: 'Ofîsa TE',
+        summary: 'Ji bo alîkariya dîtina kar û pere.',
+        content: `# Çi dikin\n* **Pla:** Kursên ziman.\n* **Statû:** Ji bo pere lazim e.\n* **Hişyarî:** Gotina wan bike.`
+      },
+      'job_portals': {
+        title: 'Malperên Kar',
+        summary: 'Cihên sereke.',
+        content: `# Malper\n* **LinkedIn:** Ji bo pisporan.\n* **Oikotie:** Ya herî mezin.\n* **Duunitori:** Navdar.\n* **The Hub:** Startups.`
+      },
+      'job_entrepreneurship': {
+        title: 'Karsazî (Yrittäjyys)',
+        summary: 'Pere ji bo destpêkê heye.',
+        content: `# Starttiraha\nHeger tu karsaziyê bikî, tu dikarî ~700€/mehê bistînî.\n\n**Girîng:** Berî tomarkirina şirketê serî lê bide.`
+      },
+      'job_cv_tips': {
+        title: 'CV Fînlandî',
+        summary: 'Kurt, rast û bi wêne.',
+        content: `# Lîste\n1. **Dirêjahî:** Max 2 rûpel.\n2. **Wêne:** Standard e.\n3. **Profîl:** Kurteyek li jor.\n4. **Huner:** Binivîse.`
+      },
+      'job_cover_letter': {
+        title: 'Nameya Serlêdanê',
+        summary: 'CV dubare neke. Bibêje "Çima em?" û "Çima tu?".',
+        content: `# Ava\n1. **Çima:** Çima vî karî dixwazî?\n2. **Nirx:** Çi pirsgirêkan çareser dikî?\n3. **Kesayet:** Li tîmê tê?`
+      },
+      'job_interview': {
+        title: 'Hevpeyvîn',
+        summary: 'Rastgo be. Bêdengî baş e.',
+        content: `# Hêvî\n* **Rastgo:** Derewan neke. Bibêje "Ez hîn dibim".\n* **Bêdengî:** Netirse.\n* **Qehwe:** Qebûl bike.`
+      },
+      'job_recognition': {
+        title: 'Naskirina Dîplomayê',
+        summary: 'Ji bo doktor û mamosteyan girîng e.',
+        content: `# Pîşeyên Rêkûpêk\nJi bo tenduristî/perwerde, divê **Valvira** an **OPH** nas bike.`
+      },
+      'work_contract': { 
+        title: 'Peymana Kar', 
+        summary: 'Her gav nivîskî. TES kontrol bike.',
+        content: `# Hêman\n1. **Dem:** Daîmî an Demkî.\n2. **TES:** Peymana Giştî. Mûçeyê kêm diyar dike.\n3. **Ceribandin:** Max 6 meh.` 
+      },
+      'work_hours': {
+        title: 'Saetên Kar',
+        summary: 'Standard 7.5 an 8 saet.',
+        content: `# Balans\n* **Tam:** 37.5 an 40 saet/hefte.\n* **Nerm:** Hatin 7-9.`
+      },
+      'work_holidays': {
+        title: 'Betlane',
+        summary: 'Salê 4-5 hefte.',
+        content: `# Sal\nTu rojan kom dikî.\n* **Havîn:** Tîrmeh.\n* **Pere:** Gelek caran 50% zêde didin.`
+      },
+      'work_unions': {
+        title: 'Sendîka',
+        summary: 'Tê pêşniyarkirin.',
+        content: `# Çima?\n1. **Pere:** Zêdetir pereyê bêkariyê.\n2. **Qanûn:** Alîkariya hiqûqî.`
+      },
+      'work_probation': {
+        title: 'Ceribandin',
+        summary: '6 mehên pêşîn.',
+        content: `# Rêzik\nDi vê demê de, her du alî dikarin peymanê tavilê betal bikin.`
+      },
+      'culture_meetings': { 
+        title: 'Civîn', 
+        summary: 'Civîn bikêrhatî û di wextê xwe de ne.', 
+        content: `# Rêzik\n1. **Destpêk:** Di wextê xwe de.\n2. **Rojev:** Pê ve girêdayî be.\n3. **Bêdengî:** Raman an erêkirin.\n4. **Dawî:** Di wextê xwe de.` 
+      },
+      'culture_feedback': {
+        title: 'Bersiv',
+        summary: 'Rast û rasterast.',
+        content: `# Rastbûn\nFînlandî rasterast in. Kesane negire, li ser kar e.`
+      },
+      'culture_names': {
+        title: 'Nav',
+        summary: 'Ne fermî.',
+        content: `# Silav Serok\nHer kes bi navê xwe tê bang kirin.`
+      },
+      'culture_punctuality': {
+        title: 'Wextnasî',
+        summary: '5 deqe derengmayîn derengmayîn e.',
+        content: `# Rêz\nDerengmayîn dizîna wext e. Heger dereng bimînî, bibêje.`
+      },
+      'culture_coffee': {
+        title: 'Qehwe',
+        summary: 'Rituelek e.',
+        content: `# Rituel\nBi tîmê re here. Cihê civakîbûnê ye.`
+      },
+      'culture_afterwork': {
+        title: 'Piştî Kar (AW)',
+        summary: 'Îniyan.',
+        content: `# Hewayê\nRehet. Ne mecbûr î vexwî.`
+      },
+      'culture_sauna': {
+        title: 'Sauna',
+        summary: 'Cihê wekheviyê.',
+        content: `# Rêzik\n1. **Wekhevî:** Tîtel tune.\n2. **Rût:** Xwezayî ye.\n3. **Kar:** Carinan biryar li vir tên dayîn.`
+      },
+      'culture_smalltalk': {
+        title: 'Axaftin',
+        summary: 'Bêdengî ne xirab e.',
+        content: `# Tijî neke\nDi asansorê de ne lazim e biaxivî.`
+      },
+      'culture_party': {
+        title: 'Şahî (Pikkujoulut)',
+        summary: 'Şahiya Noelê.',
+        content: `# Îstîsna\nFînlandî li vir vedibin.`
+      },
+      'prof_engineering': {
+        title: 'Endezyarî',
+        summary: 'Sektora mezin. Îngilîzî tê bikaranîn.',
+        content: `# Şirket\nKone, Nokia.\n\n### Çand\nRastî. Hûrgulî girîng in.`
+      },
+      'prof_business': {
+        title: 'Bazilganî',
+        summary: 'Fînî lazim e.',
+        content: `# Derfet\nFirotina navneteweyî an startup.`
+      },
+      'prof_it': {
+        title: 'IT',
+        summary: 'Ya herî hêsan ji bo Îngilîzî.',
+        content: `# Navend\nFînlandiya koderan dixwaze. Îngilîzî zimanê kar e.`
+      },
+      'prof_health': {
+        title: 'Tenduristî',
+        summary: 'Kêmasî heye, lê ziman şert e.',
+        content: `# Rastî\nDestûra Valvira û ziman lazim e.`
+      },
+      'prof_service': {
+        title: 'Xizmet',
+        summary: 'Cihê destpêkê.',
+        content: `# Destpêk\nPaqijî û xwaringeh bê ziman digirin.`
+      },
+      'housing_contracts': {
+        title: 'Peymana Kirê',
+        summary: 'Ewle.',
+        content: `# Merc\n* **Depozîto:** 2 meh.\n* **Sîgorta:** Mecbûrî ye.`
+      },
+      'housing_finding': {
+        title: 'Dîtina Xanî',
+        summary: 'Bazar zû ye.',
+        content: `# Portal\nOikotie, Vuokraovi.`
+      },
+      'housing_utilities': {
+        title: 'Elektrîk',
+        summary: 'Tu peymanê çêdikî.',
+        content: `# Elektrîk\nCuda ye.`
+      },
+      'housing_recycling': {
+        title: 'Vegerandin',
+        summary: 'Her tişt tê veqetandin.',
+        content: `# Çop\nPlastîk, karton. Şûşe pere dikin (Pantti).`
+      },
+      'housing_sauna': {
+        title: 'Sauna & Cilşûştin',
+        summary: 'Hevpar.',
+        content: `# Avahî\nNavê xwe li lîsteyê binivîse.`
+      },
+      'family_school': {
+        title: 'Dibistan',
+        summary: 'Bêpere û baş.',
+        content: `# Bingeh\n* **Destpêk:** 7 salî.\n* **Biha:** Bêpere.`
+      },
+      'family_daycare': {
+        title: 'Baxçe',
+        summary: 'Mafê her zarokî.',
+        content: `# Serlêdan\n4 meh berê. Erzan e.`
+      },
+      'family_activities': {
+        title: 'Hobî',
+        summary: 'Girîng e.',
+        content: `# Vebijark\nPirtûkxane û werzîş.`
+      },
+      'family_winter': {
+        title: 'Zivistan',
+        summary: 'Cilên baş li xwe bike.',
+        content: `# Cil\nQat bi qat.`
+      },
+      'family_safety': {
+        title: 'Ewlehî',
+        summary: 'Pir ewle.',
+        content: `# Serxwebûn\nZarok bi tena serê xwe diçin dibistanê.`
+      },
+      'culture_essentials': { 
+        title: 'Nirx', 
+        summary: 'Bawerî û bêdengî nirxên bingehîn in.', 
+        content: `# Bawerî & Bêdengî 🤫\n\n1. **Bawerî:** Soza xwe bi cih bîne.\n2. **Bêdengî:** Ji bêdengiyê netirse.` 
+      }
     }
   }
 };

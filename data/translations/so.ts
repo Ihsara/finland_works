@@ -30,17 +30,25 @@ export const so: TranslationResource = {
     wizard_rating_winter: "Jiilaal", wizard_rating_thaw: "Dhalaalid", wizard_rating_growth: "Koboc", wizard_rating_bloom: "Ubax", wizard_rating_summer: "Xagaa",
     history_title: "Taariikhda", history_empty: "Ma jiro.", history_tab_summary: "Soo koobid", history_tab_transcript: "Qoraal", history_no_summary: "Ma jiro soo koobid.", history_generating: "Qoraya...", history_generating_desc: "Gadaal.",
     cv_title: "Falanqee CV", cv_subtitle: "Geli qoraalka CV.", cv_placeholder: "Qoraal...", cv_btn_analyze: "Falanqee", cv_btn_processing: "Socda...", cv_warning_key: "Furaha API loo baahan yahay.", cv_key_update: "Cusboonaysii", cv_key_required: "Furaha loo baahan yahay", cv_key_desc: "Amniga.", cv_key_placeholder: "Furaha...", cv_key_save: "Kaydi", cv_alert_success: "La keydiyay.", cv_alert_error: "Khalad.", cv_btn_manage_key: "Furaha API",
-    settings_title: "Dejinta", settings_sect_general: "Guud", settings_sect_appearance: "Muuqaalka", settings_sect_data: "Xogta", settings_length_label: "Dhererka", settings_theme_label: "Mawduuca", settings_theme_system: "Nidaamka", settings_theme_light: "Iftiin", settings_theme_dark: "Madow", settings_opt_ask: "Weydii", settings_opt_short: "Gaaban", settings_opt_long: "Dheer", settings_clear_data: "Tirtir xogta", settings_clear_data_desc: "Tirtir dhammaan.", settings_btn_clear: "Tirtir"
+    settings_title: "Dejinta", settings_sect_general: "Guud", settings_sect_appearance: "Muuqaalka", settings_sect_data: "Xogta", settings_length_label: "Dhererka", settings_theme_label: "Mawduuca", settings_theme_system: "Nidaamka", settings_theme_light: "Iftiin", settings_theme_dark: "Madow", settings_opt_ask: "Weydii", settings_opt_short: "Gaaban", settings_opt_long: "Dheer", settings_clear_data: "Tirtir xogta", settings_clear_data_desc: "Tirtir dhammaan.", settings_btn_clear: "Tirtir",
+    net_intro: "Ku soo dhawaada xiriirinta. Dooro habkaaga.",
+    net_header: "Maxaan diiradda saarnaa maanta?",
+    net_opt_design: "Bulshada Naqshadeynta",
+    net_opt_linkedin: "Istaraatiijiyadda LinkedIn",
+    net_opt_hobbies: "Hiwaayadaha & Hawlaha",
+    net_opt_parents: "Xiriirinta Waalidiinta",
+    net_opt_introvert: "Talooyin loogu talagalay Dadka Xishoodka badan",
   },
   wiki: {
     titles: {
       foundation: 'Aasaaska', job_strategy: 'Istiraatiijiyadda Shaqada', workplace: 'Dhaqanka Shaqada', industries: 'Warshadaha', life: 'Nolosha',
-      identity: 'Aqoonsiga', security: 'Amniga Bulshada', market: 'Suuqa', tools: 'Qalabka', rights: 'Xuquuqda',
+      identity: 'Aqoonsiga', security: 'Amniga Bulshada', market: 'Suuqa', tools: 'Qalabka', rights: 'Xuquuqda', networking: 'Xiriirinta & Suuqa Qarsoon',
       social: 'Bulshada', norms: 'Caadooyinka', specialist: 'Khabiir', hands_on: 'Shaqada Gacanta', housing: 'Guriyeynta',
       family: 'Qoyska', language: 'Luqadda',
       social_unemployment: 'Shaqo La\'aan', social_housing: 'Kaalmada Guriga', social_pension: 'Howlgab', social_kela_card: 'Kaarka Kela', social_health: 'Caafimaadka',
       bureaucracy_dvv: 'DVV & ID', bureaucracy_migri: 'Socdaalka', bureaucracy_tax: 'Kaarka Canshuurta', bureaucracy_bank: 'Akoonka Bangiga',
-      job_te_office: 'Xafiiska TE', job_portals: 'Boggaga Shaqada', job_entrepreneurship: 'Ganacsiga', job_networking: 'Xiriirinta',
+      job_te_office: 'Xafiiska TE', job_portals: 'Boggaga Shaqada', job_entrepreneurship: 'Ganacsiga', 
+      net_culture: 'Habka Finnishka', net_linkedin: 'Istaraatiijiyadda LinkedIn', net_hidden: 'Suuqa Shaqada ee Qarsoon', net_volunteering: 'Samafalka',
       job_cover_letter: 'Warqadda Codsiga', job_interview: 'Wareysi', job_linkedin: 'LinkedIn', job_recognition: 'Aqoonsiga', job_cv_tips: 'CV-ga Finland',
       work_contract: 'Qandaraas', work_hours: 'Saacadaha', work_holidays: 'Fasaxa', work_unions: 'Ururada', work_probation: 'Tijaabo',
       culture_meetings: 'Kulamada', culture_feedback: 'Jawaab-celin', culture_names: 'Magacyada', culture_punctuality: 'Waqtiga', culture_coffee: 'Kafee',
@@ -50,14 +58,271 @@ export const so: TranslationResource = {
       family_school: 'Iskuulka', family_daycare: 'Xanaano', family_activities: 'Hiwaayadaha', family_winter: 'Jiilaalka', family_safety: 'Amniga'
     },
     articles: {
-      'guide_start': { title: 'Ku soo dhawoow Finland! 🇫🇮', summary: 'Finland waxay ku shaqaysaa aaminaad, aamusnaan iyo kafee.', content: `# Hagaha Badbaadada\n\n**Falsafadda:**\nFinland waxay ku shaqaysaa aaminaad, aamusnaan iyo kafee.\n\n### Sida loo isticmaalo\n1. **Akhri:** Baadh hagayaasha.\n2. **Wadahadal:** Weydii AI.\n3. **Profile:** Cusboonaysii xogta.` },
-      'bureaucracy_dvv': { title: 'DVV & ID', summary: 'Hel Aqoonsigaaga Shakhsi ahaaneed.', content: `# DVV 🆔\n\n**Mudnaanta: HADA**\n\n### Hadafka\nInaad si rasmi ah u jirto. Hel **Lambarka Aqoonsiga**.\n\n### Sababta?\nBangiga, taleefanka, canshuurta.` },
-      'bureaucracy_migri': { title: 'Migri', summary: 'Ogolaanshaha Deganaanshaha.', content: `# Migri 🛂\n\n### Hadafka\nOgolaanshaha Deganaanshaha.\n\n### Talooyin\n* **Horay u qabso:** Safafku waa dheer yihiin.\n* **Waddada Degdega ah:** Loogu talagalay khabiirada.` },
-      'bureaucracy_tax': { title: 'Kaarka Canshuurta', summary: 'Kaar la\'aan canshuurtu waa 60%.', content: `# Verokortti 💳\n\n**Sharciga:** Kaar la'aan = 60% canshuur.\n\n### Habka\n1. Gal **OmaVero**.\n2. Qiyaas dakhliga.\n3. Hel PDF.\n4. U dir madaxa.` },
-      'social_unemployment': { title: 'Lacagta Shaqo La\'aanta', summary: 'Iska diiwaan geli Xafiiska TE maalinta ugu horeysa.', content: `# Shaqo ma la'dahay? 📉\n\n### 1. Isdiiwaangeli Hadda\nIska diiwaan geli **Xafiiska TE** maalinta ugu horeysa.\n\n### 2. Bixiyeyaasha\n* **Kela:** Aasaasi.\n* **Sanduuqa:** Ku salaysan dakhliga (haddii aad xubin tahay).` },
-      'job_market_overview': { title: 'Suuqa Shaqada', summary: '70-80% shaqooyinka lama xayeysiiyo.', content: `# Suuqa Qarsoon 📉\n\n**70-80% shaqooyinka lama xayeysiiyo.**\n\n### Istiraatiijiyado\n* **Xiriirka:** Saaxiibada.\n* **Toos:** U qor shirkadaha.` },
-      'culture_meetings': { title: 'Kulamada', summary: 'Kulamadu waa kuwo waxtar leh oo waqtiga ilaaliya.', content: `# Kulamada 📅\n\n**Waxtar leh & Waqtiga ilaaliya.**\n\n* **Bilow:** Waqtiga saxda ah.\n* **Ajandaha:** Raac.\n* **Hadalka aan loo baahnayn ma jiro.**` },
-      'culture_essentials': { title: 'Qiyamka', summary: 'Aaminaada iyo aamusnaanta waa qiyamka asaasiga ah.', content: `# Aaminaad & Aamusnaan 🤫\n\n1. **Aaminaad:** Samee waxaad sheegto.\n2. **Aamusnaan:** Ha ka baqin aamusnaanta.` }
+      'guide_start': { 
+        title: 'Ku soo dhawoow Finland! 🇫🇮', 
+        summary: 'Finland waxay ku shaqaysaa aaminaad, aamusnaan iyo kafee. Hagahan ayaa ku caawin doona.', 
+        content: `# Hagaha Badbaadada\n\n**Falsafadda:**\nFinland waxay ku shaqaysaa aaminaad, aamusnaan iyo kafee. Waa bulsho nidaamku shaqeeyo, laakiin waa inaad taqaan sida loo isticmaalo.\n\n### Sida loo isticmaalo\n1. **Akhri:** Baadh hagayaasha ku saabsan sharciga iyo dhaqanka.\n2. **Wadahadal:** Weydii AI wixii ku saabsan xaaladaada.\n3. **Profile:** Cusboonaysii xogtaada.` 
+      },
+      'net_culture': {
+        title: 'Xiriirinta: Habka Finnishka',
+        summary: 'Dadka Finnishku waxay xiriir sameeyaan iyagoo wax wada qabanaya, ma ahan sheeko kaliya. Aaminaaddu waa wax walba.',
+        content: `### Ruuxa "Talkoot"\nXiriirinta Finland ma ahan kaliya inaad kaarar qaybiso xaflad. Waa **wax wada qabasho**.\n\n* **Samafal:** Ku biir kooxda dhacdooyinka (Slush, ama xafladaha maxalliga ah). Markaad garab shaqeyso qof Finnish ah, waxaad dhisaysaa aaminaad. Aaminaaddu waxay keentaa talooyin shaqo.\n* **Ururada:** Finland waxay leedahay urur (yhdistys) wax kasta. Raadi midka xirfaddaada.\n* **Tayada ayaa ka muhiimsan tirada:** Hal xiriir oo macno leh ayaa ka qiimo badan 100 xiriir oo daciif ah.`
+      },
+      'net_linkedin': {
+        title: 'Istaraatiijiyadda LinkedIn',
+        summary: 'LinkedIn waa mashiinka raadinta ugu weyn ee loo shaqeeyayaasha Finland.',
+        content: `### Wajigaaga Dijitaalka ah\n* **Erayada Furaha:** Loo shaqeeyayaashu waxay raadiyaan xirfado, ma ahan cinwaano. Hubi in cinwaankaagu leeyahay "Java", "Maareynta Mashruuca", "Iibka B2B".\n* **Goobta:** Ka dhig Finland. Haddii aad dibadda joogto, u beddel "Helsinki" (oo ku qor qaybta "About" inaad soo socoto) si aad uga soo muuqato raadinta maxalliga ah.\n* **Open to Work:** Calanka cagaaran halkan waa laga aqbalaa dhaqan ahaan. Waxay muujinaysaa dhiirigelin.\n* **Dhaqdhaqaaqa:** Faallo ka bixi qoraalada maxalliga ah. Waxay kaa dhigaysaa mid muuqda shabakadda qoraaga.`
+      },
+      'net_hidden': {
+        title: 'Suuqa Shaqada ee Qarsoon',
+        summary: '70-80% shaqooyinka lama xayeysiiyo. Waa inaad heshaa.',
+        content: `### Piilotyöpaikat (Shaqooyinka Qarsoon)\nShirkaduhu badanaa ma xayeysiiyaan sababtoo ah qoritaanku waa qaali oo gaabis ah.\n\n1. **Khariidada Shirkadaha:** Samee liis 20 shirkadood oo aad jeceshahay. Ha fiirin bogga "Shaqooyinka Furan" weli.\n2. **Codsiga Furan (Avoin hakemus):** U dir email Hogaamiyaha Kooxda (ha u dirin HR). "Waan la socday shaqadaada X. Waxaan leeyahay xirfado Y. Ma wada cabi karnaa kafee 15 daqiiqo ah?"\n3. **Wareysiyada Macluumaadka:** Weydii dadka wax ku saabsan shaqadooda, ha weydiisan *shaqo*. "Waan ku cusubahay qaybta tamarta ee Finland. Ma ku weydiin karaa 3 su'aalood oo ku saabsan sida ay halkan uga shaqeyso?" Dadka badankoodu waxay dhahaan haa.`
+      },
+      'net_volunteering': {
+        title: 'Samafalka',
+        summary: 'Waddada ugu dhaqsaha badan ee lagu dhexgalo laguna caddeeyo xirfadaha.',
+        content: `### Maxaa loo samafalaa?\n1. **Luqadda:** Deegaan aan cadaadis lahayn oo lagu barto Finnishka.\n2. **Tixraacyo:** Waxaad helaysaa qof maxalli ah oo caddeyn kara anshaxaaga shaqo.\n3. **Shabakad:** Waxaad la kulantaa dad firfircoon.\n\n### Halkee?\nLaanqayrta Cas, dhacdooyinka bilowga ah (startups), naadiyada isboortiga, maktabadaha.`
+      },
+      'bureaucracy_dvv': { 
+        title: 'DVV & Aqoonsiga (ID)', 
+        summary: 'Hel Aqoonsigaaga Shakhsi ahaaneed si aad si rasmi ah u jirto.', 
+        content: `# DVV 🆔\n\n**Mudnaanta: HADA**\n\n### Hadafka\nInaad si rasmi ah u jirto. Hel **Lambarka Aqoonsiga** (henkilötunnus). Qaabka: *DDMMYY-XXXX*.\n\n### Sababta?\n1. Akoonka Bangiga.\n2. Qandaraaska taleefanka.\n3. Kaarka canshuurta.\n4. Adeegyada caafimaadka.` 
+      },
+      'bureaucracy_migri': { 
+        title: 'Migri (Socdaalka)', 
+        summary: 'Ogolaanshaha Deganaanshaha (oleskelulupa). Isticmaal Enter Finland.', 
+        content: `# Migri 🛂\n\n### Hadafka\nHelitaanka Ogolaanshaha Deganaanshaha.\n\n### Talooyin\n* **Enter Finland:** Isticmaal adeegga online-ka. Way ka dhaqso badan tahay.\n* **Aqoonsiga:** Waa inaad tagtaa xafiiska si aad isku cadeyso.\n* **Waddada Degdega ah:** Loogu talagalay khabiirada (14 maalmood).` 
+      },
+      'bureaucracy_tax': { 
+        title: 'Kaarka Canshuurta', 
+        summary: 'Kaar la\'aan canshuurtu waa 60%. Ma jiro wax reeban.', 
+        content: `# Sharciga Dahabiga ah\nKaar la'aan = **60% canshuur**.\n\n### Habka\n1. Gal **OmaVero**.\n2. Qiyaas dakhligaaga sanadlaha ah.\n3. Soo dejiso PDF.\n4. U dir maamulahaaga.\n\n*Fiiro gaar ah: Finland waxay leedahay nidaam canshuur oo kordha.*` 
+      },
+      'bureaucracy_bank': { 
+        title: 'Furitaanka Akoonka Bangiga', 
+        summary: 'Akoonka bangiga wuxuu ku siinayaa "aqoonsi elektaroonig ah", furaha adeegyada dhijitaalka ah.', 
+        content: `# Caqabadda\nShuruucda lacag-dhaqidda ayaa adag. Bangigu waa inuu ogaadaa halka lacagtaadu ka timaado.\n\n### Maxaa loo baahan yahay\n1. Baasaboor.\n2. Ogolaanshaha deganaanshaha.\n3. Qandaraaska shaqada.\n4. Lambarka Aqoonsiga (DVV).\n\n### Furaha\n**Aqoonsiga Elektarooniga ah** (verkkopankkitunnukset). Waxaad ku geli kartaa Kela, Canshuurta, iyo Caafimaadka.` 
+      },
+      'social_kela_card': {
+        title: 'Kaarka Kela',
+        summary: 'Kaarka buluugga ah wuxuu cadeynayaa inaad caymiska caafimaadka leedahay.',
+        content: `# Waa maxay?\nKaar buluug ah oo cadeynaya inaad ka tirsan tahay nidaamka amniga bulshada ee Finland.\n\n### Isticmaalka\nTus farmasiiga si aad qiimo dhimis u hesho.`
+      },
+      'social_health': {
+        title: 'Caafimaadka Dadweynaha vs Shaqada',
+        summary: 'Shaqaaluhu waa inay isticmaalaan Caafimaadka Shaqada (Työterveys). Waa bilaash oo dhakhso ah.',
+        content: `# Laba Nidaam\n\n**1. Dadweynaha (Terveysasema)**\n* **Qof kasta:** Dadka degan.\n* **Qiimaha:** Raqiis (~20€).\n* **Xawaaraha:** Wuu gaabin karaa.\n\n**2. Shaqada (Työterveys)**\n* **Shaqaalaha.**\n* **Qiimaha:** Bilaash (loo shaqeeyaha ayaa bixiya).\n* **Xawaaraha:** Dhakhso.`
+      },
+      'social_unemployment': {
+        title: 'Lacagta Shaqo La\'aanta',
+        summary: 'Iska diiwaan geli Xafiiska TE maalinta ugu horeysa ee shaqo la\'aanta.',
+        content: `# Shaqo ma la'dahay? 📉\n\n### 1. Isdiiwaangeli Hadda\nIska diiwaan geli **Xafiiska TE** maalinta ugu horeysa. Haddii aad dib u dhigto, lacagtaada wey go'aysaa.\n\n### 2. Bixiyeyaasha\n* **Kela:** Aasaasi.\n* **Sanduuqa:** Ku salaysan dakhliga (haddii aad xubin tahay).`
+      },
+      'social_housing': {
+        title: 'Kaalmada Guriga',
+        summary: 'Kela waxay bixin kartaa qayb ka mid ah kirada haddii dakhligu yar yahay.',
+        content: `# Kaalmada Guriga\n* **Cidda:** Qoysaska dakhligoodu yar yahay.\n* **Xisaabinta:** Waxay ku xiran tahay dakhliga iyo magaalada.\n* **Codsiga:** Online ahaan Kela.`
+      },
+      'social_pension': {
+        title: 'Nidaamka Hawlgabka',
+        summary: 'Waxaad urursataa hawlgab (eläke) euro kasta oo aad shaqayso.',
+        content: `# Sida ay u shaqayso\nLoo shaqeeyaha ayaa si toos ah u gooya. Adigu waxba ha samayn.\n\n### Hubinta\nKa eeg **Tyoelake.fi**.`
+      },
+      'job_market_overview': { 
+        title: 'Suuqa Shaqada', 
+        summary: 'Fahamka muuqaalka.', 
+        content: `### Guudmar\nSuuqa Finland wuxuu qiimeeyaa xirfadaha iyo dabeecadda.` 
+      },
+      'job_te_office': {
+        title: 'Xafiiska TE',
+        summary: 'Wuxuu kaa caawinayaa isdhexgalka iyo shaqo raadinta.',
+        content: `# Waxa ay qabtaan\n* **Qorshaha Isdhexgalka:** Luqadda.\n* **Xaaladda Shaqo-doonka:** Waa qasab si lacag loo helo.\n* **Digniin:** Raac tilmaamahooda si aan lacagta looga jarin.`
+      },
+      'job_portals': {
+        title: 'Halkee laga raadiyaa shaqo',
+        summary: 'Boggaga ugu muhiimsan.',
+        content: `# Boggaga Waaweyn\n* **LinkedIn:** Shaqooyinka Ingiriiska.\n* **Oikotie:** Kan ugu weyn.\n* **Duunitori:** Aad caan u ah.\n* **The Hub:** Startups.`
+      },
+      'job_entrepreneurship': {
+        title: 'Ganacsiga (Yrittäjyys)',
+        summary: 'Lacag taageero ah ayaa jirta (Starttiraha).',
+        content: `# Starttiraha\nHaddii aad ganacsi furato, waxaad heli kartaa ~700€/bishii muddo 6-12 bilood ah.\n\n**Muhiim:** Codso **ka hor** inta aadan diiwaangelin shirkadda.`
+      },
+      'job_cv_tips': {
+        title: 'CV-ga Finland',
+        summary: 'Gaaban, dhab ah, oo sawir leh.',
+        content: `# Talooyin\n1. **Dhererka:** Ugu badnaan 2 bog.\n2. **Sawir:** Waa caadi halkan.\n3. **Profile:** Qoraal gaaban oo kor ah.\n4. **Xirfadaha:** Liis garee.`
+      },
+      'job_cover_letter': {
+        title: 'Warqadda Codsiga',
+        summary: 'Ha ku celin CV-ga. Ka jawaab "Maxaa adiga ku doortaa?".',
+        content: `# Qaabka\n1. **Sababta:** Maxaad u rabtaa shaqadan?\n2. **Qiimaha:** Maxaad xalin kartaa?\n3. **Dabeecadda:** Ma ku haboon tahay kooxda?`
+      },
+      'job_interview': {
+        title: 'Wareysi',
+        summary: 'Daacadnimada waa muhiim. Aamusnaanta waa caadi.',
+        content: `# Waxa la filayo\n* **Daacadnimo:** Haddii aadan aqoon, dheh "Ma aqaan, laakiin waan baranayaa".\n* **Aamusnaan:** Ha ka baqin.\n* **Kafee:** Had iyo jeer aqbal.`
+      },
+      'job_linkedin': {
+        title: 'Talooyinka LinkedIn',
+        summary: 'Wajigaaga dhijitaalka ah.',
+        content: `# Hagaajinta\n* **Goobta:** Ka dhig "Helsinki" ama "Finland".\n* **Cinwaanka:** Isticmaal ereyo fure ah.`
+      },
+      'job_recognition': {
+        title: 'Aqoonsiga Shahaadada',
+        summary: 'Muhiim u ah dhakhaatiirta iyo macalimiinta.',
+        content: `# Xirfadaha Sharciyeysan\nCaafimaadka/Waxbarashada, shahaadada waa in ay aqoonsadaan **Valvira** ama **OPH**.`
+      },
+      'work_contract': { 
+        title: 'Qandaraaska Shaqada', 
+        summary: 'Had iyo jeer waa qoran yahay. Hubi TES.',
+        content: `# Qodobada Muhiimka ah\n1. **Waqtiga:** Joogto ama Ku-meel-gaar.\n2. **TES:** Heshiiska Wadareed. Wuxuu go'aamiyaa mushaarka ugu yar.\n3. **Tijaabo:** Ugu badnaan 6 bilood.` 
+      },
+      'work_hours': {
+        title: 'Saacadaha Shaqada',
+        summary: 'Heerka waa 7.5 ama 8 saacadood maalintii.',
+        content: `# Isku dheelitirka\n* **Waqti buuxa:** 37.5 ama 40 saacadood/usbuucii.\n* **Dabacsanaan:** Badanaa waxaad imaan kartaa inta u dhaxaysa 7-9.`
+      },
+      'work_holidays': {
+        title: 'Fasaxa Sannadlaha ah',
+        summary: 'Finland waxay leedahay fasax dheer.',
+        content: `# Fasaxa\nWaxaad urursataa maalmo.\n* **Heerka:** 2.5 maalmood bishii = 30 maalmood sanadkii.\n* **Xagaaga:** Badanaa Luulyo.`
+      },
+      'work_unions': {
+        title: 'Ururada Shaqaalaha',
+        summary: 'Waa lagu taliyay. Waxay maamulaan lacagta shaqo la\'aanta.',
+        content: `# Maxaa loogu biiraa?\n1. **Lacag:** Waxay bixiyaan lacag shaqo la'aan oo badan.\n2. **Sharci:** Gargaar sharci oo bilaash ah.`
+      },
+      'work_probation': {
+        title: 'Waqtiga Tijaabada',
+        summary: '6-da bilood ee ugu horeeya.',
+        content: `# Sharciga\nInta lagu jiro tijaabada, adiga iyo loo shaqeeyahaba waad joojin kartaan qandaraaska isla markiiba.`
+      },
+      'culture_meetings': { 
+        title: 'Kulamada', 
+        summary: 'Waa kuwo waxtar leh oo waqtiga ilaaliya.', 
+        content: `# Sharciga\n1. **Waqtiga:** 09:00 waa 09:00.\n2. **Ajandaha:** Raac.\n3. **Aamusnaan:** Waxay ka dhigan tahay ogolaansho ama fikir.` 
+      },
+      'culture_feedback': {
+        title: 'Jawaab-celin',
+        summary: 'Toos iyo daacad.',
+        content: `# Toosnaan\nDadka Finland waa toos. Ha u qaadan si shakhsi ah, waa shaqo.`
+      },
+      'culture_names': {
+        title: 'Magacyada',
+        summary: 'Si aan rasmi ahayn.',
+        content: `# Salaam Boss\nQof kasta magaciisaa loogu yeeraa.`
+      },
+      'culture_punctuality': {
+        title: 'Waqtiga',
+        summary: '5 daqiiqo oo daahitaan ah waa daah.',
+        content: `# Ixtiraam\nDaahitaanku waa xatooyo waqti. Fariin dir haddii aad soo daahdo.`
+      },
+      'culture_coffee': {
+        title: 'Nasashada Kafeega',
+        summary: 'Dhaqan muhiim ah.',
+        content: `# Dhaqanka\nRaac kooxda. Waa halka lagula sheekeysto dadka.`
+      },
+      'culture_afterwork': {
+        title: 'Shaqada Kadib (AW)',
+        summary: 'Jimcaha.',
+        content: `# Hawada\nCaadiyan waa nasasho. Qasab maaha khamri.`
+      },
+      'culture_sauna': {
+        title: 'Sauna',
+        summary: 'Goobta sinnaanta.',
+        content: `# Sharciga\n1. **Sinnaan:** Sauna dhexdeeda qofna madax maaha.\n2. **Qaawan:** Waa dabiici.`
+      },
+      'culture_smalltalk': {
+        title: 'Aamusnaanta',
+        summary: 'Aamusnaanta ma ahan wax laga xishoodo.',
+        content: `# Ha buuxin\nWiishka dhexdiisa, qasab maaha in la hadlo.`
+      },
+      'culture_party': {
+        title: 'Xafladda Shaqada (Pikkujoulut)',
+        summary: 'Xafladda Kirismaska.',
+        content: `# Ka Reeban\nDadka Finland wey furfurmaan xafladan.`
+      },
+      'prof_engineering': {
+        title: 'Injineernimo',
+        summary: 'Qayb weyn. Ingiriisku waa caadi.',
+        content: `# Shirkadaha\nKone, Wärtsilä, Nokia.`
+      },
+      'prof_business': {
+        title: 'Ganacsi',
+        summary: 'Af Finnish badanaa waa loo baahan yahay.',
+        content: `# Fursada\nRaadi iibka caalamiga ah ama startups.`
+      },
+      'prof_it': {
+        title: 'IT',
+        summary: 'Ugu fudud dadka ku hadla Ingiriisiga.',
+        content: `# Xarunta\nFinland waxay u baahan tahay koodarayaal. Ingiriisku waa luqadda shaqada.`
+      },
+      'prof_health': {
+        title: 'Caafimaadka',
+        summary: 'Yaraan shaqaale, laakiin luqaddu waa qasab.',
+        content: `# Xaqiiqada\nWaxaad u baahan tahay shatiga Valvira.`
+      },
+      'prof_service': {
+        title: 'Adeegga',
+        summary: 'Makhaayadaha iyo nadiifinta.',
+        content: `# Bilowga\nNadiifinta iyo jikada badanaa uma baahna luqad sare.`
+      },
+      'housing_contracts': {
+        title: 'Qandaraaska Kirada',
+        summary: 'Aamin ah.',
+        content: `# Shuruudaha\n* **Debaajiga:** 2 bilood.\n* **Caymiska:** Waa qasab.`
+      },
+      'housing_finding': {
+        title: 'Raadinta Guri',
+        summary: 'Suuqa Helsinki wuu dheereeyaa.',
+        content: `# Boggaga\nOikotie, Vuokraovi.`
+      },
+      'housing_utilities': {
+        title: 'Korontada',
+        summary: 'Adigaa sameysanaya qandaraaska.',
+        content: `# Koronto\nKuma jirto kirada.`
+      },
+      'housing_recycling': {
+        title: 'Dib-u-warshadaynta',
+        summary: 'Wax walba waa la kala saaraa.',
+        content: `# Qashinka\nBacda, kartoonka, dhalada. Dhalooyinka lacag baa lagu helaa (Pantti).`
+      },
+      'housing_sauna': {
+        title: 'Dhar-dhaqid & Sauna',
+        summary: 'Waa la wadaagaa.',
+        content: `# Dhismaha\nQor magacaaga liiska.`
+      },
+      'family_school': {
+        title: 'Iskuulka',
+        summary: 'Bilaash iyo tayo sare leh.',
+        content: `# Aasaaska\n* **Bilaabmaa:** 7 jir.\n* **Qiimaha:** Bilaash.`
+      },
+      'family_daycare': {
+        title: 'Xanaano (Päiväkoti)',
+        summary: 'Xaq ilmo kasta.',
+        content: `# Codsiga\n4 bilood ka hor. Waa raqiis.`
+      },
+      'family_activities': {
+        title: 'Hiwaayadaha',
+        summary: 'Muhiim ah.',
+        content: `# Fursadaha\nMaktabadaha iyo isboortiga.`
+      },
+      'family_winter': {
+        title: 'Carruurta & Jiilaalka',
+        summary: 'Dhar fiican xiro.',
+        content: `# Dharka\nLakabyo. Iyo iftiimiyaha (reflector).`
+      },
+      'family_safety': {
+        title: 'Amniga',
+        summary: 'Aad u ammaan ah.',
+        content: `# Madaxbanaani\nCarruurtu keligood ayey iskuulka aadaan.`
+      },
+      'culture_essentials': { 
+        title: 'Qiimaha', 
+        summary: 'Aaminaadda iyo aamusnaanta waa qiimayaasha asaasiga ah.', 
+        content: `# Aaminaad & Aamusnaan 🤫\n\n1. **Aaminaad:** Samee waxa aad ballanqaadday.\n2. **Aamusnaan:** Ha ka baqin aamusnaanta.` 
+      }
     }
   }
 };

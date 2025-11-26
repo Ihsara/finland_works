@@ -46,7 +46,6 @@ export interface EnrichedWikiArticle extends WikiArticle {
 
 const getLocalizedTitle = (key: string, lang: LanguageCode, defaultText: string): string => {
   const resource = getResource(lang);
-  // Fallback chain: Specific Lang Title -> English Title -> Default Text
   return resource.wiki.titles[key] || getResource('en').wiki.titles[key] || defaultText;
 };
 
@@ -54,23 +53,20 @@ const getLocalizedArticle = (id: string, lang: LanguageCode): { title: string, s
   const resource = getResource(lang);
   const article = resource.wiki.articles[id];
   
-  // If article exists in target language
   if (article) {
       return {
           title: article.title,
-          // If summary exists, use it. If not, try to grab first paragraph of content as fallback.
           summary: article.summary || article.content.split('\n\n')[0].replace(/[#*]/g, '').trim(), 
           content: article.content
       };
   }
   
-  // Fallback to English content but try to use a Translated Title
   const enArticle = getResource('en').wiki.articles[id];
   if (enArticle) {
       const localTitle = getLocalizedTitle(id, lang, enArticle.title);
       return { 
           title: localTitle, 
-          summary: enArticle.summary || enArticle.content.split('\n\n')[0], // English fallback summary
+          summary: enArticle.summary || enArticle.content.split('\n\n')[0],
           content: enArticle.content 
       };
   }
@@ -134,8 +130,16 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
                   { id: 'job_market_overview', icon: 'LayoutGrid', tags: ['worker', 'general'], ...getLocalizedArticle('job_market_overview', lang) },
                   { id: 'job_te_office', icon: 'Building', tags: ['worker', 'unemployment'], ...getLocalizedArticle('job_te_office', lang) },
                   { id: 'job_portals', icon: 'Search', tags: ['worker', 'search'], ...getLocalizedArticle('job_portals', lang) },
-                  { id: 'job_networking', icon: 'Users', tags: ['worker', 'networking'], ...getLocalizedArticle('job_networking', lang) },
                   { id: 'job_entrepreneurship', icon: 'Rocket', tags: ['worker', 'business'], ...getLocalizedArticle('job_entrepreneurship', lang) }
+              ]
+          },
+          {
+              title: getLocalizedTitle('networking', lang, 'Networking'),
+              articles: [
+                  { id: 'net_culture', icon: 'Users', tags: ['worker', 'networking', 'culture'], ...getLocalizedArticle('net_culture', lang) },
+                  { id: 'net_linkedin', icon: 'Linkedin', tags: ['worker', 'networking', 'digital'], ...getLocalizedArticle('net_linkedin', lang) },
+                  { id: 'net_hidden', icon: 'Ghost', tags: ['worker', 'networking', 'strategy'], ...getLocalizedArticle('net_hidden', lang) },
+                  { id: 'net_volunteering', icon: 'Heart', tags: ['worker', 'networking', 'social'], ...getLocalizedArticle('net_volunteering', lang) }
               ]
           },
           {
@@ -143,7 +147,6 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
               articles: [
                   { id: 'job_cv_tips', icon: 'FileText', tags: ['worker', 'application'], ...getLocalizedArticle('job_cv_tips', lang) },
                   { id: 'job_cover_letter', icon: 'PenTool', tags: ['worker', 'application'], ...getLocalizedArticle('job_cover_letter', lang) },
-                  { id: 'job_linkedin', icon: 'Linkedin', tags: ['worker', 'networking'], ...getLocalizedArticle('job_linkedin', lang) },
                   { id: 'job_interview', icon: 'Mic', tags: ['worker', 'interview'], ...getLocalizedArticle('job_interview', lang) },
                   { id: 'job_recognition', icon: 'Award', tags: ['worker', 'degree'], ...getLocalizedArticle('job_recognition', lang) }
               ]

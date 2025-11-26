@@ -18,6 +18,49 @@ interface SettingsViewProps {
   onToggleLayout?: (mode: LayoutPreference) => void;
 }
 
+interface AccordionSectionProps {
+  id: string;
+  title: string;
+  icon: any;
+  isOpen: boolean;
+  onToggle: (id: string) => void;
+  children: React.ReactNode;
+}
+
+const AccordionSection: React.FC<AccordionSectionProps> = ({ 
+    id, 
+    title, 
+    icon: Icon, 
+    isOpen,
+    onToggle,
+    children 
+}) => {
+    return (
+        <div className="border-b border-gray-100 dark:border-gray-800 last:border-0">
+            <button 
+                onClick={() => onToggle(id)}
+                className={`w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50 ${isOpen ? 'bg-gray-50 dark:bg-gray-800/30' : ''}`}
+            >
+                <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg ${isOpen ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'}`}>
+                        <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="font-bold text-gray-900 dark:text-white text-lg">{title}</span>
+                </div>
+                {isOpen ? <Icons.ChevronDown className="w-5 h-5 text-gray-400" /> : <Icons.ChevronRight className="w-5 h-5 text-gray-400" />}
+            </button>
+            
+            <div 
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
+            >
+                <div className="p-5 pt-0">
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayout }) => {
   const { t } = useLanguage();
   const [prefLength, setPrefLength] = useState<LengthPreference>('ask');
@@ -76,39 +119,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
       { value: 'dark', label: t('settings_theme_dark'), icon: Icons.Moon },
   ];
 
-  const AccordionSection = ({ 
-      id, 
-      title, 
-      icon: Icon, 
-      children 
-  }: { id: string, title: string, icon: any, children: React.ReactNode }) => {
-      const isOpen = expandedSection === id;
-      return (
-          <div className="border-b border-gray-100 dark:border-gray-800 last:border-0">
-              <button 
-                  onClick={() => toggleSection(id)}
-                  className={`w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50 ${isOpen ? 'bg-gray-50 dark:bg-gray-800/30' : ''}`}
-              >
-                  <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${isOpen ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'}`}>
-                          <Icon className="w-5 h-5" />
-                      </div>
-                      <span className="font-bold text-gray-900 dark:text-white text-lg">{title}</span>
-                  </div>
-                  {isOpen ? <Icons.ChevronDown className="w-5 h-5 text-gray-400" /> : <Icons.ChevronRight className="w-5 h-5 text-gray-400" />}
-              </button>
-              
-              <div 
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
-              >
-                  <div className="p-5 pt-0">
-                      {children}
-                  </div>
-              </div>
-          </div>
-      );
-  };
-
   return (
     <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500">
         {/* Header */}
@@ -127,7 +137,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
             <div className="max-w-2xl mx-auto py-6">
                 
                 {/* General Settings */}
-                <AccordionSection id="general" title={t('settings_sect_general')} icon={Icons.Settings}>
+                <AccordionSection 
+                    id="general" 
+                    title={t('settings_sect_general')} 
+                    icon={Icons.Settings}
+                    isOpen={expandedSection === 'general'}
+                    onToggle={toggleSection}
+                >
                      <div className="space-y-4 pt-4">
                          <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_length_label')}</label>
@@ -151,7 +167,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                 </AccordionSection>
 
                 {/* Appearance */}
-                <AccordionSection id="appearance" title={t('settings_sect_appearance')} icon={Icons.Eye}>
+                <AccordionSection 
+                    id="appearance" 
+                    title={t('settings_sect_appearance')} 
+                    icon={Icons.Eye}
+                    isOpen={expandedSection === 'appearance'}
+                    onToggle={toggleSection}
+                >
                     <div className="space-y-6 pt-4">
                         <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_theme_label')}</label>
@@ -169,7 +191,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                              </div>
                         </div>
 
-                        {/* New Layout Toggle */}
+                        {/* Layout Toggle */}
                         <div className="hidden md:block border-t border-gray-100 dark:border-gray-800 pt-4">
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop Layout</label>
                              <div className="flex gap-3">
@@ -196,7 +218,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                 </AccordionSection>
 
                 {/* Data & Privacy */}
-                <AccordionSection id="data" title={t('settings_sect_data')} icon={Icons.Database}>
+                <AccordionSection 
+                    id="data" 
+                    title={t('settings_sect_data')} 
+                    icon={Icons.Database}
+                    isOpen={expandedSection === 'data'}
+                    onToggle={toggleSection}
+                >
                      <div className="space-y-4 pt-4">
                          <div className="p-4 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30">
                              <h4 className="font-bold text-red-900 dark:text-red-400 mb-1">{t('settings_clear_data')}</h4>
