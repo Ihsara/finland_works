@@ -2,22 +2,31 @@
 import React from 'react';
 import { Icons } from '../../Icon';
 import { useLanguage } from '../../../contexts/LanguageContext';
-import { generateNickname } from '../../../data/nicknameData';
+import { generateRandomNicknameIndices, getNickname } from '../../../data/nicknameData';
 import { WizardStepProps } from '../types';
 
 const StepName: React.FC<WizardStepProps> = ({ formData, handleChange }) => {
   const { t, language } = useLanguage();
 
   const handleGenerateName = () => {
-      const nickname = generateNickname(language);
+      const indices = generateRandomNicknameIndices();
+      const nickname = getNickname(indices.adjIndex, indices.animalIndex, language);
+      
+      // Update both the display name and the indices to enable dynamic translation
+      handleChange('nicknameIndices', indices);
       handleChange('name', nickname);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      handleChange('name', e.target.value);
+      // Clear indices because user is manually typing a name, so we shouldn't auto-translate it anymore
+      handleChange('nicknameIndices', null);
   };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wizard_title_name')}</h2>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">{t('wizard_desc_name')}</p>
       </div>
       <div className="relative">
           <input 
@@ -25,7 +34,7 @@ const StepName: React.FC<WizardStepProps> = ({ formData, handleChange }) => {
             className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:outline-none text-gray-900 dark:text-white"
             placeholder={t('wizard_placeholder_name')}
             value={formData.name}
-            onChange={(e) => handleChange('name', e.target.value)}
+            onChange={handleInputChange}
             autoFocus
           />
           <button
@@ -38,9 +47,6 @@ const StepName: React.FC<WizardStepProps> = ({ formData, handleChange }) => {
             </span>
           </button>
       </div>
-      <p className="text-xs text-gray-500 dark:text-gray-400 italic">
-          {t('wizard_nickname_hint')}
-      </p>
     </div>
   );
 };

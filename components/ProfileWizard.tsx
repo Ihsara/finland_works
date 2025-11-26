@@ -5,7 +5,7 @@ import { UserProfile } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { isEUCountry } from '../data/countries';
 import { LanguageSelector } from './LanguageSelector';
-import { generateNickname } from '../data/nicknameData';
+import { generateNickname, generateRandomNicknameIndices, getNickname } from '../data/nicknameData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Logo } from './wizard/shared/WizardUI';
 
@@ -32,6 +32,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
   // Form Data
   const [formData, setFormData] = useState({
     name: '',
+    // Store indices to allow dynamic re-translation if language changes while creating profile
+    nicknameIndices: null as { adjIndex: number, animalIndex: number } | null,
     ageRange: '',
     originCountry: '',
     residencePermitType: '',
@@ -59,11 +61,24 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     formDataRef.current = formData;
   }, [formData]);
 
+  // Re-generate nickname text when language changes, if a generated nickname is being used
+  useEffect(() => {
+      if (formData.nicknameIndices) {
+          const { adjIndex, animalIndex } = formData.nicknameIndices;
+          const newName = getNickname(adjIndex, animalIndex, language);
+          // Only update if different to avoid unnecessary renders, though React handles strict equality well
+          if (newName !== formData.name) {
+              setFormData(prev => ({ ...prev, name: newName }));
+          }
+      }
+  }, [language]);
+
   useEffect(() => {
     if (initialData) {
         setFormData(prev => ({
             ...prev,
             name: (initialData.name === 'Friend' || initialData.name === 'Guest') ? '' : initialData.name,
+            nicknameIndices: null, // Reset indices for loaded profiles as they have static names
             ageRange: initialData.ageRange === 'Unknown' ? '' : initialData.ageRange,
             originCountry: (initialData.originCountry === 'Unknown' || initialData.originCountry === 'Abroad') ? '' : initialData.originCountry,
             residencePermitType: (initialData.residencePermitType === 'Unknown' || initialData.residencePermitType === 'General') ? '' : initialData.residencePermitType,
@@ -114,8 +129,9 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     const currentData = formDataRef.current;
 
     if (step === 1 && !currentData.name.trim()) {
-        const nickname = generateNickname(language);
-        setFormData(prev => ({ ...prev, name: nickname }));
+        const indices = generateRandomNicknameIndices();
+        const nickname = getNickname(indices.adjIndex, indices.animalIndex, language);
+        setFormData(prev => ({ ...prev, name: nickname, nicknameIndices: indices }));
     }
 
     // Navigation Logic
@@ -166,7 +182,6 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     if (step === 8) { setStep(7); return; }
     if (step === 7) {
         // Back logic respecting strict rules based on current state
-        // Use ref to be safe, though normal state access in click handler is usually fine
         const currentData = formDataRef.current; 
         
         if (currentData.maritalStatus.includes('Solo')) { 

@@ -21,6 +21,74 @@ interface WikiViewProps {
 
 type ViewMode = 'list' | 'icons';
 
+// Metadata for Tags to match the visual style of the reference image
+// We define full Tailwind class strings to ensure they are not purged
+const TAG_METADATA: Record<string, { icon: keyof typeof Icons, border: string, text: string, hover: string, badge: string }> = {
+  "Recruitment": { 
+      icon: "Briefcase", 
+      border: "border-orange-200 dark:border-orange-800", 
+      text: "text-orange-600 dark:text-orange-400",
+      hover: "group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20",
+      badge: "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300"
+  },
+  "Job searching": { 
+      icon: "Search", 
+      border: "border-lime-200 dark:border-lime-800", 
+      text: "text-lime-600 dark:text-lime-400",
+      hover: "group-hover:bg-lime-50 dark:group-hover:bg-lime-900/20",
+      badge: "bg-lime-100 dark:bg-lime-900 text-lime-700 dark:text-lime-300"
+  },
+  "Entrepreneurship": { 
+      icon: "Rocket", 
+      border: "border-teal-200 dark:border-teal-800", 
+      text: "text-teal-600 dark:text-teal-400",
+      hover: "group-hover:bg-teal-50 dark:group-hover:bg-teal-900/20",
+      badge: "bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300"
+  },
+  "Work Culture": { 
+      icon: "Coffee", 
+      border: "border-purple-200 dark:border-purple-800", 
+      text: "text-purple-600 dark:text-purple-400",
+      hover: "group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20",
+      badge: "bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300"
+  },
+  "Networking": { 
+      icon: "Users", 
+      border: "border-cyan-200 dark:border-cyan-800", 
+      text: "text-cyan-600 dark:text-cyan-400",
+      hover: "group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/20",
+      badge: "bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300"
+  },
+  "Work Rights": { 
+      icon: "Scale", 
+      border: "border-violet-200 dark:border-violet-800", 
+      text: "text-violet-600 dark:text-violet-400",
+      hover: "group-hover:bg-violet-50 dark:group-hover:bg-violet-900/20",
+      badge: "bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-300"
+  },
+  "Volunteering Internships": { 
+      icon: "Heart", 
+      border: "border-emerald-200 dark:border-emerald-800", 
+      text: "text-emerald-600 dark:text-emerald-400",
+      hover: "group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/20",
+      badge: "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
+  },
+  "Learning Finnish": { 
+      icon: "Languages", 
+      border: "border-rose-200 dark:border-rose-800", 
+      text: "text-rose-600 dark:text-rose-400",
+      hover: "group-hover:bg-rose-50 dark:group-hover:bg-rose-900/20",
+      badge: "bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300"
+  },
+  "Work-life Balance": { 
+      icon: "Sun", 
+      border: "border-sky-200 dark:border-sky-800", 
+      text: "text-sky-600 dark:text-sky-400",
+      hover: "group-hover:bg-sky-50 dark:group-hover:bg-sky-900/20",
+      badge: "bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300"
+  },
+};
+
 const WikiView: React.FC<WikiViewProps> = ({ 
   onClose, 
   profile, 
@@ -63,6 +131,28 @@ const WikiView: React.FC<WikiViewProps> = ({
     items: {}, 
     globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
   });
+
+  // Tag Cloud Data Calculation
+  const tagCloudData = useMemo(() => {
+    const allArticles = getAllFlattenedArticles(language);
+    const counts: Record<string, number> = {};
+    
+    allArticles.forEach(article => {
+      if (article.tags) {
+        article.tags.forEach(tag => {
+          // Only count tags that are in our metadata (The "Image" tags)
+          if (TAG_METADATA[tag]) {
+            counts[tag] = (counts[tag] || 0) + 1;
+          }
+        });
+      }
+    });
+
+    // Convert to array and sort by count descending
+    return Object.entries(counts)
+      .map(([tag, count]) => ({ tag, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [language]);
 
   // Initialize & Progress Tracking
   useEffect(() => {
@@ -369,7 +459,7 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 relative overflow-hidden font-sans">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900 relative overflow-hidden font-sans">
       {/* Header */}
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex items-center bg-white dark:bg-gray-950 z-50 shadow-sm md:px-6 md:py-4 transition-colors">
         {/* Left Controls */}
@@ -436,52 +526,55 @@ const WikiView: React.FC<WikiViewProps> = ({
 
       <div className="flex-1 overflow-hidden relative">
         
-        {/* STATE 1: ICONS GRID */}
+        {/* STATE 1: ICONS GRID (TAG CLOUD REPLACEMENT) */}
         {viewMode === 'icons' && !activeArticle && !activeCategory && !activeTag && (
-            <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 animate-in fade-in zoom-in-95 duration-300">
+            <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_explore_cats')}</h3>
                          <p className="text-gray-600 dark:text-gray-400 mt-2">{t('wiki_explore_subtitle')}</p>
                      </div>
+                     
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
-                        {wikiCategories.map((category) => {
-                            const progressPercent = getCategoryProgress(category);
+                        {tagCloudData.map(({ tag, count }) => {
+                            const meta = TAG_METADATA[tag];
+                            // If not in metadata, skip it (only showing specific image tags as requested)
+                            if (!meta) return null;
+
                             return (
                                 <button
-                                    key={category.id}
-                                    onClick={() => handleIconCategoryClick(category.id)}
+                                    key={tag}
+                                    onClick={() => handleTagClick(tag)}
                                     className={`
                                         group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800
-                                        border-2 ${category.theme.border} 
+                                        border-2 ${meta.border}
                                         flex flex-col items-center justify-center 
-                                        shadow-sm ${category.theme.shadow}
-                                        transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                                        shadow-sm hover:shadow-xl
+                                        transition-all duration-300 hover:-translate-y-1
                                         overflow-hidden
                                     `}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 z-10 pointer-events-none"></div>
                                     
-                                    <div className={`mb-4 transform group-hover:scale-110 transition-transform duration-300 ${category.theme.text}`}>
-                                        {renderIcon(category.icon as any, "w-16 h-16 md:w-20 md:h-20 stroke-[1.5]")}
+                                    {/* Icon - Moved up slightly for label space */}
+                                    <div className={`mb-8 transform group-hover:scale-110 transition-transform duration-300 ${meta.text}`}>
+                                        {renderIcon(meta.icon as any, "w-12 h-12 md:w-16 md:h-16 stroke-[1.5]")}
                                     </div>
 
-                                    {progressPercent > 0 && (
-                                        <div className="absolute top-4 right-4 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full z-20">
-                                            {progressPercent}%
-                                        </div>
-                                    )}
+                                    {/* Count Indicator - representing Weight */}
+                                    <div className={`absolute top-4 right-4 ${meta.badge} text-[10px] font-bold px-2 py-1 rounded-full z-20`}>
+                                        {count}
+                                    </div>
 
+                                    {/* Label - ALWAYS VISIBLE */}
                                     <div className={`
                                         absolute inset-x-0 bottom-0 p-4 
-                                        translate-y-full group-hover:translate-y-0 
-                                        transition-transform duration-300 ease-out
-                                        ${category.theme.hoverBg} backdrop-blur-sm
-                                        border-t ${category.theme.border}
+                                        ${meta.hover} backdrop-blur-sm
+                                        border-t ${meta.border}
                                         rounded-b-[2rem]
+                                        flex items-center justify-center
                                     `}>
-                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text}`}>
-                                            {category.title}
+                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${meta.text}`}>
+                                            {tag}
                                         </span>
                                     </div>
                                 </button>

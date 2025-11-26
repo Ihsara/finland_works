@@ -34,9 +34,13 @@ const ADJECTIVES: TranslatableTerm[] = [
   { translations: { en: 'Curious', vi: 'Tò mò', 'pt-br': 'Curioso', 'pt-pt': 'Curioso', ru: 'Любопытный', et: 'Uudishimulik', ar: 'فضولي', so: 'Xiiso', fa: 'کنجکاو', ku: 'Mereq', zh: '好奇', sq: 'Kurioz', uk: 'Допитливий', es: 'Curioso', tr: 'Meraklı', fi: 'Utelias', th: 'อยากรู้อยากเห็น' } }
 ];
 
-export const generateNickname = (lang: LanguageCode): string => {
-  const randomAnimal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
-  const randomAdj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
+export const getNickname = (adjIndex: number, animalIndex: number, lang: LanguageCode): string => {
+  // safety checks to wrap around if index is out of bounds (e.g. if data array shrinks)
+  const safeAdjIndex = Math.abs(adjIndex) % ADJECTIVES.length;
+  const safeAnimalIndex = Math.abs(animalIndex) % ANIMALS.length;
+
+  const randomAdj = ADJECTIVES[safeAdjIndex];
+  const randomAnimal = ANIMALS[safeAnimalIndex];
 
   const adjText = getTerm(randomAdj, lang);
   const animalText = getTerm(randomAnimal, lang);
@@ -49,4 +53,16 @@ export const generateNickname = (lang: LanguageCode): string => {
   }
 
   return `${randomAnimal.emoji} ${adjText} ${animalText}`;
+};
+
+export const generateRandomNicknameIndices = () => {
+    return {
+        adjIndex: Math.floor(Math.random() * ADJECTIVES.length),
+        animalIndex: Math.floor(Math.random() * ANIMALS.length)
+    };
+};
+
+export const generateNickname = (lang: LanguageCode): string => {
+  const indices = generateRandomNicknameIndices();
+  return getNickname(indices.adjIndex, indices.animalIndex, lang);
 };

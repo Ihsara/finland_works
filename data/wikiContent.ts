@@ -104,11 +104,11 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
         {
             title: getLocalizedTitle('security', lang, 'Social Security'),
             articles: [
-                { id: 'social_kela_card', icon: 'Heart', tags: ['health', 'benefits'], ...getLocalizedArticle('social_kela_card', lang) },
-                { id: 'social_health', icon: 'Stethoscope', tags: ['health', 'general'], ...getLocalizedArticle('social_health', lang) },
-                { id: 'social_unemployment', icon: 'Umbrella', tags: ['work', 'benefits'], ...getLocalizedArticle('social_unemployment', lang) },
-                { id: 'social_housing', icon: 'Home', tags: ['housing', 'benefits'], ...getLocalizedArticle('social_housing', lang) },
-                { id: 'social_pension', icon: 'Coins', tags: ['work', 'future'], ...getLocalizedArticle('social_pension', lang) }
+                { id: 'social_kela_card', icon: 'Heart', tags: ['health', 'benefits', 'Work Rights'], ...getLocalizedArticle('social_kela_card', lang) },
+                { id: 'social_health', icon: 'Stethoscope', tags: ['health', 'general', 'Work-life Balance'], ...getLocalizedArticle('social_health', lang) },
+                { id: 'social_unemployment', icon: 'Umbrella', tags: ['work', 'benefits', 'Work Rights'], ...getLocalizedArticle('social_unemployment', lang) },
+                { id: 'social_housing', icon: 'Home', tags: ['housing', 'benefits', 'Work-life Balance'], ...getLocalizedArticle('social_housing', lang) },
+                { id: 'social_pension', icon: 'Coins', tags: ['work', 'future', 'Work Rights'], ...getLocalizedArticle('social_pension', lang) }
             ]
         }
       ]
@@ -127,38 +127,38 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('market', lang, 'Market'),
               articles: [
-                  { id: 'job_market_overview', icon: 'LayoutGrid', tags: ['worker', 'general'], ...getLocalizedArticle('job_market_overview', lang) },
-                  { id: 'job_te_office', icon: 'Building', tags: ['worker', 'unemployment'], ...getLocalizedArticle('job_te_office', lang) },
-                  { id: 'job_portals', icon: 'Search', tags: ['worker', 'search'], ...getLocalizedArticle('job_portals', lang) },
-                  { id: 'job_entrepreneurship', icon: 'Rocket', tags: ['worker', 'business'], ...getLocalizedArticle('job_entrepreneurship', lang) }
+                  { id: 'job_market_overview', icon: 'LayoutGrid', tags: ['worker', 'general', 'Job searching'], ...getLocalizedArticle('job_market_overview', lang) },
+                  { id: 'job_te_office', icon: 'Building', tags: ['worker', 'unemployment', 'Job searching', 'Learning Finnish'], ...getLocalizedArticle('job_te_office', lang) },
+                  { id: 'job_portals', icon: 'Search', tags: ['worker', 'search', 'Job searching', 'Recruitment'], ...getLocalizedArticle('job_portals', lang) },
+                  { id: 'job_entrepreneurship', icon: 'Rocket', tags: ['worker', 'business', 'Entrepreneurship'], ...getLocalizedArticle('job_entrepreneurship', lang) }
               ]
           },
           {
               title: getLocalizedTitle('networking', lang, 'Networking'),
               articles: [
-                  { id: 'net_culture', icon: 'Users', tags: ['worker', 'networking', 'culture'], ...getLocalizedArticle('net_culture', lang) },
-                  { id: 'net_linkedin', icon: 'Linkedin', tags: ['worker', 'networking', 'digital'], ...getLocalizedArticle('net_linkedin', lang) },
-                  { id: 'net_hidden', icon: 'Ghost', tags: ['worker', 'networking', 'strategy'], ...getLocalizedArticle('net_hidden', lang) },
-                  { id: 'net_volunteering', icon: 'Heart', tags: ['worker', 'networking', 'social'], ...getLocalizedArticle('net_volunteering', lang) }
+                  { id: 'net_culture', icon: 'Users', tags: ['worker', 'networking', 'culture', 'Networking', 'Work Culture'], ...getLocalizedArticle('net_culture', lang) },
+                  { id: 'net_linkedin', icon: 'Linkedin', tags: ['worker', 'networking', 'digital', 'Networking', 'Recruitment', 'Job searching'], ...getLocalizedArticle('net_linkedin', lang) },
+                  { id: 'net_hidden', icon: 'Ghost', tags: ['worker', 'networking', 'strategy', 'Job searching', 'Networking'], ...getLocalizedArticle('net_hidden', lang) },
+                  { id: 'net_volunteering', icon: 'Heart', tags: ['worker', 'networking', 'social', 'Volunteering Internships', 'Networking', 'Learning Finnish'], ...getLocalizedArticle('net_volunteering', lang) }
               ]
           },
           {
               title: getLocalizedTitle('tools', lang, 'Tools'),
               articles: [
-                  { id: 'job_cv_tips', icon: 'FileText', tags: ['worker', 'application'], ...getLocalizedArticle('job_cv_tips', lang) },
-                  { id: 'job_cover_letter', icon: 'PenTool', tags: ['worker', 'application'], ...getLocalizedArticle('job_cover_letter', lang) },
-                  { id: 'job_interview', icon: 'Mic', tags: ['worker', 'interview'], ...getLocalizedArticle('job_interview', lang) },
-                  { id: 'job_recognition', icon: 'Award', tags: ['worker', 'degree'], ...getLocalizedArticle('job_recognition', lang) }
+                  { id: 'job_cv_tips', icon: 'FileText', tags: ['worker', 'application', 'Recruitment'], ...getLocalizedArticle('job_cv_tips', lang) },
+                  { id: 'job_cover_letter', icon: 'PenTool', tags: ['worker', 'application', 'Recruitment'], ...getLocalizedArticle('job_cover_letter', lang) },
+                  { id: 'job_interview', icon: 'Mic', tags: ['worker', 'interview', 'Recruitment'], ...getLocalizedArticle('job_interview', lang) },
+                  { id: 'job_recognition', icon: 'Award', tags: ['worker', 'degree', 'Recruitment'], ...getLocalizedArticle('job_recognition', lang) }
               ]
           },
           {
               title: getLocalizedTitle('rights', lang, 'Rights'),
               articles: [
-                  { id: 'work_contract', icon: 'FileSignature', tags: ['worker', 'contract'], ...getLocalizedArticle('work_contract', lang) },
-                  { id: 'work_hours', icon: 'Clock', tags: ['worker', 'contract'], ...getLocalizedArticle('work_hours', lang) },
-                  { id: 'work_holidays', icon: 'Palmtree', tags: ['worker', 'contract'], ...getLocalizedArticle('work_holidays', lang) },
-                  { id: 'work_unions', icon: 'Shield', tags: ['worker', 'union'], ...getLocalizedArticle('work_unions', lang) },
-                  { id: 'work_probation', icon: 'HelpCircle', tags: ['worker', 'contract'], ...getLocalizedArticle('work_probation', lang) }
+                  { id: 'work_contract', icon: 'FileSignature', tags: ['worker', 'contract', 'Work Rights'], ...getLocalizedArticle('work_contract', lang) },
+                  { id: 'work_hours', icon: 'Clock', tags: ['worker', 'contract', 'Work Rights', 'Work-life Balance'], ...getLocalizedArticle('work_hours', lang) },
+                  { id: 'work_holidays', icon: 'Palmtree', tags: ['worker', 'contract', 'Work Rights', 'Work-life Balance'], ...getLocalizedArticle('work_holidays', lang) },
+                  { id: 'work_unions', icon: 'Shield', tags: ['worker', 'union', 'Work Rights'], ...getLocalizedArticle('work_unions', lang) },
+                  { id: 'work_probation', icon: 'HelpCircle', tags: ['worker', 'contract', 'Work Rights'], ...getLocalizedArticle('work_probation', lang) }
               ]
           }
       ]
@@ -177,21 +177,21 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('norms', lang, 'Norms'),
               articles: [
-                  { id: 'culture_essentials', icon: 'Scale', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_essentials', lang) },
-                  { id: 'culture_punctuality', icon: 'Watch', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_punctuality', lang) },
-                  { id: 'culture_meetings', icon: 'Calendar', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_meetings', lang) },
-                  { id: 'culture_feedback', icon: 'MessageCircle', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_feedback', lang) },
-                  { id: 'culture_coffee', icon: 'Coffee', tags: ['culture', 'worker'], ...getLocalizedArticle('culture_coffee', lang) }
+                  { id: 'culture_essentials', icon: 'Scale', tags: ['culture', 'worker', 'Work Culture'], ...getLocalizedArticle('culture_essentials', lang) },
+                  { id: 'culture_punctuality', icon: 'Watch', tags: ['culture', 'worker', 'Work Culture'], ...getLocalizedArticle('culture_punctuality', lang) },
+                  { id: 'culture_meetings', icon: 'Calendar', tags: ['culture', 'worker', 'Work Culture'], ...getLocalizedArticle('culture_meetings', lang) },
+                  { id: 'culture_feedback', icon: 'MessageCircle', tags: ['culture', 'worker', 'Work Culture'], ...getLocalizedArticle('culture_feedback', lang) },
+                  { id: 'culture_coffee', icon: 'Coffee', tags: ['culture', 'worker', 'Work Culture'], ...getLocalizedArticle('culture_coffee', lang) }
               ]
           },
           {
               title: getLocalizedTitle('social', lang, 'Social'),
               articles: [
-                  { id: 'culture_names', icon: 'Tag', tags: ['culture', 'social'], ...getLocalizedArticle('culture_names', lang) },
-                  { id: 'culture_smalltalk', icon: 'Wind', tags: ['culture', 'social'], ...getLocalizedArticle('culture_smalltalk', lang) },
-                  { id: 'culture_afterwork', icon: 'Beer', tags: ['culture', 'social'], ...getLocalizedArticle('culture_afterwork', lang) },
-                  { id: 'culture_sauna', icon: 'ThermometerSun', tags: ['culture', 'social'], ...getLocalizedArticle('culture_sauna', lang) },
-                  { id: 'culture_party', icon: 'Gift', tags: ['culture', 'social'], ...getLocalizedArticle('culture_party', lang) }
+                  { id: 'culture_names', icon: 'Tag', tags: ['culture', 'social', 'Work Culture'], ...getLocalizedArticle('culture_names', lang) },
+                  { id: 'culture_smalltalk', icon: 'Wind', tags: ['culture', 'social', 'Work Culture', 'Networking'], ...getLocalizedArticle('culture_smalltalk', lang) },
+                  { id: 'culture_afterwork', icon: 'Beer', tags: ['culture', 'social', 'Work Culture'], ...getLocalizedArticle('culture_afterwork', lang) },
+                  { id: 'culture_sauna', icon: 'ThermometerSun', tags: ['culture', 'social', 'Work Culture', 'Work-life Balance'], ...getLocalizedArticle('culture_sauna', lang) },
+                  { id: 'culture_party', icon: 'Gift', tags: ['culture', 'social', 'Work Culture'], ...getLocalizedArticle('culture_party', lang) }
               ]
           }
       ]
@@ -210,11 +210,11 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
           {
               title: getLocalizedTitle('specialist', lang, 'Specialist'),
               articles: [
-                  { id: 'prof_it', icon: 'Laptop', tags: ['worker', 'engineering'], ...getLocalizedArticle('prof_it', lang) },
-                  { id: 'prof_engineering', icon: 'Settings', tags: ['worker', 'engineering'], ...getLocalizedArticle('prof_engineering', lang) },
-                  { id: 'prof_business', icon: 'Briefcase', tags: ['worker', 'business'], ...getLocalizedArticle('prof_business', lang) },
-                  { id: 'prof_health', icon: 'Stethoscope', tags: ['worker', 'health'], ...getLocalizedArticle('prof_health', lang) },
-                  { id: 'prof_service', icon: 'Utensils', tags: ['worker', 'service'], ...getLocalizedArticle('prof_service', lang) }
+                  { id: 'prof_it', icon: 'Laptop', tags: ['worker', 'engineering', 'Recruitment'], ...getLocalizedArticle('prof_it', lang) },
+                  { id: 'prof_engineering', icon: 'Settings', tags: ['worker', 'engineering', 'Recruitment'], ...getLocalizedArticle('prof_engineering', lang) },
+                  { id: 'prof_business', icon: 'Briefcase', tags: ['worker', 'business', 'Learning Finnish'], ...getLocalizedArticle('prof_business', lang) },
+                  { id: 'prof_health', icon: 'Stethoscope', tags: ['worker', 'health', 'Learning Finnish'], ...getLocalizedArticle('prof_health', lang) },
+                  { id: 'prof_service', icon: 'Utensils', tags: ['worker', 'service', 'Learning Finnish'], ...getLocalizedArticle('prof_service', lang) }
               ]
           }
       ]
@@ -236,16 +236,16 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
                   { id: 'housing_finding', icon: 'Search', tags: ['housing', 'general'], ...getLocalizedArticle('housing_finding', lang) },
                   { id: 'housing_contracts', icon: 'FileText', tags: ['housing', 'legal'], ...getLocalizedArticle('housing_contracts', lang) },
                   { id: 'housing_utilities', icon: 'Zap', tags: ['housing', 'general'], ...getLocalizedArticle('housing_utilities', lang) },
-                  { id: 'housing_recycling', icon: 'Recycle', tags: ['housing', 'general'], ...getLocalizedArticle('housing_recycling', lang) },
-                  { id: 'housing_sauna', icon: 'Droplets', tags: ['housing', 'general'], ...getLocalizedArticle('housing_sauna', lang) }
+                  { id: 'housing_recycling', icon: 'Recycle', tags: ['housing', 'general', 'Work Culture'], ...getLocalizedArticle('housing_recycling', lang) },
+                  { id: 'housing_sauna', icon: 'Droplets', tags: ['housing', 'general', 'Work-life Balance'], ...getLocalizedArticle('housing_sauna', lang) }
               ]
           },
           {
               title: getLocalizedTitle('family', lang, 'Family'),
               articles: [
-                  { id: 'family_daycare', icon: 'Baby', tags: ['family', 'education'], ...getLocalizedArticle('family_daycare', lang) },
+                  { id: 'family_daycare', icon: 'Baby', tags: ['family', 'education', 'Work-life Balance'], ...getLocalizedArticle('family_daycare', lang) },
                   { id: 'family_school', icon: 'Book', tags: ['family', 'education'], ...getLocalizedArticle('family_school', lang) },
-                  { id: 'family_activities', icon: 'Bike', tags: ['family', 'general'], ...getLocalizedArticle('family_activities', lang) },
+                  { id: 'family_activities', icon: 'Bike', tags: ['family', 'general', 'Work-life Balance', 'Networking'], ...getLocalizedArticle('family_activities', lang) },
                   { id: 'family_winter', icon: 'Snowflake', tags: ['family', 'general'], ...getLocalizedArticle('family_winter', lang) },
                   { id: 'family_safety', icon: 'Shield', tags: ['family', 'general'], ...getLocalizedArticle('family_safety', lang) }
               ]

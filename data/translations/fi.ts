@@ -38,6 +38,7 @@ export const fi: TranslationResource = {
     net_opt_hobbies: "Harrastukset & Toiminta",
     net_opt_parents: "Verkostoituminen vanhemmille",
     net_opt_introvert: "Vinkkejä introverteille",
+    feedback_action: "Anna palautetta",
   },
   wiki: {
     titles: {
@@ -219,7 +220,7 @@ export const fi: TranslationResource = {
         content: `### Sosiaalinen hetki\nMene muiden mukaan kahvihuoneeseen, vaikka joisit vettä. Siellä tapahtuu ryhmäytyminen.`
       },
       'culture_afterwork': {
-        title: 'Afterwork (AW)',
+        title: 'Afterwork',
         summary: 'Rentoa oleskelua töiden jälkeen.',
         content: `### Tyyli\nVapaaehtoista. Voi juoda alkoholia tai limua.`
       },

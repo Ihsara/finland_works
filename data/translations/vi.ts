@@ -38,6 +38,7 @@ export const vi: TranslationResource = {
     net_opt_hobbies: "Sở thích & Hoạt động",
     net_opt_parents: "Kết nối cho Cha mẹ",
     net_opt_introvert: "Mẹo cho người hướng nội",
+    feedback_action: "Gửi phản hồi",
   },
   wiki: {
     titles: {

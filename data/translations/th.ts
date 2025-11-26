@@ -38,6 +38,7 @@ export const th: TranslationResource = {
     net_opt_hobbies: "งานอดิเรก & กิจกรรม",
     net_opt_parents: "เครือข่ายสำหรับผู้ปกครอง",
     net_opt_introvert: "เคล็ดลับสำหรับคนโลกส่วนตัวสูง",
+    feedback_action: "ส่งความคิดเห็น",
   },
   wiki: {
     titles: {
