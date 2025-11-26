@@ -36,7 +36,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
     <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 relative overflow-hidden">
       {/* Header Bar with Language Selector (Static, not absolute) */}
       <div className="w-full p-4 md:p-6 flex justify-end items-center shrink-0 z-20">
-          <LanguageSelector className="min-w-[140px]" />
+          <LanguageSelector className="md:min-w-[140px]" />
       </div>
 
       {/* Feedback Ribbon */}

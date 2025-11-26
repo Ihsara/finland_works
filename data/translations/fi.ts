@@ -42,7 +42,7 @@ export const fi: TranslationResource = {
   },
   wiki: {
     titles: {
-      foundation: 'Perusasiat', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
+      foundation: 'Byrokratia & Perusasiat', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
       identity: 'Henkilöllisyys & luvat', security: 'Sosiaaliturva', market: 'Työmarkkinat', tools: 'Työkalut', rights: 'Oikeudet & Syrjintä', networking: 'Verkostoituminen',
       social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijat', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
       family: 'Perhe', language: 'Kieli',

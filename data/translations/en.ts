@@ -42,7 +42,7 @@ export const en: TranslationResource = {
   },
   wiki: {
     titles: {
-      foundation: 'The Essentials', job_strategy: 'Job Strategy', workplace: 'Workplace Culture', industries: 'Industry Guides', life: 'Life & Balance',
+      foundation: 'Bureaucracy & Basics', job_strategy: 'Job Strategy', workplace: 'Workplace Culture', industries: 'Industry Guides', life: 'Life & Balance',
       identity: 'Identity & Permits', security: 'Social Security', market: 'The Market', tools: 'Tools', rights: 'Rights & Discrimination', networking: 'Networking & Hidden Market',
       social: 'Social Rituals', norms: 'Professional Norms', specialist: 'Specialist Roles', hands_on: 'Hands-on Work', housing: 'Housing & Transport',
       family: 'Family Support', language: 'Language',

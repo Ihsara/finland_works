@@ -16,6 +16,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 }) => {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
+  const [align, setAlign] = useState<'left' | 'right'>('right');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Fallback to first language if current is somehow not found
@@ -30,6 +31,35 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Dynamic Alignment Logic: Detect screen edge to prevent overflow
+  useEffect(() => {
+    if (isOpen && wrapperRef.current) {
+        const rect = wrapperRef.current.getBoundingClientRect();
+        const screenW = window.innerWidth;
+        const dropdownW = 256; // w-64 = 256px
+
+        // Heuristic: Default to right alignment (expanding left) if on the right half of screen
+        let nextAlign: 'left' | 'right' = rect.left > screenW / 2 ? 'right' : 'left';
+
+        // Check boundaries to force flip if needed
+        if (nextAlign === 'right') {
+            // If aligning right (right edge anchored), check if left side goes off screen
+            // Left edge of dropdown would be at (rect.right - dropdownW)
+            if (rect.right - dropdownW < 10) {
+                // Too far left? Switch to left align (anchor left edge)
+                nextAlign = 'left';
+            }
+        } else {
+            // Aligning left (left edge anchored), check if right side goes off screen
+            // Right edge of dropdown would be at (rect.left + dropdownW)
+            if (rect.left + dropdownW > screenW - 10) {
+                nextAlign = 'right';
+            }
+        }
+        setAlign(nextAlign);
+    }
+  }, [isOpen]);
 
   const handleSelect = (l: AppLanguage) => {
     if (l.supported) {
@@ -68,8 +98,9 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       {isOpen && (
         <div 
           className={`
-            absolute right-0 w-64 z-[100]
+            absolute w-64 z-[100]
             ${direction === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'} 
+            ${align === 'right' ? 'right-0' : 'left-0'}
             bg-white dark:bg-gray-800 
             rounded-xl shadow-xl 
             border border-gray-100 dark:border-gray-700 

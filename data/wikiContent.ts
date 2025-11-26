@@ -82,7 +82,7 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
   return [
     {
       id: 'foundation',
-      title: getLocalizedTitle('foundation', lang, 'The Essentials'),
+      title: getLocalizedTitle('foundation', lang, 'Bureaucracy & Basics'),
       icon: 'Building2',
       theme: { 
         border: 'border-slate-600 dark:border-slate-500', 
