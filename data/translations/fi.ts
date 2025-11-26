@@ -45,7 +45,7 @@ export const fi: TranslationResource = {
   },
   wiki: {
     titles: {
-      foundation: 'Perusteet', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
+      foundation: 'Byrokratia & Perusasiat', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
       identity: 'Henkilöllisyys & luvat', security: 'Sosiaaliturva', market: 'Markkina', tools: 'Työkalut', rights: 'Oikeudet', networking: 'Verkostoituminen & Piilotyöpaikat',
       social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijaroolit', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
       family: 'Perheen tuki', language: 'Kieli',
@@ -80,7 +80,7 @@ export const fi: TranslationResource = {
       'net_linkedin': {
         title: 'LinkedIn-strategia',
         summary: 'LinkedIn on rekrytoijien tärkein hakukone Suomessa.',
-        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat taidoilla, eivät titteleillä. Varmista, että otsikossasi lukee "Industrial Designer" tai "UX Designer", eikä vain "Designer".\n* **Sijainti:** Aseta se Suomeen. Jos olet ulkomailla, vaihda se muotoon "Helsinki" (ja mainitse esittelyssä, että olet muuttamassa), jotta näyt paikallisissa hauissa.\n* **Open to Work:** Vihreä banneri on täällä kulttuurisesti hyväksytty. Se osoittaa motivaatiota.\n* **Aktiivisuus:** Kommentoi paikallisia julkaisuja. Se tekee sinusta näkyvän kirjoittajan verkostolle.`
+        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat taidoilla, eivät titteleillä. Varmista, että otsikkosi on tarkka (esim. "UX Designer").\n* **Sijainti:** Aseta se Suomeen. Jos olet ulkomailla, vaihda se muotoon "Helsinki" (ja mainitse esittelyssä, että olet muuttamassa), jotta näyt paikallisissa hauissa.\n* **Open to Work:** Vihreä banneri on täällä kulttuurisesti hyväksytty. Se osoittaa motivaatiota.\n* **Aktiivisuus:** Kommentoi paikallisia julkaisuja. Se tekee sinusta näkyvän kirjoittajan verkostolle.`
       },
       'net_hidden': {
         title: 'Piilotyöpaikkojen hakkerointi',
@@ -97,15 +97,35 @@ export const fi: TranslationResource = {
         summary: 'Koulu on ensimmäinen ammatillinen verkostosi.',
         content: `# Opiskelijan etu\n\nOpiskelu Suomessa on paras tapa rakentaa verkostoa. Luokkakaverisi ovat tulevia kollegoitasi.\n\n### 1. Amis\n* **Avain:** *Työssäoppiminen*.\n* **Strategia:** Kohtele jokaista harjoittelupäivää työhaastatteluna.\n\n### 2. AMK\n* **Avain:** *Opinnäytetyö*.\n* **Strategia:** Tee toimeksianto yritykselle. Se on 3-6 kuukauden työhaastattelu.\n\n### 3. Yliopisto\n* **Avain:** *Ainejärjestöt*.\n* **Kulttuuri:** Liity hallitukseen. Se on valtava signaali aktiivisuudesta.`
       },
+      'net_hackathons': {
+        title: 'Hackathonit & Tapahtumat',
+        summary: 'Junction ja Slush ovat kultaisia mahdollisuuksia.',
+        content: `# Teknologiatapahtumat\n\n* **Junction:** Euroopan isoin hackathon.\n* **Slush:** Startup-tapahtuma. Vapaaehtoistyö täällä avaa ovet jatkojuhliin, missä todellinen verkostoituminen tapahtuu.`
+      },
+      'net_slush': {
+        title: 'Slush & Startupit',
+        summary: 'Vapaaehtoistyö Slushissa on legendaarinen tapa päästä piireihin.',
+        content: `# Slush: Antikonferenssi\n\nMarraskuussa Helsingissä järjestettävä Slush on maailman johtava startup-tapahtuma. Se on pimeä, äänekäs ja täynnä lasereita.\n\n### Vapaaehtoisarmeija\nSlush on rakennettu tuhansien vapaaehtoisten voimin.\n* **Miksi?** Pääset ilmaiseksi sisään, eksklusiivisiin jatkobileisiin ja liityt massiiviseen alumniverkostoon.\n* **Roolit:** Lavarakentamisesta sijoittajien opastamiseen. Se todistaa "can-do" -asennetta, jota suomalaiset rakastavat.`
+      },
       'net_cold_msg': {
         title: 'Kylmäviestit',
         summary: 'Miten lähestyä ihmisiä olematta ärsyttävä.',
         content: `# Lähestymisen taide\n\nSuomalaiset ovat kiireisiä mutta avuliaita. Pidä viesti lyhyenä.\n\n### Malli\n"Hei [Nimi], näin postauksesi aiheesta [Aihe]. Olen [Taito]-asiantuntija muuttamassa Suomeen. Haluaisin kysyä yhden nopean kysymyksen [Yksityiskohta]. Ehtisitkö 10 min virtuaalikahville?"`
       },
-      'net_hackathons': {
-        title: 'Hackathonit & Tapahtumat',
-        summary: 'Junction ja Slush ovat kultaisia mahdollisuuksia.',
-        content: `# Teknologiatapahtumat\n\n* **Junction:** Euroopan isoin hackathon.\n* **Slush:** Startup-tapahtuma. Vapaaehtoistyö täällä avaa ovet jatkojuhliin, missä todellinen verkostoituminen tapahtuu.`
+      'net_parents': {
+        title: 'Verkostoituminen vanhemmille',
+        summary: 'Kiireisille vanhemmille mikrokohtaamiset ovat avain.',
+        content: `# Vanhempien verkostot\n\nKun tasapainoilet työn ja perheen välillä, perinteiset tapahtumat voivat olla mahdottomia.\n\n### Mikrokohtaamiset\n* **Leikkipuistodiplomatia:** Jos näet saman vanhemman puistossa toistuvasti, sano "Moi".\n* **Päiväkodin talkoot:** Osallistu talkoisiin. Se on nopein tapa saada muiden vanhempien kunnioitus.`
+      },
+      'net_introvert': {
+        title: 'Verkostoituminen introverteille',
+        summary: 'Sinun ei tarvitse olla äänekäs. Suomi on introvertille ystävällinen maa.',
+        content: `# Verkostoidu omalla tavallasi\n\nKaikki eivät pidä isoista tapahtumista. Onneksi suomalainen kulttuuri kunnioittaa tilaa.\n\n### Strategiat\n1. **Kahden kesken:** Suomalaiset suosivat syvällisiä kahdenkeskisiä keskusteluja minglailun sijaan. Pyydä yhtä ihmistä "virtuaalikahville".\n2. **Verkkoyhteisöt:** Liity alasi Discord- tai Slack-kanaville (esim. Koodiklinikka IT-alalla).`
+      },
+      'net_hobbies': {
+        title: 'Harrastukset & Verkostot',
+        summary: 'Liity paikalliseen toimintaan tavataksesi ihmisiä luonnollisesti.',
+        content: `# Tapaa ihmisiä luonnollisesti\n\nSuomalaiset ystävystyvät yhteisen tekemisen kautta.\n\n### Ideoita\n* **Kansalaisopistot:** Halpoja kursseja keramiikasta kieliin.\n* **Urheilu:** Salibandy tai jalkapallo. Aloittelijaryhmät ovat loistava tapa päästä porukkaan.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Henkilötunnus', 
@@ -205,7 +225,7 @@ export const fi: TranslationResource = {
       'work_holidays': {
         title: 'Vuosilomat',
         summary: 'Suomessa on anteliaat lomat, mutta ne pitää ansaita.',
-        content: `# Lomavuosi\nAnsaitset päiviä 1. huhtikuuta - 31. maaliskuuta.\n* **Standardi:** 2,5 päivää/kk = 30 päivää (5 viikkoa)/vuosi.\n* **Kesä:** Yleensä pidetään heinäkuussa. Maa pysähtyy.\n* **Lomaraha:** Monet saavat 50% lisäpalkkaa lomasta.`
+        content: `# Lomavuosi\nAnsaitset päiviä 1. huhtikuuta - 31. maaliskuuta.\n* **Standard:** 2,5 päivää/kk = 30 päivää (5 viikkoa)/vuosi.\n* **Kesä:** Yleensä pidetään heinäkuussa. Maa pysähtyy.\n* **Lomaraha:** Monet saavat 50% lisäpalkkaa lomasta.`
       },
       'work_unions': {
         title: 'Ammattiliitot',

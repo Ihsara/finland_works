@@ -69,16 +69,20 @@ export const createSystemInstruction = (
 
   // 1. Determine User Tags for filtering
   const userTags = new Set<string>(['general', 'arrival']);
-  const permit = profile.residencePermitType.toLowerCase();
-  if (permit.includes('student')) userTags.add('student');
-  if (permit.includes('work') || permit.includes('specialist')) userTags.add('worker');
   
-  const marital = profile.maritalStatus.toLowerCase();
-  if (marital.includes('child') || marital.includes('family') || marital.includes('kid')) userTags.add('family');
-  
-  if (profile.ageRange === '18-25') {
-    userTags.add('youth');
-    userTags.add('student');
+  // Only process deep profile logic if NOT guest
+  if (!isGuest) {
+      const permit = profile.residencePermitType.toLowerCase();
+      if (permit.includes('student')) userTags.add('student');
+      if (permit.includes('work') || permit.includes('specialist')) userTags.add('worker');
+      
+      const marital = profile.maritalStatus.toLowerCase();
+      if (marital.includes('child') || marital.includes('family') || marital.includes('kid')) userTags.add('family');
+      
+      if (profile.ageRange === '18-25') {
+        userTags.add('youth');
+        userTags.add('student');
+      }
   }
 
   // 2. Filter Articles
@@ -138,20 +142,51 @@ export const createSystemInstruction = (
 
   // 5. Construct Specific Behavioral Prompts
   let behavioralPrompt = "";
+  let userProfileBlock = "";
   
   if (isGuest) {
       behavioralPrompt += `
-      [CRITICAL - GUEST MODE]: 
-      You are talking to a user who has NOT created a profile yet ("Guest"). 
-      1. **Do NOT assume** their residence permit type, origin country, or family status.
-      2. If they ask a question where the answer depends on their status (e.g., "Can I get social security?" or "Do I need a visa?"), you MUST gently ask clarifying questions first.
-      3. Do not refer to "your profile" or "your settings".
-      4. Keep advice applicable to a general immigrant audience until you know more.
+      [CRITICAL - GUEST MODE IDENTITY PROTECTION]: 
+      You are currently talking to a "Guest" user. This user has NOT created a profile yet.
+      
+      RULES FOR GUEST MODE:
+      1. **DO NOT hallucinate or assume any personal details.** Do not assume they are Brazilian, do not assume they are named Gabriela, do not assume they have children.
+      2. Treat them as a blank slate.
+      3. If they ask a question where the answer depends on specific status (e.g. visa type), you MUST gently ask clarifying questions first.
+      4. Do not refer to "your profile" or "your settings".
+      5. Keep advice general and applicable to a broad immigrant audience until you learn more from the conversation.
+      `;
+      
+      userProfileBlock = `
+      USER PROFILE:
+      Status: GUEST (No data available).
+      Treat as a new, unknown user.
       `;
   } else {
+      // REAL PROFILE MODE
+      userProfileBlock = `
+      USER PROFILE:
+      Name: ${profile.name}
+      Residence Permit / Ground: ${profile.residencePermitType}
+      Origin: ${profile.originCountry}
+      Age: ${profile.ageRange}
+      Marital Status: ${profile.maritalStatus}
+      Profession: ${profile.profession}
+      Education: ${profile.education.degree} in ${profile.education.field}
+      Language Skills: ${profile.languages.map(l => `${l.language} (${l.level})`).join(', ')}
+      Challenges: ${profile.challenges.join(', ')}
+      Aspirations: ${profile.aspirations.join(', ')}
+
+      PSYCHOLOGICAL PROFILE (USE THIS TO ADJUST TONE):
+      Motivation to Learn Finnish: ${profile.finnishMotivation || 'Unknown'}
+      Cultural Interest: ${profile.cultureInterest || 'Unknown'}
+      Social Connection / Belonging: ${profile.confidenceLife || 'Unknown'}
+      Confidence (Career): ${profile.confidenceCareer || 'Unknown'}
+      Current Info Level: ${profile.infoLevel || 'Unknown'}
+      Excited About: ${profile.primaryExcitement || 'Unknown'}
+      `;
+
       // Add behavioral context based on new psychological fields
-      // Updated to handle numeric values ("1", "2", etc.)
-      
       const lowConfidenceLife = ['1', '2', 'lost', 'support', 'adjusting', 'alienated'];
       const isLowConfidenceLife = lowConfidenceLife.some(val => profile.confidenceLife?.toLowerCase().includes(val));
 
@@ -237,25 +272,7 @@ export const createSystemInstruction = (
 
   ${lengthInstruction}
 
-  USER PROFILE:
-  Name: ${profile.name}
-  Residence Permit / Ground: ${profile.residencePermitType}
-  Origin: ${profile.originCountry}
-  Age: ${profile.ageRange}
-  Marital Status: ${profile.maritalStatus}
-  Profession: ${profile.profession}
-  Education: ${profile.education.degree} in ${profile.education.field}
-  Language Skills: ${profile.languages.map(l => `${l.language} (${l.level})`).join(', ')}
-  Challenges: ${profile.challenges.join(', ')}
-  Aspirations: ${profile.aspirations.join(', ')}
-
-  PSYCHOLOGICAL PROFILE (USE THIS TO ADJUST TONE):
-  Motivation to Learn Finnish: ${profile.finnishMotivation || 'Unknown'}
-  Cultural Interest: ${profile.cultureInterest || 'Unknown'}
-  Social Connection / Belonging: ${profile.confidenceLife || 'Unknown'}
-  Confidence (Career): ${profile.confidenceCareer || 'Unknown'}
-  Current Info Level: ${profile.infoLevel || 'Unknown'}
-  Excited About: ${profile.primaryExcitement || 'Unknown'}
+  ${userProfileBlock}
 
   <guide purposes>
   You are not just a chatbot; you are an active guide for the user's integration journey.

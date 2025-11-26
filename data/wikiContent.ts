@@ -1,4 +1,3 @@
-
 import { Icons } from '../components/Icon';
 import { LanguageCode } from '../types';
 import { getResource } from './translations';
@@ -12,6 +11,7 @@ export interface WikiArticle {
   tags: string[];
   categoryId?: string;
   categoryTitle?: string;
+  displayId?: string;
 }
 
 export interface WikiSubSection {
@@ -53,7 +53,7 @@ const getLocalizedTitle = (key: string, lang: LanguageCode) => {
 export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
   {
     id: 'foundation',
-    title: getLocalizedTitle('foundation', lang),
+    title: getLocalizedTitle('foundation', lang), // Now maps to "Bureaucracy & Basics"
     icon: 'Landmark',
     theme: { border: 'border-blue-200', text: 'text-blue-700', hoverBg: 'bg-blue-50', shadow: 'shadow-blue-200' },
     subsections: [
@@ -61,7 +61,7 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
             title: getLocalizedTitle('identity', lang),
             articles: [
                 { id: 'bureaucracy_dvv', icon: 'Fingerprint', tags: ['mandatory', 'arrival', 'legal'], ...getLocalizedArticle('bureaucracy_dvv', lang) },
-                { id: 'bureaucracy_migri', icon: 'Passport', tags: ['mandatory', 'arrival', 'legal'], ...getLocalizedArticle('bureaucracy_migri', lang) },
+                { id: 'bureaucracy_migri', icon: 'Plane', tags: ['mandatory', 'arrival', 'legal'], ...getLocalizedArticle('bureaucracy_migri', lang) },
                 { id: 'bureaucracy_tax', icon: 'CreditCard', tags: ['mandatory', 'work', 'finance'], ...getLocalizedArticle('bureaucracy_tax', lang) },
                 { id: 'bureaucracy_bank', icon: 'Landmark', tags: ['mandatory', 'finance', 'arrival'], ...getLocalizedArticle('bureaucracy_bank', lang) }
             ]
@@ -105,11 +105,15 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
         {
             title: getLocalizedTitle('networking', lang),
             articles: [
+                { id: 'net_intro_deep', icon: 'Globe', tags: ['Networking', 'culture'], ...getLocalizedArticle('net_intro_deep', lang) },
                 { id: 'net_culture', icon: 'Users', tags: ['Networking', 'culture'], ...getLocalizedArticle('net_culture', lang) },
-                { id: 'net_intro_deep', icon: 'Sprout', tags: ['worker', 'culture', 'Networking', 'Work Culture'], ...getLocalizedArticle('net_intro_deep', lang) },
                 { id: 'net_school', icon: 'GraduationCap', tags: ['student', 'Networking', 'education', 'Recruitment'], ...getLocalizedArticle('net_school', lang) },
-                { id: 'net_cold_msg', icon: 'MessageCircle', tags: ['worker', 'communication', 'Networking', 'Job searching'], ...getLocalizedArticle('net_cold_msg', lang) },
                 { id: 'net_hackathons', icon: 'Code', tags: ['worker', 'tech', 'event', 'Networking'], ...getLocalizedArticle('net_hackathons', lang) },
+                { id: 'net_slush', icon: 'Zap', tags: ['worker', 'event', 'Networking', 'Entrepreneurship'], ...getLocalizedArticle('net_slush', lang) },
+                { id: 'net_cold_msg', icon: 'MessageCircle', tags: ['worker', 'communication', 'Networking', 'Job searching'], ...getLocalizedArticle('net_cold_msg', lang) },
+                { id: 'net_hobbies', icon: 'Music', tags: ['Networking', 'culture', 'hobbies'], ...getLocalizedArticle('net_hobbies', lang) },
+                { id: 'net_parents', icon: 'Baby', tags: ['Networking', 'family'], ...getLocalizedArticle('net_parents', lang) },
+                { id: 'net_introvert', icon: 'BookOpen', tags: ['Networking', 'culture'], ...getLocalizedArticle('net_introvert', lang) },
                 { id: 'net_volunteering', icon: 'Heart', tags: ['Networking', 'Volunteering Internships'], ...getLocalizedArticle('net_volunteering', lang) }
             ]
         }
@@ -209,13 +213,14 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
 export const getAllFlattenedArticles = (lang: LanguageCode): WikiArticle[] => {
     const categories = getWikiCategories(lang);
     const articles: WikiArticle[] = [];
-    categories.forEach(cat => {
-        cat.subsections.forEach(sub => {
-            sub.articles.forEach(art => {
+    categories.forEach((cat, catIndex) => {
+        cat.subsections.forEach((sub, subIndex) => {
+            sub.articles.forEach((art, artIndex) => {
                 articles.push({
                     ...art,
                     categoryId: cat.id,
-                    categoryTitle: cat.title
+                    categoryTitle: cat.title,
+                    displayId: `${catIndex + 1}.${subIndex + 1}.${artIndex + 1}`
                 });
             });
         });

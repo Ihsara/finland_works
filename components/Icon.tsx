@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   User, 
@@ -110,7 +109,16 @@ import {
   Wind,
   Droplets,
   Bike,
-  HelpCircle
+  HelpCircle,
+  // Fixes for missing icons
+  PiggyBank,
+  BarChart,
+  PartyPopper,
+  Factory,
+  LineChart,
+  Smile,
+  ShieldCheck,
+  Plane
 } from 'lucide-react';
 
 export const Icons = {
@@ -207,7 +215,7 @@ export const Icons = {
   Linkedin,
   Mic,
   Award,
-  FileSignature,
+  FileSignature, 
   MessageCircle,
   Mail,
   Beer,
@@ -222,5 +230,13 @@ export const Icons = {
   Wind,
   Droplets,
   Bike,
-  HelpCircle
+  HelpCircle,
+  PiggyBank,
+  BarChart,
+  PartyPopper,
+  Factory,
+  LineChart,
+  Smile,
+  ShieldCheck,
+  Plane
 };

@@ -39,14 +39,13 @@ export const en: TranslationResource = {
     net_opt_parents: "Networking for Parents",
     net_opt_introvert: "Tips for Introverts",
     feedback_action: "Give Feedback",
-    // New keys for extra articles
     net_intro_deep: 'Why Networking Matters', net_design: 'Design Community', net_parents: 'Networking for Parents', net_introvert: 'Low-Pressure Networking', net_hobbies: 'Hobby Networking', net_plan: 'Your Action Plan',
     net_cold_msg: 'The Art of the Cold Message', net_places: 'Networking Venues', net_prof_style: 'Finnish Professional Style',
-    net_hackathons: 'Hackathons & Junction', net_slush: 'Slush: The Anti-Conference', net_school: 'Student Networking'
+    net_hackathons: 'Hackathons & Junction', net_slush: 'Slush: The Anti-Conference', net_school: 'Networking in School'
   },
   wiki: {
     titles: {
-      foundation: 'Essentials', job_strategy: 'Job Strategy', workplace: 'Work Culture', industries: 'Industry Guides', life: 'Life & Balance',
+      foundation: 'Bureaucracy & Basics', job_strategy: 'Job Strategy', workplace: 'Work Culture', industries: 'Industry Guides', life: 'Life & Balance',
       identity: 'Identity & Permits', security: 'Social Security', market: 'The Market', tools: 'Tools', rights: 'Rights', networking: 'Networking & Hidden Market',
       social: 'Social Rituals', norms: 'Professional Norms', specialist: 'Specialist Roles', hands_on: 'Hands-on Work', housing: 'Housing & Transport',
       family: 'Family Support', language: 'Language',
@@ -76,12 +75,27 @@ export const en: TranslationResource = {
       'net_intro_deep': {
         title: 'Why Networking Matters',
         summary: 'Most jobs are hidden. Networking is the key to unlock them.',
-        content: `# The Hidden Job Market\n\nIn Finland, up to 80% of jobs are never advertised publicly. They are filled through networks and recommendations.\n\n### Why?\n1. **Cost:** Recruitment processes are expensive.\n2. **Trust:** Finns prefer to hire someone they trust or someone recommended by a trusted person.\n\n### Your Strategy\nYou need to be visible where the decision-makers are.`
+        content: `# The Hidden Job Market\n\nIf there's one thing you should know, it's this: networking isn't just "nice to have" - it's one of the most powerful tools you can use.\n\nIn Finland, **trust** plays a huge role. Employers want to know who can vouch for you. Because of that, many jobs never make it to job portals – this is the so-called "hidden job market". These jobs are filled quietly through recommendations, small circles, and informal connections.\n\nThe hidden job market holds **70-80 percent** of Finland's actual open job positions.\n\n### It's Human\nNetworking here doesn't require a big personality. You can start small: join a local hobby group, attend an event at your city's international house, or say hello to someone at a meetup. Every conversation is a tiny bridge.\n\nThink of networking as planting seeds. Some grow quickly, others take time. Work and belonging go hand in hand.`
       },
       'net_linkedin': {
         title: 'LinkedIn Strategy',
         summary: 'LinkedIn is the main search engine for recruiters in Finland.',
-        content: `### Your Digital Face\n* **Keywords:** Recruiters search for skills, not titles. Ensure your headline says "Industrial Designer" or "UX Designer", not just "Designer".\n* **Location:** Set it to Finland. If you are abroad, change it to "Helsinki" (and note in About section you are moving) to appear in local searches.\n* **Open to Work:** The green banner is culturally accepted here. It shows motivation.\n* **Activity:** Comment on local posts. It makes you visible to the author's network.`
+        content: `# Build a Finnish-Friendly LinkedIn\n\nLinkedIn is one of the strongest career tools in Finland. Because the job market is small and professional communities are tight-knit, LinkedIn functions like a public portfolio and a networking hub.\n\n### Your Quick Wins\n1. **Headline:** Keywords matter. Recruiters search for skills. Instead of just "Designer", use "Aspiring Product Designer | 3D Modeling | Graphic Design".\n2. **Location:** Set it to Finland (or Helsinki area) to appear in local searches.\n3. **Open to Work:** The green banner is culturally accepted here and shows motivation.\n4. **Activity:** Comment on local posts. A friendly message, a comment on someone's post, or sharing what you're learning builds visibility. Consistency beats showing off.\n\n### Culture Note\nFinns appreciate sincerity. You don't need to "sell" yourself aggressively. Just be clear about what you can do.`
+      },
+      'net_hobbies': {
+        title: 'Hobbies & "Soft" Networking',
+        summary: 'Join local activities to meet people naturally without pressure.',
+        content: `# Meet People Naturally\n\nNot all networking happens at business events. Some of the most meaningful connections grow out of everyday activities.\n\n### Why it works\nFinns bond over **shared activities** rather than small talk. Joining a hobby group gives you a natural reason to interact.\n\n### Ideas\n* **Adult Education Centres (Kansalaisopisto):** Take a cheap course in pottery, photography, or language. You will meet locals in a relaxed setting.\n* **Sports:** Floorball, football, or ice hockey. Joining a "beginner group" creates an instant team bond.\n* **Volunteering:** Events like festivals or charity work (Red Cross) connect you with active people.\n\nThis "soft networking" builds trust over time, which can eventually lead to job tips.`
+      },
+      'net_parents': {
+        title: 'Networking for Parents',
+        summary: 'Limited time? Use your daily rhythm to build connections.',
+        content: `# Networking for Busy Parents\n\nWhen you're balancing work and family, traditional networking events might be impossible. But you have a secret weapon: other parents.\n\n### Micro-Interactions\n* **Playground Diplomacy:** If you see the same parent at the park (leikkipuisto) repeatedly, say "Moi". Small chats about kids often lead to "So, what do you do?"\n* **Daycare Events:** Participate in "talkoot" (volunteer cleaning/fixing days) at the daycare. It earns you massive respect and connects you with other local families.\n* **Online Groups:** Facebook groups like "Mothers in Business" (MiB) are very active and powerful professional networks in Finland.`
+      },
+      'net_introvert': {
+        title: 'Low-Pressure Networking',
+        summary: 'You don\'t need to be loud. Finland is an introvert-friendly country.',
+        content: `# Networking Your Way\n\nNot everyone likes big events. Luckily, Finnish culture respects personal space and silence.\n\n### Strategies\n1. **One-on-One:** Finns prefer deep 1-on-1 conversation over mingling in a crowd. Ask one person for a "virtual coffee" (15 min call) to ask for advice. It is less scary and more effective.\n2. **Online Communities:** Join Discord or Slack communities for your industry (e.g., IGDA for game dev, Koodiklinikka for IT). You can observe first and engage when ready.\n3. **Library Events:** Libraries like Oodi host quiet workshops and book clubs. Very low pressure environments to be around people.`
       },
       'net_hidden': {
         title: 'Hacking the Hidden Market',
@@ -94,19 +108,24 @@ export const en: TranslationResource = {
         content: `### Why Volunteer?\n1. **Language:** Low-pressure environment to practice Finnish.\n2. **References:** You gain a local reference who can vouch for your work ethic.\n3. **Network:** You meet active people.\n\n### Where?\nRed Cross, startup events, sports clubs, libraries.`
       },
       'net_school': {
-        title: 'Student Networking',
-        summary: 'School is your first professional network. From internships to student guilds, here is how to use it.',
-        content: `# The Student Advantage\n\nStudying in Finland is the single best way to build a network. Your classmates are your future colleagues.\n\n### 1. Vocational (Amis)\n* **The Key:** *Työssäoppiminen* (On-the-job learning).\n* **Strategy:** Treat every internship day like a job interview. Be active, ask questions, and sit with the staff during coffee breaks. Many students are hired directly by their internship employer after graduation.\n\n### 2. Applied Sciences (AMK)\n* **The Key:** *Opinnäytetyö* (Thesis).\n* **Strategy:** Avoid writing a purely theoretical thesis. Find a "commissioned thesis" (toimeksianto) from a company. You solve a real problem for them; they get to know you. It is essentially a 3-6 month job interview.\n* **Projects:** AMK courses often involve real client projects. Volunteer to be the project manager or the client liaison.\n\n### 3. University (Yliopisto)\n* **The Key:** *Ainejärjestöt* (Subject Organizations).\n* **Culture:** Every major has a "guild" or club (look for the colored overalls/haalarit). They host "excursions" (visits to companies) and career nights. Joining the board of your student organization is a massive signal of activity to recruiters.\n* **Alumni:** Use your university's mentorship programs to connect with alumni in the field.`
+        title: 'Networking in School',
+        summary: 'School is your first professional network. From Vocational to University.',
+        content: `# The Student Advantage\n\nStudying in Finland is the single best way to build a network. Your classmates are your future colleagues.\n\n### 1. Vocational (Amis)\n* **The Key:** *Työssäoppiminen* (On-the-job learning).\n* **Strategy:** Treat every internship day like a job interview. Be active, ask questions, and sit with the staff during coffee breaks. Many students are hired directly by their internship employer.\n\n### 2. Applied Sciences (AMK)\n* **The Key:** *Opinnäytetyö* (Thesis).\n* **Strategy:** Avoid writing a purely theoretical thesis. Find a "commissioned thesis" (toimeksianto) from a company. You solve a real problem for them; they get to know you. It is essentially a 3-6 month job interview.\n* **Projects:** AMK courses often involve real client projects. Volunteer to be the project manager or the client liaison.\n\n### 3. University (Yliopisto)\n* **The Key:** *Ainejärjestöt* (Subject Organizations).\n* **Culture:** Every major has a "guild" or club (look for the colored overalls/haalarit). They host "excursions" (visits to companies) and career nights. Joining the board of your student organization is a massive signal of activity to recruiters.`
+      },
+      'net_hackathons': {
+        title: 'Hackathons (Junction)',
+        summary: 'Show your skills in action. Finland is famous for tech events.',
+        content: `# Hackathons: Show, Don't Just Tell\n\nFinland has a massive hackathon culture, with **Junction** being Europe's leading hackathon.\n\n### What is it?\nA 48-hour event where you build a project in a team to solve a challenge given by partner companies (like Supercell, Kone, or Reaktor).\n\n### Why go?\n1. **Recruitment:** Companies send their tech leads to mentor you. If they see you coding/designing well, they might hire you on the spot.\n2. **Networking:** You bond deeply with your team under pressure.\n3. **It's not just for coders:** Teams need designers and business people too.`
+      },
+      'net_slush': {
+        title: 'Slush & Startup Events',
+        summary: 'Volunteering at Slush is a legendary way to enter the ecosystem.',
+        content: `# Slush: The Anti-Conference\n\nHeld in November in Helsinki, Slush is the world's leading startup event. It is dark, loud, and full of lasers.\n\n### The Volunteer Army\nSlush is built by thousands of volunteers. \n* **Why volunteer?** You get free access to the event, exclusive afterparties, and you join a massive alumni network of active people.\n* **Roles:** Everything from building the stage to guiding VIP investors. It proves you have a "can-do" attitude, which Finns love.`
       },
       'net_cold_msg': {
         title: 'The Cold Message',
         summary: 'How to approach people without being annoying.',
         content: `# The Art of Approach\n\nFinns are busy but helpful. Keep it short.\n\n### Template\n"Hi [Name], I saw your post about [Topic]. I am an expert in [Skill] moving to Finland. I would love to ask one quick question about [Specific detail]. Do you have 10 mins for a virtual coffee?"`
-      },
-      'net_hackathons': {
-        title: 'Hackathons & Events',
-        summary: 'Events like Junction and Slush are golden opportunities.',
-        content: `# Tech Events\n\n* **Junction:** Europe's biggest hackathon. Great for devs and designers to show skills.\n* **Slush:** Startup event. Volunteering here gives you access to the afterparties where the real networking happens.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 

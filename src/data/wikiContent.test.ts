@@ -6,25 +6,28 @@ describe('Wiki Content Data', () => {
   it('contains all required networking articles for English', () => {
     const articles = getAllFlattenedArticles('en');
     
+    // Check the ones we added
     const deepNet = articles.find(a => a.id === 'net_intro_deep');
-    const introvert = articles.find(a => a.id === 'net_introvert'); // Note: 'net_introvert' wasn't explicitly in my wikiContent list but let's check standard ones. 
-    // Correction: 'net_introvert' is not an article ID in the new map, it was an option value in networkingContent.
-    // The article mapped to CONFIRM_NET_INTROVERT is 'culture_smalltalk'.
-    
-    // Let's check the ones we explicitly added to wikiContent.ts
     const school = articles.find(a => a.id === 'net_school');
     const hackathons = articles.find(a => a.id === 'net_hackathons');
+    const slush = articles.find(a => a.id === 'net_slush');
     const coldMsg = articles.find(a => a.id === 'net_cold_msg');
-    const linkedin = articles.find(a => a.id === 'net_linkedin');
+    const parents = articles.find(a => a.id === 'net_parents');
+    const hobbies = articles.find(a => a.id === 'net_hobbies');
 
+    expect(deepNet).toBeDefined();
     expect(school).toBeDefined();
     expect(hackathons).toBeDefined();
+    expect(slush).toBeDefined();
     expect(coldMsg).toBeDefined();
-    expect(linkedin).toBeDefined();
+    expect(parents).toBeDefined();
+    expect(hobbies).toBeDefined();
 
-    // Check content exists
-    expect(school?.content).toContain('Student Advantage');
+    // Check content integrity
+    expect(school?.content).toContain('Vocational (Amis)');
     expect(hackathons?.content).toContain('Junction');
+    expect(slush?.content).toContain('Anti-Conference');
+    expect(deepNet?.content).toContain('Trust');
   });
 
   it('contains translated articles for Finnish', () => {
@@ -34,5 +37,19 @@ describe('Wiki Content Data', () => {
     expect(school).toBeDefined();
     expect(school?.title).toBe('Verkostoituminen opiskellessa');
     expect(school?.content).toContain('Opiskelijan etu');
+  });
+
+  it('uses unified Networking tag', () => {
+    const articles = getAllFlattenedArticles('en');
+    const netArticles = articles.filter(a => a.categoryId === 'job_strategy');
+    
+    netArticles.forEach(article => {
+        const tags = article.tags;
+        // Should contain 'Networking' if relevant, never 'networking'
+        if (tags.some(t => t.toLowerCase() === 'networking')) {
+            expect(tags).toContain('Networking');
+            expect(tags).not.toContain('networking');
+        }
+    });
   });
 });
