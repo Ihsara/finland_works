@@ -3,333 +3,339 @@ import { TranslationResource } from "./types";
 
 export const fi: TranslationResource = {
   ui: {
-    landing_welcome: "Tervetuloa!", landing_subtitle: "Löydä polkusi työhön Suomessa", landing_btn_quiz: "Kerro itsestäsi", landing_btn_continue: "Avaa oppaani", landing_btn_ask: "Aloita keskustelu", landing_btn_browse: "Selaa opasta", landing_load_sample: "Lataa malliprofiili", landing_erase: "Tyhjennä tiedot", landing_add_key: "Lisää API-avain", landing_choose_lang: "Valitse kieli",
-    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin henkilökohtaiseen oppaaseesi.", dash_subtitle_guest: "Luodaan sinulle profiili, jotta pääsemme alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa opasta", dash_btn_ask: "Kysy tekoälyltä", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
+    landing_welcome: "Tervetuloa!", landing_subtitle: "Löydä oma polkusi Suomeen", landing_btn_quiz: "Aloita kysely", landing_btn_continue: "Avaa oppaani", landing_btn_ask: "Aloita chat", landing_btn_browse: "Selaa opasta", landing_load_sample: "Lataa esimerkki", landing_erase: "Tyhjennä tiedot", landing_add_key: "Lisää API-avain", landing_choose_lang: "Kieli",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin omaan Suomi-oppaaseesi.", dash_subtitle_guest: "Luodaan profiili, niin päästään alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa", dash_btn_ask: "Kysy AI:lta", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
     dash_education: "Koulutus", dash_profession: "Ammatti", dash_languages: "Kielet", dash_narrative_aspirations: "Tavoitteet", dash_narrative_challenges: "Haasteet",
-    chat_placeholder: "Kysy jotain...", chat_end_session: "Lopeta", chat_header_assistant: "Avustaja", chat_prompt_context_inquiry: "Kerro lisää kohdasta \"{sentence}\"", chat_ask_length: "Haluatko lyhyen vai kattavan vastauksen?", chat_empty_state: "Aloita keskustelu kysymällä jotain alla.", chat_length_set_confirm: "Selvä. Miten voin auttaa?",
+    chat_placeholder: "Kysy jotain...", chat_end_session: "Lopeta", chat_header_assistant: "Assistentti", chat_prompt_context_inquiry: "Kerro lisää kohdasta \"{sentence}\"", chat_ask_length: "Lyhyt vai pitkä vastaus?", chat_length_set_confirm: "Selvä. Säädän vastauksen pituutta.", chat_empty_state: "Aloita keskustelu kysymällä jotain alla.",
     btn_back_dashboard: "Takaisin", btn_save: "Tallenna",
-    profile_btn_guide: "Oppaani", profile_btn_guide_desc: "Suositellut artikkelit", profile_btn_plan: "Suunnitelma", profile_btn_plan_desc: "Tulossa pian", profile_sect_languages: "Kielet", profile_sect_skills: "Taidot", profile_sect_narrative: "Tarina", profile_label_aspirations: "Tavoitteet", profile_label_challenges: "Pelot / haasteet", profile_label_education: "Koulutus", profile_label_profession: "Ammatti", profile_completeness: "{percentage}% valmis", profile_completeness_hint: "Vastaa vielä muutamaan kysymykseen", profile_btn_update: "Päivitä profiili", profile_btn_continue: "Jatka kyselyä",
-    wiki_header_title: "Suomi Toimii!", wiki_header_subtitle: "Räätälöity: {name}", wiki_explore_cats: "Selaa aiheita", wiki_explore_subtitle: "Valitse aihe syventyäksesi yksityiskohtiin.", wiki_full_index: "Hakemisto", wiki_full_index_subtitle: "Selaa kaikkia aiheita.", wiki_nav_list: "Lista", wiki_nav_icons: "Kuvakkeet", wiki_section_chapters: "Luvut", wiki_btn_mark_done: "Merkitse tehdyksi", wiki_btn_later: "Myöhemmin", wiki_btn_saved: "Tallennettu", wiki_btn_completed: "Valmis", wiki_ctx_ask: "Kysy tästä lauseesta", wiki_topic_label: "Aihe: {tag}", wiki_topic_desc: "Aiheen yleiskatsaus & artikkelit", wiki_guide_prefix: "OPAS", wiki_stat_articles: "artikkelia", wiki_stat_complete: "valmis", wiki_section_prefix: "Osa",
-    wizard_header_quiz: "Kysely", wizard_greeting_short: "Moi, {name}!", wizard_title_init: "Luo profiilisi", wizard_title_custom: "{name}: Hahmonluonti", wizard_phase_identity: "VAIHE 1: IDENTITEETTI", wizard_phase_demo: "VAIHE 2: TAUSTA", wizard_phase_status: "VAIHE 3: STATUS", wizard_phase_skills: "VAIHE 4: TAIDOT", wizard_phase_mindset: "VAIHE 5: ASENNE", wizard_phase_vision: "VAIHE 6: VISIO", wizard_nickname_hint: "* Voit käyttää lempinimeä pysyäksesi anonyyminä.", wizard_btn_ask: "Kysy", wizard_btn_next: "Seuraava", wizard_btn_prev: "Edellinen", wizard_btn_submit: "Valmis", wizard_btn_finish_early: "Tallenna & Lopeta", wizard_btn_generate_name: "Keksi lempinimi!", wizard_ribbon_greeting: "Hauska tavata, {name}!", wizard_title_name: "Mikä on nimesi?", wizard_desc_name: "Syötä nimesi tai valitse lempinimi", wizard_placeholder_name: "Nimesi",
-    wizard_step2_title: "Minkä ikäinen olet?", wizard_step2_desc: "Valitse ikäryhmä", wizard_step2_placeholder: "Ikäsi",
+    profile_btn_guide: "Oppaani", profile_btn_guide_desc: "Suositellut artikkelit", profile_btn_plan: "Suunnitelmani", profile_btn_plan_desc: "Tulossa pian", profile_sect_languages: "Kielitaito", profile_sect_skills: "Taidot", profile_sect_narrative: "Tarina", profile_label_aspirations: "Toiveet", profile_label_challenges: "Pelot / Haasteet", profile_label_education: "Koulutus", profile_label_profession: "Ammatti", profile_completeness: "{percentage}% valmis", profile_completeness_hint: "Vastaa vielä pariin kysymykseen", profile_btn_update: "Päivitä profiili", profile_btn_continue: "Jatka",
+    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Räätälöity: {name}", wiki_explore_cats: "Selaa aiheita", wiki_explore_subtitle: "Valitse aihe syventyäksesi.", wiki_full_index: "Hakemisto", wiki_full_index_subtitle: "Selaa kaikkia.", wiki_nav_list: "Lista", wiki_nav_icons: "Kuvakkeet", wiki_section_chapters: "Luvut", wiki_btn_mark_done: "Tehty", wiki_btn_later: "Myöhemmin", wiki_btn_saved: "Tallennettu", wiki_btn_completed: "Valmis", wiki_ctx_ask: "Kysy tästä", wiki_topic_label: "Aihe: {tag}", wiki_topic_desc: "Yleiskatsaus & Artikkelit", wiki_guide_prefix: "OPAS", wiki_stat_articles: "artikkelia", wiki_stat_complete: "valmis", wiki_section_prefix: "Osa",
+    wizard_header_quiz: "Kysely", wizard_greeting_short: "Moi, {name}!", wizard_title_init: "Luo profiili", wizard_title_custom: "Luodaan {name}", wizard_phase_identity: "VAIHE 1: IDENTITEETTI", wizard_phase_demo: "VAIHE 2: TAUSTA", wizard_phase_status: "VAIHE 3: STATUS", wizard_phase_skills: "VAIHE 4: TAIDOT", wizard_phase_mindset: "VAIHE 5: ASENNE", wizard_phase_vision: "VAIHE 6: VISIO", wizard_nickname_hint: "* Voit käyttää lempinimeä.", wizard_btn_ask: "Kysy", wizard_btn_next: "Seuraava", wizard_btn_prev: "Edellinen", wizard_btn_submit: "Lähetä", wizard_btn_finish_early: "Tallenna & Lopeta", wizard_btn_generate_name: "Luo nimi", wizard_ribbon_greeting: "Hauska tutustua, {name}!", wizard_title_name: "Mikä on nimesi?", wizard_desc_name: "Kirjoita nimesi tai valitse lempinimi", wizard_placeholder_name: "Nimesi",
+    wizard_step2_title: "Minkä ikäinen olet?", wizard_step2_desc: "Valitse ikäryhmä", wizard_step2_placeholder: "Ikä (esim. 29)",
     wizard_step3_title: "Siviilisääty?",
-    wizard_marital_solo_title: "Soolo", wizard_marital_solo_desc: "Ei puolisoa tai lapsia mukana", wizard_marital_pair_title: "Kumppani / Perhe", wizard_marital_pair_desc: "Muutan puolison, kumppanin tai lasten kanssa", wizard_marital_secret_title: "Salaisuus", wizard_marital_secret_desc: "Monimutkaista / En kerro",
-    wizard_children_title: "Onko sinulla lapsia?", wizard_children_desc: "Tämä auttaa meitä neuvomaan päivähoito- ja kouluasioissa.", wizard_children_yes: "Kyllä", wizard_children_no: "Ei", wizard_family_details_title: "Kerro perheestäsi", wizard_family_count_label: "Montako lasta?", wizard_family_ages_label: "Minkä ikäisiä he ovat?", wizard_family_ages_hint: "Valitse kaikki sopivat.", wizard_age_group_0_6: "Päivähoito (0-6)", wizard_age_group_7_12: "Koulu (7-12)", wizard_age_group_13_17: "Teinit (13-17)", wizard_age_group_18: "Aikuiset (18+)",
-    wizard_step4_title: "Mistä olet kotoisin?", wizard_step4_desc: "Valitse alkuperä", wizard_step4_placeholder: "Kirjoita maan nimi...", wizard_step4_no_match: "Ei tuloksia", wizard_btn_search_country: "Hae maa", wizard_btn_select_region: "Valitse alue", wizard_region_europe: "Eurooppa", wizard_region_americas: "Amerikka", wizard_region_asia: "Aasia", wizard_region_africa: "Afrikka", wizard_region_oceania: "Oseania", wizard_region_middle_east: "Lähi-itä", wizard_eu_question: "EU/ETA-kansalainen?", wizard_eu_yes: "Kyllä", wizard_eu_no: "Ei",
-    wizard_step5_title: "Työoikeus & Lupa", wizard_permit_full_title: "Rajoittamaton", wizard_permit_full_desc: "Pysyvä, Perhe, EU tai Suomalainen tutkinto", wizard_permit_restricted_title: "Rajoitettu", wizard_permit_restricted_desc: "Työlupa sidottu alaan/työnantajaan", wizard_permit_student_title: "Opiskelija", wizard_permit_student_desc: "Rajoitetut työtunnit",
-    wizard_step6_title: "Ylin koulutusaste", wizard_step6_desc: "Mikä kuvaa taustaasi parhaiten?", wizard_step6_field_label: "Ala (Valinnainen)", wizard_step6_field_placeholder: "esim. Insinööri, Taide", wizard_edu_general_title: "Yleissivistävä", wizard_edu_general_desc: "Lukio / Peruskoulu.", wizard_edu_applied_title: "Ammatillinen / AMK", wizard_edu_applied_desc: "Ammattikoulu tai Ammattikorkeakoulu.", wizard_edu_uni_title: "Yliopistotutkinto", wizard_edu_uni_desc: "Akateeminen tutkinto (Kandi, Maisteri, Tohtori).",
-    wizard_step7_title: "Mikä on ammattisi?", wizard_step7_desc: "Tai mitä työtä etsit?", wizard_step7_placeholder: "esim. Sairaanhoitaja, Hitsaaja, Koodari",
-    wizard_step8_title: "Suomen kieli", wizard_lbl_finnish_level: "Nykyinen taso", wizard_lbl_finnish_motivation: "Motivaatio oppia", wizard_opt_lang_none: "Ei vielä", wizard_opt_lang_basics: "Alkeet (A1)", wizard_opt_lang_inter: "Keskitaso (A2-B1)", wizard_opt_lang_fluent: "Sujuv (B2+)", wizard_scale_1_motivation: "Utelias", wizard_scale_5_motivation: "Pysäyttämätön",
-    wizard_step9_title: "Englannin kieli", wizard_opt_lang_en_none: "Ei osaa", wizard_opt_lang_en_basic: "Perusteet", wizard_opt_lang_en_working: "Työkieli", wizard_opt_lang_en_fluent: "Natiivi/Sujuva",
-    wizard_step10_title: "Visiosi", wizard_step10_aspirations_label: "Tavoitteet", wizard_step10_aspirations_placeholder: "Mitä toivot saavuttavasi?", wizard_step10_challenges_label: "Haasteet", wizard_step10_challenges_placeholder: "Mikä huolettaa?",
-    wizard_step12_title: "Miltä suomalainen kulttuuri tuntuu?", wizard_opt_cult_low: "Kaunis mysteeri", wizard_opt_cult_med: "Tarkkailen ilolla", wizard_opt_cult_high: "Sukellan syvään päähän",
-    wizard_step13_title: "Miten löydät elämänrytmin täällä?", wizard_scale_1_life: "Vielä jäässä", wizard_scale_5_life: "Kuin kotona",
-    wizard_step14_title: "Kuinka varma olet työnhausta?", wizard_scale_1_career: "Tarvitsen suunnan", wizard_scale_5_career: "Minulla on suunnitelma",
-    wizard_step15_title: "Kuinka selkeä polkusi on?", wizard_opt_info_none: "Hieman sumuinen", wizard_opt_info_some: "Pilvet hälvenevät", wizard_opt_info_high: "Kristallinkirkas",
-    wizard_step16_title: "Mikä tuo sinulle iloa täällä?", wizard_opt_excite_career: "Uran rakentaminen", wizard_opt_excite_life: "Rauha & turva", wizard_opt_excite_nature: "Luonto & vuodenajat", wizard_opt_excite_adventure: "Seikkailu",
-    wizard_rating_winter: "Talvi", wizard_rating_thaw: "Kevät", wizard_rating_growth: "Kasvu", wizard_rating_bloom: "Kukoistus", wizard_rating_summer: "Kesä",
-    history_title: "Aikaisemmat keskustelut", history_empty: "Ei vielä keskusteluja.", history_tab_summary: "Tiivistelmä (AI)", history_tab_transcript: "Koko teksti", history_no_summary: "Ei tiivistelmää saatavilla.", history_generating: "AI kirjoittaa tiivistelmää...", history_generating_desc: "Tämä tapahtuu taustalla.",
-    cv_title: "Analysoi CV", cv_subtitle: "Liitä CV:si teksti päivittääksesi profiilisi automaattisesti.", cv_placeholder: "Liitä CV/Ansioluettelo tähän...", cv_btn_analyze: "Analysoi & Tuo", cv_btn_processing: "Käsitellään...", cv_warning_key: "Henkilökohtainen API-avain vaaditaan.", cv_key_update: "Päivitä avain", cv_key_required: "API-avain vaaditaan", cv_key_desc: "Analysoidaksesi CV:n turvallisesti, syötä oma Gemini API-avaimesi.", cv_key_placeholder: "Liitä avain tähän...", cv_key_save: "Tallenna", cv_alert_success: "Avain tallennettu.", cv_alert_error: "CV:n analysointi epäonnistui.", cv_btn_manage_key: "API-avain",
-    settings_title: "Asetukset", settings_sect_general: "Yleiset", settings_sect_appearance: "Ulkoasu", settings_sect_data: "Tiedot & Yksityisyys", settings_length_label: "Vastauksen pituus", settings_theme_label: "Teema", settings_theme_system: "Järjestelmä", settings_theme_light: "Vaalea", settings_theme_dark: "Tumma", settings_opt_ask: "Kysy aina", settings_opt_short: "Tiivis", settings_opt_long: "Kattava", settings_clear_data: "Nollaa sovelluksen tiedot", settings_clear_data_desc: "Tämä poistaa kaikki profiilit ja historian.", settings_btn_clear: "Nollaa kaikki",
-    net_intro: "Tervetuloa verkostoitumaan – omalla tavallasi. Valitse sinulle sopiva tapa.",
-    net_header: "Mihin haluat keskittyä juuri nyt?",
-    net_opt_design: "Kohtaa ihmisiä (Design)",
+    wizard_marital_solo_title: "Yksin", wizard_marital_solo_desc: "Ei puolisoa tai lapsia mukana", wizard_marital_pair_title: "Puoliso / Perhe", wizard_marital_pair_desc: "Puoliso tai lapsia", wizard_marital_secret_title: "Salaisuus", wizard_marital_secret_desc: "En kerro / Monimutkaista",
+    wizard_children_title: "Onko sinulla lapsia?", wizard_children_desc: "Tämä auttaa koulu- ja päiväkotineuvoissa.", wizard_children_yes: "Kyllä", wizard_children_no: "Ei", wizard_family_details_title: "Perheen tiedot", wizard_family_count_label: "Montako lasta?", wizard_family_ages_label: "Iät?", wizard_family_ages_hint: "Valitse kaikki sopivat.", wizard_age_group_0_6: "Päiväkoti (0-6)", wizard_age_group_7_12: "Koulu (7-12)", wizard_age_group_13_17: "Nuoret (13-17)", wizard_age_group_18: "Aikuiset (18+)",
+    wizard_step4_title: "Mistä olet kotoisin?", wizard_step4_desc: "Kotimaa", wizard_step4_placeholder: "Maan nimi...", wizard_step4_no_match: "Ei löytynyt", wizard_btn_search_country: "Hae maata", wizard_btn_select_region: "Valitse alue", wizard_region_europe: "Eurooppa", wizard_region_americas: "Amerikka", wizard_region_asia: "Aasia", wizard_region_africa: "Afrikka", wizard_region_oceania: "Oseania", wizard_region_middle_east: "Lähi-itä", wizard_eu_question: "EU/ETA-kansalainen?", wizard_eu_yes: "Kyllä", wizard_eu_no: "Ei",
+    wizard_step5_title: "Työnteko-oikeus", wizard_permit_full_title: "Rajoittamaton", wizard_permit_full_desc: "Pysyvä, Perhe, EU, tai Suomi-tutkinto", wizard_permit_restricted_title: "Rajoitettu", wizard_permit_restricted_desc: "Työlupa sidottu työnantajaan", wizard_permit_student_title: "Opiskelija", wizard_permit_student_desc: "Rajoitetut tunnit",
+    wizard_step6_title: "Koulutus", wizard_step6_desc: "Mikä kuvaa sinua parhaiten?", wizard_step6_field_label: "Ala (Valinnainen)", wizard_step6_field_placeholder: "esim. Insinööri", wizard_edu_general_title: "Yleissivistävä", wizard_edu_general_desc: "Lukio. Ei ammattia.", wizard_edu_applied_title: "Ammatillinen", wizard_edu_applied_desc: "Ammattikoulu tai AMK.", wizard_edu_uni_title: "Yliopisto", wizard_edu_uni_desc: "Akateeminen tutkinto.",
+    wizard_step7_title: "Ammattisi?", wizard_step7_desc: "Tai mitä työtä etsit?", wizard_step7_placeholder: "esim. Sairaanhoitaja, Koodari",
+    wizard_step8_title: "Suomen kieli", wizard_lbl_finnish_level: "Nykyinen taso", wizard_lbl_finnish_motivation: "Motivaatio", wizard_opt_lang_none: "Ei vielä", wizard_opt_lang_basics: "Perusteet (A1)", wizard_opt_lang_inter: "Keskitaso (A2-B1)", wizard_opt_lang_fluent: "Sujuva (B2+)", wizard_scale_1_motivation: "Utelias", wizard_scale_5_motivation: "Pysäyttämätön",
+    wizard_step9_title: "Englannin kieli", wizard_opt_lang_en_none: "Ei osaa", wizard_opt_lang_en_basic: "Perusteet", wizard_opt_lang_en_working: "Työkieli", wizard_opt_lang_en_fluent: "Sujuva/Äidinkieli",
+    wizard_step10_title: "Visio", wizard_step10_aspirations_label: "Toiveet", wizard_step10_aspirations_placeholder: "Mitä toivot saavuttavasi?", wizard_step10_challenges_label: "Haasteet", wizard_step10_challenges_placeholder: "Mikä huolettaa?",
+    wizard_step12_title: "Fiilis Suomesta?", wizard_opt_cult_low: "Kaunis mysteeri", wizard_opt_cult_med: "Tarkkailen ilolla", wizard_opt_cult_high: "Sukellan syvään päätyyn",
+    wizard_step13_title: "Elämänrytmi?", wizard_scale_1_life: "Vielä outoa", wizard_scale_5_life: "Kuin kotona",
+    wizard_step14_title: "Työnhaku?", wizard_scale_1_career: "Tarvitsen suuntaa", wizard_scale_5_career: "Suunnitelma on",
+    wizard_step15_title: "Onko polku selvä?", wizard_opt_info_none: "Hieman sumuinen", wizard_opt_info_some: "Selkenemään päin", wizard_opt_info_high: "Kristallinkirkas",
+    wizard_step16_title: "Mikä innostaa?", wizard_opt_excite_career: "Ura ja työ", wizard_opt_excite_life: "Rauha & Turva", wizard_opt_excite_nature: "Luonto & Vuodenajat", wizard_opt_excite_adventure: "Seikkailu",
+    wizard_rating_winter: "Talvi", wizard_rating_thaw: "Sula", wizard_rating_growth: "Kasvu", wizard_rating_bloom: "Kukinta", wizard_rating_summer: "Kesä",
+    history_title: "Keskusteluhistoria", history_empty: "Ei keskusteluja.", history_tab_summary: "Tiivistelmä (AI)", history_tab_transcript: "Keskustelu", history_no_summary: "Ei tiivistelmää.", history_generating: "AI kirjoittaa...", history_generating_desc: "Tämä tapahtuu taustalla.",
+    cv_title: "Analysoi CV", cv_subtitle: "Liitä CV:n teksti päivittääksesi profiilin.", cv_placeholder: "Liitä CV tähän...", cv_btn_analyze: "Analysoi & Tuo", cv_btn_processing: "Käsitellään...", cv_warning_key: "Vaatii oman API-avaimen.", cv_key_update: "Päivitä avain", cv_key_required: "Avain vaaditaan", cv_key_desc: "Yksityisyyden vuoksi käytä omaa Google Gemini API -avainta. Se tallennetaan vain laitteellesi.", cv_key_placeholder: "Liitä avain tähän...", cv_key_save: "Tallenna avain", cv_alert_success: "API-avain tallennettu.", cv_alert_error: "Analyysi epäonnistui. Tarkista avain.", cv_btn_manage_key: "API-avain",
+    settings_title: "Asetukset", settings_sect_general: "Yleiset", settings_sect_appearance: "Ulkoasu", settings_sect_data: "Data & Yksityisyys", settings_length_label: "Vastauksen pituus", settings_theme_label: "Teema", settings_theme_system: "Järjestelmä", settings_theme_light: "Vaalea", settings_theme_dark: "Tumma", settings_opt_ask: "Kysy aina", settings_opt_short: "Lyhyt", settings_opt_long: "Yksityiskohtainen", settings_clear_data: "Nollaa sovellus", settings_clear_data_desc: "Tämä poistaa kaikki profiilit ja historian.", settings_btn_clear: "Poista kaikki",
+    net_intro: "Tervetuloa verkostoitumaan. Valitse polkusi.",
+    net_header: "Mihin keskitytään?",
+    net_opt_design: "Muotoiluyhteisö",
     net_opt_linkedin: "LinkedIn-strategia",
     net_opt_hobbies: "Harrastukset & Toiminta",
     net_opt_parents: "Verkostoituminen vanhemmille",
     net_opt_introvert: "Vinkkejä introverteille",
     feedback_action: "Anna palautetta",
+    net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi',
+    net_cold_msg: 'Suora yhteydenotto', net_places: 'Verkostoitumispaikat', net_prof_style: 'Ammatillinen tyyli',
+    net_hackathons: 'Hackathonit & Junction', net_slush: 'Slush: Anti-konferenssi', net_school: 'Verkostoituminen opiskellessa'
   },
   wiki: {
     titles: {
-      foundation: 'Byrokratia & Perusasiat', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
-      identity: 'Henkilöllisyys & luvat', security: 'Sosiaaliturva', market: 'Työmarkkinat', tools: 'Työkalut', rights: 'Oikeudet & Syrjintä', networking: 'Verkostoituminen',
-      social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijat', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
-      family: 'Perhe', language: 'Kieli',
+      foundation: 'Perusteet', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
+      identity: 'Henkilöllisyys & luvat', security: 'Sosiaaliturva', market: 'Markkina', tools: 'Työkalut', rights: 'Oikeudet', networking: 'Verkostoituminen & Piilotyöpaikat',
+      social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijaroolit', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
+      family: 'Perheen tuki', language: 'Kieli',
       social_unemployment: 'Työttömyysturva', social_housing: 'Asumistuki', social_pension: 'Eläkejärjestelmä', social_kela_card: 'Kela-kortti', social_health: 'Julkinen terveydenhuolto',
-      bureaucracy_dvv: 'DVV & Henkilötunnus', bureaucracy_migri: 'Migri (Maahanmuutto)', bureaucracy_tax: 'Verokortti', bureaucracy_bank: 'Pankkitilin avaaminen',
-      job_te_office: 'TE-toimisto', job_portals: 'Työpaikkasivustot', job_entrepreneurship: 'Yrittäjyys',
-      net_culture: 'Verkostoitumiskulttuuri', net_linkedin: 'LinkedIn Strategia', net_hidden: 'Piilotyöpaikat', net_volunteering: 'Vapaaehtoistyö',
+      bureaucracy_dvv: 'DVV & Henkilötunnus', bureaucracy_migri: 'Maahanmuutto (Migri)', bureaucracy_tax: 'Verokortti', bureaucracy_bank: 'Pankkitilin avaaminen',
+      job_te_office: 'TE-toimisto', job_portals: 'Työnhakuportaalit', job_entrepreneurship: 'Yrittäjyys', 
+      net_culture: 'Suomalainen tapa', net_linkedin: 'LinkedIn-strategia', net_hidden: 'Piilotyöpaikat', net_volunteering: 'Vapaaehtoistyö',
       job_cover_letter: 'Hakemuskirje', job_interview: 'Työhaastattelu', job_recognition: 'Tutkintojen tunnustaminen', job_cv_tips: 'Suomalainen CV',
-      work_contract: 'Työsopimus', work_hours: 'Työajat', work_holidays: 'Vuosiloma', work_unions: 'Ammattiliitot', work_probation: 'Koeaika',
-      culture_meetings: 'Kokouskulttuuri', culture_feedback: 'Palautteenanto', culture_names: 'Sinuttelu', culture_punctuality: 'Täsmällisyys', culture_coffee: 'Kahvitauot',
-      culture_afterwork: 'Afterwork', culture_sauna: 'Saunadiplomatia', culture_smalltalk: 'Hiljaisuus & Small Talk', culture_party: 'Pikkujoulut',
-      prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Sosiaali- ja terveysala', prof_service: 'Palveluala',
-      housing_contracts: 'Vuokrasopimus', housing_finding: 'Asunnon löytäminen', housing_utilities: 'Sähkö & Internet', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
-      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus',
-      net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi',
-      net_cold_msg: 'Suora yhteydenotto', net_places: 'Verkostoitumispaikat', net_prof_style: 'Ammatillinen tyyli'
+      work_contract: 'Työsopimus', work_hours: 'Työajat', work_holidays: 'Lomat', work_unions: 'Ammattiliitot', work_probation: 'Koeaika',
+      culture_meetings: 'Kokouskulttuuri', culture_feedback: 'Palautteenanto', culture_names: 'Nimet & Tittelit', culture_punctuality: 'Täsmällisyys', culture_coffee: 'Kahvitauot',
+      culture_afterwork: 'Afterwork', culture_sauna: 'Saunadiplomatia', culture_smalltalk: 'Hiljaisuus & Small Talk', culture_party: 'Työpaikan juhlat',
+      prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Terveys & Hoito', prof_service: 'Palveluala',
+      housing_contracts: 'Vuokrasopimukset', housing_finding: 'Asunnon etsintä', housing_utilities: 'Sähkö & Vesi', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
+      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset & Urheilu', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus'
     },
     articles: {
       'guide_start': { 
         title: 'Tervetuloa Suomeen! 🇫🇮', 
-        summary: 'Suomi toimii luottamuksella, hiljaisuudella ja kahvilla.',
-        content: `### Selviytymisoppaasi\n\n**Filosofia:**\nSuomi on yhteiskunta, jossa systeemit toimivat, mutta sinun täytyy tietää kuinka niitä käytetään. Luottamus on kanssakäymisen valuuttaa, ja hiljaisuutta pidetään kunnioituksena.\n\n### Kuinka käytät tätä sovellusta\n1. **Lue:** Selaa oppaita.\n2. **Keskustele:** Kysy tekoälyltä.\n3. **Profiili:** Pidä tietosi ajan tasalla.` 
+        summary: 'Suomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä opas on selviytymis-manuaalisi.', 
+        content: `# Selviytymisopas\n\n**Filosofia:**\nSuomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä on yhteiskunta, jossa järjestelmät toimivat, mutta sinun on tiedettävä, miten niitä käytetään. Luottamus on vuorovaikutuksen valuutta, ja hiljaisuus on kunnioituksen merkki.\n\n### Kuinka käyttää tätä sovellusta\n1. **Lue:** Selaa oppaita byrokratiasta ja työkulttuurista.\n2. **Chat:** Kysy AI-assistentilta juuri sinun tilanteestasi.\n3. **Profiili:** Pidä tietosi ajan tasalla saadaksesi tarkkoja neuvoja.\n\n*Sisu* on kaikki mitä tarvitset!` 
       },
       'net_culture': {
-        title: 'Verkostoitumiskulttuuri',
-        summary: 'Suomalaiset verkostoituvat tekemisen, eivät puhumisen kautta.',
-        content: `### Talkoohenki\nVerkostoituminen Suomessa ei ole cocktail-kutsuilla seisoskelua. Se on **yhdessä tekemistä**.\n\n* **Vapaaehtoistyö:** Liity tapahtumatiimiin (Slush, festivaalit). Kun teet töitä suomalaisen rinnalla, rakennat luottamusta. Luottamus johtaa suosituksiin.\n* **Järjestöt:** Suomessa on yhdistys kaikelle. Etsi oman alasi järjestö.\n* **Laatu korvaa määrän:** Yksi aito yhteys on arvokkaampi kuin 100 käyntikorttia.`
+        title: 'Verkostoituminen: Suomalainen tapa',
+        summary: 'Suomalaiset verkostoituvat tekemällä asioita yhdessä, eivät jutustelemalla. Luottamus on kaikki kaikessa.',
+        content: `### Talkoohenki\nVerkostoituminen Suomessa on harvoin käyntikorttien jakamista cocktail-kutsuilla. Se on **yhdessä tekemistä**.\n\n* **Vapaaehtoistyö:** Liity tapahtuman tiimiin (Slush, paikalliset festivaalit). Kun työskentelet suomalaisen rinnalla, rakennat luottamusta. Luottamus johtaa työsuosituksiin.\n* **Yhdistykset:** Suomessa on yhdistys (yhdistys) kaikelle. Etsi ammattiasi vastaava.\n* **Laatu korvaa määrän:** Yksi merkityksellinen yhteys on arvokkaampi kuin 100 pinnallista kontaktia.`
+      },
+      'net_intro_deep': {
+        title: 'Miksi verkostoituminen on tärkeää',
+        summary: 'Suurin osa työpaikoista on piilossa. Verkostoituminen on avain.',
+        content: `# Piilotyöpaikat\n\nSuomessa jopa 80% työpaikoista ei koskaan tule julkiseen hakuun. Ne täytetään suositusten kautta.\n\n### Miksi?\n1. **Kustannukset:** Rekrytointi on kallista.\n2. **Luottamus:** Suomalaiset palkkaavat mieluiten tutun tai tutun suositteleman.\n\n### Strategiasi\nSinun on oltava siellä, missä päätöksentekijät ovat.`
       },
       'net_linkedin': {
-        title: 'LinkedIn Strategia',
-        summary: 'LinkedIn on rekrytoijien tärkein hakukone.',
-        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat osaamista, eivät titteleitä. Käytä otsikossa sanoja "Java", "Projektinhallinta", "B2B-myynti".\n* **Sijainti:** Aseta sijainniksi Suomi. Jos olet ulkomailla, vaihda se silti "Helsinkiin" (ja mainitse muuttoaikeesi tekstissä), jotta näyt hauissa.\n* **Open to Work:** Vihreä banneri on täällä hyväksytty ja suositeltu. Se kertoo motivaatiosta.`
+        title: 'LinkedIn-strategia',
+        summary: 'LinkedIn on rekrytoijien tärkein hakukone Suomessa.',
+        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat taidoilla, eivät titteleillä. Varmista, että otsikossasi lukee "Industrial Designer" tai "UX Designer", eikä vain "Designer".\n* **Sijainti:** Aseta se Suomeen. Jos olet ulkomailla, vaihda se muotoon "Helsinki" (ja mainitse esittelyssä, että olet muuttamassa), jotta näyt paikallisissa hauissa.\n* **Open to Work:** Vihreä banneri on täällä kulttuurisesti hyväksytty. Se osoittaa motivaatiota.\n* **Aktiivisuus:** Kommentoi paikallisia julkaisuja. Se tekee sinusta näkyvän kirjoittajan verkostolle.`
       },
       'net_hidden': {
-        title: 'Piilotyöpaikat',
-        summary: '70-80% työpaikoista ei tule koskaan julkiseen hakuun.',
-        content: `### Miten löytää piilotyöpaikka?\nYritykset eivät ilmoita paikkoja, koska rekrytointi on kallista ja hidasta.\n\n1. **Kartouita:** Tee lista 20 kiinnostavasta yrityksestä.\n2. **Avoin hakemus:** Lähetä sähköposti suoraan tiiminvetäjälle (ei HR:lle). "Olen seurannut työtänne X:n parissa. Osaan Y:tä. Voisimmeko juoda 15 minuutin kahvit?"\n3. **Tiedonkeruuhaastattelut:** Kysy ihmisiltä heidän työstään, älä *pyydä* töitä. "Olen uusi alalla. Voinko kysyä 3 kysymystä siitä, miten tämä ala toimii Suomessa?" Useimmat auttavat mielellään.`
+        title: 'Piilotyöpaikkojen hakkerointi',
+        summary: '70-80% työpaikoista ei mainosteta. Sinun täytyy löytää ne.',
+        content: `### Piilotyöpaikat\nYritykset eivät usein mainosta, koska rekrytointi on kallista ja hidasta.\n\n1. **Kartoita yritykset:** Tee lista 20 yrityksestä, joista pidät. Älä katso vielä heidän "Avoimet työpaikat" -sivuaan.\n2. **Avoin hakemus:** Lähetä sähköpostia tiiminvetäjälle (ei HR:lle). "Olen seurannut työtänne X:n parissa. Minulla on taitoja Y. Voisimmeko juoda 15 minuutin kahvit?"\n3. **Infohaastattelut:** Kysy ihmisiltä heidän työstään, älä pyydä *töitä*. "Olen uusi Suomen energiasektorilla. Voisinko kysyä 3 kysymystä siitä, miten asiat täällä toimivat?" Useimmat vastaavat kyllä.`
       },
       'net_volunteering': {
         title: 'Vapaaehtoistyö',
-        summary: 'Nopein tapa integroitua ja todistaa taitosi.',
+        summary: 'Nopein tapa integroitua ja todistaa taidot.',
         content: `### Miksi vapaaehtoistyö?\n1. **Kieli:** Matala kynnys harjoitella suomea.\n2. **Suosittelijat:** Saat paikallisen suosittelijan, joka voi todistaa työmoraalisi.\n3. **Verkosto:** Tapaat aktiivisia ihmisiä.\n\n### Missä?\nPunainen Risti, startup-tapahtumat, urheiluseurat, kirjastot.`
+      },
+      'net_school': {
+        title: 'Verkostoituminen opiskellessa',
+        summary: 'Koulu on ensimmäinen ammatillinen verkostosi.',
+        content: `# Opiskelijan etu\n\nOpiskelu Suomessa on paras tapa rakentaa verkostoa. Luokkakaverisi ovat tulevia kollegoitasi.\n\n### 1. Amis\n* **Avain:** *Työssäoppiminen*.\n* **Strategia:** Kohtele jokaista harjoittelupäivää työhaastatteluna.\n\n### 2. AMK\n* **Avain:** *Opinnäytetyö*.\n* **Strategia:** Tee toimeksianto yritykselle. Se on 3-6 kuukauden työhaastattelu.\n\n### 3. Yliopisto\n* **Avain:** *Ainejärjestöt*.\n* **Kulttuuri:** Liity hallitukseen. Se on valtava signaali aktiivisuudesta.`
+      },
+      'net_cold_msg': {
+        title: 'Kylmäviestit',
+        summary: 'Miten lähestyä ihmisiä olematta ärsyttävä.',
+        content: `# Lähestymisen taide\n\nSuomalaiset ovat kiireisiä mutta avuliaita. Pidä viesti lyhyenä.\n\n### Malli\n"Hei [Nimi], näin postauksesi aiheesta [Aihe]. Olen [Taito]-asiantuntija muuttamassa Suomeen. Haluaisin kysyä yhden nopean kysymyksen [Yksityiskohta]. Ehtisitkö 10 min virtuaalikahville?"`
+      },
+      'net_hackathons': {
+        title: 'Hackathonit & Tapahtumat',
+        summary: 'Junction ja Slush ovat kultaisia mahdollisuuksia.',
+        content: `# Teknologiatapahtumat\n\n* **Junction:** Euroopan isoin hackathon.\n* **Slush:** Startup-tapahtuma. Vapaaehtoistyö täällä avaa ovet jatkojuhliin, missä todellinen verkostoituminen tapahtuu.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Henkilötunnus', 
-        summary: 'Hanki henkilötunnus, jotta olet virallisesti olemassa.',
-        content: `**Prioriteetti: HETI**\n\n### Missio\nOlla olemassa virallisesti. Tarvitset **Henkilötunnuksen** (hetu).\n\n### Prosessi\n1. **Varaa aika:** DVV:n verkkosivuilta.\n2. **Asiakirjat:** Passi, oleskelulupa, työsopimus.\n3. **Kotikunta:** Tärkeä terveydenhuollon kannalta.` 
+        summary: 'Hanki henkilötunnus ollaksesi olemassa virallisesti.', 
+        content: `**Prioriteetti: VÄLITÖN**\n\n### Tehtävä\nOlla olemassa virallisesti. Ilman rekisteröitymistä **Digi- ja väestötietovirastoon (DVV)** olet haamu järjestelmässä.\n\n### Palkinto\nSinun **Henkilötunnus** (hetu). Muoto: *PPKKVV-XXXX*.\n\n### Miksi tarvitset sitä\n1. Pankkitili.\n2. Puhelinliittymä.\n3. Verokortti.\n4. Terveyspalvelut.` 
       },
       'bureaucracy_migri': { 
         title: 'Migri (Maahanmuutto)', 
-        summary: 'Hoida oleskelulupa Enter Finland -palvelussa.',
-        content: `### Missio\nOleskelulupa.\n\n### Vinkit\n* **Enter Finland:** Käytä aina verkkopalvelua.\n* **Tunnistautuminen:** Varaa aika palvelupisteelle heti.\n* **Pikakaista:** Erityisasiantuntijoille ja startup-yrittäjille (14 pv).` 
+        summary: 'Oleskelulupa ja ajanvarausvinkit.', 
+        content: `# Migri 🛂\n\n### Tehtävä\nOleskeluluvan (oleskelulupa) saaminen.\n\n### Vinkit\n* **Enter Finland:** Käytä verkkopalvelua. Se on paljon nopeampi.\n* **Tunnistautuminen:** Sinun on käytävä palvelupisteessä todistamassa henkilöllisyytesi.\n* **Pikakaista:** Saatavilla erityisasiantuntijoille ja startup-yrittäjille (14 päivää).` 
       },
       'bureaucracy_tax': { 
         title: 'Verokortti', 
-        summary: 'Ilman verokorttia palkasta menee 60% veroa.',
-        content: `### Sääntö\nEi korttia = **60% veroa**.\n\n### Prosessi\n1. Kirjaudu **OmaVeroon**.\n2. Arvioi vuoden tulot.\n3. Lataa PDF.\n4. Lähetä palkanlaskentaan.` 
+        summary: 'Ilman verokorttia veroprosentti on 60%. Ei poikkeuksia.', 
+        content: `# Kultainen sääntö\nEi korttia = **60% vero**. \n\n### Prosessi\n1. Kirjaudu **OmaVeroon** pankkitunnuksilla.\n2. Arvioi vuositulot.\n3. Lataa PDF.\n4. Lähetä palkanlaskentaan/pomolle.\n\n*Huom: Suomessa on progressiivinen verotus. Mitä enemmän tienaat, sitä suurempi prosentti.*` 
       },
       'bureaucracy_bank': { 
         title: 'Pankkitilin avaaminen', 
-        summary: 'Pankkitunnukset ovat avain kaikkiin digipalveluihin.',
-        content: `### Haaste\nPankit ovat tarkkoja rahanpesulakien takia.\n\n### Mukaan\n1. Passi.\n2. Oleskelulupa.\n3. Työsopimus.\n4. Henkilötunnus.\n\n### Palkinto\n**Vahva tunnistautuminen** (pankkitunnukset). Tällä pääset Kelaan, Verottajalle ja Omakantaan.` 
+        summary: 'Pankkitili antaa "vahvan sähköisen tunnistautumisen", avaimen kaikkiin digipalveluihin.', 
+        content: `# Haaste\nRahanpesulait ovat tiukkoja. Pankin on tiedettävä rahojesi alkuperä.\n\n### Mitä mukaan\n1. Passi.\n2. Oleskelulupa.\n3. Työsopimus.\n4. Henkilötunnus (DVV:ltä).\n\n### Graalin malja\n**Verkkopankkitunnukset**. Näillä pääset Kelaan, Veroon, Terveyspalveluihin ja Postiin.` 
       },
       'social_kela_card': {
         title: 'Kela-kortti',
-        summary: 'Sininen kortti todistaa kuulumisesi sairausvakuutukseen.',
-        content: `### Mikä se on?\nTodiste siitä, että kuulut Suomen sosiaaliturvaan.\n\n### Käyttö\nNäytä apteekissa tai lääkäriasemalla saadaksesi suorakorvauksen.`
+        summary: 'Sininen kortti todistaa, että kuulut kansalliseen sairausvakuutukseen.',
+        content: `# Mikä se on?\nSininen kortti, joka todistaa kuulumisesi Suomen sosiaaliturvaan.\n\n### Käyttö\nNäytä se:\n1. **Apteekissa:** Saat suorakorvauksen reseptilääkkeistä.\n2. **Yksityisillä lääkäriasemilla:** Saat pienen osan kuluista vähennettyä.`
       },
       'social_health': {
         title: 'Julkinen vs. Työterveys',
-        summary: 'Työntekijän kannattaa aina käyttää työterveyttä.',
-        content: `### Kaksi järjestelmää\n\n**1. Julkinen (Terveysasema)**\n* **Kenelle:** Kaikille kuntalaisille.\n* **Hinta:** Pieni maksu (~20€).\n* **Nopeus:** Voi olla hidas.\n\n**2. Työterveys**\n* **Kenelle:** Työntekijöille.\n* **Hinta:** Sinulle ilmainen.\n* **Nopeus:** Nopea. Usein yksityisellä (Terveystalo, Mehiläinen).`
+        summary: 'Työntekijöiden tulisi käyttää työterveyttä ensin. Se on nopea ja ilmainen.',
+        content: `# Kaksi järjestelmää\n\n**1. Julkinen (Terveysasema)**\n* **Kenelle:** Kaikille asukkaille.\n* **Hinta:** Halpa (~20€) tai ilmainen.\n* **Nopeus:** Voi olla hidas. Sinun täytyy soittaa varataksesi ajan.\n\n**2. Työterveys**\n* **Kenelle:** Työntekijöille.\n* **Hinta:** Ilmainen sinulle (työnantaja maksaa).\n* **Nopeus:** Nopea. Yleensä yksityiset klinikat kuten Terveystalo tai Mehiläinen.`
       },
       'social_unemployment': {
         title: 'Työttömyysturva',
-        summary: 'Ilmoittaudu TE-toimistoon HETI ensimmäisenä työttömyyspäivänä.',
-        content: `### Kultainen sääntö\nIlmoittaudu työttömäksi työnhakijaksi **TE-palveluihin** viimeistään ensimmäisenä työttömyyspäivänä.\n\n### Kuka maksaa?\n1. **Työttömyyskassa:** Jos olet jäsen, saat ansiopäivärahaa (enemmän).\n2. **Kela:** Jos et ole jäsen, saat peruspäivärahaa (vähemmän).`
+        summary: 'Ilmoittaudu TE-toimistoon ENSIMMÄISENÄ työttömyyspäivänä.',
+        content: `# Kultainen sääntö\nIlmoittaudu työnhakijaksi **TE-palveluihin** (te-palvelut.fi) heti **ensimmäisenä** työttömyyspäivänäsi. Jos viivyttelet, menetät rahaa.\n\n### Kuka maksaa?\n1. **Työttömyyskassa:** Jos olet jäsen (26 viikkoa), saat ansiosidonnaista päivärahaa (paljon suurempi).\n2. **Kela:** Jos et ole jäsen, saat peruspäivärahaa (pienempi).`
       },
       'social_housing': {
         title: 'Asumistuki',
         summary: 'Kela voi maksaa osan vuokrasta, jos tulot ovat pienet.',
-        content: `### Yleinen asumistuki\n* **Kenelle:** Pienituloisille ruokakunnille.\n* **Haku:** Hae Kelan asiointipalvelussa. Tarvitset vuokrasopimuksen.`
+        content: `# Yleinen asumistuki\n* **Kenelle:** Pienituloiset kotitaloudet (opiskelijat, osa-aikaiset, työttömät).\n* **Laskenta:** Riippuu kokonaistuloista ja kaupungista.\n* **Haku:** Verkossa Kelassa. Tarvitset vuokrasopimuksen.`
       },
       'social_pension': {
         title: 'Eläkejärjestelmä',
-        summary: 'Kerrytät eläkettä jokaisesta tienatusta eurosta.',
-        content: `### Miten se toimii\nTyönantaja pidättää eläkemaksun automaattisesti palkasta.\n\n### Tarkistus\nVoit tarkistaa kertyneen eläkkeesi osoitteesta **Tyoelake.fi**.`
+        summary: 'Kerrytät eläkettä jokaisesta ansaitusta eurosta.',
+        content: `# Miten se toimii\nTyönantaja vähentää eläkemaksun palkasta automaattisesti. Sinun ei tarvitse tehdä mitään.\n\n### Tarkistus\nKatso kertynyt summa osoitteesta **Tyoelake.fi**.\n\n### Lähteminen?\nJos muutat toiseen EU-maahan, eläkeoikeudet säilyvät.`
       },
       'job_market_overview': { 
-        title: 'Piilotyöpaikat', 
-        summary: '70-80% työpaikoista ei tule julkiseen hakuun.', 
-        content: `### Piilotyömarkkinat\nSuurin osa paikoista täytetään suhteilla tai suorilla yhteydenotoilla.\n\n### Strategia\n1. **Suora kontaktointi:** Älä odota ilmoitusta. Lähetä sähköpostia suoraan pomolle.\n2. **LinkedIn:** Pidä profiili kunnossa.\n3. **Luottamus:** Suomalainen palkkaa tutun tai suositellun.` 
+        title: 'Työmarkkinat', 
+        summary: 'Ymmärrä kenttä.', 
+        content: `### Yleiskatsaus\nSuomen markkinat arvostavat taitoja ja asennetta. Vaikka suomi on usein vaatimus, monet teknologia- ja insinööriyritykset toimivat englanniksi.` 
       },
       'job_te_office': {
         title: 'TE-palvelut',
-        summary: 'TE-toimisto auttaa kotoutumisessa ja työnhaussa.',
-        content: `### Tehtävät\n* **Kotoutumissuunnitelma:** Kielikurssit.\n* **Työnhakijastatus:** Pakollinen työttömyysturvan saamiseksi.\n* **CV-netti:** Profiilin julkaisu.`
+        summary: 'Työvoimatoimisto auttaa kotoutumisessa ja työttömyysturvassa.',
+        content: `# Mitä he tekevät\n* **Kotoutumissuunnitelma:** Määrittelevät tarvitsetko suomen kielen kursseja.\n* **Työnhakijastatus:** Pakollinen rahan saamiseksi Kelalta tai kassalta.\n* **Varoitus:** Noudata heidän ohjeitaan tarkasti välttääksesi karenssin.`
       },
       'job_portals': {
         title: 'Mistä löytää töitä',
-        summary: 'Tärkeimmät sivustot.',
-        content: `### Sivustot\n* **LinkedIn:** Asiantuntijatyöt.\n* **Oikotie Työpaikat:** Suurin suomalainen.\n* **Duunitori:** Suosittu.\n* **The Hub:** Startupit.`
+        summary: 'Tärkeimmät portaalit, jotka sinun tulisi tietää.',
+        content: `# Tärkeimmät sivustot\n* **LinkedIn:** #1 englanninkielisille/asiantuntijatöille.\n* **Oikotie Työpaikat:** Suomen suurin sivusto.\n* **Duunitori:** Myös erittäin suosittu.\n* **The Hub:** Paras startup- ja teknologiatöille.`
       },
       'job_entrepreneurship': {
         title: 'Yrittäjyys',
-        summary: 'Starttiraha auttaa alkuun.',
-        content: `### Starttiraha\nNoin 700€/kk tuki uudelle yrittäjälle 6-12 kk ajan.\n\n**Tärkeää:** Hae tukea **ennen** yrityksen perustamista.`
+        summary: 'Suomi tarvitsee yrittäjiä. Aloittamiseen on rahaa.',
+        content: `# Starttiraha\nJos ryhdyt päätoimiseksi yrittäjäksi, voit saada n. 700€/kk 6-12 kuukauden ajan toimeentulon turvaamiseksi.\n\n**Tärkeää:** Hae **ennen** yrityksen rekisteröintiä.`
       },
       'job_cv_tips': {
-        title: 'Suomalainen CV',
-        summary: 'Lyhyt, asiallinen ja kuvallinen.',
-        content: `### Muistilista\n1. **Pituus:** Max 2 sivua.\n2. **Kuva:** Vakio Suomessa.\n3. **Profiili:** Lyhyt tiivistelmä alussa.\n4. **Tyyli:** Ole rehellinen mutta itsevarma. Kerro faktoja.`
+        title: 'Suomalainen CV-tyyli',
+        summary: 'Lyhyt, asiapitoinen ja kuvallinen.',
+        content: `# Tarkistuslista\n1. **Pituus:** Max 2 sivua. Mieluiten 1.\n2. **Kuva:** Standardi täällä. Hymyile, ammattimainen.\n3. **Profiili:** Lyhyt tiivistelmä alussa.\n4. **Taidot:** Listaa teknologiat tai kovat taidot konkreettisesti.\n5. **Sävy:** Nöyrä mutta itsevarma. Kerro faktoja, älä adjektiiveja.`
       },
       'job_cover_letter': {
         title: 'Hakemuskirje',
-        summary: 'Vastaa kysymykseen "Miksi juuri sinä?".',
-        content: `### Rakenne\n1. **Motivaatio:** Miksi haluat juuri tämän työn?\n2. **Arvo:** Mitä ongelmia ratkaiset?\n3. **Persoona:** Sovitko tiimiin?`
+        summary: 'Älä toista CV:tä. Vastaa "Miksi me?" ja "Miksi sinä?".',
+        content: `# Rakenne\n1. **Koukku:** Miksi haluat juuri *tämän* työn?\n2. **Arvo:** Mitä ongelmia ratkaiset heille?\n3. **Persoona:** Sovitko tiimiin?\n\n### Vinkki\nPidä alle 1 sivussa. Suomalaiset arvostavat ytimekkyyttä.`
       },
       'job_interview': {
         title: 'Työhaastattelu',
-        summary: 'Rehellisyys on tärkeintä.',
-        content: `### Odotukset\n* **Rehellisyys:** Älä valehtele. Jos et osaa, sano että opit.\n* **Hiljaisuus:** Älä pelkää taukoja keskustelussa.`
+        summary: 'Rehellisyys testataan. Hiljaisuus on ok.',
+        content: `# Mitä odottaa\n* **Rehellisyys:** Jos et tiedä, sano "En tiedä, mutta voin oppia". Älä valehtele.\n* **Hiljaisuus:** Jos haastattelija on hiljaa vastauksesi jälkeen, älä panikoi. Hän miettii. Älä pälätä täyttääksesi aukkoa.\n* **Kahvi:** Ota aina vastaan, jos tarjotaan. Se on rituaali.`
       },
       'job_recognition': {
         title: 'Tutkintojen tunnustaminen',
-        summary: 'Tärkeää säännellyillä aloilla (lääkärit, opettajat).',
-        content: `### Viranomaiset\n**OPH** (Opetushallitus) tai **Valvira** (Sosiaali- ja terveysala).`
+        summary: 'Kriittinen säännellyille ammateille kuten lääkärit, sairaanhoitajat, opettajat.',
+        content: `# Säännellyt ammatit\nTerveys-/opetusalalla tutkinnon on oltava **OPH**:n tai **Valviran** tunnustama.\n\n### Yleiset roolit\nIT- tai liiketoiminta-aloilla virallista tunnustamista tarvitaan harvoin. Taidot merkitsevät enemmän.`
       },
       'work_contract': { 
         title: 'Työsopimus', 
-        summary: 'Aina kirjallisena. Tarkista TES.',
-        content: `### Elementit\n1. **Kesto:** Toistaiseksi voimassa oleva vai määräaikainen.\n2. **TES:** Työehtosopimus määrittää minimipalkan ja lomat.\n3. **Koeaika:** Max 6 kk.` 
+        summary: 'Aina kirjallinen. Lue huolella. Tarkista TES.', 
+        content: `# Avainkohdat\n1. **Kesto:** Toistaiseksi voimassa oleva tai Määräaikainen.\n2. **TES:** Työehtosopimus. Määrittelee minimipalkan ja lomat.\n3. **Koeaika:** Max 6 kuukautta.\n\n**Älä koskaan aloita töitä ilman sopimusta.**` 
       },
       'work_hours': {
         title: 'Työajat',
-        summary: 'Normaalisti 7,5 tai 8 tuntia päivässä.',
-        content: `### Jousto\n* **Liukuma:** Voit usein aloittaa klo 7-9 välillä.\n* **Lounas:** Yleensä 30 min (omalla ajalla).`
+        summary: 'Standardi on 7,5 tai 8 tuntia päivässä.',
+        content: `# Tasapaino\n* **Kokoaikainen:** Yleensä 37,5 tai 40 tuntia/viikko.\n* **Joustavuus:** Monissa paikoissa on "liukuma". Tule 7-9, lähde 15-17.\n* **Lounas:** Yleensä 30 min (palkaton).`
       },
       'work_holidays': {
-        title: 'Vuosiloma',
-        summary: 'Lomaa kertyy 2-2,5 päivää kuukaudessa.',
-        content: `### Lomakausi\n* **Kesäloma:** Pidetään yleensä heinäkuussa.\n* **Lomaraha:** Monet saavat 50% ekstraa lomapalkasta (lomaltapaluuraha).`
+        title: 'Vuosilomat',
+        summary: 'Suomessa on anteliaat lomat, mutta ne pitää ansaita.',
+        content: `# Lomavuosi\nAnsaitset päiviä 1. huhtikuuta - 31. maaliskuuta.\n* **Standardi:** 2,5 päivää/kk = 30 päivää (5 viikkoa)/vuosi.\n* **Kesä:** Yleensä pidetään heinäkuussa. Maa pysähtyy.\n* **Lomaraha:** Monet saavat 50% lisäpalkkaa lomasta.`
       },
       'work_unions': {
         title: 'Ammattiliitot',
-        summary: 'Liittyminen on suositeltavaa. He hallinnoivat työttömyyskassoja.',
-        content: `### Miksi liittyä?\n1. **Turva:** Ansiopäiväraha on paljon suurempi kuin Kelan tuki.\n2. **Apua:** Lakimiesapua riitatilanteissa.\n\n### Esimerkkejä\n* **YTK:** Pelkkä kassa (halvempi).\n* **TEK:** Tekniikan ala.\n* **PAM:** Palvelualat.`
+        summary: 'Erittäin suositeltavaa. Ne hallinnoivat työttömyyskassoja.',
+        content: `# Miksi liittyä?\n1. **Raha:** He maksavat ansiosidonnaista päivärahaa (paljon korkeampi kuin Kela).\n2. **Laki:** Ilmainen lakiapu, jos työnantaja kohtelee huonosti.\n\n### Mikä liitto?\n* **YTK:** Pelkkä työttömyyskassa (halvempi).\n* **TEK:** Insinööreille.\n* **PAM:** Palvelualalle.`
       },
       'work_probation': {
         title: 'Koeaika',
-        summary: 'Ensimmäiset 6kk ovat usein koeaikaa.',
-        content: `### Säännöt\nKoeajalla kumpi tahansa voi purkaa sopimuksen ilman irtisanomisaikaa.`
+        summary: 'Ensimmäiset 6 kuukautta ovat yleensä koeaikaa.',
+        content: `# Säännöt\nKoeajalla (max 6 kk) **sekä sinä** että työnantaja voitte purkaa sopimuksen välittömästi ilman irtisanomisaikaa.`
       },
       'culture_meetings': { 
         title: 'Kokouskulttuuri', 
-        summary: 'Kokoukset ovat tehokkaita ja alkavat ajallaan.', 
-        content: `### Säännöt\n1. **Aloitus:** Täsmälleen tasalta.\n2. **Agenda:** Pysy asiassa.\n3. **Lopetus:** Kunnioita muiden kalenteria.` 
+        summary: 'Suomalaiset ovat täsmällisiä ja asialistakeskeisiä. Small talk on minimaalista.', 
+        content: `# Säännöt\n1. **Aloita ajoissa:** 09:00 tarkoittaa 09:00.\n2. **Asialista:** Pysy siinä.\n3. **Hiljaisuus:** Tarkoittaa hyväksyntää tai miettimistä. Ei ongelmaa.\n4. **Lopeta ajoissa:** Kunnioita muiden aikatauluja.` 
       },
       'culture_feedback': {
-        title: 'Palaute',
-        summary: 'Suoraa ja rehellistä.',
-        content: `### Tyyli\nSuomalainen palaute voi tuntua tylyltä, mutta se on vain asioihin keskittymistä. Älä ota henkilökohtaisesti.`
+        title: 'Palautteenanto',
+        summary: 'Palaute on suoraa ja asiapitoista. Älä ota henkilökohtaisesti.',
+        content: `# Suoruus\nSuomalainen saattaa sanoa: *"Tästä raportista puuttuu X."*\nHe eivät ole epäkohteliaita. He toteavat faktan korjatakseen ongelman tehokkaasti. He erottavat työn ja ihmisen.`
       },
       'culture_names': {
-        title: 'Sinuttelu',
-        summary: 'Suomessa ollaan epämuodollisia.',
-        content: `### Matti eikä Herra Johtaja\nKaikkia puhutellaan etunimellä, myös toimitusjohtajaa.`
+        title: 'Nimet & Tittelit',
+        summary: 'Hyvin epämuodollista. Titteleitä käytetään harvoin.',
+        content: `# Moi Pomo\nKaikkia kutsutaan etunimellä. Kutsut toimitusjohtajaa "Matiksi", et "Herra Korhoseksi". Voit sinutella lähes kaikkia.`
       },
       'culture_punctuality': {
         title: 'Täsmällisyys',
         summary: '5 minuuttia myöhässä on myöhässä.',
-        content: `### Kunnioitus\nMyöhästyminen koetaan toisen ajan varastamisena. Ilmoita heti, jos myöhästyt.`
+        content: `# Aika on kunnioitusta\nMyöhästyminen on toisen ajan varastamista. Jos olet 5 min myöhässä, lähetä viesti.`
       },
       'culture_coffee': {
-        title: 'Kahvitauko',
-        summary: 'Pyhä rituaali. Usein lakisääteinen.',
-        content: `### Sosiaalinen hetki\nMene muiden mukaan kahvihuoneeseen, vaikka joisit vettä. Siellä tapahtuu ryhmäytyminen.`
+        title: 'Kahvitauot',
+        summary: 'Pyhä rituaali. Usein laissa määrätty.',
+        content: `# Rituaali\nUseimmissa sopimuksissa on kaksi 10-15 min taukoa.\n\n* **Sosialisoi:** Tässä ryhmäytyminen tapahtuu. Älä istu yksin työpöydän ääressä.\n* **Kofeiini:** Suomalaiset juovat eniten kahvia maailmassa.`
       },
       'culture_afterwork': {
-        title: 'Afterwork',
-        summary: 'Rentoa oleskelua töiden jälkeen.',
-        content: `### Tyyli\nVapaaehtoista. Voi juoda alkoholia tai limua.`
+        title: 'Afterwork (AW)',
+        summary: 'Rennot juomat perjantaisin.',
+        content: `# Ilmapiiri\nYleensä hyvin rentoa. Alkoholin tai virvoitusjuomien juominen on ok. Kyse on rentoutumisesta, ei humaltumisesta.`
       },
       'culture_sauna': {
         title: 'Saunadiplomatia',
-        summary: 'Sauna on tasa-arvoinen paikka.',
-        content: `### Säännöt\n1. **Tasa-arvo:** Saunassa tittelit jäävät naulakkoon.\n2. **Alastomuus:** Luonnollista, ei seksuaalista.\n3. **Bisnes:** Joskus päätökset tehdään lauteilla.`
+        summary: 'Sauna on tasa-arvon paikka. Jopa liike-elämässä.',
+        content: `# Säännöt\n1. **Tasa-arvo:** Saunassa ei ole titteleitä. CEO ja harjoittelija ovat tasa-arvoisia.\n2. **Alastomuus:** Luonnollista, ei seksuaalista.\n3. **Bisnes:** Päätöksiä tehdään joskus täällä.`
       },
       'culture_smalltalk': {
         title: 'Hiljaisuus & Small Talk',
-        summary: 'Hiljaisuus ei ole kiusallista.',
-        content: `### Älä täytä tyhjyyttä\nHississä ei tarvitse puhua. Nyökkäys riittää.`
+        summary: 'Hiljaisuus ei ole kiusallista. Se on mukava tauko.',
+        content: `# Älä täytä tyhjiötä\nJos olet hississä suomalaisen kanssa, ei tarvitse puhua. Nyökkäys riittää. Arvostamme sanoja; emme tuhlaa niitä.`
       },
       'culture_party': {
         title: 'Pikkujoulut',
-        summary: 'Firman pikkujoulut voivat olla railakkaat.',
-        content: `### Poikkeus sääntöön\nSuomalaiset vapautuvat pikkujouluissa. Mitä tapahtuu pikkujouluissa, jää pikkujouluihin.`
+        summary: 'Joulukuun pikkujoulut voivat olla villit.',
+        content: `# Poikkeus\nSuomalaiset ovat pidättyväisiä, PAITSI *Pikkujouluissa*. Nämä ovat vuosittaiset joulujuhlat. Yleensä paljon alkoholia ja kollegat ovat paljon avoimempia. Mitä tapahtuu Pikkujouluissa, jää Pikkujouluihin.`
       },
       'prof_engineering': {
-        title: 'Insinöörityö',
-        summary: 'Iso ala, englanti yleistä.',
-        content: `### Yritykset\nKone, Wärtsilä, Nokia, Metso.\n\n### Tyyli\nFaktapohjaista. Valmistaudu teknisiin yksityiskohtiin.`
+        title: 'Insinöörityö Suomessa',
+        summary: 'Valtava sektori. Englantia käytetään laajasti.',
+        content: `# Jätit\nKone, Wärtsilä, Nokia, Metso.\n\n### Kulttuuri\nFaktapohjaista. Valmistele tekniset yksityiskohdat. Tarkkuutta arvostetaan myyntipuheiden sijaan.`
       },
       'prof_business': {
         title: 'Kaupallinen ala',
-        summary: 'Vaatii usein suomea.',
-        content: `### Mahdollisuudet\nKansainvälinen myynti, Business Analytics tai startupit.`
+        summary: 'Vaatii usein suomea, paitsi startupit.',
+        content: `# Este\nPerinteiset roolit (HR, Kirjanpito, Pankki) vaativat sujuvaa suomea.\n\n### Mahdollisuus\nEtsi *International Sales*, *Business Analytics* tai *Export* rooleja, joissa äidinkielesi on etu.`
       },
       'prof_it': {
         title: 'IT & Teknologia',
-        summary: 'Helpoin ala englanninkieliselle.',
-        content: `### Kieli\nEnglanti on työkieli lähes kaikissa teknologiayrityksissä (Wolt, Supercell, Relex).`
+        summary: 'Helpoin sektori englanninkielisille.',
+        content: `# Keskus\nSuomi tarvitsee koodareita. Englanti on yrityskieli lähes kaikissa teknologiayrityksissä (Wolt, Supercell, Relex).\n\n### Palkkaus\nUsein kooditesti. Näytä GitHubisi.`
       },
       'prof_health': {
-        title: 'Sosiaali- ja terveysala',
-        summary: 'Huutava pula tekijöistä, mutta kielitaito pakollinen.',
-        content: `### Vaatimukset\nTarvitset Valviran laillistuksen ja kielitaidon (B1/B2). Potilasturvallisuus on ykkösasia.`
+        title: 'Terveys & Hoito',
+        summary: 'Valtava pula, mutta kieli on pakollinen.',
+        content: `# Todellisuus\nTarvitset Valviran luvan. Saadaksesi sen, tarvitset yleensä B1/B2 suomen kielen. Potilasturvallisuus on etusijalla.`
       },
       'prof_service': {
         title: 'Palveluala',
-        summary: 'Yleinen väylä työelämään.',
-        content: `### Työt\nSiivous ja ravintola-ala palkkaavat usein myös ilman täydellistä suomen taitoa.`
+        summary: 'Ravintolat ja siivous ovat yleisiä aloituspisteitä.',
+        content: `# Aloitus\nSiivous ja ravintolakeittiöt palkkaavat usein ei-suomenkielisiä. Se on tapa alkaa tienata samalla kun opit kieltä.`
       },
       'housing_contracts': {
-        title: 'Vuokrasopimus',
-        summary: 'Yleensä toistaiseksi voimassa oleva.',
-        content: `### Ehdot\n* **Takuuvuokra:** Yleensä 2kk vuokra.\n* **Irtisanominen:** Asukkaalla 1 kk.\n* **Kotivakuutus:** Pakollinen.`
+        title: 'Vuokrasopimukset',
+        summary: 'Turvallisia ja säänneltyjä.',
+        content: `# Ehdot\n* **Takuuvuokra:** Yleensä 2 kuukauden vuokra.\n* **Irtisanominen:** Yleensä 1 kalenterikuukausi vuokralaiselle.\n* **Kotivakuutus:** Lähes aina pakollinen.`
       },
       'housing_finding': {
-        title: 'Asunnon löytäminen',
+        title: 'Asunnon etsintä',
         summary: 'Markkina on nopea Helsingissä.',
-        content: `### Portaalit\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Vinkki\nOle nopea. Mene näyttöön valmiin hakemuksen kanssa.`
+        content: `# Portaalit\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Vinkki\nOle nopea. Mene näyttöön valmiin hakemuksen kanssa.`
       },
       'housing_utilities': {
-        title: 'Sähkö & Internet',
-        summary: 'Tee oma sähkösopimus.',
-        content: `### Sähkö\nEi kuulu yleensä vuokraan. Kilpailuta sähköyhtiöt.\n\n### Vesi\nUsein kiinteä maksu (esim. 20€/hlö/kk).`
+        title: 'Sähkö & Vesi',
+        summary: 'Teet yleensä oman sähkösopimuksen.',
+        content: `# Sähkö\nEi sisälly vuokraan. Sinun on valittava tarjoaja ja tehtävä sopimus.\n\n### Vesi\nUsein kiinteä maksu (esim. 20€/hlö/kk).`
       },
       'housing_recycling': {
-        title: 'Kierrätys',
-        summary: 'Suomessa kierrätetään kaikki.',
-        content: `### Astiat\nBio, Muovi, Kartonki, Paperi, Metalli, Lasi.\n\n### Pantti\nPullot ja tölkit palautetaan kauppaan. Siitä saa rahaa.`
+        title: 'Kierrätysopas',
+        summary: 'Suomalaiset kierrättävät kaiken.',
+        content: `# Astiat\n* **Bio:** Ruokajäte.\n* **Muovi:** Muovipakkaukset.\n* **Kartonki:** Maitotölkit, pahvi.\n* **Paperi:** Paperi, sanomalehdet.\n\n### Pantti\nPulloilla ja tölkeillä on pantti (10c - 40c). Palauta kaupan automaattiin saadaksesi rahaa.`
       },
       'housing_sauna': {
         title: 'Pesutupa & Sauna',
-        summary: 'Taloyhtiön yhteiset tilat.',
-        content: `### Käyttö\n* **Lenkkisauna:** Ilmainen yhteisvuoro viikoittain.\n* **Oma vuoro:** Varataan maksua vastaan.`
+        summary: 'Useimmissa taloissa on yhteiset tilat.',
+        content: `# Taloyhtiö\n* **Pesula:** Yleensä varauslista.\n* **Lenkkisauna:** Ilmainen viikoittainen saunavuoro kaikille (miehet/naiset erikseen).\n* **Oma vuoro:** Voit varata viikoittaisen yksityisen tunnin pientä maksua vastaan.`
       },
       'family_school': {
         title: 'Koulujärjestelmä',
-        summary: 'Ilmainen ja maailman kärkeä.',
-        content: `### Perusasiat\n* **Alkaa:** 7-vuotiaana.\n* **Hinta:** Ilmainen (kirjat ja ruoka).\n* **Kieli:** Suomi tai ruotsi.`
+        summary: 'Yksi maailman parhaista. Ja ilmainen.',
+        content: `# Perusteet\n* **Alkaa:** 7-vuotiaana.\n* **Hinta:** Ilmainen. Sisältää kirjat ja lämpimän lounaan.\n* **Kieli:** Yleensä suomi tai ruotsi. Kansainvälisiä kouluja on, mutta niihin on jonot.`
       },
       'family_daycare': {
         title: 'Päiväkoti',
-        summary: 'Jokaisella lapsella on oikeus hoitoon.',
-        content: `### Haku\nHae 4kk etukäteen. Kunnallinen on edullinen (max ~300€/kk).`
+        summary: 'Jokaisella lapsella on oikeus päivähoitoon.',
+        content: `# Haku\nHae 4 kuukautta etukäteen. Voimakkaasti tuettu.\n\n### Hinta\nPerustuu tuloihin. Max ~300€/kk. Pienituloisille ilmainen.`
       },
       'family_activities': {
-        title: 'Harrastukset',
-        summary: 'Kirjastot ja liikunta.',
-        content: `### Mahdollisuudet\n* **Kirjastot:** Oodi tarjoaa 3D-tulostimia ja pelejä ilmaiseksi.\n* **Musiikkiopistot:** Laadukasta opetusta.`
+        title: 'Harrastukset & Urheilu',
+        summary: 'Harrastukset otetaan täällä vakavasti.',
+        content: `# Vaihtoehdot\n* **Kirjastot:** Oodi tarjoaa 3D-tulostimia, ompelukoneita, pelihuoneita ilmaiseksi.\n* **Urheilu:** Jalkapallo, salibandy, jääkiekko ovat isoja.\n* **Musiikki:** Musiikkiopistot ovat korkealaatuisia.`
       },
       'family_winter': {
         title: 'Lapset & Talvi',
-        summary: 'Ei ole huonoa säätä, on vain huonoja vaatteita.',
-        content: `### Varusteet\n* **Kerrokset:** Villa, fleece, toppahaalari.\n* **Heijastin:** Pakollinen pimeällä.`
+        summary: 'Ei ole huonoa säätä, vain huonoja vaatteita.',
+        content: `# Vaatetus\n* **Kerrokset:** Villakerros, fleecekerros, vedenpitävä ulkokerros.\n* **Haalari:** Yksiosainen haalari on standardi lasten univormu.\n* **Heijastimet:** Pakollisia turvallisuuden vuoksi pimeässä.`
       },
       'family_safety': {
-        title: 'Turvallisuus',
-        summary: 'Suomi on turvallinen maa lapsille.',
-        content: `### Itsenäisyys\nEkaluokkalaiset kulkevat usein kouluun yksin. Se on normaalia.`
-      },
-      'net_cold_msg': {
-        title: 'Suora yhteydenotto',
-        summary: 'Kuinka lähestyä suomalaisia suoraan viesteillä ärsyttämättä. Sisältää mallipohjia.',
-        content: `# Suora kontakti\n\nSuomalaiset arvostavat selkeyttä, nöyryyttä ja vilpittömyyttä. Useimmat ovat avoimia virtuaalikahveille, jos pyydät kohteliaasti.\n\n### Malliviesti\n*"Hei! Olen [Nimi], [Rooli] maasta [Maa], asun nyt Suomessa. Arvostan työtäsi projektissa [Projekti]. Rakennan uraani täällä ja arvostaisin paria vinkkiä. Jos sinulla on joskus aikaa nopeille virtuaalikahveille, olisin kiitollinen. Kiitos!"*\n\n### Miksi tämä toimii\n1. **Konteksti:** Kuka olet.\n2. **Kehu:** Osoittaa taustatyötä.\n3. **Pieni pyyntö:** "Pari vinkkiä" tai "virtuaalikahvit" on helppo myöntyä.\n\n### Säännöt\n* **Pidä lyhyenä:** Max 3-4 riviä.\n* **Etä on parempi:** Suomalaiset suojelevat vapaa-aikaansa. 15 min Teams-puheluun on helpompi suostua kuin lounaaseen.`
-      }, 
-      'net_places': {
-        title: 'Verkostoitumispaikat',
-        summary: 'Kirjastot, yhteisökeskukset ja avoimet luennot ovat parhaita paikkoja.',
-        content: `# Fyysiset tilat\n\nEt tarvitse kutsua gaalaan verkostoituaksesi. Käytä julkisia tiloja.\n\n### 1. Kirjastot (Oodi, Sello)\nSuomessa kirjastot ovat olohuoneita. Oodissa on 3D-tulostimia ja pelihuoneita. Työpajaan osallistuminen on luonteva tapa tavata tekijöitä.\n\n### 2. Työväenopistot\nOsallistu valokuvaus-, keramiikka- tai kielikurssille. Yhteinen tekeminen rikkoo jään luonnostaan. "Pehmeä verkostoituminen" tapahtuu täällä.\n\n### 3. International House Helsinki (IHH)\nLoistava uusille tulijoille. He järjestävät tapahtumia, jotka yhdistävät sinut työnantajiin ja neuvonantajiin.`
-      }, 
-      'net_prof_style': {
-        title: 'Ammatillinen tyyli',
-        summary: 'Kuinka viestiä kuin paikallinen: yksinkertaisesti, rauhallisesti ja johdonmukaisesti.',
-        content: `# "Natiivi" äänensävy\n\nSopeutuaksesi tarkkaile, miten suomalaiset ammattilaiset viestivät.\n\n### 1. Sävy\nYksinkertainen, rauhallinen ja suora. Vältä "myyntipuhetta". Kerro faktoja taidoistasi.\n\n### 2. Johdonmukaisuus\nSuomessa johdonmukaisuus voittaa esittämisen. Pieni päivitys tai "tänään opin" -julkaisu joka toinen viikko on parempi kuin yksi jättipostaus vuodessa.\n\n### 3. Osallistuminen\nKommentoi muiden julkaisuja. "Hienoa työtä!", "Hyvä oivallus!". Ihmiset muistavat nimet, jotka näkyvät positiivisesti.`
+        title: 'Turvallisuus & Itsenäisyys',
+        summary: 'Suomi on erittäin turvallinen. Lapset menevät kouluun yksin.',
+        content: `# Itsenäisyys\nÄlä panikoi, jos näet 7-vuotiaan yksin metrossa. Se on normaalia. Yhteiskunta pitää heidät turvassa.`
       }
     }
   }
