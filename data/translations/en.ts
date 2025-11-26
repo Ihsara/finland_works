@@ -56,7 +56,8 @@ export const en: TranslationResource = {
       prof_engineering: 'Engineering', prof_business: 'Business & Finance', prof_it: 'IT & Tech', prof_health: 'Healthcare & Nursing', prof_service: 'Service Industry',
       housing_contracts: 'Rental Contracts', housing_finding: 'Finding an Apartment', housing_utilities: 'Electricity & Internet', housing_recycling: 'Recycling Guide', housing_sauna: 'Laundry & Sauna',
       family_school: 'School System', family_daycare: 'Daycare (Päiväkoti)', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety & Independence',
-      net_intro: 'Why Networking Matters', net_design: 'Design Community', net_parents: 'Networking for Parents', net_introvert: 'Low-Pressure Networking', net_hobbies: 'Hobby Networking', net_plan: 'Your Action Plan'
+      net_intro: 'Why Networking Matters', net_design: 'Design Community', net_parents: 'Networking for Parents', net_introvert: 'Low-Pressure Networking', net_hobbies: 'Hobby Networking', net_plan: 'Your Action Plan',
+      net_cold_msg: 'The Art of the Cold Message', net_places: 'Networking Venues', net_prof_style: 'Finnish Professional Style'
     },
     articles: {
       'guide_start': { 
@@ -108,6 +109,21 @@ export const en: TranslationResource = {
         title: 'Volunteering',
         summary: 'The fastest way to integrate and prove skills.',
         content: `### Why Volunteer?\n1. **Language:** Low-pressure environment to practice Finnish.\n2. **References:** You get a local reference who can vouch for your work ethic.\n3. **Network:** You meet active people.\n\n### Where?\nRed Cross, startup events, local sports clubs, libraries.`
+      },
+      'net_cold_msg': {
+        title: 'The Art of the Cold Message',
+        summary: 'How to send direct messages to Finns without being annoying. Includes templates.',
+        content: `# Direct Contact\n\nFinns appreciate clarity, humility, and sincerity. Most are open to online coffee chats if asked politely.\n\n### The Template\n*"Hi! I’m [Name], a [Role] from [Country] living in Finland. I love your work on [Project]. I’m slowly building my career here and would appreciate 1-2 tips. If you ever have time for a quick virtual coffee, I’d be very grateful. Kiitos!"*\n\n### Why this works\n1. **Context:** Who you are.\n2. **Compliment:** Shows you did research.\n3. **Low Ask:** "1-2 tips" or "virtual coffee" is easy.\n\n### Rules\n* **Keep it short:** 3-4 lines max.\n* **Virtual is better:** Finns protect their free time. A 15-min Teams call is easier to say yes to than a lunch.`
+      },
+      'net_places': {
+        title: 'Networking Venues',
+        summary: 'Libraries, community centers, and open lectures are your best bet.',
+        content: `# Physical Spaces\n\nYou don't need a ticket to a gala to network. Use public spaces.\n\n### 1. Libraries (Oodi, Sello)\nLibraries in Finland are not just for books. They are living rooms. Oodi has 3D printers, sewing machines, and game rooms. Joining a workshop there is a natural way to meet makers.\n\n### 2. Adult Education Centres (Työväenopisto)\nTake a course in photography, ceramics, or Finnish. The shared activity breaks the ice naturally. "Soft networking" happens here.\n\n### 3. International House Helsinki (IHH)\nGreat for newcomers. They host events specifically designed to connect you with employers and advisors.`
+      },
+      'net_prof_style': {
+        title: 'Finnish Professional Style',
+        summary: 'How to communicate like a local: simple, calm, and consistent.',
+        content: `# The "Native" Tone\n\nTo fit in, observe how Finnish professionals communicate.\n\n### 1. The Tone\nSimple, calm, and direct. Avoid "salesy" language. State facts about your skills.\n\n### 2. Consistency\nIn Finland, consistency beats showing off. Posting a small sketch or a "today I learned" update every 2 weeks is better than one giant post once a year.\n\n### 3. Engagement\nComment on others' posts. "Beautiful work!", "Great insight!". People remember names that pop up positively.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 

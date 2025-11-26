@@ -5,6 +5,7 @@ import { LanguageSelector } from '../LanguageSelector';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getAvatarUrl } from '../../utils/profileUtils';
+import { FeedbackRibbon } from '../FeedbackRibbon';
 
 interface ProfileDetailViewProps {
   profile: UserProfile | null;
@@ -98,6 +99,8 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
           </div>
         </div>
       </div>
+
+      <FeedbackRibbon />
 
       <div className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
         {/* Top Section: Avatar + Info + Progress */}

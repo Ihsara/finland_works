@@ -137,11 +137,14 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => {
               title: getLocalizedTitle('networking', lang, 'Networking'),
               articles: [
                   { id: 'net_intro_deep', icon: 'Sprout', tags: ['worker', 'networking', 'culture', 'Networking', 'Work Culture'], ...getLocalizedArticle('net_intro_deep', lang) },
+                  { id: 'net_cold_msg', icon: 'MessageCircle', tags: ['worker', 'networking', 'communication', 'Networking', 'Job searching'], ...getLocalizedArticle('net_cold_msg', lang) },
                   { id: 'net_linkedin', icon: 'Linkedin', tags: ['worker', 'networking', 'digital', 'Networking', 'Recruitment', 'Job searching'], ...getLocalizedArticle('net_linkedin', lang) },
                   { id: 'net_design', icon: 'PenTool', tags: ['worker', 'networking', 'specialist', 'Networking', 'Recruitment'], ...getLocalizedArticle('net_design', lang) },
                   { id: 'net_hobbies', icon: 'Bike', tags: ['worker', 'networking', 'social', 'Networking', 'Learning Finnish'], ...getLocalizedArticle('net_hobbies', lang) },
+                  { id: 'net_places', icon: 'Map', tags: ['worker', 'networking', 'places', 'Networking', 'Work Culture'], ...getLocalizedArticle('net_places', lang) },
                   { id: 'net_parents', icon: 'Baby', tags: ['worker', 'networking', 'family', 'Networking'], ...getLocalizedArticle('net_parents', lang) },
                   { id: 'net_introvert', icon: 'Coffee', tags: ['worker', 'networking', 'culture', 'Networking'], ...getLocalizedArticle('net_introvert', lang) },
+                  { id: 'net_prof_style', icon: 'User', tags: ['worker', 'networking', 'culture', 'Networking', 'Work Culture'], ...getLocalizedArticle('net_prof_style', lang) },
                   { id: 'net_plan', icon: 'List', tags: ['worker', 'networking', 'strategy', 'Networking'], ...getLocalizedArticle('net_plan', lang) },
                   { id: 'net_hidden', icon: 'Ghost', tags: ['worker', 'networking', 'strategy', 'Job searching', 'Networking'], ...getLocalizedArticle('net_hidden', lang) },
                   { id: 'net_volunteering', icon: 'Heart', tags: ['worker', 'networking', 'social', 'Volunteering Internships', 'Networking', 'Learning Finnish'], ...getLocalizedArticle('net_volunteering', lang) }

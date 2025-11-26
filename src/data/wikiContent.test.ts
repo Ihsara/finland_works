@@ -64,14 +64,23 @@ describe('Wiki Content System (DoD)', () => {
     const introvert = articles.find(a => a.id === 'net_introvert');
     const parents = articles.find(a => a.id === 'net_parents');
     const linkedin = articles.find(a => a.id === 'net_linkedin');
+    
+    // Check the newly added specific in-depth articles
+    const coldMsg = articles.find(a => a.id === 'net_cold_msg');
+    const places = articles.find(a => a.id === 'net_places');
+    const style = articles.find(a => a.id === 'net_prof_style');
 
     expect(deepNet).toBeDefined();
     expect(introvert).toBeDefined();
     expect(parents).toBeDefined();
     expect(linkedin).toBeDefined();
+    expect(coldMsg).toBeDefined();
+    expect(places).toBeDefined();
+    expect(style).toBeDefined();
 
     // Check content exists
     expect(deepNet?.content).toContain('Hidden Job Market');
     expect(introvert?.content).toContain('Low-Pressure');
+    expect(coldMsg?.content).toContain('The Template');
   });
 });

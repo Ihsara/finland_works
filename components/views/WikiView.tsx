@@ -9,6 +9,7 @@ import { WikiProgressData } from '../../services/storageService';
 import { LanguageSelector } from '../LanguageSelector';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { wrapSentencesInHtml } from '../../utils/textUtils';
+import { FeedbackRibbon } from '../FeedbackRibbon';
 
 interface WikiViewProps {
   onClose: () => void;
@@ -523,6 +524,8 @@ const WikiView: React.FC<WikiViewProps> = ({
             </button>
         </div>
       </div>
+
+      <FeedbackRibbon />
 
       <div className="flex-1 overflow-hidden relative">
         

@@ -57,7 +57,8 @@ export const fi: TranslationResource = {
       prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Sosiaali- ja terveysala', prof_service: 'Palveluala',
       housing_contracts: 'Vuokrasopimus', housing_finding: 'Asunnon löytäminen', housing_utilities: 'Sähkö & Internet', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
       family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus',
-      net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi'
+      net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi',
+      net_cold_msg: 'Suora yhteydenotto', net_places: 'Verkostoitumispaikat', net_prof_style: 'Ammatillinen tyyli'
     },
     articles: {
       'guide_start': { 
@@ -314,6 +315,21 @@ export const fi: TranslationResource = {
         title: 'Turvallisuus',
         summary: 'Suomi on turvallinen maa lapsille.',
         content: `### Itsenäisyys\nEkaluokkalaiset kulkevat usein kouluun yksin. Se on normaalia.`
+      },
+      'net_cold_msg': {
+        title: 'Suora yhteydenotto',
+        summary: 'Kuinka lähestyä suomalaisia suoraan viesteillä ärsyttämättä. Sisältää mallipohjia.',
+        content: `# Suora kontakti\n\nSuomalaiset arvostavat selkeyttä, nöyryyttä ja vilpittömyyttä. Useimmat ovat avoimia virtuaalikahveille, jos pyydät kohteliaasti.\n\n### Malliviesti\n*"Hei! Olen [Nimi], [Rooli] maasta [Maa], asun nyt Suomessa. Arvostan työtäsi projektissa [Projekti]. Rakennan uraani täällä ja arvostaisin paria vinkkiä. Jos sinulla on joskus aikaa nopeille virtuaalikahveille, olisin kiitollinen. Kiitos!"*\n\n### Miksi tämä toimii\n1. **Konteksti:** Kuka olet.\n2. **Kehu:** Osoittaa taustatyötä.\n3. **Pieni pyyntö:** "Pari vinkkiä" tai "virtuaalikahvit" on helppo myöntyä.\n\n### Säännöt\n* **Pidä lyhyenä:** Max 3-4 riviä.\n* **Etä on parempi:** Suomalaiset suojelevat vapaa-aikaansa. 15 min Teams-puheluun on helpompi suostua kuin lounaaseen.`
+      }, 
+      'net_places': {
+        title: 'Verkostoitumispaikat',
+        summary: 'Kirjastot, yhteisökeskukset ja avoimet luennot ovat parhaita paikkoja.',
+        content: `# Fyysiset tilat\n\nEt tarvitse kutsua gaalaan verkostoituaksesi. Käytä julkisia tiloja.\n\n### 1. Kirjastot (Oodi, Sello)\nSuomessa kirjastot ovat olohuoneita. Oodissa on 3D-tulostimia ja pelihuoneita. Työpajaan osallistuminen on luonteva tapa tavata tekijöitä.\n\n### 2. Työväenopistot\nOsallistu valokuvaus-, keramiikka- tai kielikurssille. Yhteinen tekeminen rikkoo jään luonnostaan. "Pehmeä verkostoituminen" tapahtuu täällä.\n\n### 3. International House Helsinki (IHH)\nLoistava uusille tulijoille. He järjestävät tapahtumia, jotka yhdistävät sinut työnantajiin ja neuvonantajiin.`
+      }, 
+      'net_prof_style': {
+        title: 'Ammatillinen tyyli',
+        summary: 'Kuinka viestiä kuin paikallinen: yksinkertaisesti, rauhallisesti ja johdonmukaisesti.',
+        content: `# "Natiivi" äänensävy\n\nSopeutuaksesi tarkkaile, miten suomalaiset ammattilaiset viestivät.\n\n### 1. Sävy\nYksinkertainen, rauhallinen ja suora. Vältä "myyntipuhetta". Kerro faktoja taidoistasi.\n\n### 2. Johdonmukaisuus\nSuomessa johdonmukaisuus voittaa esittämisen. Pieni päivitys tai "tänään opin" -julkaisu joka toinen viikko on parempi kuin yksi jättipostaus vuodessa.\n\n### 3. Osallistuminen\nKommentoi muiden julkaisuja. "Hienoa työtä!", "Hyvä oivallus!". Ihmiset muistavat nimet, jotka näkyvät positiivisesti.`
       }
     }
   }
