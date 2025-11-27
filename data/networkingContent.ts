@@ -34,15 +34,15 @@ const RESPONSES: Record<string, Record<string, { text: string, articleId?: strin
   "CONFIRM_NET_LINKEDIN": {
     en: {
       text: `**LinkedIn Strategy for Finland**\n\nLinkedIn plays a much bigger role in Finland than in many other countries. It's not just a CV; it's a search engine for recruiters.\n\n1. **The Keyword Rule:** Recruiters search in English. Ensure your headline says "Industrial Designer" or "UX Designer", not just "Designer".\n2. **Open to Work:** Use the green banner. It is culturally accepted here and shows availability.\n3. **The "About" Section:** Finns value personality. Don't just list skills; write 3 lines about *who* you are and what you enjoy building.\n\n*Shall we draft a new headline for your profile together?*`,
-      articleId: 'job_linkedin'
+      articleId: 'net_linkedin'
     },
     fi: {
       text: `**LinkedIn-strategia Suomessa**\n\nLinkedInillä on Suomessa valtava rooli. Se ei ole vain CV, vaan hakukone rekrytoijille.\n\n1. **Avainsanat:** Rekrytoijat hakevat englanniksi. Varmista, että otsikkosi on tarkka (esim. "UX Designer").\n2. **Open to Work:** Käytä vihreää banneria. Se on täällä hyväksytty tapa kertoa käytettävyydestä.\n3. **Tietoja-osio:** Suomalaiset arvostavat persoonaa. Kerro lyhyesti kuka olet, älä vain listaa taitoja.`,
-      articleId: 'job_linkedin'
+      articleId: 'net_linkedin'
     },
     vi: {
       text: `**Chiến lược LinkedIn cho Phần Lan**\n\nLinkedIn đóng vai trò rất lớn ở Phần Lan. Nó không chỉ là CV mà là công cụ tìm kiếm cho nhà tuyển dụng.\n\n1. **Từ khóa:** Nhà tuyển dụng tìm kiếm bằng tiếng Anh. Hãy chắc chắn tiêu đề của bạn rõ ràng (ví dụ: "UX Designer").\n2. **Open to Work:** Sử dụng biểu ngữ màu xanh lá cây. Nó được chấp nhận về mặt văn hóa ở đây.\n3. **Phần giới thiệu:** Người Phần Lan coi trọng cá tính. Đừng chỉ liệt kê kỹ năng; hãy viết 3 dòng về việc bạn là ai.`,
-      articleId: 'job_linkedin'
+      articleId: 'net_linkedin'
     }
   },
   "CONFIRM_NET_HOBBIES": {

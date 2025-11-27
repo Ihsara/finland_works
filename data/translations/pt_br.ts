@@ -41,7 +41,7 @@ export const ptBr: TranslationResource = {
       social_unemployment: 'Desemprego', social_housing: 'Subsídio de Moradia', social_pension: 'Aposentadoria', social_kela_card: 'Cartão Kela', social_health: 'Saúde Pública',
       bureaucracy_dvv: 'DVV & ID', bureaucracy_migri: 'Imigração', bureaucracy_tax: 'Cartão de Imposto', bureaucracy_bank: 'Conta Bancária',
       job_te_office: 'Escritório TE', job_portals: 'Portais', job_entrepreneurship: 'Empreendedorismo', job_networking: 'Networking',
-      job_cover_letter: 'Carta de Apresentação', job_interview: 'Entrevista', job_linkedin: 'LinkedIn', job_recognition: 'Reconhecimento', job_cv_tips: 'CV Finlandês',
+      job_cover_letter: 'Carta de Apresentação', job_interview: 'Entrevista', net_linkedin: 'LinkedIn', job_recognition: 'Reconhecimento', job_cv_tips: 'CV Finlandês',
       work_contract: 'Contrato', work_hours: 'Horas', work_holidays: 'Férias', work_unions: 'Sindicatos', work_probation: 'Período Experimental',
       culture_meetings: 'Reuniões', culture_feedback: 'Feedback', culture_names: 'Nomes', culture_punctuality: 'Pontualidade', culture_coffee: 'Pausas para Café',
       culture_afterwork: 'Afterwork', culture_sauna: 'Sauna', culture_smalltalk: 'Silêncio', culture_party: 'Festas de Escritório',
@@ -66,7 +66,7 @@ export const ptBr: TranslationResource = {
       'job_networking': { title: 'Networking', summary: 'Seja direto e funcional.', content: `# Networking 🤝\n\nOs finlandeses gostam de objetivos claros. O voluntariado é ótimo para conhecer pessoas.` },
       'job_cover_letter': { title: 'Carta de Apresentação', summary: 'Curta e focada no "porquê".', content: `# Cover Letter 📝\n\nMáximo 1 página. Foque em como pode ajudar a empresa, não apenas no que quer.` },
       'job_interview': { title: 'Entrevista', summary: 'Honestidade é crucial.', content: `# Entrevista 👔\n\nSe não souber, diga. O silêncio é aceitável.` },
-      'job_linkedin': { title: 'LinkedIn', summary: 'Seu CV digital.', content: `# LinkedIn 🔗\n\nMantenha atualizado. Use a localização "Finlândia".` },
+      'net_linkedin': { title: 'LinkedIn', summary: 'Seu CV digital.', content: `# LinkedIn 🔗\n\nMantenha atualizado. Use a localização "Finlândia".` },
       'job_recognition': { title: 'Reconhecimento', summary: 'Necessário para médicos e professores.', content: `# Valvira & OPH 🎓\n\nPara profissões reguladas, precisa de aprovação oficial.` },
       'job_cv_tips': { title: 'CV Finlandês', summary: 'Simples, com foto, máx 2 páginas.', content: `# CV 📄\n\nInclua foto. Use bullet points. Seja conciso.` },
       'work_contract': { title: 'Contrato', summary: 'Sempre por escrito.', content: `# Contrato ✍️\n\nVerifique o TES (Acordo Coletivo). Define o salário mínimo da área.` },
@@ -88,7 +88,7 @@ export const ptBr: TranslationResource = {
       'prof_it': { title: 'TI', summary: 'Melhor área para inglês.', content: `# TI 💻\n\nInglês é a língua padrão. Hierarquia plana.` },
       'prof_health': { title: 'Saúde', summary: 'Finlandês obrigatório.', content: `# Saúde ⚕️\n\nPrecisa de licença Valvira e língua fluente.` },
       'prof_service': { title: 'Serviços', summary: 'Ponto de entrada comum.', content: `# Serviços 🧹\n\nRestaurantes e limpezas. Sindicato PAM é importante.` },
-      'housing_contracts': { title: 'Aluguel', summary: 'Depósito de 2 meses.', content: `# Contrato 🏠\n\nSeguro de casa é obrigatório. Aviso de 1 mês.` },
+      'housing_contracts': { title: 'Aluguel', summary: 'Depósito de 2 meses.', content: `# Contrato 🏠\n\nSeguro de hogar obligatorio. Aviso de 1 mes.` },
       'housing_finding': { title: 'Encontrar Casa', summary: 'Seja rápido.', content: `# Procura 🔎\n\nOikotie.fi. Tenha perfil pronto e decida rápido.` },
       'housing_utilities': { title: 'Contas', summary: 'Eletricidade à parte.', content: `# Contas ⚡\n\nFaça contrato de luz. Internet muitas vezes incluída.` },
       'housing_recycling': { title: 'Reciclagem', summary: 'Leve a sério.', content: `# Reciclagem ♻️\n\nSepare tudo. Garrafas valem dinheiro (Pantti).` },
@@ -98,7 +98,7 @@ export const ptBr: TranslationResource = {
       'family_activities': { title: 'Atividades', summary: 'Hobbies são importantes.', content: `# Hobbies ⚽\n\nBibliotecas e esportes são muito acessíveis.` },
       'family_winter': { title: 'Inverno', summary: 'Vista-se bem.', content: `# Frio ❄️\n\nCamadas de roupa. Refletores são obrigatórios.` },
       'family_safety': { title: 'Segurança', summary: 'Muito seguro.', content: `# Segurança 🚲\n\nCrianças andam sozinhas. É normal.` },
-      'culture_essentials': { title: 'Valores', summary: 'Confiança e silêncio são valores fundamentais.', content: `# Confiança & Silêncio 🤫\n\n1. **Confiança:** Cumpra o que diz.\n2. **Silêncio:** Não receie o silêncio.` }
+      'culture_essentials': { title: 'Valores Centrales', summary: 'Confiança e silêncio são valores fundamentais.', content: `# Confiança & Silêncio 🤫\n\n1. **Confiança:** Cumpra o que diz.\n2. **Silêncio:** Não receie o silêncio.` }
     }
   }
 };

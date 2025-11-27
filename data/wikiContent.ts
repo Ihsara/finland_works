@@ -1,3 +1,4 @@
+
 import { Icons } from '../components/Icon';
 import { LanguageCode } from '../types';
 import { getResource } from './translations';
@@ -97,7 +98,7 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
             articles: [
                 { id: 'job_cv_tips', icon: 'FileText', tags: ['work', 'application'], ...getLocalizedArticle('job_cv_tips', lang) },
                 { id: 'job_cover_letter', icon: 'Mail', tags: ['work', 'application'], ...getLocalizedArticle('job_cover_letter', lang) },
-                { id: 'job_linkedin', icon: 'Linkedin', tags: ['work', 'Networking', 'digital'], ...getLocalizedArticle('job_linkedin', lang) },
+                { id: 'net_linkedin', icon: 'Linkedin', tags: ['work', 'Networking', 'digital'], ...getLocalizedArticle('net_linkedin', lang) },
                 { id: 'job_portals', icon: 'Search', tags: ['work', 'Job searching'], ...getLocalizedArticle('job_portals', lang) },
                 { id: 'job_te_office', icon: 'Building2', tags: ['work', 'support', 'unemployment'], ...getLocalizedArticle('job_te_office', lang) }
             ]
