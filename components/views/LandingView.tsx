@@ -5,6 +5,7 @@ import { LanguageSelector } from '../LanguageSelector';
 import { UserProfile, GUEST_PROFILE } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { FeedbackRibbon } from '../FeedbackRibbon';
+import { APP_IDS } from '../../data/system/identifiers';
 
 interface LandingViewProps {
   profile: UserProfile | null;
@@ -33,10 +34,16 @@ export const LandingView: React.FC<LandingViewProps> = ({
   const showGuideBtn = profile && profile.id !== 'guest';
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 relative overflow-hidden">
+    <div 
+      data-scene-id={APP_IDS.SCENES.LANDING}
+      className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 relative overflow-hidden"
+    >
       {/* Header Bar with Language Selector (Static, not absolute) */}
       <div className="w-full p-4 md:p-6 flex justify-end items-center shrink-0 z-20">
-          <LanguageSelector className="md:min-w-[140px]" />
+          <LanguageSelector 
+            className="md:min-w-[140px]" 
+            data-testid={APP_IDS.COMPONENTS.NAVBAR.LANG_SELECTOR}
+          />
       </div>
 
       {/* Feedback Ribbon */}
@@ -47,11 +54,17 @@ export const LandingView: React.FC<LandingViewProps> = ({
       <div className="flex-1 overflow-y-auto relative w-full flex flex-col items-center justify-center p-8">
         {/* Main Content */}
         <div className="max-w-xl w-full text-center">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-12 tracking-tight">{t('landing_welcome')}</h1>
+          <h1 
+            data-testid={APP_IDS.VIEWS.LANDING.HERO_TITLE}
+            className="text-5xl font-bold text-gray-900 dark:text-white mb-12 tracking-tight"
+          >
+            {t('landing_welcome')}
+          </h1>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full flex-wrap">
             {/* Primary Action: Quiz or Continue */}
             <button 
+              data-testid={showGuideBtn ? APP_IDS.VIEWS.LANDING.BTN_CONTINUE : APP_IDS.VIEWS.LANDING.BTN_QUIZ}
               onClick={() => {
                 if (showGuideBtn) {
                   onOpenGuide();
@@ -67,6 +80,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
 
             {/* Secondary Action: Chat */}
             <button 
+              data-testid={APP_IDS.VIEWS.LANDING.BTN_CHAT}
               onClick={() => {
                 onSetGuest(GUEST_PROFILE);
                 onStartChat();
@@ -80,6 +94,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
             {/* Guest Action: Browse Guide (Only if no profile yet) */}
             {!showGuideBtn && (
                <button
+                 data-testid={APP_IDS.VIEWS.LANDING.BTN_BROWSE}
                  onClick={() => {
                    onSetGuest(GUEST_PROFILE);
                    onBrowseWiki();
@@ -97,6 +112,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
         <div className="mt-12 md:absolute md:bottom-6 flex flex-col items-center">
           <div className="flex gap-4 text-xs text-gray-500 dark:text-gray-400 items-center">
             <button 
+              data-testid={APP_IDS.VIEWS.LANDING.LINK_SAMPLE}
               onClick={() => onLoadDemo(false)} 
               className="hover:text-gray-700 dark:hover:text-gray-200 underline underline-offset-2 p-2 cursor-pointer"
             >
@@ -104,6 +120,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
             </button>
             <span>•</span>
             <button 
+              data-testid={APP_IDS.VIEWS.LANDING.LINK_RESET}
               onClick={onReset} 
               className="hover:text-red-700 dark:hover:text-red-400 text-gray-500 dark:text-gray-400 transition-colors p-2 cursor-pointer"
             >
@@ -111,6 +128,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
             </button>
             <span>•</span>
             <button 
+              data-testid={APP_IDS.VIEWS.LANDING.LINK_KEY}
               onClick={onClearKey} 
               className="hover:text-gray-700 dark:hover:text-gray-200 text-gray-500 dark:text-gray-400 transition-colors p-2 cursor-pointer"
             >

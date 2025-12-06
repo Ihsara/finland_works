@@ -6,6 +6,7 @@ import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getAvatarUrl } from '../../utils/profileUtils';
 import { FeedbackRibbon } from '../FeedbackRibbon';
+import { APP_IDS } from '../../data/system/identifiers';
 
 interface DashboardViewProps {
   profile: UserProfile | null;
@@ -34,15 +35,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const isGuest = !profile || profile.id === 'guest';
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 relative overflow-hidden">
+    <div 
+      data-scene-id={APP_IDS.SCENES.DASHBOARD}
+      className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500 relative overflow-hidden"
+    >
       <div className="flex-1 overflow-y-auto relative w-full">
         {/* Simple Header */}
         <div className="p-6 flex justify-between items-center">
-          <LanguageSelector />
+          <LanguageSelector data-testid={APP_IDS.COMPONENTS.NAVBAR.LANG_SELECTOR} />
 
           <div className="flex items-center gap-3">
               {onNavigateToSettings && (
                   <button 
+                    data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_SETTINGS}
                     onClick={onNavigateToSettings}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition text-gray-600 dark:text-gray-400"
                     title="Settings"
@@ -51,6 +56,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </button>
               )}
               <button 
+                data-testid={APP_IDS.VIEWS.DASHBOARD.AVATAR}
                 onClick={onNavigateToProfile}
                 className="p-1 hover:scale-105 transition transform duration-200 group relative"
               >
@@ -98,6 +104,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               // Standard Profile Actions
               <>
                 <button 
+                  data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_GUIDE}
                   onClick={onNavigateToWiki}
                   className="flex items-center justify-center gap-3 bg-black dark:bg-white text-white dark:text-black px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg w-full sm:w-auto sm:min-w-[260px]"
                 >
@@ -105,6 +112,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   {t('dash_btn_guide')}
                 </button>
                 <button 
+                  data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_CHAT}
                   onClick={onStartChat}
                   className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
                 >
@@ -124,6 +132,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </button>
                 
                 <button 
+                  data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_GUIDE}
                   onClick={onNavigateToWiki}
                   className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
                 >
@@ -132,6 +141,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </button>
 
                 <button 
+                  data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_CHAT}
                   onClick={onStartChat}
                   className="flex items-center justify-center gap-3 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 px-8 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm w-full sm:w-auto sm:min-w-[260px]"
                 >
@@ -146,6 +156,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {!isGuest && (
             <div className="grid grid-cols-2 gap-4 w-full sm:w-auto sm:min-w-[536px]">
                <button
+                 data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_HISTORY}
                  onClick={onNavigateToHistory}
                  className="flex flex-col items-center justify-center gap-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 px-4 py-4 rounded-xl font-medium text-sm transition"
                >
@@ -153,6 +164,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   {t('dash_btn_history')}
                </button>
                <button
+                 data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_CV}
                  onClick={onNavigateToCvImport}
                  className="flex flex-col items-center justify-center gap-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white border border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 px-4 py-4 rounded-xl font-medium text-sm transition"
                >

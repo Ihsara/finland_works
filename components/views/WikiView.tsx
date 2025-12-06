@@ -10,6 +10,7 @@ import { LanguageSelector } from '../LanguageSelector';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { wrapSentencesInHtml } from '../../utils/textUtils';
 import { FeedbackRibbon } from '../FeedbackRibbon';
+import { APP_IDS } from '../../data/system/identifiers';
 
 interface WikiViewProps {
   onClose: () => void;
@@ -392,6 +393,7 @@ const WikiView: React.FC<WikiViewProps> = ({
             return (
                 <div key={category.id} className={`select-none ${!isSidebar ? 'bg-white dark:bg-gray-800 rounded-xl p-2 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 transition-colors' : ''}`}>
                     <button 
+                        data-testid={APP_IDS.VIEWS.WIKI.CARD_CATEGORY(category.id)}
                         onClick={() => toggleCategory(category.id)}
                         className={`flex items-center justify-between w-full group ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
                     >
@@ -425,6 +427,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                         return (
                                             <button
                                                 key={article.id}
+                                                data-testid={APP_IDS.VIEWS.WIKI.ITEM_ARTICLE(article.id)}
                                                 onClick={() => {
                                                     handleArticleClick(article);
                                                     if (!activeTag) setActiveCategoryId(category.id);
@@ -460,7 +463,10 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 relative overflow-hidden font-sans">
+    <div 
+      data-scene-id={APP_IDS.SCENES.WIKI}
+      className="flex flex-col h-full bg-white dark:bg-gray-900 relative overflow-hidden font-sans"
+    >
       {/* Header */}
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex items-center bg-white dark:bg-gray-950 z-50 shadow-sm md:px-6 md:py-4 transition-colors">
         {/* Left Controls */}
@@ -468,6 +474,7 @@ const WikiView: React.FC<WikiViewProps> = ({
            {(activeArticle || activeCategory || activeTag || viewMode === 'list') ? (
                <button 
                    onClick={handleBack}
+                   data-testid={APP_IDS.COMPONENTS.NAVBAR.BTN_BACK}
                    className="p-2 -ml-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition"
                >
                    <Icons.ArrowLeft className="w-6 h-6" />
@@ -518,6 +525,7 @@ const WikiView: React.FC<WikiViewProps> = ({
 
             <button 
                 onClick={onClose}
+                data-testid={APP_IDS.COMPONENTS.NAVBAR.BTN_CLOSE}
                 className="text-gray-400 hover:text-red-600 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition"
             >
                 <Icons.X className="w-6 h-6" />
@@ -778,7 +786,11 @@ const WikiView: React.FC<WikiViewProps> = ({
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto relative bg-white dark:bg-gray-900 w-full" ref={contentRef}>
+                <div 
+                    data-testid={APP_IDS.VIEWS.WIKI.CONTENT_AREA}
+                    className="flex-1 overflow-y-auto relative bg-white dark:bg-gray-900 w-full" 
+                    ref={contentRef}
+                >
                     <div className="max-w-3xl mx-auto p-6 md:p-12 pb-32">
                         <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100 dark:border-gray-800">
                             <div className="flex flex-col gap-2">
@@ -800,6 +812,7 @@ const WikiView: React.FC<WikiViewProps> = ({
 
                             <div className="flex items-center gap-3">
                                 <button
+                                    data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_LATER}
                                     onClick={() => handleToggleStatus('later')}
                                     title={progress.items[activeArticle.id]?.status === 'later' ? t('wiki_btn_saved') : t('wiki_btn_later')}
                                     className={`p-3 rounded-full transition-all duration-200 border ${
@@ -812,6 +825,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                                 </button>
 
                                 <button
+                                    data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_DONE}
                                     onClick={() => handleToggleStatus('done')}
                                     title={progress.items[activeArticle.id]?.status === 'done' ? t('wiki_btn_completed') : t('wiki_btn_mark_done')}
                                     className={`p-3 rounded-full transition-all duration-200 border ${
