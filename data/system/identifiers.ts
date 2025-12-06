@@ -2,33 +2,47 @@
 /**
  * Unique Identifier System (UIS) Registry
  * 
- * This file contains the Single Source of Truth for all automated testing IDs,
- * accessibility relationships, and scene management references.
+ * This file acts as the AGGREGATOR for the modular system definition.
  * 
- * Structure:
- * - SCENES: Top-level page containers.
- * - COMPONENTS: Reusable UI widgets.
- * - VIEWS: Specific view-local elements organized by Scene.
+ * - See `data/system/scenes/` for component definitions.
+ * - See `data/system/links/` for navigation mapping.
  */
+
+import * as GENERATED_SCENES from './scenes';
+import { MANUAL_SCENES } from './manual_overrides';
+import { NAV_LINKS } from './links';
+
+// --- CONFIGURATION ---
+// Set this to true if you are manually fixing data in `manual_overrides.ts`
+// and want those values to take precedence over the generated files.
+const USE_MANUAL_OVERRIDES = false;
+
+// --- LOGIC ---
+// We merge the generated scenes with manual overrides if the flag is set.
+// This allows us to "import" manual fixes instead of just "exporting" generated ones.
+const ACTIVE_SCENES = USE_MANUAL_OVERRIDES 
+  ? { ...GENERATED_SCENES, ...MANUAL_SCENES } 
+  : GENERATED_SCENES;
 
 export const APP_IDS = {
   // --- ROOTS ---
   ROOT: 'root',
   LAYOUT_CONTAINER: 'layout_container',
 
-  // --- SCENES (Top Level Views) ---
+  // --- SCENES (Top Level IDs) ---
+  // We map the keys from the active scenes to ensure we always have a valid ID structure
   SCENES: {
-    LANDING: 'scene_landing',
-    DASHBOARD: 'scene_dashboard',
-    CHAT: 'scene_chat',
-    PROFILE: 'scene_profile',
-    PROFILE_EDIT: 'scene_profile_edit',
-    QUIZ: 'scene_quiz', // Wizard
-    WIKI: 'scene_wiki',
-    HISTORY: 'scene_history',
-    CV_IMPORT: 'scene_cv_import',
-    SETTINGS: 'scene_settings',
-    API_KEY: 'scene_api_key_entry'
+    LANDING: ACTIVE_SCENES.LANDING?.ID || 'scene_landing',
+    DASHBOARD: ACTIVE_SCENES.DASHBOARD?.ID || 'scene_dashboard',
+    CHAT: ACTIVE_SCENES.CHAT?.ID || 'scene_chat',
+    PROFILE: ACTIVE_SCENES.PROFILE?.ID || 'scene_profile',
+    PROFILE_EDIT: ACTIVE_SCENES.PROFILE_EDIT?.ID || 'scene_profile_edit',
+    QUIZ: ACTIVE_SCENES.QUIZ?.ID || 'scene_quiz',
+    WIKI: ACTIVE_SCENES.WIKI?.ID || 'scene_wiki',
+    HISTORY: ACTIVE_SCENES.HISTORY?.ID || 'scene_history',
+    CV_IMPORT: ACTIVE_SCENES.CV_IMPORT?.ID || 'scene_cv_import',
+    SETTINGS: ACTIVE_SCENES.SETTINGS?.ID || 'scene_settings',
+    API_KEY: ACTIVE_SCENES.API_KEY?.ID || 'scene_api_key_entry'
   },
 
   // --- SHARED COMPONENTS ---
@@ -44,45 +58,10 @@ export const APP_IDS = {
   },
 
   // --- VIEW SPECIFIC ELEMENTS ---
-  VIEWS: {
-    LANDING: {
-      HERO_TITLE: 'landing_hero_title',
-      BTN_QUIZ: 'btn_landing_start_quiz',
-      BTN_CONTINUE: 'btn_landing_continue',
-      BTN_CHAT: 'btn_landing_start_chat',
-      BTN_BROWSE: 'btn_landing_browse',
-      LINK_SAMPLE: 'link_landing_load_sample',
-      LINK_RESET: 'link_landing_reset_data',
-      LINK_KEY: 'link_landing_add_key'
-    },
-    DASHBOARD: {
-      AVATAR: 'dashboard_avatar_main',
-      PROGRESS_BAR: 'dashboard_progress_bar',
-      BTN_GUIDE: 'btn_dashboard_guide',
-      BTN_CHAT: 'btn_dashboard_chat',
-      BTN_HISTORY: 'btn_dashboard_history',
-      BTN_CV: 'btn_dashboard_cv_import',
-      BTN_SETTINGS: 'btn_dashboard_settings'
-    },
-    CHAT: {
-      MSG_LIST: 'chat_message_list',
-      INPUT_FIELD: 'input_chat_message',
-      BTN_SEND: 'btn_chat_send',
-      BTN_END: 'btn_chat_end_session'
-    },
-    WIKI: {
-      SIDEBAR: 'wiki_sidebar',
-      CONTENT_AREA: 'wiki_content_area',
-      BTN_TOGGLE_VIEW: 'btn_wiki_toggle_view',
-      CARD_CATEGORY: (id: string) => `card_wiki_cat_${id}`,
-      ITEM_ARTICLE: (id: string) => `item_wiki_article_${id}`,
-      BTN_MARK_DONE: 'btn_wiki_mark_done',
-      BTN_MARK_LATER: 'btn_wiki_mark_later'
-    },
-    CV_IMPORT: {
-      INPUT_TEXT: 'input_cv_text',
-      BTN_ANALYZE: 'btn_cv_analyze',
-      INPUT_API_KEY: 'input_cv_api_key'
-    }
-  }
+  // We export the entire active scene objects so views can access internal IDs (e.g. BTN_QUIZ)
+  VIEWS: ACTIVE_SCENES,
+
+  // --- NAVIGATION MAP ---
+  LINKS: NAV_LINKS
+
 } as const;

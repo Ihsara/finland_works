@@ -6,6 +6,8 @@ import { LanguageSelector } from '../LanguageSelector';
 import { Conversation, Sender } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { APP_IDS } from '../../data/system/identifiers';
+import { NavigationLinks } from '../NavigationLinks';
+import { AppView } from '../../types';
 
 interface ChatViewProps {
   conversation: Conversation;
@@ -15,6 +17,8 @@ interface ChatViewProps {
   onSendMessage: (text?: string, displayLabel?: string) => void; 
   onEndSession: () => void;
   onNavigateToArticle?: (articleId: string) => void;
+  onNavigateToProfile: () => void;
+  onNavigateToWiki: () => void;
 }
 
 export const ChatView: React.FC<ChatViewProps> = ({
@@ -24,19 +28,26 @@ export const ChatView: React.FC<ChatViewProps> = ({
   onInputChange,
   onSendMessage,
   onEndSession,
-  onNavigateToArticle
+  onNavigateToArticle,
+  onNavigateToProfile,
+  onNavigateToWiki
 }) => {
   const { t } = useLanguage();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll logic internal to the view
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [conversation.messages, isTyping]);
 
   const handleOptionClick = (value: string, label: string) => {
-      // Send both the technical value (ID) and the localized label for display
       onSendMessage(value, label);
+  };
+
+  const handleNav = (view: AppView) => {
+      if (view === AppView.WIKI) onNavigateToWiki();
+      if (view === AppView.CHAT) { /* Already here */ }
+      if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.DASHBOARD) onEndSession(); // Logic decision: Home = End Session
   };
 
   return (
@@ -46,17 +57,11 @@ export const ChatView: React.FC<ChatViewProps> = ({
     >
       {/* Header */}
       <div className="p-4 md:p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-950 sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
-            FW
-          </div>
-          <div>
-            <h2 className="font-bold text-gray-900 dark:text-white text-sm md:text-base">{t('chat_header_assistant')}</h2>
-            <p className="text-[10px] md:text-xs text-green-700 dark:text-green-400 flex items-center gap-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
-            </p>
-          </div>
-        </div>
+        <NavigationLinks 
+            currentView={AppView.CHAT} 
+            onNavigate={handleNav} 
+        />
+
         <div className="flex items-center gap-3">
           <LanguageSelector className="hidden sm:block" />
           <button 
@@ -102,11 +107,10 @@ export const ChatView: React.FC<ChatViewProps> = ({
                 dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
               />
               
-              {/* Render Link Action if present */}
               {msg.structuredData && msg.structuredData.type === 'navigation_link' && onNavigateToArticle && (
                   <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
                       <button
-                          onClick={() => onNavigateToArticle((msg.structuredData as any).data.articleId)}
+                          onClick={() => onNavigateToArticle && onNavigateToArticle((msg.structuredData as any).data.articleId)}
                           className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold hover:underline"
                       >
                           <Icons.BookOpen className="w-4 h-4" />
@@ -116,7 +120,6 @@ export const ChatView: React.FC<ChatViewProps> = ({
               )}
             </div>
 
-            {/* Render Interactive Options if Present */}
             {msg.structuredData && msg.structuredData.type === 'interactive_choice' && (
                 <div className="mt-3 w-full max-w-[85%] md:max-w-[75%] animate-in fade-in slide-in-from-top-2">
                     {msg.structuredData.data.question_header && (
