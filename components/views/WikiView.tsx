@@ -226,8 +226,27 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   const handleIconCategoryClick = (catId: string) => {
-      setActiveCategoryId(catId);
-      setOpenCategories({ [catId]: true });
+      // Find the category object to access its content
+      const category = wikiCategories.find(c => c.id === catId);
+      
+      // If found, find the very first article (e.g. Intro)
+      const firstArticle = category?.subsections?.[0]?.articles?.[0];
+
+      if (firstArticle) {
+          // DIRECT JUMP: Go straight to article content
+          handleArticleClick(firstArticle);
+          
+          // Ensure sidebar context is ready by expanding this category
+          setOpenCategories(prev => ({ ...prev, [catId]: true }));
+          
+          // Note: We DO NOT set activeCategoryId here. 
+          // This ensures that hitting "Back" from the article returns to the Icon Grid (Home),
+          // rather than the Category List, providing a smoother "Quick Jump" experience.
+      } else {
+          // Fallback: If empty category, show list view
+          setActiveCategoryId(catId);
+          setOpenCategories(prev => ({ ...prev, [catId]: true }));
+      }
   };
 
   const handleSwitchToIcons = () => {
@@ -368,6 +387,52 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     <div className={`absolute top-4 right-4 ${meta.badge} text-[10px] font-bold px-2 py-1 rounded-full z-20`}>{count}</div>
                                     <div className={`absolute inset-x-0 bottom-0 p-4 ${meta.hover} backdrop-blur-sm border-t ${meta.border} rounded-b-[2rem] flex items-center justify-center`}>
                                         <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${meta.text}`}>{tag}</span>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                        {wikiCategories.map((category) => {
+                            const progressPercent = getCategoryProgress(category);
+                            return (
+                                <button
+                                    key={category.id}
+                                    onClick={() => handleIconCategoryClick(category.id)}
+                                    className={`
+                                        group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800
+                                        border-2 ${category.theme.border} 
+                                        flex flex-col items-center justify-center 
+                                        shadow-sm ${category.theme.shadow}
+                                        transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                                        overflow-hidden
+                                    `}
+                                >
+                                    {/* Shine Effect Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 z-10 pointer-events-none"></div>
+                                    
+                                    {/* Icon */}
+                                    <div className={`mb-4 transform group-hover:scale-110 transition-transform duration-300 ${category.theme.text}`}>
+                                        {renderIcon(category.icon as any, "w-16 h-16 md:w-20 md:h-20 stroke-[1.5]")}
+                                    </div>
+
+                                    {/* Progress Indicator */}
+                                    {progressPercent > 0 && (
+                                        <div className="absolute top-4 right-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-1 rounded-full z-20">
+                                            {progressPercent}%
+                                        </div>
+                                    )}
+
+                                    {/* Label */}
+                                    <div className={`
+                                        absolute inset-x-0 bottom-0 p-4 
+                                        translate-y-full group-hover:translate-y-0 
+                                        transition-transform duration-300 ease-out
+                                        ${category.theme.hoverBg} backdrop-blur-sm
+                                        border-t ${category.theme.border}
+                                        rounded-b-[2rem]
+                                    `}>
+                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text}`}>
+                                            {category.title}
+                                        </span>
                                     </div>
                                 </button>
                             );

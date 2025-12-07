@@ -36,7 +36,6 @@ const App: React.FC = () => {
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [pendingChatQuery, setPendingChatQuery] = useState<string | null>(null);
   const [yamlInput, setYamlInput] = useState('');
   const [layoutMode, setLayoutMode] = useState<LayoutPreference>('windowed');
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
@@ -210,7 +209,6 @@ const App: React.FC = () => {
       responseLength: globalPref !== 'ask' ? globalPref : undefined
     };
     setCurrentConversation(newConv);
-    setPendingChatQuery(null); 
     Storage.saveConversation(newConv);
     setView(AppView.CHAT);
     return newConv;
@@ -228,44 +226,36 @@ const App: React.FC = () => {
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
+    // Explicit Preference Selection (via buttons or exact text)
     if (!effectivePref && (messageText === 'short' || messageText === 'long')) {
         const newPref = messageText as 'short' | 'long';
         const selectionMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || (messageText === 'short' ? t('settings_opt_short') : t('settings_opt_long')), timestamp: Date.now() };
         let nextMessages = [...conversation.messages, selectionMsg];
         let nextConv = { ...conversation, messages: nextMessages, responseLength: newPref };
-        if (!pendingChatQuery) {
-            const confirmMsg: Message = { id: uuidv4(), sender: Sender.MODEL, text: t('chat_length_set_confirm'), timestamp: Date.now() + 100 };
-            nextConv.messages.push(confirmMsg);
-            setCurrentConversation(nextConv);
-            Storage.saveConversation(nextConv);
-            return; 
-        } 
-        effectivePref = newPref;
-        messageText = pendingChatQuery; 
-        setPendingChatQuery(null);
+        
+        const confirmMsg: Message = { id: uuidv4(), sender: Sender.MODEL, text: t('chat_length_set_confirm'), timestamp: Date.now() + 100 };
+        nextConv.messages.push(confirmMsg);
         setCurrentConversation(nextConv);
         Storage.saveConversation(nextConv);
-        conversation.messages = nextMessages; 
-        conversation.responseLength = newPref;
-    } else {
-        const userMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || messageText, timestamp: Date.now() };
-        const updatedMessages = [...conversation.messages, userMsg];
-        let updatedConv = { ...conversation, messages: updatedMessages };
-        setCurrentConversation(updatedConv);
-        Storage.saveConversation(updatedConv);
-        setInputText('');
-        if (!effectivePref && !pendingChatQuery) {
-            setPendingChatQuery(messageText); 
-            const botQuestion: Message = {
-                id: uuidv4(), sender: Sender.MODEL, text: t('chat_ask_length'), timestamp: Date.now() + 100,
-                structuredData: { type: 'interactive_choice', data: { message: t('chat_ask_length'), question_header: t('settings_length_label'), options: [{ id: 'short', label: t('settings_opt_short'), value: 'short' }, { id: 'long', label: t('settings_opt_long'), value: 'long' }] } }
-            };
-            updatedConv = { ...updatedConv, messages: [...updatedMessages, botQuestion] };
-            setCurrentConversation(updatedConv);
-            Storage.saveConversation(updatedConv);
-            return; 
-        }
+        return; 
+    } 
+    
+    // Standard User Message
+    const userMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || messageText, timestamp: Date.now() };
+    const updatedMessages = [...conversation.messages, userMsg];
+    let updatedConv = { ...conversation, messages: updatedMessages };
+    
+    // Implicit Default: If preference wasn't set, assume 'short' and proceed without asking again
+    if (!effectivePref) {
+        effectivePref = 'short';
+        updatedConv.responseLength = 'short';
     }
+
+    setCurrentConversation(updatedConv);
+    Storage.saveConversation(updatedConv);
+    setInputText('');
+    
+    // Send to Gemini
     let queryToSend = messageText;
     let finalPref = effectivePref;
     setIsTyping(true);
