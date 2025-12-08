@@ -118,7 +118,9 @@ import {
   LineChart,
   Smile,
   ShieldCheck,
-  Plane
+  Plane,
+  Star,
+  Plus
 } from 'lucide-react';
 
 export const Icons = {
@@ -238,5 +240,7 @@ export const Icons = {
   LineChart,
   Smile,
   ShieldCheck,
-  Plane
+  Plane,
+  Star,
+  Plus
 };

@@ -17,13 +17,10 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState<'summary' | 'transcript'>('summary');
   const pollInterval = useRef<any>(null);
 
-  // Load conversations on mount and set up polling for pending summaries
   useEffect(() => {
     const loadData = () => {
         const list = getAllConversations();
         setConversations(list);
-        
-        // If there are any conversations generating summaries, poll for updates
         const hasPending = list.some(c => c.summaryStatus === 'generating');
         if (hasPending && !pollInterval.current) {
             pollInterval.current = setInterval(() => {
@@ -40,53 +37,37 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
              clearInterval(pollInterval.current);
              pollInterval.current = null;
         }
-        
-        // Initial select if none selected
         if (!selectedId && list.length > 0) setSelectedId(list[0].id);
     };
-
     loadData();
-
-    return () => {
-        if (pollInterval.current) clearInterval(pollInterval.current);
-    };
-  }, []); // Intentionally empty dep array for initial mount logic, poll handles updates
+    return () => { if (pollInterval.current) clearInterval(pollInterval.current); };
+  }, []);
 
   const selectedConv = conversations.find(c => c.id === selectedId);
 
-  // Helper for locale-aware dates
   const formatDate = (timestamp: number, fmt: 'short' | 'time') => {
-      const localeMap: Record<string, string> = {
-          'en': 'en-GB',
-          'vi': 'vi-VN',
-          'pt-br': 'pt-BR',
-          'pt-pt': 'pt-PT',
-          'ru': 'ru-RU'
-      };
+      const localeMap: Record<string, string> = { 'en': 'en-GB', 'vi': 'vi-VN', 'pt-br': 'pt-BR', 'pt-pt': 'pt-PT', 'ru': 'ru-RU' };
       const locale = localeMap[language] || 'en-GB';
-      
-      if (fmt === 'time') {
-          return new Date(timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
-      }
+      if (fmt === 'time') return new Date(timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
       return new Date(timestamp).toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' });
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500">
-      <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center bg-white dark:bg-gray-950 sticky top-0 z-20 shadow-sm">
+    <div className="flex flex-col h-full bg-gray-50 dark:bg-[#0b1021] animate-in fade-in duration-500">
+      <div className="px-6 py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
         <button 
           onClick={onBack} 
-          className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
+          className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg"
         >
           <Icons.ArrowLeft className="w-5 h-5" />
           <span>{t('btn_back_dashboard')}</span>
         </button>
-        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-gray-700 pl-4">{t('history_title')}</h2>
+        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4">{t('history_title')}</h2>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar List */}
-        <div className="w-full md:w-80 border-r border-gray-100 dark:border-gray-800 overflow-y-auto bg-gray-50 dark:bg-gray-900 flex-shrink-0" style={{ display: window.innerWidth < 768 && selectedConv ? 'none' : 'block' }}>
+        <div className="w-full md:w-80 border-r border-gray-100 dark:border-white/10 overflow-y-auto bg-gray-50 dark:bg-[#0b1021] flex-shrink-0" style={{ display: window.innerWidth < 768 && selectedConv ? 'none' : 'block' }}>
           {conversations.length === 0 && (
              <div className="p-10 text-gray-400 dark:text-gray-600 text-sm text-center flex flex-col items-center gap-2">
                 <Icons.MessageSquare className="w-8 h-8 opacity-20" />
@@ -97,11 +78,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
             <button
               key={c.id}
               onClick={() => setSelectedId(c.id)}
-              className={`w-full text-left p-4 border-b border-gray-100 dark:border-gray-800 hover:bg-white dark:hover:bg-gray-800 transition flex flex-col gap-1 ${
-                  selectedId === c.id 
-                  ? 'bg-white dark:bg-gray-800 border-l-4 border-l-black dark:border-l-white shadow-sm relative z-10' 
-                  : 'text-gray-600 dark:text-gray-400'
-              }`}
+              className={`w-full text-left p-4 border-b border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-white/5 transition flex flex-col gap-1 min-h-[72px] ${selectedId === c.id ? 'bg-white dark:bg-white/10 border-l-4 border-l-blue-500 dark:border-l-emerald-400 shadow-sm relative z-10' : 'text-gray-600 dark:text-gray-400'}`}
             >
               <div className="flex items-center justify-between w-full">
                   <div className="text-sm font-bold text-gray-900 dark:text-white truncate pr-2">
@@ -116,54 +93,32 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500 dark:text-gray-500">{formatDate(c.startTime, 'time')}</span>
-                <span className="text-[10px] bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded-full text-gray-600 dark:text-gray-300">{c.messages.length} msgs</span>
+                <span className="text-[10px] bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded-full text-gray-600 dark:text-gray-300">{c.messages.length} msgs</span>
               </div>
             </button>
           ))}
         </div>
 
         {/* Detail View */}
-        <div className={`flex-1 overflow-y-auto ${!selectedConv && window.innerWidth < 768 ? 'hidden' : 'block'}`}>
-          {/* Mobile Back Button for Detail View */}
-          <div className="md:hidden p-4 border-b border-gray-100 dark:border-gray-800">
+        <div className={`flex-1 overflow-y-auto bg-white dark:bg-[#1a233b] ${!selectedConv && window.innerWidth < 768 ? 'hidden' : 'block'}`}>
+          <div className="md:hidden p-4 border-b border-gray-100 dark:border-white/10">
             <button onClick={() => setSelectedId(null)} className="text-sm text-blue-600 dark:text-blue-400 font-bold flex items-center gap-1">
                 <Icons.ArrowLeft className="w-4 h-4" /> Back to list
             </button>
           </div>
 
           {selectedConv ? (
-            <div className="flex flex-col h-full bg-white dark:bg-gray-950">
-               {/* Header Title */}
-               <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-                  <h3 className="font-bold text-xl text-gray-900 dark:text-white">{selectedConv.title || formatDate(selectedConv.startTime, 'short')}</h3>
+            <div className="flex flex-col h-full">
+               <div className="px-6 py-4 bg-gray-50 dark:bg-[#151b2e] border-b border-gray-200 dark:border-white/10">
+                  <h3 className="font-bold text-xl text-gray-900 dark:text-white font-serif">{selectedConv.title || formatDate(selectedConv.startTime, 'short')}</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">ID: {selectedConv.id.substring(0,8)}... (Technical)</p>
                </div>
 
-               {/* Tabs */}
-               <div className="flex gap-1 border-b border-gray-200 dark:border-gray-800 px-6 pt-4 sticky top-0 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm z-10">
-                  <button 
-                    onClick={() => setActiveTab('summary')}
-                    className={`pb-3 px-4 text-sm font-bold transition border-b-2 ${
-                        activeTab === 'summary' 
-                        ? 'border-black dark:border-white text-black dark:text-white' 
-                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                    }`}
-                  >
-                    {t('history_tab_summary')}
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('transcript')}
-                    className={`pb-3 px-4 text-sm font-bold transition border-b-2 ${
-                        activeTab === 'transcript' 
-                        ? 'border-black dark:border-white text-black dark:text-white' 
-                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                    }`}
-                  >
-                    {t('history_tab_transcript')}
-                  </button>
+               <div className="flex gap-1 border-b border-gray-200 dark:border-white/10 px-6 pt-4 sticky top-0 bg-white/90 dark:bg-[#1a233b]/90 backdrop-blur-sm z-10">
+                  <button onClick={() => setActiveTab('summary')} className={`pb-3 px-4 text-sm font-bold transition border-b-2 min-h-[44px] ${activeTab === 'summary' ? 'border-blue-600 dark:border-emerald-400 text-blue-600 dark:text-emerald-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'}`}>{t('history_tab_summary')}</button>
+                  <button onClick={() => setActiveTab('transcript')} className={`pb-3 px-4 text-sm font-bold transition border-b-2 min-h-[44px] ${activeTab === 'transcript' ? 'border-blue-600 dark:border-emerald-400 text-blue-600 dark:text-emerald-400' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'}`}>{t('history_tab_transcript')}</button>
                </div>
 
-               {/* Content Area */}
                <div className="flex-1 overflow-y-auto p-4 md:p-8">
                   {activeTab === 'summary' && (
                       <div className="max-w-3xl mx-auto">
@@ -174,8 +129,8 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
                                  <p className="text-blue-700 dark:text-blue-400 text-sm mt-1">{t('history_generating_desc')}</p>
                              </div>
                           ) : selectedConv.summary ? (
-                            <div className="bg-gray-50 dark:bg-gray-900 p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                                <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-300 dark:prose-invert">
+                            <div className="bg-gray-50 dark:bg-white/5 p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm animate-in fade-in slide-in-from-bottom-2">
+                                <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-300 dark:prose-invert prose-headings:font-serif">
                                     <h3 className="text-gray-900 dark:text-white font-bold mb-4 flex items-center gap-2 uppercase tracking-wide text-xs">
                                         <Icons.FileText className="w-4 h-4"/> {t('history_tab_summary')}
                                     </h3>
@@ -184,7 +139,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
                             </div>
                           ) : (
                             <div className="text-center py-12 text-gray-500 dark:text-gray-600">
-                                <Icons.Ghost className="w-10 h-10 mx-auto mb-3 opacity-20" />
+                                <Icons.Ghost className="w-12 h-12 mx-auto mb-3 opacity-20" />
                                 <p>{t('history_no_summary')}</p>
                             </div>
                           )}
@@ -194,45 +149,14 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
                   {activeTab === 'transcript' && (
                       <div className="space-y-6 max-w-3xl mx-auto pb-10">
                           {selectedConv.messages.map(msg => (
-                              <div 
-                                key={msg.id} 
-                                className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}
-                              >
-                                {msg.sender === Sender.MODEL && (
-                                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold mr-2 flex-shrink-0 mt-2">
-                                        FW
-                                    </div>
-                                )}
-                                
+                              <div key={msg.id} className={`flex ${msg.sender === Sender.USER ? 'justify-end' : 'justify-start'}`}>
+                                {msg.sender === Sender.MODEL && <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-emerald-600 flex items-center justify-center text-white text-xs font-bold mr-2 flex-shrink-0 mt-2">FW</div>}
                                 <div className="flex flex-col max-w-[85%] md:max-w-[75%]">
-                                    <div 
-                                    className={`rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden
-                                        ${msg.sender === Sender.USER 
-                                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-tr-sm border border-gray-200 dark:border-gray-700' 
-                                        : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 rounded-tl-sm'
-                                        }`}
-                                    >
-                                    <div 
-                                        className={`prose prose-sm max-w-none dark:prose-invert [&>*:first-child]:mt-0 [&>*:last-child]:mb-0
-                                        ${msg.sender === Sender.USER 
-                                            ? 'prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-900 dark:prose-p:text-gray-100 prose-strong:text-gray-900 dark:prose-strong:text-white' 
-                                            : 'prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-900 dark:prose-p:text-gray-100'
-                                        }
-                                        `}
-                                        dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} 
-                                    />
+                                    <div className={`rounded-2xl px-4 py-3 md:px-5 md:py-4 text-sm leading-relaxed shadow-sm overflow-hidden ${msg.sender === Sender.USER ? 'bg-gray-100 dark:bg-blue-900/40 text-gray-900 dark:text-gray-100 rounded-tr-sm border border-gray-200 dark:border-white/10' : 'bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-gray-100 rounded-tl-sm'}`}>
+                                        <div className="prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }} />
                                     </div>
-                                    <div className={`text-[10px] mt-1 opacity-50 text-gray-500 dark:text-gray-400 ${msg.sender === Sender.USER ? 'text-right' : 'text-left pl-1'}`}>
-                                        {formatDate(msg.timestamp, 'time')}
-                                    </div>
+                                    <div className={`text-[10px] mt-1 opacity-50 text-gray-500 dark:text-gray-400 ${msg.sender === Sender.USER ? 'text-right' : 'text-left pl-1'}`}>{formatDate(msg.timestamp, 'time')}</div>
                                 </div>
-
-                                {msg.sender === Sender.USER && (
-                                     <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 ml-2 mt-2 overflow-hidden flex-shrink-0">
-                                         {/* Placeholder or actual user avatar if available in context, but for history view generic is fine */}
-                                          <Icons.User className="w-full h-full p-1.5 text-gray-500 dark:text-gray-400" />
-                                     </div>
-                                )}
                               </div>
                           ))}
                       </div>

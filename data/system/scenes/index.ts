@@ -59,7 +59,12 @@ export const CV_IMPORT = {
 
 export const PROFILE = { 
   ID: 'scene_profile',
-  BTN_TAKE_QUIZ: 'btn_profile_take_quiz' // New ID for empty state
+  BTN_TAKE_QUIZ: 'btn_profile_take_quiz',
+  BTN_GUEST_START: 'btn_profile_guest_start',
+  BTN_FEAT_KELA: 'btn_profile_feature_kela',
+  BTN_FEAT_HIDDEN: 'btn_profile_feature_hidden',
+  LINK_INSTR_CV: 'link_profile_instr_cv',
+  LINK_INSTR_TAX: 'link_profile_instr_tax'
 };
 
 // Simple ID containers for scenes that don't have complex internal element targeting yet

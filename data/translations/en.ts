@@ -3,12 +3,63 @@ import { TranslationResource } from "./types";
 
 export const en: TranslationResource = {
   ui: {
-    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", landing_btn_quiz: "Tell me about you", landing_btn_continue: "Open my guide", landing_btn_ask: "Start a chat", landing_btn_browse: "Browse the Guide", landing_load_sample: "Load Sample", landing_erase: "Erase Data", landing_add_key: "Add API Key", landing_choose_lang: "Language",
-    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's build a profile to get started.", dash_btn_guide: "Open Guide", dash_btn_browse: "Browse", dash_btn_ask: "Ask AI", dash_btn_history: "History", dash_btn_cv: "Import CV", dash_switch_profile: "Switch", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "Profile",
+    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", 
+    landing_slide1: "Your personal guide to Finland",
+    landing_slide2: "Master the bureaucracy",
+    landing_slide3: "Find hidden jobs",
+    landing_slide4: "Click below to start!",
+    landing_trust_badge: "100% Local Privacy. No data leaves your device.",
+    landing_btn_quiz: "Personalize it for you!", landing_btn_quiz_alt: "Create your plan", 
+    landing_btn_continue: "Open my guide", 
+    landing_btn_ask: "Chat with Assistant", landing_btn_ask_alt: "Get Advice",
+    landing_btn_browse: "Browse Guide", landing_btn_browse_alt: "Make Finland works!",
+    landing_load_sample: "Load Sample", landing_erase: "Erase Data", landing_add_key: "Add API Key", landing_choose_lang: "Language",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's build a profile to get started.", dash_btn_guide: "Open Guide", dash_btn_browse: "Browse", dash_btn_ask: "Chat with Assistant", dash_btn_history: "History", dash_btn_cv: "Import CV", dash_switch_profile: "Switch", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "Profile",
     dash_education: "Education", dash_profession: "Profession", dash_languages: "Languages", dash_narrative_aspirations: "Aspirations", dash_narrative_challenges: "Challenges",
     chat_placeholder: "Ask something...", chat_end_session: "End", chat_header_assistant: "Assistant", chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"", chat_ask_length: "Short or detailed answer?", chat_length_set_confirm: "Got it. I will adjust the length.", chat_empty_state: "Start the conversation by asking a question below.",
     btn_back_dashboard: "Back", btn_save: "Save",
     profile_btn_guide: "My Guide", profile_btn_guide_desc: "Recommended articles", profile_btn_plan: "My Plan", profile_btn_plan_desc: "Coming soon", profile_sect_languages: "Languages", profile_sect_skills: "Skills", profile_sect_narrative: "Story", profile_label_aspirations: "Hopes", profile_label_challenges: "Fears", profile_label_education: "Education", profile_label_profession: "Profession", profile_completeness: "{percentage}% complete", profile_completeness_hint: "Answer a few more questions", profile_btn_update: "Update Profile", profile_btn_continue: "Continue",
+    
+    // Profile Guest View (New)
+    profile_guest_title: "Prepare for Your Life and Career in Finland",
+    profile_guest_subtitle: "Answer a few questions and get your personalized 1-year integration plan",
+    profile_guest_btn_start: "Start",
+    profile_guest_col1: "Legal Essentials",
+    profile_guest_col2: "Job Tools",
+    profile_guest_col3: "Life & Community",
+    profile_guest_item_kela: "Kela", profile_guest_item_tax: "Tax Card", profile_guest_item_id: "ID Code",
+    profile_guest_item_contacts: "Contacts", profile_guest_item_cv: "CV", profile_guest_item_portfolio: "Portfolio",
+    profile_guest_item_hobbies: "Hobbies", profile_guest_item_events: "Events", profile_guest_item_volunteering: "Volunteering",
+    profile_features_title: "KEY FEATURES (DEMO)",
+    profile_feat_kela: "Apply for Kela Card",
+    profile_feat_hidden: "Hidden Job Market Tool",
+    profile_instr_title: "STEP-BY-STEP INSTRUCTIONS",
+    profile_instr_cv: "How to write your Finnish CV",
+    profile_instr_tax: "How to get a tax card",
+    profile_btn_explore: "Explore all instructions",
+
+    // Gamified Planner
+    quest_level: "Level {level} Explorer",
+    quest_xp: "{current}/{max} XP to next level",
+    quest_tab_board: "Career Journey",
+    quest_tab_achievements: "Achievements",
+    quest_tab_life: "Life & Wellbeing",
+    quest_priority_title: "Priority Quests",
+    quest_priority_subtitle: "Items you saved for later",
+    quest_empty_priority: "No priority quests active. Good job!",
+    quest_empty_log: "No quests completed yet. Start your journey!",
+    quest_btn_mark_done: "Mark Done",
+    quest_btn_read: "Read Guide",
+    quest_achievement_unlocked: "Achievement Unlocked!",
+    
+    // New Rubric Labels
+    plan_track_career: "Career Path",
+    plan_track_life: "Life & Society",
+    plan_step_completed: "Completed",
+    plan_step_locked: "Locked",
+    plan_step_available: "Available",
+    plan_btn_return: "Return to Plan",
+
     wiki_header_title: "Finland Works!", wiki_header_subtitle: "Curated for {name}", wiki_explore_cats: "Explore Topics", wiki_explore_subtitle: "Pick a topic to dive in.", wiki_full_index: "Index", wiki_full_index_subtitle: "Browse everything.", wiki_nav_list: "List", wiki_nav_icons: "Icons", wiki_section_chapters: "Chapters", wiki_btn_mark_done: "Done", wiki_btn_later: "Later", wiki_btn_saved: "Saved", wiki_btn_completed: "Completed", wiki_ctx_ask: "Ask about this", wiki_topic_label: "Topic: {tag}", wiki_topic_desc: "Overview & Articles", wiki_guide_prefix: "GUIDE", wiki_stat_articles: "articles", wiki_stat_complete: "done", wiki_section_prefix: "Section",
     wizard_header_quiz: "Questionnaire", wizard_greeting_short: "Hi, {name}!", wizard_title_init: "Create Profile", wizard_title_custom: "Building {name}", wizard_phase_identity: "PHASE 1: IDENTITY", wizard_phase_demo: "PHASE 2: BACKGROUND", wizard_phase_status: "PHASE 3: STATUS", wizard_phase_skills: "PHASE 4: SKILLS", wizard_phase_mindset: "PHASE 5: MINDSET", wizard_phase_vision: "PHASE 6: VISION", wizard_nickname_hint: "* You can use a nickname.", wizard_btn_ask: "Ask", wizard_btn_next: "Next", wizard_btn_prev: "Back", wizard_btn_submit: "Submit", wizard_btn_finish_early: "Save & Finish", wizard_btn_generate_name: "Generate name", wizard_ribbon_greeting: "Nice to meet you, {name}!", wizard_title_name: "What is your name?", wizard_desc_name: "Type your name or pick a nickname", wizard_placeholder_name: "Your name",
     wizard_step2_title: "How old are you?", wizard_step2_desc: "Choose your age group", wizard_step2_placeholder: "Age (e.g. 29)",
@@ -95,62 +146,37 @@ export const en: TranslationResource = {
       'net_introvert': {
         title: 'Low-Pressure Networking',
         summary: 'You don\'t need to be loud. Finland is an introvert-friendly country.',
-        content: `# Networking Your Way\n\nNot everyone likes big events. Luckily, Finnish culture respects personal space and silence.\n\n### Strategies\n1. **One-on-One:** Finns prefer deep 1-on-1 conversation over mingling in a crowd. Ask one person for a "virtual coffee" (15 min call) to ask for advice. It is less scary and more effective.\n2. **Online Communities:** Join Discord or Slack communities for your industry (e.g., IGDA for game dev, Koodiklinikka for IT). You can observe first and engage when ready.\n3. **Library Events:** Libraries like Oodi host quiet workshops and book clubs. Very low pressure environments to be around people.`
+        content: `# Networking Your Way\n\nNot everyone likes big events. Luckily, Finnish culture respects personal space and silence.\n\n### Strategies\n1. **One-on-One:** Finns prefer deep 1-on-1 conversation over mingling. Ask one person for a "virtual coffee" (15 min call). It is less scary and more effective.\n2. **Online Communities:** Join Discord or Slack communities for your industry (e.g., IGDA for game dev, Koodiklinikka for IT). You can observe first and engage when ready.\n3. **Library Events:** Libraries like Oodi host quiet workshops and book clubs. Very low pressure environments to be around people.`
       },
       'net_hidden': {
         title: 'Hacking the Hidden Market',
-        summary: '70-80% of jobs are not advertised. You must find them.',
-        content: `### Piilotyöpaikat (Hidden Jobs)\nCompanies often don't advertise because recruitment is expensive and slow.\n\n1. **Map Companies:** Make a list of 20 companies you like. Don't look at their "Open Positions" page yet.\n2. **Open Application (Avoin hakemus):** Email the Team Lead (not HR). "I've been following your work on X. I have skills in Y. Could we have a 15-min coffee?"\n3. **Info Interviews:** Ask people about their job, not *for* a job. "I'm new to the Finnish energy sector. Could I ask you 3 questions about how things work here?" Most people will say yes.`
-      },
-      'net_volunteering': {
-        title: 'Volunteering',
-        summary: 'The fastest way to integrate and prove skills.',
-        content: `### Why Volunteer?\n1. **Language:** Low-pressure environment to practice Finnish.\n2. **References:** You gain a local reference who can vouch for your work ethic.\n3. **Network:** You meet active people.\n\n### Where?\nRed Cross, startup events, sports clubs, libraries.`
-      },
-      'net_school': {
-        title: 'Networking in School',
-        summary: 'School is your first professional network. From Vocational to University.',
-        content: `# The Student Advantage\n\nStudying in Finland is the single best way to build a network. Your classmates are your future colleagues.\n\n### 1. Vocational (Amis)\n* **The Key:** *Työssäoppiminen* (On-the-job learning).\n* **Strategy:** Treat every internship day like a job interview. Be active, ask questions, and sit with the staff during coffee breaks. Many students are hired directly by their internship employer.\n\n### 2. Applied Sciences (AMK)\n* **The Key:** *Opinnäytetyö* (Thesis).\n* **Strategy:** Avoid writing a purely theoretical thesis. Find a "commissioned thesis" (toimeksianto) from a company. You solve a real problem for them; they get to know you. It is essentially a 3-6 month job interview.\n* **Projects:** AMK courses often involve real client projects. Volunteer to be the project manager or the client liaison.\n\n### 3. University (Yliopisto)\n* **The Key:** *Ainejärjestöt* (Subject Organizations).\n* **Culture:** Every major has a "guild" or club (look for the colored overalls/haalarit). They host "excursions" (visits to companies) and career nights. Joining the board of your student organization is a massive signal of activity to recruiters.`
-      },
-      'net_hackathons': {
-        title: 'Hackathons (Junction)',
-        summary: 'Show your skills in action. Finland is famous for tech events.',
-        content: `# Hackathons: Show, Don't Just Tell\n\nFinland has a massive hackathon culture, with **Junction** being Europe's leading hackathon.\n\n### What is it?\nA 48-hour event where you build a project in a team to solve a challenge given by partner companies (like Supercell, Kone, or Reaktor).\n\n### Why go?\n1. **Recruitment:** Companies send their tech leads to mentor you. If they see you coding/designing well, they might hire you on the spot.\n2. **Networking:** You bond deeply with your team under pressure.\n3. **It's not just for coders:** Teams need designers and business people too.`
-      },
-      'net_slush': {
-        title: 'Slush & Startup Events',
-        summary: 'Volunteering at Slush is a legendary way to enter the ecosystem.',
-        content: `# Slush: The Anti-Conference\n\nHeld in November in Helsinki, Slush is the world's leading startup event. It is dark, loud, and full of lasers.\n\n### The Volunteer Army\nSlush is built by thousands of volunteers. \n* **Why volunteer?** You get free access to the event, exclusive afterparties, and you join a massive alumni network of active people.\n* **Roles:** Everything from building the stage to guiding VIP investors. It proves you have a "can-do" attitude, which Finns love.`
-      },
-      'net_cold_msg': {
-        title: 'The Cold Message',
-        summary: 'How to approach people without being annoying.',
-        content: `# The Art of Approach\n\nFinns are busy but helpful. Keep it short.\n\n### Template\n"Hi [Name], I saw your post about [Topic]. I am an expert in [Skill] moving to Finland. I would love to ask one quick question about [Specific detail]. Do you have 10 mins for a virtual coffee?"`
+        summary: '70-80% of jobs are not advertised. You have to find them.',
+        content: `### The Hidden Job Market\nCompanies often don't advertise because hiring is expensive and slow.\n\n1. **Map Companies:** Make a list of 20 companies you like. Do not look at their "Open Jobs" page yet.\n2. **Open Application (Avoin hakemus):** Email the Team Lead directly (not HR). "I've been following your work on X. I have skills in Y. Could we have a 15 min coffee?"\n3. **Informational Interviews:** Ask people about their job, not *for* a job. "I'm new to the Finnish energy sector. Could I ask you 3 questions about how things work here?" Most people will say yes.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 
-        summary: 'Get your Personal Identity Code to exist legally.', 
+        summary: 'Get your Personal Identity Code to exist officially.', 
         content: `**Priority: IMMEDIATE**\n\n### The Mission\nTo exist officially. Without registering at the **Digital and Population Data Services Agency (DVV)**, you are a ghost in the system.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). Format: *DDMMYY-XXXX*.\n\n### Why you need it\n1. Bank account.\n2. Phone contract.\n3. Tax card.\n4. Health services.` 
       },
       'bureaucracy_migri': { 
         title: 'Migri (Immigration)', 
         summary: 'Residence Permit and booking tips.', 
-        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Tips\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove your identity.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).` 
+        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).` 
       },
       'bureaucracy_tax': { 
-        title: 'Tax Card (Verokortti)', 
-        summary: 'Without a tax card, 60% tax is withheld. No exceptions.', 
-        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate annual income.\n3. Download PDF.\n4. Email to payroll/boss.\n\n*Note: Finland has progressive taxation. The more you earn, the higher the percentage.*` 
+        title: 'Tax Card', 
+        summary: 'Without a tax card, you get taxed 60%. No exceptions.', 
+        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### The Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate your annual income.\n3. Download PDF.\n4. Send to payroll/boss.\n\n*Note: Finland has progressive tax. The more you earn, the higher the percentage.*` 
       },
       'bureaucracy_bank': { 
         title: 'Opening Bank Account', 
-        summary: 'Bank account gives "strong electronic identification", the key to all digital services.', 
-        content: `# The Challenge\nMoney laundering laws are strict. The bank needs to know where your money comes from.\n\n### What to bring\n1. Passport.\n2. Residence permit.\n3. Employment contract.\n4. Personal ID code (from DVV).\n\n### The Holy Grail\n**Bank Codes** (verkkopankkitunnukset). These let you log into Kela, Tax, Health, and Posti services.` 
+        summary: 'Bank account gives you "strong electronic identification", the key to all digital services.', 
+        content: `# The Challenge\nMoney laundering laws are strict. The bank needs to know the origin of your money.\n\n### What to bring\n1. Passport.\n2. Residence Permit.\n3. Employment Contract.\n4. Personal ID code (from DVV).\n\n### The Holy Grail\n**Bank Codes** (verkkopankkitunnukset). These allow you to log into Kela, Tax, Health, and Posti.` 
       },
       'social_kela_card': {
         title: 'Kela Card',
-        summary: 'Blue card proving you are covered by national health insurance.',
-        content: `# What is it?\nA blue card proving you belong to the Finnish social security system.\n\n### Usage\nShow it at:\n1. **Pharmacy:** To get direct reimbursements on prescription medicine.\n2. **Private clinics:** To get a small part of the cost deducted.`
+        summary: 'Blue card proving you belong to the national health insurance.',
+        content: `# What is it?\nA blue card proving you are covered by Finnish social security.\n\n### Usage\nShow it at:\n1. **Pharmacy:** Get direct reimbursement on prescribed medicine.\n2. **Private Clinics:** Get a small part of the cost deducted.`
       },
       'social_health': {
         title: 'Public vs. Occupational Health',
@@ -160,35 +186,35 @@ export const en: TranslationResource = {
       'social_unemployment': {
         title: 'Unemployment Benefits',
         summary: 'Register at TE Office on the FIRST day of unemployment.',
-        content: `# The Golden Rule\nRegister as a job seeker at **TE Services** (te-palvelut.fi) on your **very first day** of unemployment. If you delay, you lose money.\n\n### Who pays?\n1. **Union Fund (Kassa):** If you are a member (26 weeks), you get earnings-related allowance (much higher).\n2. **Kela:** If not a member, you get basic allowance (lower).`
+        content: `# The Golden Rule\nRegister as a jobseeker at **TE Services** (te-palvelut.fi) on your very **first day** of unemployment. If you delay, you lose money.\n\n### Who pays?\n1. **Union Fund (Kassa):** If you are a member (26 weeks), you get earnings-related allowance (much higher).\n2. **Kela:** If not a member, you get basic allowance (lower).`
       },
       'social_housing': {
         title: 'Housing Allowance',
-        summary: 'Kela can pay part of the rent if income is low.',
-        content: `# General Housing Allowance\n* **For:** Low-income households (students, part-time, unemployed).\n* **Calculation:** Depends on total income and city.\n* **Apply:** Online at Kela. Need rental contract.`
+        summary: 'Kela can pay part of your rent if income is low.',
+        content: `# General Housing Allowance\n* **For:** Low-income households (students, part-time, unemployed).\n* **Calculation:** Depends on total income and city.\n* **Apply:** Online at Kela. You need a rental contract.`
       },
       'social_pension': {
         title: 'Pension System',
-        summary: 'You accumulate pension (eläke) for every euro earned.',
-        content: `# How it works\nEmployer deducts pension fee from salary automatically. You do nothing.\n\n### Checking\nSee your accrued amount at **Tyoelake.fi**.\n\n### Leaving?\nIf you move to another EU country, pension rights are preserved.`
+        summary: 'You accumulate pension (eläke) from every euro earned.',
+        content: `# How it works\nEmployer deducts pension fee from salary automatically. You do nothing.\n\n### Checking\nCheck your accrued amount at **Tyoelake.fi**.\n\n### Leaving?\nIf you move to another EU country, pension rights are kept.`
       },
       'job_market_overview': { 
-        title: 'The Job Market', 
-        summary: 'Understanding the landscape.', 
+        title: 'Job Market', 
+        summary: 'Understand the landscape.', 
         content: `### Overview\nThe Finnish market values skills and attitude. While Finnish is often a requirement, many tech and engineering companies operate in English.` 
       },
       'job_te_office': {
-        title: 'TE Services (TE-toimisto)',
-        summary: 'Employment office helps with integration and unemployment benefits.',
-        content: `# What they do\n* **Integration Plan:** Determine if you need Finnish courses.\n* **Jobseeker Status:** Mandatory to get money from Kela or Union.\n* **Warning:** Follow their instructions strictly to avoid "karenssi" (suspension of benefits).`
+        title: 'TE Services',
+        summary: 'The employment office helps with integration and unemployment benefits.',
+        content: `# What they do\n* **Integration Plan:** Determine if you need Finnish courses.\n* **Jobseeker Status:** Mandatory to get money from Kela or Funds.\n* **Warning:** Follow their instructions exactly to avoid "karenssi" (losing benefits).`
       },
       'job_portals': {
-        title: 'Where to Find Jobs',
+        title: 'Where to find jobs',
         summary: 'Main portals you should know.',
-        content: `# Major Sites\n* **LinkedIn:** #1 for English/specialist jobs.\n* **Oikotie Työpaikat:** The biggest Finnish site.\n* **Duunitori:** Also very popular.\n* **The Hub:** Best for Startups & Tech.`
+        content: `# Major Sites\n* **LinkedIn:** #1 for English/Specialist jobs.\n* **Oikotie Työpaikat:** Biggest Finnish site.\n* **Duunitori:** Also very popular.\n* **The Hub:** Best for Startup & Tech jobs.`
       },
       'job_entrepreneurship': {
-        title: 'Entrepreneurship (Yrittäjyys)',
+        title: 'Entrepreneurship',
         summary: 'Finland needs entrepreneurs. There is money to start.',
         content: `# Starttiraha (Startup Grant)\nIf you become a full-time entrepreneur, you can get ~700€/month for 6-12 months to secure your livelihood.\n\n**Important:** Apply **before** registering the company.`
       },
@@ -199,53 +225,53 @@ export const en: TranslationResource = {
       },
       'job_cover_letter': {
         title: 'Cover Letter',
-        summary: 'Don\'t repeat CV. Answer "Why us?" and "Why you?".',
-        content: `# Structure\n1. **The Hook:** Why do you want *this* job?\n2. **The Value:** What problems will you solve for them?\n3. **The Personality:** Will you fit the team?\n\n### Tip\nKeep it under 1 page. Finns appreciate brevity.`
+        summary: 'Do not repeat your CV. Answer "Why us?" and "Why you?".',
+        content: `# Structure\n1. **Hook:** Why do you want *this* job?\n2. **Value:** What problems do you solve for them?\n3. **Personality:** Will you fit the team?\n\n### Tip\nKeep it under 1 page. Finns appreciate brevity.`
       },
       'job_interview': {
-        title: 'Job Interview',
+        title: 'The Interview',
         summary: 'Honesty is tested. Silence is okay.',
-        content: `# What to expect\n* **Honesty:** If you don't know, say "I don't know, but I can learn". Do not lie.\n* **Silence:** If the interviewer is silent after your answer, don't panic. They are thinking. Don't babble to fill the gap.\n* **Coffee:** Always accept if offered. It's a ritual.`
+        content: `# What to expect\n* **Honesty:** If you don't know, say "I don't know, but I can learn". Do not lie.\n* **Silence:** If the interviewer is silent after your answer, don't panic. They are thinking. Do not babble to fill the gap.\n* **Coffee:** Always accept if offered. It is a ritual.`
       },
       'job_recognition': {
         title: 'Degree Recognition',
         summary: 'Critical for regulated professions like doctors, nurses, teachers.',
-        content: `# Regulated Professions\nFor health/education, degree must be recognized by **OPH** or **Valvira**.\n\n### General Roles\nFor IT or business, official recognition is rarely needed. Skills matter more.`
+        content: `# Regulated Professions\nFor health/education, your degree must be recognized by **OPH** or **Valvira**.\n\n### General Roles\nFor IT or Business, official recognition is rarely needed. Skills matter more.`
       },
       'work_contract': { 
         title: 'Employment Contract', 
         summary: 'Always written. Read carefully. Check TES.', 
-        content: `# Key Elements\n1. **Duration:** Permanent (toistaiseksi voimassa oleva) or Fixed-term (määräaikainen).\n2. **TES:** Collective Agreement. Defines minimum salary and holidays.\n3. **Probation:** Max 6 months.\n\n**Never start work without a contract.**` 
+        content: `# Key Elements\n1. **Duration:** Permanent (toistaiseksi voimassa oleva) or Fixed-term (määräaikainen).\n2. **TES:** Collective Agreement. Defines minimum salary and holidays.\n3. **Trial Period:** Max 6 months.\n\n**Never start work without a contract.**` 
       },
       'work_hours': {
         title: 'Working Hours',
         summary: 'Standard is 7.5 or 8 hours a day.',
-        content: `# Balance\n* **Full time:** Usually 37.5 or 40 hours/week.\n* **Flexibility:** Many places have "liukuma" (flex time). Arrive 7-9, leave 15-17.\n* **Lunch:** Usually 30 mins (unpaid).`
+        content: `# Balance\n* **Full time:** Usually 37.5 or 40 hours/week.\n* **Flexibility:** Many places have "liukuma" (flex time). Come 7-9, leave 15-17.\n* **Lunch:** Usually 30 min (unpaid).`
       },
       'work_holidays': {
         title: 'Annual Holidays',
         summary: 'Finland has generous holidays, but they must be earned.',
-        content: `# Credit Year\nYou earn days from April 1 to March 31.\n* **Standard:** 2.5 days/month = 30 days (5 weeks)/year.\n* **Summer:** Usually taken in July. The country stops.\n* **Bonus:** Many get 50% extra salary for holiday (lomaraha).`
+        content: `# Credit Year\nYou earn days from April 1st to March 31st.\n* **Standard:** 2.5 days/month = 30 days (5 weeks)/year.\n* **Summer:** Usually taken in July. The country stops.\n* **Holiday Bonus:** Many get 50% extra salary for holidays (lomaraha).`
       },
       'work_unions': {
-        title: 'Unions (Liitto)',
-        summary: 'Highly recommended. They control unemployment funds.',
-        content: `# Why join?\n1. **Money:** They pay earnings-related unemployment allowance (much higher than Kela).\n2. **Legal:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the unemployment fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
+        title: 'Trade Unions (Liitto)',
+        summary: 'Highly recommended. They manage unemployment funds.',
+        content: `# Why join?\n1. **Money:** They pay earnings-related unemployment allowance (much higher than Kela).\n2. **Law:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
       },
       'work_probation': {
-        title: 'Probation Period (Koeaika)',
-        summary: 'First 6 months are usually a trial.',
-        content: `# Rules\nDuring probation (max 6 months), **both you** and employer can terminate contract immediately without notice period.`
+        title: 'Trial Period (Koeaika)',
+        summary: 'First 6 months are usually probation.',
+        content: `# Rules\nDuring probation (max 6 months), **both you** and the employer can terminate the contract immediately without notice period.`
       },
       'culture_meetings': { 
         title: 'Meeting Culture', 
         summary: 'Finns are punctual and agenda-driven. Small talk is minimal.', 
-        content: `# Rules\n1. **Start on time:** 09:00 means 09:00.\n2. **Agenda:** Stick to it.\n3. **Silence:** Means agreement or thinking. Not a problem.\n4. **End on time:** Respect others' schedules.` 
+        content: `# Rules\n1. **Start on time:** 09:00 means 09:00.\n2. **Agenda:** Stick to it.\n3. **Silence:** Means agreement or thinking. Not a problem.\n4. **End on time:** Respect others' schedule.` 
       },
       'culture_feedback': {
         title: 'Giving Feedback',
-        summary: 'Feedback is direct and factual. Don\'t take it personally.',
-        content: `# Directness\nA Finn might say: *"This report is missing X."*\nThey are not rude. They are stating a fact to fix the problem efficiently. They separate work and person.`
+        summary: 'Feedback is direct and factual. Do not take it personally.',
+        content: `# Directness\nA Finn might say: *"This report is missing X."*\nThey are not being rude. They are stating a fact to fix the problem efficiently. They separate work and person.`
       },
       'culture_names': {
         title: 'Names & Titles',
@@ -255,22 +281,22 @@ export const en: TranslationResource = {
       'culture_punctuality': {
         title: 'Punctuality',
         summary: '5 minutes late is late.',
-        content: `# Time is Respect\nBeing late is stealing someone else's time. If you are 5 mins late, send a message.`
+        content: `# Time is respect\nBeing late is stealing someone else's time. If you are 5 min late, send a message.`
       },
       'culture_coffee': {
         title: 'Coffee Breaks (Kahvitauko)',
         summary: 'Sacred ritual. Often mandated by law.',
-        content: `# The Ritual\nMost contracts have two 10-15 min breaks.\n\n* **Socialize:** This is where bonding happens. Don't sit alone at your desk.\n* **Caffeine:** Finns drink the most coffee in the world.`
+        content: `# The Ritual\nMost contracts have two 10-15 min breaks.\n\n* **Socialize:** This is where team bonding happens. Don't sit alone at your desk.\n* **Caffeine:** Finns drink the most coffee in the world.`
       },
       'culture_afterwork': {
         title: 'Afterwork (AW)',
         summary: 'Casual drinks on Fridays.',
-        content: `# Atmosphere\nUsually very casual. Okay to drink alcohol or soft drinks. It's about relaxing, not getting drunk.`
+        content: `# Atmosphere\nUsually very casual. Drinking alcohol or soft drinks is fine. It is about relaxing, not getting drunk.`
       },
       'culture_sauna': {
         title: 'Sauna Diplomacy',
         summary: 'Sauna is a place of equality. Even in business.',
-        content: `# Rules\n1. **Equality:** In sauna, there are no titles. CEO and intern are equal.\n2. **Nudity:** Non-sexual. Just natural.\n3. **Business:** Decisions are sometimes made here.`
+        content: `# Rules\n1. **Equality:** In sauna, there are no titles. CEO and intern are equal.\n2. **Nudity:** Natural, not sexual.\n3. **Business:** Decisions are sometimes made here.`
       },
       'culture_smalltalk': {
         title: 'Silence & Small Talk',
@@ -278,19 +304,19 @@ export const en: TranslationResource = {
         content: `# Don't fill the void\nIf you are in an elevator with a Finn, no need to talk. A nod is enough. We value words; we don't waste them.`
       },
       'culture_party': {
-        title: 'Office Parties (Pikkujoulut)',
-        summary: '"Little Christmas" parties in December can get wild.',
+        title: 'Office Parties',
+        summary: '"Little Christmas" parties in December can be wild.',
         content: `# The Exception\nFinns are reserved, EXCEPT at *Pikkujoulut*. This is the annual Christmas party. Usually lots of alcohol and colleagues are much more open. What happens at Pikkujoulut, stays at Pikkujoulut.`
       },
       'prof_engineering': {
         title: 'Engineering in Finland',
-        summary: 'Huge sector. English is widely used.',
-        content: `# Giants\nKone, Wärtsilä, Nokia, Metso.\n\n### Culture\nFact-based. Prepare technical details. Precision is valued over sales talk.`
+        summary: 'Huge sector. English widely used.',
+        content: `# Giants\nKone, Wärtsilä, Nokia, Metso.\n\n### Culture\nFact-based. Prepare technical details. Accuracy is valued over sales speech.`
       },
       'prof_business': {
         title: 'Business & Finance',
-        summary: 'Often requires Finnish, except startups.',
-        content: `# Barrier\nTraditional roles (HR, Accounting, Banking) need fluent Finnish.\n\n### Opportunity\nLook for *International Sales*, *Business Analytics* or *Export* roles where your native language is an asset.`
+        summary: 'Often requires Finnish, except Startups.',
+        content: `# The Barrier\nTraditional roles (HR, Accounting, Bank) need fluent Finnish.\n\n### The Opportunity\nLook for *International Sales*, *Business Analytics* or *Export* roles where your native language is an asset.`
       },
       'prof_it': {
         title: 'IT & Tech',
@@ -300,7 +326,7 @@ export const en: TranslationResource = {
       'prof_health': {
         title: 'Health & Nursing',
         summary: 'Huge shortage, but language is mandatory.',
-        content: `# Reality\nYou need Valvira license. To get it, usually need B1/B2 Finnish. Patient safety is priority.`
+        content: `# The Reality\nYou need Valvira license. To get it, you usually need Finnish B1/B2. Patient safety is priority.`
       },
       'prof_service': {
         title: 'Service Industry',
@@ -318,29 +344,29 @@ export const en: TranslationResource = {
         content: `# Portals\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Tip\nBe fast. Go to showing with application ready.`
       },
       'housing_utilities': {
-        title: 'Electricity & Internet',
+        title: 'Electricity & Water',
         summary: 'You usually make your own electricity contract.',
         content: `# Electricity\nNot included in rent. You must choose a provider and make a contract.\n\n### Water\nOften a fixed fee (e.g. 20€/person/month).`
       },
       'housing_recycling': {
         title: 'Recycling Guide',
         summary: 'Finns recycle everything.',
-        content: `# Bins\n* **Bio:** Food waste.\n* **Muovi:** Plastic packaging.\n* **Kartonki:** Milk cartons, cardboard.\n* **Paperi:** Paper, newspapers.\n\n### Pantti\nBottles and cans have a deposit (10c - 40c). Return to machine in supermarket to get money.`
+        content: `# Bins\n* **Bio:** Food waste.\n* **Muovi:** Plastic packaging.\n* **Kartonki:** Milk cartons, cardboard.\n* **Paperi:** Paper, newspapers.\n\n### Pantti\nBottles and cans have a deposit (10c - 40c). Return to machine at store for money.`
       },
       'housing_sauna': {
         title: 'Laundry & Sauna',
-        summary: 'Most buildings have shared facilities.',
-        content: `# Taloyhtiö (Housing Company)\n* **Laundry:** Usually a booking list (varauslista).\n* **Lenkkisauna:** Free weekly sauna hour for everyone (men/women separate).\n* **Own turn:** You can book a weekly private hour for a small fee.`
+        summary: 'Most houses have shared facilities.',
+        content: `# Taloyhtiö (Housing Company)\n* **Laundry:** Usually a booking list.\n* **Lenkkisauna:** Free weekly sauna hour for everyone (men/women separate).\n* **Own slot:** You can book a weekly private hour for small fee.`
       },
       'family_school': {
         title: 'School System',
         summary: 'One of the best in the world. And free.',
-        content: `# Basics\n* **Start:** 7 years old.\n* **Cost:** Free. Includes books and hot lunch.\n* **Language:** Usually Finnish or Swedish. International schools exist but have queues.`
+        content: `# Basics\n* **Starts:** At age 7.\n* **Cost:** Free. Includes books and hot lunch.\n* **Language:** Usually Finnish or Swedish. International schools exist but have queues.`
       },
       'family_daycare': {
         title: 'Daycare (Päiväkoti)',
         summary: 'Every child has a right to daycare.',
-        content: `# Apply\nApply 4 months in advance. Heavily subsidized.\n\n### Cost\nBased on income. Max ~300€/month. Low income is free.`
+        content: `# Applying\nApply 4 months in advance. Heavily subsidized.\n\n### Cost\nBased on income. Max ~300€/month. Low income is free.`
       },
       'family_activities': {
         title: 'Hobbies & Sports',
@@ -349,13 +375,18 @@ export const en: TranslationResource = {
       },
       'family_winter': {
         title: 'Kids & Winter',
-        summary: 'No bad weather, only bad clothes.',
-        content: `# Clothing\n* **Layers:** Wool layer, fleece layer, waterproof outer.\n* **Haalari:** One-piece overall is the standard kid uniform.\n* **Reflectors:** Mandatory to stay safe in the dark.`
+        summary: 'There is no bad weather, only bad clothes.',
+        content: `# Clothing\n* **Layers:** Wool layer, fleece layer, waterproof outer layer.\n* **Haalari:** One-piece overall is the standard kid uniform.\n* **Reflectors:** Mandatory for safety in the dark.`
       },
       'family_safety': {
         title: 'Safety & Independence',
-        summary: 'Finland is very safe. Kids go to school alone.',
-        content: `# Independence\nDon't panic if you see a 7-year-old alone on the metro. It is normal. Society keeps them safe.`
+        summary: 'Finland is super safe. Kids go to school alone.',
+        content: `# Independence\nDon't panic if you see a 7-year-old alone on the metro. It is normal. The society keeps them safe.`
+      },
+      'culture_essentials': { 
+        title: 'Core Values', 
+        summary: 'Trust and silence are core values.', 
+        content: `# Trust & Silence 🤫\n\n1. **Trust:** Do what you say.\n2. **Silence:** Do not fear the silence.` 
       }
     }
   }

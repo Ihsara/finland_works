@@ -36,14 +36,14 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
     children 
 }) => {
     return (
-        <div className="border-b border-gray-100 dark:border-gray-800 last:border-0">
+        <div className="border-b border-gray-100 dark:border-white/10 last:border-0">
             <button 
                 onClick={() => onToggle(id)}
-                className={`w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50 ${isOpen ? 'bg-gray-50 dark:bg-gray-800/30' : ''}`}
+                className={`w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-white/5 ${isOpen ? 'bg-gray-50 dark:bg-white/5' : ''} min-h-[64px]`}
             >
-                <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${isOpen ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'}`}>
-                        <Icon className="w-5 h-5" />
+                <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-xl ${isOpen ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'}`}>
+                        <Icon className="w-6 h-6" />
                     </div>
                     <span className="font-bold text-gray-900 dark:text-white text-lg">{title}</span>
                 </div>
@@ -79,16 +79,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
     saveThemePreference(prefTheme);
     saveLayoutPreference(prefLayout);
     
-    // Update parent state immediately
     if (onToggleLayout) onToggleLayout(prefLayout);
     
-    // Force Theme Apply Immediately
     const root = document.documentElement;
-    if (prefTheme === 'dark') {
-        root.classList.add('dark');
-    } else if (prefTheme === 'light') {
-        root.classList.remove('dark');
-    } else {
+    if (prefTheme === 'dark') root.classList.add('dark');
+    else if (prefTheme === 'light') root.classList.remove('dark');
+    else {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
         else root.classList.remove('dark');
     }
@@ -120,43 +116,25 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
   ];
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 animate-in fade-in duration-500">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center bg-white dark:bg-gray-950 sticky top-0 z-20">
-            <button 
-                onClick={onBack} 
-                className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
-            >
+    <div className="flex flex-col h-full bg-white dark:bg-[#0b1021] animate-in fade-in duration-500">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
+            <button onClick={onBack} className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg">
                 <Icons.ArrowLeft className="w-5 h-5" />
                 <span>{t('btn_back_dashboard')}</span>
             </button>
-            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-gray-700 pl-4">{t('settings_title')}</h2>
+            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4">{t('settings_title')}</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto py-6">
-                
-                {/* General Settings */}
-                <AccordionSection 
-                    id="general" 
-                    title={t('settings_sect_general')} 
-                    icon={Icons.Settings}
-                    isOpen={expandedSection === 'general'}
-                    onToggle={toggleSection}
-                >
+                <AccordionSection id="general" title={t('settings_sect_general')} icon={Icons.Settings} isOpen={expandedSection === 'general'} onToggle={toggleSection}>
                      <div className="space-y-4 pt-4">
                          <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_length_label')}</label>
                              <div className="grid grid-cols-1 gap-2">
                                  {lengthOptions.map(opt => (
-                                     <button
-                                         key={opt.value}
-                                         onClick={() => setPrefLength(opt.value as LengthPreference)}
-                                         className={`flex items-center p-3 rounded-lg border ${prefLength === opt.value ? 'border-black dark:border-white bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
-                                     >
-                                         <div className={`p-2 rounded-full mr-3 ${prefLength === opt.value ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
-                                            <opt.icon className="w-4 h-4" />
-                                         </div>
+                                     <button key={opt.value} onClick={() => setPrefLength(opt.value as LengthPreference)} className={`flex items-center p-3 rounded-xl border transition-all ${prefLength === opt.value ? 'border-black dark:border-white bg-gray-50 dark:bg-white/10' : 'border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5'} min-h-[56px]`}>
+                                         <div className={`p-2 rounded-full mr-3 ${prefLength === opt.value ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400'}`}><opt.icon className="w-4 h-4" /></div>
                                          <span className="font-medium text-gray-900 dark:text-white">{opt.label}</span>
                                          {prefLength === opt.value && <Icons.CheckCircle className="w-5 h-5 ml-auto text-black dark:text-white" />}
                                      </button>
@@ -166,89 +144,40 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                      </div>
                 </AccordionSection>
 
-                {/* Appearance */}
-                <AccordionSection 
-                    id="appearance" 
-                    title={t('settings_sect_appearance')} 
-                    icon={Icons.Eye}
-                    isOpen={expandedSection === 'appearance'}
-                    onToggle={toggleSection}
-                >
+                <AccordionSection id="appearance" title={t('settings_sect_appearance')} icon={Icons.Eye} isOpen={expandedSection === 'appearance'} onToggle={toggleSection}>
                     <div className="space-y-6 pt-4">
                         <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_theme_label')}</label>
                              <div className="grid grid-cols-3 gap-3">
                                  {themeOptions.map(opt => (
-                                     <button
-                                         key={opt.value}
-                                         onClick={() => setPrefTheme(opt.value as ThemePreference)}
-                                         className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${prefTheme === opt.value ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'}`}
-                                     >
-                                         <opt.icon className="w-6 h-6 mb-2" />
-                                         <span className="text-xs font-bold">{opt.label}</span>
-                                     </button>
+                                     <button key={opt.value} onClick={() => setPrefTheme(opt.value as ThemePreference)} className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all min-h-[80px] ${prefTheme === opt.value ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'}`}><opt.icon className="w-6 h-6 mb-2" /><span className="text-xs font-bold">{opt.label}</span></button>
                                  ))}
                              </div>
                         </div>
-
-                        {/* Layout Toggle */}
-                        <div className="hidden md:block border-t border-gray-100 dark:border-gray-800 pt-4">
+                        <div className="hidden md:block border-t border-gray-100 dark:border-white/10 pt-4">
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop Layout</label>
                              <div className="flex gap-3">
-                                <button
-                                    onClick={() => setPrefLayout('windowed')}
-                                    className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'windowed' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'}`}
-                                >
-                                    <div className="w-4 h-6 border-2 border-current rounded-sm"></div>
-                                    Windowed (Mobile)
-                                </button>
-                                <button
-                                    onClick={() => setPrefLayout('fullscreen')}
-                                    className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'fullscreen' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'}`}
-                                >
-                                    <div className="w-6 h-4 border-2 border-current rounded-sm"></div>
-                                    Full Screen
-                                </button>
+                                <button onClick={() => setPrefLayout('windowed')} className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'windowed' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400'}`}><div className="w-4 h-6 border-2 border-current rounded-sm"></div>Windowed</button>
+                                <button onClick={() => setPrefLayout('fullscreen')} className={`flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2 ${prefLayout === 'fullscreen' ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400'}`}><div className="w-6 h-4 border-2 border-current rounded-sm"></div>Full Screen</button>
                              </div>
-                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                 "Windowed" simulates a mobile app experience. "Full Screen" uses your entire desktop window.
-                             </p>
                         </div>
                     </div>
                 </AccordionSection>
 
-                {/* Data & Privacy */}
-                <AccordionSection 
-                    id="data" 
-                    title={t('settings_sect_data')} 
-                    icon={Icons.Database}
-                    isOpen={expandedSection === 'data'}
-                    onToggle={toggleSection}
-                >
+                <AccordionSection id="data" title={t('settings_sect_data')} icon={Icons.Database} isOpen={expandedSection === 'data'} onToggle={toggleSection}>
                      <div className="space-y-4 pt-4">
                          <div className="p-4 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30">
                              <h4 className="font-bold text-red-900 dark:text-red-400 mb-1">{t('settings_clear_data')}</h4>
                              <p className="text-sm text-red-700 dark:text-red-300 mb-4">{t('settings_clear_data_desc')}</p>
-                             <button 
-                                onClick={handleClearData}
-                                className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-sm transition"
-                             >
-                                {t('settings_btn_clear')}
-                             </button>
+                             <button onClick={handleClearData} className="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-sm transition min-h-[44px]">{t('settings_btn_clear')}</button>
                          </div>
                      </div>
                 </AccordionSection>
-
             </div>
         </div>
         
-        <div className="p-6 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950">
-            <button 
-                onClick={handleSave}
-                className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg"
-            >
-                {t('btn_save')}
-            </button>
+        <div className="p-6 border-t border-gray-100 dark:border-white/10 bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl">
+            <button onClick={handleSave} className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg">{t('btn_save')}</button>
         </div>
     </div>
   );

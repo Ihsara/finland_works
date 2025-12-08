@@ -8,14 +8,27 @@
 - **Icons**: Lucide React.
 - **Data Persistence**: LocalStorage (Privacy-first).
 
-## Mobile & Touch Optimization (CRITICAL)
-**The application must feel native on a phone.**
-1.  **Touch Targets**: All interactive elements (buttons, inputs, links, icons) MUST have a minimum touch target of **44px x 44px**. 
+## Mobile-First & Touch Optimization (PARAMOUNT)
+**The phone is the PRIMARY device. Design for 360px width first.**
+1.  **Vertical Space**: Screens are short. Avoid massive buttons that force scrolling on landing pages. Use compact cards (`h-24` banners or `aspect-video`) on mobile.
+2.  **Touch Targets**: All interactive elements (buttons, inputs, links, icons) MUST have a minimum touch target of **44px x 44px**. 
     *   *Fix*: If a button looks small visually, increase `p-` (padding) or add `min-h-[44px] min-w-[44px]` to the container.
-2.  **Touch Feedback**: Do NOT rely on `:hover`. Mobile users cannot hover.
+3.  **Touch Feedback**: Do NOT rely on `:hover`. Mobile users cannot hover.
     *   *Fix*: Always add `:active` styles (e.g., `active:scale-95`, `active:bg-gray-200`) to provide instant visual confirmation of a tap.
-3.  **Input Text Size**: On mobile, input font size must be at least **16px** (`text-base`) to prevent iOS from auto-zooming. You can use `text-base md:text-sm`.
-4.  **Safe Areas**: Respect `env(safe-area-inset-bottom)` for bottom fixed elements.
+4.  **Input Text Size**: On mobile, input font size must be at least **16px** (`text-base`) to prevent iOS from auto-zooming. You can use `text-base md:text-sm`.
+5.  **Safe Areas**: Respect `env(safe-area-inset-bottom)` for bottom fixed elements.
+
+## Visual Design Language: "Nordic Aurora"
+- **Atmosphere**: 
+    - **Light Mode**: High saturation, warm, "Nordic Summer". Backgrounds should have moving blobs of Blue, Fuchsia, and Teal.
+    - **Dark Mode**: "Northern Lights". Deep Navy (`bg-[#0b1021]`) background with glowing Green/Teal/Purple aurora gradients.
+- **Typography**: 
+    - **Headings**: `Playfair Display` (Serif) for emotional connection (Latin languages only).
+    - **Body**: `Inter` (Sans-serif) for utility and readability.
+- **Components**:
+    - **Glassmorphism**: Heavy use of `backdrop-blur-xl` with `bg-white/80` (Light) or `bg-[#151b2e]/60` (Dark).
+    - **Borders**: Thin, elegant borders (`border-white/20` or colored rings).
+- **Motion**: Fluid transitions. Text elements should slide and fade.
 
 ## Unique Identifier System (UIS)
 **CRITICAL**: Every major component and interactive element MUST have a unique identifier for testing and referencing.
@@ -34,33 +47,16 @@
     </div>
     ```
 
-3.  **Naming Convention**:
-    *   Scenes: `scene_[name]`
-    *   Elements: `[type]_[scene]_[action]` (e.g., `btn_landing_start_chat`)
-
-4.  **Testing Requirement**:
-    *   Whenever you modify `data/system/*`, you MUST run `tests/system.test.ts`.
-    *   Ensure that any new ID added to `NAV_LINKS` exists in the generated Scene definitions.
-    *   Ensure no duplicate IDs exist within a scene.
-
 ## Navigation & User Flow Guidelines
 
 ### 1. The "My Plan" Loop (Guest Handling)
 Views must explicitly handle the `Guest` state (`profile.id === 'guest'` or `!profile`).
 *   **Authenticated User**: Show personal data, progress bars, and specific recommendations.
 *   **Guest User**: Show a clear "Empty State" with a Call-To-Action (CTA) pointing to the **Quiz** (`scene_quiz`).
-    *   *Example*: In `ProfileView`, a guest should see "Create your plan" (links to Quiz), not an empty dashboard.
 
 ### 2. View Internal vs. Global Navigation
 *   **Global Navigation**: The top bar (Logo, Knowledge Base, Chat, Plan) resets the view context.
 *   **Internal Navigation**: Complex views (like `WikiView`) maintain their own internal history stack.
-    *   The "Back" button within a View should traverse internal history (e.g., Article -> Category List) *before* exiting the View back to the Dashboard.
-    *   Do not use browser history for internal view state; manage it via React State (e.g., `activeArticleId`).
-
-### 3. The Hub Architecture
-*   **Dashboard** is the Hub.
-*   **Spokes**: Wiki, Chat, Profile.
-*   **Cross-Linking**: Spokes can link to each other (e.g., Chat linking to a Wiki Article), but the "Close" or "Home" action should always return to the Dashboard (or previous Spoke if deeper context is needed).
 
 ## Component Structure
 - **Views**: Full-screen pages. Located in `components/views/`.

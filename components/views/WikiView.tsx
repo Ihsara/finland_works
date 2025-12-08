@@ -6,13 +6,13 @@ import { marked } from 'marked';
 import { UserProfile } from '../../types';
 import * as Storage from '../../services/storageService';
 import { WikiProgressData } from '../../services/storageService';
-import { LanguageSelector } from '../LanguageSelector';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { wrapSentencesInHtml } from '../../utils/textUtils';
 import { FeedbackRibbon } from '../FeedbackRibbon';
 import { APP_IDS } from '../../data/system/identifiers';
 import { NavigationLinks } from '../NavigationLinks';
 import { AppView } from '../../types';
+import { getAvatarUrl } from '../../utils/profileUtils';
 
 interface WikiViewProps {
   onClose: () => void;
@@ -28,18 +28,18 @@ interface WikiViewProps {
 type ViewMode = 'list' | 'icons';
 
 const TAG_METADATA: Record<string, { icon: keyof typeof Icons, border: string, text: string, hover: string, badge: string }> = {
-  "Recruitment": { icon: "Briefcase", border: "border-orange-200 dark:border-orange-800", text: "text-orange-600 dark:text-orange-400", hover: "group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20", badge: "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300" },
-  "Job searching": { icon: "Search", border: "border-lime-200 dark:border-lime-800", text: "text-lime-600 dark:text-lime-400", hover: "group-hover:bg-lime-50 dark:group-hover:bg-lime-900/20", badge: "bg-lime-100 dark:bg-lime-900 text-lime-700 dark:text-lime-300" },
-  "Entrepreneurship": { icon: "Rocket", border: "border-teal-200 dark:border-teal-800", text: "text-teal-600 dark:text-teal-400", hover: "group-hover:bg-teal-50 dark:group-hover:bg-teal-900/20", badge: "bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300" },
-  "Work Culture": { icon: "Coffee", border: "border-purple-200 dark:border-purple-800", text: "text-purple-600 dark:text-purple-400", hover: "group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20", badge: "bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300" },
-  "Networking": { icon: "Users", border: "border-cyan-200 dark:border-cyan-800", text: "text-cyan-600 dark:text-cyan-400", hover: "group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/20", badge: "bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300" },
-  "Work Rights": { icon: "Scale", border: "border-violet-200 dark:border-violet-800", text: "text-violet-600 dark:text-violet-400", hover: "group-hover:bg-violet-50 dark:group-hover:bg-violet-900/20", badge: "bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-300" },
-  "Volunteering Internships": { icon: "Heart", border: "border-emerald-200 dark:border-emerald-800", text: "text-emerald-600 dark:text-emerald-400", hover: "group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/20", badge: "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300" },
-  "Learning Finnish": { icon: "Languages", border: "border-rose-200 dark:border-rose-800", text: "text-rose-600 dark:text-rose-400", hover: "group-hover:bg-rose-50 dark:group-hover:bg-rose-900/20", badge: "bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300" },
-  "Work-life Balance": { icon: "Sun", border: "border-sky-200 dark:border-sky-800", text: "text-sky-600 dark:text-sky-400", hover: "group-hover:bg-sky-50 dark:group-hover:bg-sky-900/20", badge: "bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300" },
+  "Recruitment": { icon: "Briefcase", border: "border-orange-200 dark:border-orange-500/30", text: "text-orange-600 dark:text-orange-300", hover: "group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20", badge: "bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-200" },
+  "Job searching": { icon: "Search", border: "border-lime-200 dark:border-lime-500/30", text: "text-lime-600 dark:text-lime-300", hover: "group-hover:bg-lime-50 dark:group-hover:bg-lime-900/20", badge: "bg-lime-100 dark:bg-lime-900/50 text-lime-700 dark:text-lime-200" },
+  "Entrepreneurship": { icon: "Rocket", border: "border-teal-200 dark:border-teal-500/30", text: "text-teal-600 dark:text-teal-300", hover: "group-hover:bg-teal-50 dark:group-hover:bg-teal-900/20", badge: "bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-200" },
+  "Work Culture": { icon: "Coffee", border: "border-purple-200 dark:border-purple-500/30", text: "text-purple-600 dark:text-purple-300", hover: "group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20", badge: "bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-200" },
+  "Networking": { icon: "Users", border: "border-cyan-200 dark:border-cyan-500/30", text: "text-cyan-600 dark:text-cyan-300", hover: "group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/20", badge: "bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-200" },
+  "Work Rights": { icon: "Scale", border: "border-violet-200 dark:border-violet-500/30", text: "text-violet-600 dark:text-violet-300", hover: "group-hover:bg-violet-50 dark:group-hover:bg-violet-900/20", badge: "bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-200" },
+  "Volunteering Internships": { icon: "Heart", border: "border-emerald-200 dark:border-emerald-500/30", text: "text-emerald-600 dark:text-emerald-300", hover: "group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/20", badge: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-200" },
+  "Learning Finnish": { icon: "Languages", border: "border-rose-200 dark:border-rose-500/30", text: "text-rose-600 dark:text-rose-300", hover: "group-hover:bg-rose-50 dark:group-hover:bg-rose-900/20", badge: "bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-200" },
+  "Work-life Balance": { icon: "Sun", border: "border-sky-200 dark:border-sky-500/30", text: "text-sky-600 dark:text-sky-300", hover: "group-hover:bg-sky-50 dark:group-hover:bg-sky-900/20", badge: "bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-200" },
 };
 
-const WikiView: React.FC<WikiViewProps> = ({ 
+export const WikiView: React.FC<WikiViewProps> = ({ 
   onClose, 
   profile, 
   activeArticleId,
@@ -57,6 +57,7 @@ const WikiView: React.FC<WikiViewProps> = ({
   const [viewMode, setViewMode] = useState<ViewMode>('icons');
   const [activeSentence, setActiveSentence] = useState<{text: string, x: number, y: number} | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const touchStartRef = useRef<{ x: number, y: number } | null>(null);
   
   const wikiCategories = useMemo(() => getWikiCategories(language), [language]);
 
@@ -115,11 +116,20 @@ const WikiView: React.FC<WikiViewProps> = ({
       if (activeArticle) {
           setIsMobileMenuOpen(false);
           setActiveSentence(null);
+          // Scroll to top when article changes
+          if (contentRef.current) contentRef.current.scrollTop = 0;
           if (activeArticle.categoryId) {
               setOpenCategories(prev => ({ ...prev, [activeArticle.categoryId]: true }));
           }
       }
   }, [activeArticle]);
+
+  // Safety: If activeArticleId is set but invalid (e.g. broken link), clear it
+  useEffect(() => {
+      if (activeArticleId && !activeArticle) {
+          onArticleSelect(null);
+      }
+  }, [activeArticleId, activeArticle]);
 
   useEffect(() => {
       if (!activeSentence) {
@@ -217,7 +227,8 @@ const WikiView: React.FC<WikiViewProps> = ({
     return "";
   };
 
-  const handleArticleClick = (article: WikiArticle) => {
+  const handleArticleClick = (article: WikiArticle | null) => {
+    if (!article) return;
     onArticleSelect(article);
   };
 
@@ -228,24 +239,12 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   const handleIconCategoryClick = (catId: string) => {
-      // Find the category object to access its content
       const category = wikiCategories.find(c => c.id === catId);
-      
-      // If found, find the very first article (e.g. Intro)
       const firstArticle = category?.subsections?.[0]?.articles?.[0];
-
       if (firstArticle) {
-          // DIRECT JUMP: Go straight to article content
           handleArticleClick(firstArticle);
-          
-          // Ensure sidebar context is ready by expanding this category
           setOpenCategories(prev => ({ ...prev, [catId]: true }));
-          
-          // Note: We DO NOT set activeCategoryId here. 
-          // This ensures that hitting "Back" from the article returns to the Icon Grid (Home),
-          // rather than the Category List, providing a smoother "Quick Jump" experience.
       } else {
-          // Fallback: If empty category, show list view
           setActiveCategoryId(catId);
           setOpenCategories(prev => ({ ...prev, [catId]: true }));
       }
@@ -266,6 +265,10 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   const handleBack = () => {
+      if (activeArticleId) {
+          onClose(); 
+          return;
+      }
       if (activeArticle) onArticleSelect(null);
       else if (activeTag) setActiveTag(null);
       else if (activeCategory) setActiveCategoryId(null);
@@ -281,6 +284,24 @@ const WikiView: React.FC<WikiViewProps> = ({
       if (view === AppView.DASHBOARD) onClose();
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+      touchStartRef.current = { x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+      if (!touchStartRef.current) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchStartRef.current.x - touchEndX;
+      const diffY = touchStartRef.current.y - touchEndY;
+
+      // Detect Swipe Right (Back) - Threshold: 70px horizontal
+      if (diffX < -70 && Math.abs(diffY) < 50) {
+          handleBack();
+      }
+      touchStartRef.current = null;
+  };
+
   const allArticles = useMemo(() => getAllFlattenedArticles(language), [language]);
   const currentArticleIndex = useMemo(() => activeArticle ? allArticles.findIndex(a => a.id === activeArticle.id) : -1, [activeArticle, allArticles]);
   const prevArticle = currentArticleIndex > 0 ? allArticles[currentArticleIndex - 1] : null;
@@ -288,32 +309,32 @@ const WikiView: React.FC<WikiViewProps> = ({
 
   const renderCategoryList = (isSidebar: boolean = false) => {
     return (
-      <div className="space-y-4 pb-20">
+      <div className="space-y-3 pb-20">
          {wikiCategories.map((category, catIndex) => {
             const isOpen = openCategories[category.id];
             const catProgress = getCategoryProgress(category);
             const catNumber = catIndex + 1;
             return (
-                <div key={category.id} className={`select-none ${!isSidebar ? 'bg-white dark:bg-gray-800 rounded-xl p-2 border border-transparent hover:border-gray-100 dark:hover:border-gray-700 transition-colors' : ''}`}>
+                <div key={category.id} className={`select-none ${!isSidebar ? 'bg-white/80 dark:bg-white/5 rounded-xl p-2 border border-white/20 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/10 transition-colors' : ''}`}>
                     <button 
                         data-testid={APP_IDS.VIEWS.WIKI.CARD_CATEGORY(category.id)}
                         onClick={() => toggleCategory(category.id)}
-                        className={`flex items-center justify-between w-full group min-h-[44px] ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
+                        className={`flex items-center justify-between w-full group min-h-[48px] ${isSidebar ? 'mb-2' : 'mb-2 p-2'}`}
                     >
-                        <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white overflow-hidden">
-                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono w-5 flex-shrink-0">{catNumber}.</span>
-                            {renderIcon(category.icon as any, "w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 flex-shrink-0")}
-                            <span className="text-sm uppercase tracking-wide truncate">{category.title}</span>
+                        <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-100 group-hover:text-black dark:group-hover:text-white overflow-hidden">
+                            <span className="text-xs text-gray-400 dark:text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
+                            {renderIcon(category.icon as any, "w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-emerald-400 flex-shrink-0 transition-colors")}
+                            <span className="text-sm md:text-base tracking-wide truncate">{category.title}</span>
                         </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
+                        <div className="flex items-center gap-3 flex-shrink-0">
                             {catProgress > 0 && (
-                                <span className="text-[10px] font-bold bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full">{catProgress}%</span>
+                                <span className="text-[10px] font-bold bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full border border-green-200 dark:border-green-800">{catProgress}%</span>
                             )}
-                            {isOpen ? <Icons.ChevronDown className="w-4 h-4 text-gray-500"/> : <Icons.ChevronRight className="w-4 h-4 text-gray-500"/>}
+                            {isOpen ? <Icons.ChevronDown className="w-5 h-5 text-gray-400"/> : <Icons.ChevronRight className="w-5 h-5 text-gray-400"/>}
                         </div>
                     </button>
                     {isOpen && (
-                        <div className={`space-y-4 mt-2 ${isSidebar ? 'ml-3 border-l-2 border-gray-200 dark:border-gray-700 pl-3' : 'px-2'}`}>
+                        <div className={`space-y-4 mt-2 ${isSidebar ? 'ml-3 border-l-2 border-gray-100 dark:border-white/10 pl-3' : 'px-2'}`}>
                             {category.subsections.map((sub, subIndex) => (
                                 <div key={sub.title} className="space-y-1">
                                     <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-3 mb-1">{sub.title}</h4>
@@ -326,10 +347,10 @@ const WikiView: React.FC<WikiViewProps> = ({
                                                 key={article.id}
                                                 data-testid={APP_IDS.VIEWS.WIKI.ITEM_ARTICLE(article.id)}
                                                 onClick={() => { handleArticleClick(article); if (!activeTag) setActiveCategoryId(category.id); }}
-                                                className={`w-full text-left px-3 py-2.5 rounded-md flex items-start gap-3 transition text-sm min-h-[44px] ${isActive && isSidebar ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-700 dark:text-blue-300 font-medium ring-1 ring-gray-100 dark:ring-gray-600' : 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white active:bg-gray-100 dark:active:bg-gray-800'}`}
+                                                className={`w-full text-left px-3 py-3 rounded-xl flex items-start gap-3 transition text-sm min-h-[48px] ${isActive && isSidebar ? 'bg-white dark:bg-white/10 shadow-sm text-blue-700 dark:text-blue-300 font-bold ring-1 ring-gray-100 dark:ring-white/10' : 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white active:bg-gray-100 dark:active:bg-white/10'}`}
                                             >
-                                                <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500 dark:text-blue-400' : 'text-gray-500 dark:text-gray-600'}`}>
-                                                    {status === 'done' ? <Icons.CheckCircle className="w-4 h-4 text-green-500 dark:text-green-400" /> : status === 'later' ? <Icons.Clock className="w-4 h-4 text-amber-500 dark:text-amber-400" /> : <Icons.FileText className="w-4 h-4 opacity-50" />}
+                                                <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500 dark:text-blue-400' : 'text-gray-400 dark:text-gray-600'}`}>
+                                                    {status === 'done' ? <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" /> : status === 'later' ? <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" /> : <Icons.FileText className="w-5 h-5 opacity-50" />}
                                                 </span>
                                                 <span className="leading-snug">{article.title}</span>
                                             </button>
@@ -347,48 +368,75 @@ const WikiView: React.FC<WikiViewProps> = ({
   };
 
   return (
-    <div data-scene-id={APP_IDS.SCENES.WIKI} className="flex flex-col h-full bg-white dark:bg-gray-900 relative overflow-hidden font-sans">
-      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-950 z-50 shadow-sm md:px-6 md:py-4 transition-colors">
-        <NavigationLinks 
-            currentView={AppView.WIKI} 
-            onNavigate={handleNav} 
-        />
+    <div 
+        data-scene-id={APP_IDS.SCENES.WIKI} 
+        className="flex flex-col h-full bg-gray-50 dark:bg-[#0b1021] relative overflow-hidden font-sans transition-colors duration-700"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+    >
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl z-50 sticky top-0">
+        <div className="flex items-center gap-2">
+            <button 
+                onClick={handleBack}
+                className="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition"
+            >
+                <Icons.ArrowLeft className="w-6 h-6" />
+            </button>
+            {/* HIDDEN ON MOBILE to prevent crowding */}
+            <h2 className="hidden md:block font-bold text-gray-900 dark:text-white text-base md:text-lg leading-tight truncate max-w-[200px] md:max-w-md animate-in fade-in">
+                {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : activeTag ? t('wiki_topic_label', { tag: activeTag }) : t('wiki_header_title')}
+            </h2>
+        </div>
         
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-            <LanguageSelector className="mr-1" />
-            <div className={`hidden sm:flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
-                <button onClick={handleSwitchToList} className={`flex items-center justify-center gap-2 px-3 py-2 rounded-md text-xs font-bold transition-all min-h-[36px] ${(viewMode === 'list' && !activeCategory) ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}>
+            <div className={`hidden sm:flex bg-gray-100 dark:bg-white/5 rounded-full p-1 border border-gray-200 dark:border-white/10 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
+                <button onClick={handleSwitchToList} className={`flex items-center justify-center gap-2 px-3 py-2 rounded-full text-xs font-bold transition-all min-h-[36px] ${(viewMode === 'list' && !activeCategory) ? 'bg-white dark:bg-white/20 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}>
                     <Icons.FileText className="w-3 h-3" /> {t('wiki_nav_list')}
                 </button>
-                <button onClick={handleSwitchToIcons} className={`flex items-center justify-center gap-2 px-3 py-2 rounded-md text-xs font-bold transition-all min-h-[36px] ${(viewMode === 'icons' && !activeCategory) ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}>
+                <button onClick={handleSwitchToIcons} className={`flex items-center justify-center gap-2 px-3 py-2 rounded-full text-xs font-bold transition-all min-h-[36px] ${(viewMode === 'icons' && !activeCategory) ? 'bg-white dark:bg-white/20 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}>
                     <Icons.LayoutGrid className="w-3 h-3" /> {t('wiki_nav_icons')}
                 </button>
             </div>
+            
+            <NavigationLinks 
+                currentView={AppView.WIKI} 
+                onNavigate={handleNav}
+            />
+            
+            <button 
+                onClick={onNavigateToProfile}
+                className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200 dark:border-white/20 hover:border-blue-500 transition"
+            >
+                <img src={getAvatarUrl(profile)} alt="" className="w-full h-full object-cover" />
+            </button>
         </div>
       </div>
 
       <FeedbackRibbon />
 
       <div className="flex-1 overflow-hidden relative">
-        {/* VIEW LOGIC: Same as before, just ensuring wrapper is correct */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-50">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-white dark:to-[#0b1021]"></div>
+        </div>
+
         {viewMode === 'icons' && !activeArticle && !activeCategory && !activeTag && (
-            <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 duration-300">
+            <div className="w-full h-full overflow-y-auto p-4 md:p-8 relative z-10 animate-in fade-in zoom-in-95 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
-                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_explore_cats')}</h3>
+                         <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{t('wiki_explore_cats')}</h3>
                          <p className="text-gray-600 dark:text-gray-400 mt-2">{t('wiki_explore_subtitle')}</p>
                      </div>
-                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pb-20">
+                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 pb-20">
                         {tagCloudData.map(({ tag, count }) => {
                             const meta = TAG_METADATA[tag];
                             if (!meta) return null;
                             return (
-                                <button key={tag} onClick={() => handleTagClick(tag)} className={`group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800 border-2 ${meta.border} flex flex-col items-center justify-center shadow-sm hover:shadow-xl transition-all duration-300 active:scale-95 overflow-hidden`}>
+                                <button key={tag} onClick={() => handleTagClick(tag)} className={`group relative aspect-square rounded-[2rem] bg-white/80 dark:bg-white/5 backdrop-blur-md border-2 ${meta.border} flex flex-col items-center justify-center shadow-sm hover:shadow-xl transition-all duration-300 active:scale-95 overflow-hidden`}>
                                     <div className={`mb-8 transform group-hover:scale-110 transition-transform duration-300 ${meta.text}`}>
                                         {renderIcon(meta.icon as any, "w-12 h-12 md:w-16 md:h-16 stroke-[1.5]")}
                                     </div>
                                     <div className={`absolute top-4 right-4 ${meta.badge} text-[10px] font-bold px-2 py-1 rounded-full z-20`}>{count}</div>
-                                    <div className={`absolute inset-x-0 bottom-0 p-4 ${meta.hover} backdrop-blur-sm border-t ${meta.border} rounded-b-[2rem] flex items-center justify-center`}>
+                                    <div className={`absolute inset-x-0 bottom-0 p-4 ${meta.hover} backdrop-blur-md border-t ${meta.border} rounded-b-[2rem] flex items-center justify-center`}>
                                         <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${meta.text}`}>{tag}</span>
                                     </div>
                                 </button>
@@ -402,39 +450,31 @@ const WikiView: React.FC<WikiViewProps> = ({
                                     data-testid={APP_IDS.VIEWS.WIKI.CARD_CATEGORY(category.id)}
                                     onClick={() => handleIconCategoryClick(category.id)}
                                     className={`
-                                        group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800
-                                        border-2 ${category.theme.border} 
+                                        group relative aspect-square rounded-[2rem] bg-white/80 dark:bg-white/5 backdrop-blur-md
+                                        border-2 ${category.theme.border} dark:border-white/10
                                         flex flex-col items-center justify-center 
                                         shadow-sm ${category.theme.shadow}
                                         transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
                                         overflow-hidden
                                     `}
                                 >
-                                    {/* Shine Effect Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 z-10 pointer-events-none"></div>
-                                    
-                                    {/* Icon */}
-                                    <div className={`mb-4 transform group-hover:scale-110 transition-transform duration-300 ${category.theme.text}`}>
+                                    <div className={`mb-4 transform group-hover:scale-110 transition-transform duration-300 ${category.theme.text} dark:text-gray-200`}>
                                         {renderIcon(category.icon as any, "w-16 h-16 md:w-20 md:h-20 stroke-[1.5]")}
                                     </div>
-
-                                    {/* Progress Indicator */}
                                     {progressPercent > 0 && (
-                                        <div className="absolute top-4 right-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-1 rounded-full z-20">
+                                        <div className="absolute top-4 right-4 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-1 rounded-full z-20 border border-green-200 dark:border-green-800">
                                             {progressPercent}%
                                         </div>
                                     )}
-
-                                    {/* Label */}
                                     <div className={`
                                         absolute inset-x-0 bottom-0 p-4 
                                         translate-y-full group-hover:translate-y-0 
                                         transition-transform duration-300 ease-out
-                                        ${category.theme.hoverBg} backdrop-blur-sm
-                                        border-t ${category.theme.border}
+                                        ${category.theme.hoverBg} dark:bg-white/10 backdrop-blur-md
+                                        border-t ${category.theme.border} dark:border-white/10
                                         rounded-b-[2rem]
                                     `}>
-                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text}`}>
+                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text} dark:text-white`}>
                                             {category.title}
                                         </span>
                                     </div>
@@ -446,9 +486,8 @@ const WikiView: React.FC<WikiViewProps> = ({
             </div>
         )}
 
-        {/* Render for Full Screen List Mode uses same renderCategoryList function which is now updated */}
         {viewMode === 'list' && !activeArticle && !activeCategory && !activeTag && (
-             <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
+             <div className="w-full h-full overflow-y-auto p-4 md:p-8 relative z-10 animate-in slide-in-from-right-4 duration-300">
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_full_index')}</h3>
@@ -460,10 +499,10 @@ const WikiView: React.FC<WikiViewProps> = ({
         )}
 
         {activeTag && !activeArticle && (
-            <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                <div className="w-full p-8 md:p-12 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+            <div className="w-full h-full overflow-y-auto bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                <div className="w-full p-8 md:p-12 border-b border-gray-100 dark:border-white/10">
                     <div className="max-w-4xl mx-auto flex items-center gap-6">
-                         <div className="w-20 h-20 bg-white dark:bg-gray-800 rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 dark:border-gray-700 text-black dark:text-white">
+                         <div className="w-20 h-20 bg-white dark:bg-white/10 rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 dark:border-white/10 text-black dark:text-white">
                               <Icons.Tag className="w-10 h-10" />
                          </div>
                          <div>
@@ -479,12 +518,12 @@ const WikiView: React.FC<WikiViewProps> = ({
                         if (matches.length === 0) return null;
                         return (
                             <div key={cat.id} className="animate-in fade-in slide-in-from-bottom-2">
-                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 dark:border-gray-800 ${cat.theme.text}`}>
+                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 dark:border-white/10 ${cat.theme.text} dark:text-white`}>
                                      {renderIcon(cat.icon, "w-5 h-5")} {cat.title}
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                      {matches.map((article, idx) => (
-                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-5 rounded-xl border-2 transition-all duration-200 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md active:scale-[0.98]`}>
+                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-5 rounded-2xl border transition-all duration-200 bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md active:scale-[0.98]`}>
                                                 <h4 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h4>
                                             </button>
                                      ))}
@@ -497,12 +536,12 @@ const WikiView: React.FC<WikiViewProps> = ({
         )}
 
         {activeCategory && !activeArticle && !activeTag && (
-            <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} border-b ${activeCategory.theme.border}`}>
+            <div className="w-full h-full overflow-y-auto bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} dark:bg-white/5 border-b ${activeCategory.theme.border} dark:border-white/10`}>
                     <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-end gap-6">
-                        <div className={`p-6 bg-white dark:bg-gray-800 rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} ${activeCategory.theme.text}`}>{renderIcon(activeCategory.icon as any, "w-16 h-16")}</div>
+                        <div className={`p-6 bg-white dark:bg-white/10 rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} dark:border-white/10 ${activeCategory.theme.text} dark:text-white`}>{renderIcon(activeCategory.icon as any, "w-16 h-16")}</div>
                         <div className="text-center md:text-left flex-1">
-                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} mb-2`}>{activeCategory.title}</h1>
+                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} dark:text-white mb-2`}>{activeCategory.title}</h1>
                         </div>
                     </div>
                 </div>
@@ -510,10 +549,10 @@ const WikiView: React.FC<WikiViewProps> = ({
                     <div className="space-y-10">
                         {activeCategory.subsections.map((sub, subIdx) => (
                             <div key={sub.title}>
-                                <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4 px-1 border-b border-gray-100 dark:border-gray-800 pb-2">{sub.title}</h4>
+                                <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4 px-1 border-b border-gray-100 dark:border-white/10 pb-2">{sub.title}</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {sub.articles.map((article, idx) => (
-                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-6 rounded-2xl border-2 transition-all duration-200 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md active:scale-[0.98]`}>
+                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-6 rounded-2xl border transition-all duration-200 bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md active:scale-[0.98]`}>
                                                 <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h3>
                                             </button>
                                     ))}
@@ -526,37 +565,46 @@ const WikiView: React.FC<WikiViewProps> = ({
         )}
 
         {activeArticle && (
-            <div className="flex h-full relative animate-in fade-in duration-300">
-                <div className={`absolute inset-0 z-40 bg-gray-50 dark:bg-gray-900 flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 dark:md:border-gray-800 md:flex ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+            <div className="flex h-full relative animate-in fade-in duration-300 z-20">
+                <div className={`absolute inset-0 z-40 bg-white dark:bg-[#0b1021] flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 dark:md:border-white/10 md:flex ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
                     <div className="p-4 overflow-y-auto h-full">{renderCategoryList(true)}</div>
                 </div>
-                <div data-testid={APP_IDS.VIEWS.WIKI.CONTENT_AREA} className="flex-1 overflow-y-auto relative bg-white dark:bg-gray-900 w-full" ref={contentRef}>
+                <div data-testid={APP_IDS.VIEWS.WIKI.CONTENT_AREA} className="flex-1 overflow-y-auto relative bg-white dark:bg-[#0b1021] w-full pb-20" ref={contentRef}>
                     <div className="max-w-3xl mx-auto p-6 md:p-12 pb-32">
-                        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100 dark:border-white/10">
                             <div className="flex flex-col gap-2">
                                 <span className="text-sm font-mono text-blue-600 dark:text-blue-400 font-bold tracking-tight">{t('wiki_section_prefix')} {getCurrentDisplayId(activeArticle)}</span>
-                                <div className="flex flex-wrap gap-2">{activeArticle.tags.map(tag => <button key={tag} onClick={() => handleTagClick(tag)} className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wide border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white transition-colors min-h-[32px]">{tag}</button>)}</div>
+                                <div className="flex flex-wrap gap-2">{activeArticle.tags.map(tag => <button key={tag} onClick={() => handleTagClick(tag)} className="bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors min-h-[32px]">{tag}</button>)}</div>
                             </div>
                             <div className="flex items-center gap-3">
-                                <button data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_LATER} onClick={() => handleToggleStatus('later')} className={`p-3 rounded-full transition-all duration-200 border min-h-[44px] min-w-[44px] flex items-center justify-center ${progress.items[activeArticle.id]?.status === 'later' ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-400 shadow-inner' : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 shadow-sm'}`}><Icons.Clock className="w-6 h-6" strokeWidth={2.5} /></button>
-                                <button data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_DONE} onClick={() => handleToggleStatus('done')} className={`p-3 rounded-full transition-all duration-200 border min-h-[44px] min-w-[44px] flex items-center justify-center ${progress.items[activeArticle.id]?.status === 'done' ? 'bg-green-100 dark:bg-green-900/30 border-green-200 dark:border-green-700 text-green-700 dark:text-green-400 shadow-inner' : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 shadow-sm'}`}>{progress.items[activeArticle.id]?.status === 'done' ? <Icons.CheckCircle className="w-6 h-6" strokeWidth={2.5} /> : <Icons.CheckSquare className="w-6 h-6" strokeWidth={2.5} />}</button>
+                                <button data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_LATER} onClick={() => handleToggleStatus('later')} className={`p-3 rounded-full transition-all duration-200 border min-h-[44px] min-w-[44px] flex items-center justify-center ${progress.items[activeArticle.id]?.status === 'later' ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-400 shadow-inner' : 'bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-600 dark:hover:text-gray-300 shadow-sm'}`}><Icons.Clock className="w-6 h-6" strokeWidth={2.5} /></button>
+                                <button data-testid={APP_IDS.VIEWS.WIKI.BTN_MARK_DONE} onClick={() => handleToggleStatus('done')} className={`p-3 rounded-full transition-all duration-200 border min-h-[44px] min-w-[44px] flex items-center justify-center ${progress.items[activeArticle.id]?.status === 'done' ? 'bg-green-100 dark:bg-green-900/30 border-green-200 dark:border-green-700 text-green-700 dark:text-green-400 shadow-inner' : 'bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-600 dark:hover:text-gray-300 shadow-sm'}`}>{progress.items[activeArticle.id]?.status === 'done' ? <Icons.CheckCircle className="w-6 h-6" strokeWidth={2.5} /> : <Icons.CheckSquare className="w-6 h-6" strokeWidth={2.5} />}</button>
                             </div>
                         </div>
-                        {activeArticle.summary && <div className="mb-10 p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-l-4 border-blue-500 dark:border-blue-400"><h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Quick Summary</h3><p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed">{activeArticle.summary}</p></div>}
-                        <article className="prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none text-gray-900 dark:text-gray-200 prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:tracking-tight prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-3 prose-p:text-gray-800 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-li:marker:text-gray-500 prose-strong:text-gray-900 dark:prose-strong:text-white [&>ul]:pl-4 [&>ol]:pl-4"><div dangerouslySetInnerHTML={{ __html: processedContent }} /></article>
+                        {activeArticle.summary && <div className="mb-10 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border-l-4 border-blue-500 dark:border-blue-400"><h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Quick Summary</h3><p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed">{activeArticle.summary}</p></div>}
+                        <article className="prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none text-gray-900 dark:text-gray-200 prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:tracking-tight prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-p:text-gray-800 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-li:marker:text-gray-500 prose-strong:text-gray-900 dark:prose-strong:text-white [&>ul]:pl-4 [&>ol]:pl-4"><div dangerouslySetInnerHTML={{ __html: processedContent }} /></article>
                         
-                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-4">
-                            {prevArticle ? <button onClick={() => handleArticleClick(prevArticle)} className="flex flex-col items-start p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition group text-left hover:border-gray-200 dark:hover:border-gray-700 min-h-[60px] active:bg-gray-100"><span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1"><Icons.ArrowLeft className="w-3 h-3" /> {t('wizard_btn_prev')}</span><span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">{prevArticle.title}</span></button> : <div />}
-                            {nextArticle ? <button onClick={() => handleArticleClick(nextArticle)} className="flex flex-col items-end p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition group text-right bg-gray-50/50 dark:bg-gray-900/50 hover:border-gray-200 dark:hover:border-gray-700 min-h-[60px] active:bg-gray-100"><span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1">{t('wizard_btn_next')} <Icons.ArrowRight className="w-3 h-3" /></span><span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">{nextArticle.title}</span></button> : <div />}
+                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-white/10 grid grid-cols-2 gap-4">
+                            {prevArticle ? <button onClick={() => handleArticleClick(prevArticle)} className="flex flex-col items-start p-4 rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition group text-left min-h-[60px] active:scale-95"><span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1"><Icons.ArrowLeft className="w-3 h-3" /> {t('wizard_btn_prev')}</span><span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">{prevArticle.title}</span></button> : <div />}
+                            {nextArticle ? <button onClick={() => handleArticleClick(nextArticle)} className="flex flex-col items-end p-4 rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition group text-right min-h-[60px] active:scale-95"><span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1">{t('wizard_btn_next')} <Icons.ArrowRight className="w-3 h-3" /></span><span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">{nextArticle.title}</span></button> : <div />}
                         </div>
                     </div>
                 </div>
-                {activeSentence && <div className="fixed z-50 sentence-popover animate-in fade-in zoom-in-95 duration-200" style={{ left: Math.min(window.innerWidth - 60, Math.max(20, activeSentence.x - 25)), top: activeSentence.y - 50 }}><button onClick={handleStartChat} className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 active:scale-90 transition-all border-2 border-white dark:border-gray-800" title={t('wiki_ctx_ask')}><Icons.MessageSquare className="w-6 h-6" /></button><div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black"></div></div>}
+                {/* Fixed "Back to Plan" Bar for Deep Links */}
+                {activeArticleId && (
+                    <div className="absolute bottom-0 left-0 w-full p-4 bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-md border-t border-gray-200 dark:border-white/10 z-50 flex justify-center pb-[env(safe-area-inset-bottom)]">
+                        <button 
+                            onClick={onClose}
+                            className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition-all flex items-center gap-2"
+                        >
+                            <Icons.ArrowLeft className="w-4 h-4" /> {t('plan_btn_return')}
+                        </button>
+                    </div>
+                )}
+                {activeSentence && <div className="fixed z-50 sentence-popover animate-in fade-in zoom-in-95 duration-200" style={{ left: Math.min(window.innerWidth - 60, Math.max(20, activeSentence.x - 25)), top: activeSentence.y - 60 }}><button onClick={handleStartChat} className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 active:scale-90 transition-all border-2 border-white dark:border-gray-800" title={t('wiki_ctx_ask')}><Icons.MessageSquare className="w-6 h-6" /></button><div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black"></div></div>}
             </div>
         )}
       </div>
     </div>
   );
 };
-
-export default WikiView;

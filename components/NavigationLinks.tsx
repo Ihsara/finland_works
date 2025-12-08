@@ -18,7 +18,7 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
     { 
       id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_KB, 
       view: AppView.WIKI, 
-      label: t('profile_btn_guide'), // "My Guide" / Knowledge Base
+      label: t('profile_btn_guide'), // "My Guide"
       icon: Icons.BookOpen 
     },
     { 
@@ -36,42 +36,29 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
   ];
 
   return (
-    <div className={`flex items-center gap-1 md:gap-6 ${className}`}>
-      {/* Logo / Home */}
-      <button
-        data-testid={APP_IDS.VIEWS.GLOBAL_NAV.LOGO}
-        onClick={() => onNavigate(AppView.LANDING)}
-        className="font-black text-lg md:text-xl tracking-tight mr-2 md:mr-4 hover:opacity-70 active:scale-95 transition-all flex items-center gap-2 min-h-[44px] touch-manipulation"
-      >
-        <span>FW</span>
-        <span className="hidden lg:inline font-normal opacity-50 text-sm">| Finland Works</span>
-      </button>
-
-      {/* Links */}
-      <div className="flex bg-gray-100 dark:bg-gray-800 rounded-full p-1.5 touch-manipulation">
-        {navItems.map((item) => {
-          const isActive = currentView === item.view;
-          return (
-            <button
-              key={item.id}
-              data-testid={item.id}
-              onClick={() => onNavigate(item.view)}
-              className={`
-                flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-200
-                min-h-[40px] min-w-[44px] justify-center
-                active:scale-95
-                ${isActive 
-                  ? 'bg-white dark:bg-gray-950 text-black dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10' 
-                  : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-gray-700/50 active:bg-gray-200'
-                }
-              `}
-            >
-              <item.icon className={`w-4 h-4 md:w-4 md:h-4 ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`} />
-              <span className={`${isActive ? 'inline' : 'hidden sm:inline'}`}>{item.label}</span>
-            </button>
-          );
-        })}
-      </div>
+    <div className={`flex bg-gray-100/50 dark:bg-white/5 backdrop-blur-sm rounded-full p-1 border border-gray-200/50 dark:border-white/10 touch-manipulation ${className}`}>
+      {navItems.map((item) => {
+        const isActive = currentView === item.view;
+        return (
+          <button
+            key={item.id}
+            data-testid={item.id}
+            onClick={() => onNavigate(item.view)}
+            className={`
+              flex items-center gap-2 px-3 py-2 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-200
+              min-h-[40px] min-w-[44px] justify-center
+              active:scale-95
+              ${isActive 
+                ? 'bg-white dark:bg-white/20 text-black dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10' 
+                : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
+              }
+            `}
+          >
+            <item.icon className={`w-4 h-4 md:w-4 md:h-4 ${isActive ? 'text-blue-600 dark:text-emerald-300' : ''}`} />
+            <span className={`${isActive ? 'inline' : 'hidden sm:inline'}`}>{item.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 };

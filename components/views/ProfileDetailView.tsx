@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Icons } from '../Icon';
 import { LanguageSelector } from '../LanguageSelector';
 import { UserProfile } from '../../types';
@@ -9,6 +9,8 @@ import { FeedbackRibbon } from '../FeedbackRibbon';
 import { NavigationLinks } from '../NavigationLinks';
 import { AppView } from '../../types';
 import { APP_IDS } from '../../data/system/identifiers';
+import { getAllFlattenedArticles, WikiArticle, getWikiCategories } from '../../data/wikiContent';
+import * as Storage from '../../services/storageService';
 
 interface ProfileDetailViewProps {
   profile: UserProfile | null;
@@ -21,6 +23,7 @@ interface ProfileDetailViewProps {
   onEditYaml: () => void;
   onNavigateToWiki: () => void;
   onNavigateToLanding: () => void;
+  onNavigateToArticle?: (articleId: string) => void;
 }
 
 export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
@@ -33,197 +36,312 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
   onEditVisual,
   onEditYaml,
   onNavigateToWiki,
-  onNavigateToLanding
+  onNavigateToLanding,
+  onNavigateToArticle
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [wikiProgress, setWikiProgress] = useState<Storage.WikiProgressData | null>(null);
+  const [activeTab, setActiveTab] = useState<'career' | 'life' | 'achievements'>('career');
+  const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
+  
   const isGuest = !profile || profile.id === 'guest';
 
-  // Helper to "translate" stored values
-  const translateValue = (val: string | undefined) => {
-      if (!val) return 'Unknown';
-      if (val.includes('Solo')) return t('wizard_marital_solo_title');
-      if (val.includes('Partnered')) return t('wizard_marital_pair_title');
-      if (val.includes('Accompanied')) return t('wizard_marital_pair_title');
-      return val;
+  // Font logic
+  const isLatinBased = ['en', 'fi', 'vi', 'pt-br', 'pt-pt', 'tr', 'es', 'et'].includes(language);
+  const headingFont = isLatinBased ? 'font-serif' : 'font-sans';
+
+  useEffect(() => {
+      if (profile && !isGuest) {
+          setWikiProgress(Storage.getWikiProgress(profile.id));
+      }
+  }, [profile, isGuest]);
+
+  // Derived Data: Progress, Levels, Categories
+  const planData = useMemo(() => {
+      if (!profile || isGuest) return null;
+      
+      const categories = getWikiCategories(language);
+      const progress = wikiProgress?.items || {};
+      
+      // Split categories into tracks
+      const careerCats = categories.filter(c => ['foundation', 'job_strategy', 'workplace', 'industries'].includes(c.id));
+      const lifeCats = categories.filter(c => ['life', 'family'].includes(c.id)); // Assuming 'life' contains housing/family logic or adding family if separate
+
+      const processCategory = (cat: any) => {
+          const allArticles = cat.subsections.flatMap((s: any) => s.articles);
+          const total = allArticles.length;
+          const completed = allArticles.filter((a: any) => progress[a.id]?.status === 'done').length;
+          const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+          return { ...cat, total, completed, percent, articles: allArticles };
+      };
+
+      const careerModules = careerCats.map(processCategory);
+      const lifeModules = lifeCats.map(processCategory);
+
+      const totalCompleted = [...careerModules, ...lifeModules].reduce((acc, m) => acc + m.completed, 0);
+      const level = 1 + Math.floor(totalCompleted / 5);
+      const xp = totalCompleted % 5;
+
+      return { careerModules, lifeModules, level, xp };
+  }, [profile, isGuest, wikiProgress, language]);
+
+  const toggleModule = (id: string) => {
+      setExpandedModules(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleMarkDone = (articleId: string, e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (!profile) return;
+      Storage.saveWikiArticleStatus(profile.id, articleId, 'done');
+      setWikiProgress(Storage.getWikiProgress(profile.id));
+  };
+
+  // Render Logic for a Module Card
+  const renderModuleCard = (module: any, index: number, isCareer: boolean) => {
+      const isExpanded = expandedModules[module.id];
+      const isComplete = module.percent === 100;
+      const isLocked = isCareer && index > 0 && planData!.careerModules[index - 1].percent < 50; // Simple locking logic
+
+      return (
+          <div key={module.id} className={`bg-white dark:bg-white/5 border ${isComplete ? 'border-green-200 dark:border-green-800' : 'border-gray-200 dark:border-white/10'} rounded-2xl overflow-hidden transition-all duration-300 ${isLocked ? 'opacity-60 grayscale' : 'shadow-sm hover:shadow-md'}`}>
+              <button 
+                  onClick={() => !isLocked && toggleModule(module.id)}
+                  className="w-full p-5 flex items-center justify-between text-left"
+              >
+                  <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isComplete ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' : 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'}`}>
+                          {/* We need to render icon dynamically, but Icon component is imported as a map object. */}
+                          {/* Assuming module.icon is a string key */}
+                          {(() => {
+                              const IconComponent = (Icons as any)[module.icon] || Icons.FileText;
+                              return <IconComponent className="w-6 h-6" />;
+                          })()}
+                      </div>
+                      <div>
+                          <h3 className="font-bold text-lg text-gray-900 dark:text-white">{module.title}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                              <div className="w-24 h-1.5 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+                                  <div className={`h-full rounded-full ${isComplete ? 'bg-green-500' : 'bg-blue-500'}`} style={{ width: `${module.percent}%` }}></div>
+                              </div>
+                              <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{module.completed}/{module.total}</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="text-gray-400">
+                      {isLocked ? <Icons.Lock className="w-5 h-5" /> : (isExpanded ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />)}
+                  </div>
+              </button>
+
+              {isExpanded && !isLocked && (
+                  <div className="border-t border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-black/20 p-2">
+                      {module.articles.map((article: any) => {
+                          const isDone = wikiProgress?.items[article.id]?.status === 'done';
+                          return (
+                              <div key={article.id} className="flex items-center justify-between p-3 hover:bg-white dark:hover:bg-white/5 rounded-xl transition group">
+                                  <button 
+                                      onClick={() => onNavigateToArticle && onNavigateToArticle(article.id)}
+                                      className="flex-1 text-left flex items-center gap-3"
+                                  >
+                                      <div className={`w-2 h-2 rounded-full ${isDone ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                                      <span className={`text-sm font-medium ${isDone ? 'text-gray-500 line-through decoration-gray-300' : 'text-gray-900 dark:text-white'}`}>{article.title}</span>
+                                  </button>
+                                  <button
+                                      onClick={(e) => handleMarkDone(article.id, e)}
+                                      className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition ${isDone ? 'text-green-500' : 'text-gray-300 dark:text-gray-600 group-hover:text-gray-500'}`}
+                                  >
+                                      {isDone ? <Icons.CheckCircle className="w-5 h-5" /> : <Icons.CheckSquare className="w-5 h-5" />}
+                                  </button>
+                              </div>
+                          );
+                      })}
+                  </div>
+              )}
+          </div>
+      );
+  };
+
+  const handleNav = (view: AppView) => {
+      if (view === AppView.WIKI) onNavigateToWiki();
+      if (view === AppView.CHAT) { /* Chat navigation logic if needed */ }
+      if (view === AppView.PROFILE) { /* Already here */ }
+      if (view === AppView.LANDING) onNavigateToLanding();
+      if (view === AppView.DASHBOARD) onNavigateBack();
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950 overflow-y-auto animate-in fade-in duration-500">
-      
-      {/* Header with Global Nav */}
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-white dark:bg-gray-950 sticky top-0 z-20">
-        <NavigationLinks 
-            currentView={AppView.PROFILE} 
-            onNavigate={(v) => {
-                if (v === AppView.DASHBOARD) onNavigateBack();
-                if (v === AppView.WIKI) onNavigateToWiki();
-                if (v === AppView.LANDING) onNavigateToLanding();
-            }} 
-        />
-        
-        <div className="flex items-center gap-2">
-          <LanguageSelector className="hidden sm:block" />
-          {!isGuest && (
-            <div className="relative">
+    <div 
+      data-scene-id={APP_IDS.SCENES.PROFILE}
+      className="flex flex-col h-full bg-gray-50 dark:bg-[#0b1021] relative overflow-hidden transition-colors duration-700"
+    >
+        {/* Background Aurora */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-40 dark:opacity-20">
+            <div className="absolute top-[10%] left-[-10%] w-[60%] h-[60%] bg-purple-300/30 dark:bg-purple-900/30 blur-[100px] rounded-full"></div>
+            <div className="absolute bottom-[10%] right-[-10%] w-[60%] h-[60%] bg-blue-300/30 dark:bg-blue-900/30 blur-[100px] rounded-full"></div>
+        </div>
+
+        {/* Header */}
+        <div className="px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/10">
+            <div className="flex items-center gap-2">
                 <button 
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition active:scale-95 touch-manipulation"
+                    onClick={onNavigateToLanding}
+                    className="font-black text-lg text-gray-900 dark:text-white hover:opacity-70 transition flex items-center gap-2"
                 >
-                <Icons.Users className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-emerald-400 dark:to-cyan-400">FW</span>
                 </button>
-                {isProfileMenuOpen && (
-                <div className="absolute right-0 top-12 w-64 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden animate-in fade-in zoom-in-95">
-                    <div className="max-h-64 overflow-y-auto">
-                    {allProfiles.map(p => (
+            </div>
+
+            <div className="flex items-center gap-3 md:gap-4">
+                <NavigationLinks 
+                    currentView={AppView.PROFILE} 
+                    onNavigate={handleNav} 
+                />
+                
+                <LanguageSelector className="hidden sm:block text-gray-900 dark:text-white" />
+                
+                <button 
+                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                    className="relative p-1 rounded-full border-2 border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white transition overflow-hidden"
+                >
+                    <img src={getAvatarUrl(profile)} alt="Avatar" className="w-8 h-8 rounded-full bg-white" />
+                </button>
+            </div>
+        </div>
+
+        <FeedbackRibbon />
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto relative z-10 w-full p-4 md:p-8">
+            {isGuest ? (
+                // GUEST VIEW
+                <div className="max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 blur-2xl opacity-20 rounded-full"></div>
+                        <div className="relative bg-white dark:bg-white/10 p-8 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-white/10">
+                            <Icons.Map className="w-16 h-16 text-blue-600 dark:text-white" />
+                        </div>
+                    </div>
+                    
+                    <div className="max-w-xl">
+                        <h1 className={`text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-4 ${headingFont}`}>
+                            {t('profile_guest_title')}
+                        </h1>
+                        <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                            {t('profile_guest_subtitle')}
+                        </p>
+                    </div>
+
+                    <button
+                        data-testid={APP_IDS.VIEWS.PROFILE.BTN_TAKE_QUIZ}
+                        onClick={onEditVisual} // Triggers quiz
+                        className="group relative px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-3"
+                    >
+                        <span>{t('profile_guest_btn_start')}</span>
+                        <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+
+                    {/* Features Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl mt-8 opacity-80">
+                        <div className="p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/50 dark:border-white/10 backdrop-blur-sm">
+                            <Icons.CheckCircle className="w-6 h-6 text-green-500 mb-2 mx-auto" />
+                            <h3 className="font-bold text-sm text-gray-900 dark:text-white">{t('profile_guest_col1')}</h3>
+                        </div>
+                        <div className="p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/50 dark:border-white/10 backdrop-blur-sm">
+                            <Icons.Briefcase className="w-6 h-6 text-blue-500 mb-2 mx-auto" />
+                            <h3 className="font-bold text-sm text-gray-900 dark:text-white">{t('profile_guest_col2')}</h3>
+                        </div>
+                        <div className="p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/50 dark:border-white/10 backdrop-blur-sm">
+                            <Icons.Heart className="w-6 h-6 text-pink-500 mb-2 mx-auto" />
+                            <h3 className="font-bold text-sm text-gray-900 dark:text-white">{t('profile_guest_col3')}</h3>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                // PLAN VIEW (Authenticated)
+                <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
+                    {/* Header Card */}
+                    <div className="bg-white dark:bg-[#151b2e] rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-white/10 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-10">
+                            <Icons.Map className="w-64 h-64 text-black dark:text-white transform translate-x-12 -translate-y-12" />
+                        </div>
+                        
+                        <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                                        {t('quest_level', { level: planData?.level.toString() || '1' })}
+                                    </span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                                        {t('quest_xp', { current: (planData?.xp || 0).toString(), max: '5' })}
+                                    </span>
+                                </div>
+                                <h1 className={`text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2 ${headingFont}`}>
+                                    {t('profile_btn_plan')}
+                                </h1>
+                                <p className="text-gray-600 dark:text-gray-400 max-w-md">
+                                    {t('dash_subtitle')}
+                                </p>
+                            </div>
+                            
+                            <div className="flex gap-3">
+                                <button onClick={onEditVisual} className="px-4 py-2 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-bold text-sm text-gray-900 dark:text-white transition">
+                                    {t('dash_edit_profile')}
+                                </button>
+                                <button onClick={onCreateProfile} className="px-4 py-2 border-2 border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white rounded-xl font-bold text-sm text-gray-900 dark:text-white transition">
+                                    {t('dash_new_profile')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tabs */}
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                         <button 
+                            onClick={() => setActiveTab('career')} 
+                            className={`px-6 py-3 rounded-full font-bold text-sm transition whitespace-nowrap ${activeTab === 'career' ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg' : 'bg-white dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/10'}`}
+                        >
+                            {t('plan_track_career')}
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('life')} 
+                            className={`px-6 py-3 rounded-full font-bold text-sm transition whitespace-nowrap ${activeTab === 'life' ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg' : 'bg-white dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/10'}`}
+                        >
+                            {t('plan_track_life')}
+                        </button>
+                    </div>
+
+                    {/* Modules Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
+                        {activeTab === 'career' && planData?.careerModules.map((m: any, i: number) => renderModuleCard(m, i, true))}
+                        {activeTab === 'life' && planData?.lifeModules.map((m: any, i: number) => renderModuleCard(m, i, false))}
+                    </div>
+                </div>
+            )}
+        </div>
+
+        {/* Profile Switcher Modal (Simple implementation) */}
+        {isProfileMenuOpen && (
+            <div className="absolute top-16 right-4 w-64 bg-white dark:bg-[#1a233b] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 z-50 p-2 animate-in fade-in zoom-in-95 duration-200">
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider px-3 py-2">Switch Profile</div>
+                {allProfiles.map(p => (
+                    <button
                         key={p.id}
                         onClick={() => {
                             onSwitchProfile(p.id);
                             setIsProfileMenuOpen(false);
                         }}
-                        className={`w-full text-left px-5 py-4 text-sm flex items-center justify-between border-b border-gray-50 dark:border-gray-800 active:bg-gray-100 dark:active:bg-gray-800 ${profile?.id === p.id ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300'}`}
-                        >
-                        <span className="font-medium">{p.name}</span>
-                        {profile?.id === p.id && <Icons.CheckCircle className="w-4 h-4" />}
-                        </button>
-                    ))}
-                    <button 
-                        onClick={() => {
-                        onCreateProfile();
-                        setIsProfileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-5 py-4 text-sm text-blue-600 dark:text-blue-400 font-bold flex items-center gap-2 active:bg-blue-50 dark:active:bg-blue-900/20"
+                        className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 transition ${profile?.id === p.id ? 'bg-gray-100 dark:bg-white/10 font-bold' : 'hover:bg-gray-50 dark:hover:bg-white/5'}`}
                     >
-                        <Icons.UserPlus className="w-4 h-4" /> {t('dash_new_profile')}
+                        <img src={getAvatarUrl(p)} className="w-6 h-6 rounded-full bg-gray-200" alt="" />
+                        <span className="truncate text-sm text-gray-900 dark:text-white">{p.name}</span>
                     </button>
-                    </div>
-                </div>
-                )}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <FeedbackRibbon />
-
-      {/* Guest View: "My Plan" Empty State */}
-      {isGuest ? (
-          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-lg mx-auto">
-              <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6 animate-bounce">
-                  <Icons.UserPlus className="w-10 h-10 text-gray-400 dark:text-gray-500" />
-              </div>
-              <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4">
-                  {t('profile_btn_plan')}
-              </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                  To get a personalised plan, please take the quiz.
-                  <br/>
-                  <span className="text-sm opacity-70">(It only takes 2 minutes!)</span>
-              </p>
-              <button
-                  data-testid={APP_IDS.VIEWS.PROFILE.BTN_TAKE_QUIZ}
-                  onClick={onEditVisual} 
-                  className="bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-2 min-h-[56px]"
-              >
-                  {t('landing_btn_quiz')} <Icons.ArrowRight className="w-5 h-5" />
-              </button>
-          </div>
-      ) : (
-          /* Authenticated View: The Plan */
-          <div className="flex-1 p-6 md:p-10 max-w-5xl mx-auto w-full">
-            {/* Top Section */}
-            <div className="flex flex-col md:flex-row gap-8 mb-10 items-start md:items-center">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0 border-4 border-white dark:border-gray-900 shadow-lg relative group">
-                <img 
-                    src={getAvatarUrl(profile)} 
-                    alt="Avatar" 
-                    className="w-full h-full object-cover"
-                />
-            </div>
-            
-            <div className="flex-1 flex flex-col justify-center">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{profile?.name}</h1>
-                <div className="text-gray-700 dark:text-gray-300 space-y-1">
-                <p className="flex items-center gap-2"><Icons.Calendar className="w-4 h-4 opacity-70"/> {profile?.ageRange}</p>
-                <p className="flex items-center gap-2"><Icons.Home className="w-4 h-4 opacity-70"/> {profile?.originCountry}</p>
-                <p className="flex items-center gap-2"><Icons.Heart className="w-4 h-4 opacity-70"/> {translateValue(profile?.maritalStatus)}</p>
-                </div>
-            </div>
-
-            <div className="w-full md:w-72 flex flex-col justify-center gap-3 bg-gray-50 dark:bg-gray-900 p-5 rounded-xl border border-gray-100 dark:border-gray-800">
-                <div className="flex justify-between items-end">
-                <span className="text-sm font-bold text-black dark:text-white">{t('profile_completeness', { percentage: profileCompleteness.toString() })}</span>
-                </div>
-                <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500 rounded-full transition-all duration-1000 ease-out" style={{ width: `${profileCompleteness}%` }}></div>
-                </div>
-                <button 
-                onClick={onEditVisual}
-                className="text-blue-600 dark:text-blue-400 font-bold text-xs hover:underline text-left p-2 -ml-2 rounded active:bg-blue-50 dark:active:bg-blue-900/30"
-                >
-                {t('profile_btn_update')} →
+                ))}
+                <div className="border-t border-gray-100 dark:border-white/10 my-2"></div>
+                <button onClick={onCreateProfile} className="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 text-blue-600 dark:text-blue-400 font-bold text-sm">
+                    <Icons.Plus className="w-4 h-4" /> {t('dash_new_profile')}
                 </button>
             </div>
-            </div>
-
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group border border-gray-100 dark:border-gray-800">
-                    <button onClick={onEditYaml} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black dark:hover:text-white active:scale-95">
-                    <Icons.Edit3 className="w-5 h-5" />
-                    </button>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.Languages className="w-5 h-5 text-blue-500"/> {t('profile_sect_languages')}</h3>
-                    <div className="space-y-3">
-                    {profile?.languages?.map((l, i) => (
-                        <div key={i} className="flex flex-col">
-                            <span className="font-bold text-gray-800 dark:text-gray-200">{l.language}</span>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">{l.level}</span>
-                        </div>
-                    ))}
-                    </div>
-                </div>
-
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group border border-gray-100 dark:border-gray-800">
-                    <button onClick={onEditYaml} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black dark:hover:text-white active:scale-95">
-                    <Icons.Edit3 className="w-5 h-5" />
-                    </button>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.GraduationCap className="w-5 h-5 text-green-500"/> {t('profile_sect_skills')}</h3>
-                    <div className="space-y-4">
-                    <div>
-                        <h4 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">{t('profile_label_education')}</h4>
-                        <p className="font-medium text-gray-900 dark:text-gray-100">{profile?.education?.degree} {profile?.education?.field && `in ${profile.education.field}`}</p>
-                    </div>
-                    <div>
-                        <h4 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">{t('profile_label_profession')}</h4>
-                        <p className="font-medium text-gray-900 dark:text-gray-100">{profile?.profession}</p>
-                    </div>
-                    </div>
-                </div>
-
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl relative group md:col-span-2 border border-gray-100 dark:border-gray-800">
-                    <button onClick={onEditYaml} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black dark:hover:text-white active:scale-95">
-                    <Icons.Edit3 className="w-5 h-5" />
-                    </button>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white"><Icons.User className="w-5 h-5 text-purple-500"/> {t('profile_sect_narrative')}</h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <h4 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">{t('profile_label_aspirations')}</h4>
-                            <ul className="list-disc pl-4 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
-                            {profile?.aspirations?.map((a, i) => <li key={i}>{a}</li>)}
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">{t('profile_label_challenges')}</h4>
-                            <ul className="list-disc pl-4 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
-                            {profile?.challenges?.map((a, i) => <li key={i}>{a}</li>)}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-      )}
+        )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
 import { marked } from 'marked';
-import WikiView from './components/views/WikiView';
+import { WikiView } from './components/views/WikiView';
 import ProfileWizard from './components/ProfileWizard';
 import { getAllFlattenedArticles } from './data/wikiContent';
 import { calculateProfileCompleteness } from './utils/profileUtils';
@@ -28,6 +28,10 @@ marked.use({ gfm: true, breaks: true });
 const App: React.FC = () => {
   const { language, t } = useLanguage();
   const [view, setView] = useState<AppView>(AppView.LANDING);
+  
+  // Navigation History Stack (Max 10 items)
+  const [viewHistory, setViewHistory] = useState<AppView[]>([]);
+
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [allProfiles, setAllProfiles] = useState<UserProfile[]>([]);
@@ -38,6 +42,8 @@ const App: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [yamlInput, setYamlInput] = useState('');
   const [layoutMode, setLayoutMode] = useState<LayoutPreference>('windowed');
+  
+  // Touch Handling for Global Gestures
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
 
   useEffect(() => {
@@ -72,64 +78,118 @@ const App: React.FC = () => {
     if (profile) setProfileCompleteness(calculateProfileCompleteness(profile));
   }, [view, profile]);
 
+  // --- SMART NAVIGATION LOGIC ---
+
+  const changeView = (newView: AppView, addToHistory: boolean = true) => {
+      if (view === newView) return;
+      
+      // LOOP GUARD: 
+      // If the user is going back to the view they *just* came from (e.g. Profile -> Wiki -> Profile),
+      // we interpret this as a "Back" action rather than pushing a new "Profile" onto the stack.
+      // This keeps the history clean and prevents A -> B -> A -> B -> A loops.
+      if (viewHistory.length > 0 && viewHistory[viewHistory.length - 1] === newView) {
+          handleGlobalBack();
+          return;
+      }
+
+      if (addToHistory) {
+          // Push current view to history, limit to 10 previous views
+          setViewHistory(prev => [...prev.slice(-9), view]);
+      }
+      setView(newView);
+  };
+
+  const handleGlobalBack = () => {
+      // Dynamic Back Mechanism:
+      // If we have history, pop the last view.
+      if (viewHistory.length > 0) {
+          const prevView = viewHistory[viewHistory.length - 1];
+          const newHistory = viewHistory.slice(0, -1);
+          
+          setViewHistory(newHistory);
+          setView(prevView);
+          
+          // Cleanup: If we are leaving Wiki, clear the active article
+          if (view === AppView.WIKI && prevView !== AppView.WIKI) {
+              setActiveWikiArticleId(null);
+          }
+      } else {
+          // Fallback: If no history (e.g. refresh), go to Dashboard or Landing
+          if (view !== AppView.DASHBOARD && view !== AppView.LANDING) {
+              setView(AppView.DASHBOARD);
+          }
+      }
+  };
+
+  // --- GESTURES & SHORTCUTS ---
+
   const handleNavigation = (direction: 'next' | 'prev') => {
+      // 1. Deep Wiki Navigation (Article to Article)
       if (view === AppView.WIKI && activeWikiArticleId) {
           const allArticles = getAllFlattenedArticles(language);
           const currentIndex = allArticles.findIndex(a => a.id === activeWikiArticleId);
           if (currentIndex === -1) { setActiveWikiArticleId(null); return; }
+          
           if (direction === 'next') {
               if (currentIndex < allArticles.length - 1) setActiveWikiArticleId(allArticles[currentIndex + 1].id);
-              else setActiveWikiArticleId(null);
           } else {
               if (currentIndex > 0) setActiveWikiArticleId(allArticles[currentIndex - 1].id);
-              else setActiveWikiArticleId(null);
+              // If at start of article list, swipe back shouldn't close view, handled by separate logic
           }
           return; 
       }
+      
+      // 2. Global Tab Cycle (Optional, can be disabled if confusing)
+      // Only cycle main tabs if we are at root level
       if (![AppView.DASHBOARD, AppView.PROFILE, AppView.WIKI, AppView.CHAT].includes(view)) return;
-      if (direction === 'next') { 
-          if (view === AppView.PROFILE) setView(AppView.DASHBOARD);
-          else if (view === AppView.DASHBOARD) setView(AppView.WIKI);
-          else if (view === AppView.WIKI) setView(AppView.CHAT);
-          else if (view === AppView.CHAT) setView(AppView.DASHBOARD); 
-      } else { 
-          if (view === AppView.PROFILE) setView(AppView.DASHBOARD);
-          else if (view === AppView.DASHBOARD) setView(AppView.PROFILE);
-          else if (view === AppView.WIKI) setView(AppView.DASHBOARD);
-          else if (view === AppView.CHAT) setView(AppView.WIKI);
+      
+      // Simple Cycle: Dashboard <-> Wiki <-> Chat <-> Profile
+      const cycle = [AppView.DASHBOARD, AppView.WIKI, AppView.CHAT, AppView.PROFILE];
+      const idx = cycle.indexOf(view);
+      if (idx === -1) return;
+
+      if (direction === 'next') {
+          const nextView = cycle[(idx + 1) % cycle.length];
+          changeView(nextView, true);
+      } else {
+          const prevView = cycle[(idx - 1 + cycle.length) % cycle.length];
+          changeView(prevView, true);
       }
   };
 
-  useEffect(() => {
-      const onKeyDown = (e: KeyboardEvent) => {
-          const target = e.target as HTMLElement;
-          if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return;
-          if (e.key === 'ArrowLeft') handleNavigation('prev');
-          if (e.key === 'ArrowRight') handleNavigation('next');
-      };
-      window.addEventListener('keydown', onKeyDown);
-      return () => window.removeEventListener('keydown', onKeyDown);
-  }, [view, activeWikiArticleId, language]); 
-
   const handleTouchStart = (e: React.TouchEvent) => { touchStartRef.current = { x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY }; };
+  
   const handleTouchEnd = (e: React.TouchEvent) => {
       if (!touchStartRef.current) return;
       const touchEndX = e.changedTouches[0].clientX;
       const touchEndY = e.changedTouches[0].clientY;
       const diffX = touchStartRef.current.x - touchEndX;
       const diffY = touchStartRef.current.y - touchEndY;
+      
+      // Horizontal Swipe Detection (Threshold 50px)
       if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
-          if (diffX > 0) handleNavigation('next');
-          else handleNavigation('prev');
+          if (diffX > 0) {
+              // Swipe Left (Next)
+              handleNavigation('next');
+          } else {
+              // Swipe Right (Back / Prev)
+              // If we have history and we are swiping right, treated as "Back"
+              if (viewHistory.length > 0) {
+                  handleGlobalBack();
+              } else {
+                  handleNavigation('prev');
+              }
+          }
       }
       touchStartRef.current = null;
   };
+
+  // --- DATA OPERATIONS ---
 
   const refreshProfiles = () => {
     const profiles = Storage.getAllProfiles();
     setAllProfiles(profiles);
     const active = Storage.getActiveProfile();
-    // Only overwrite if we found an active profile on disk, otherwise keep existing (e.g. Guest)
     if (active) {
         setProfile(active);
         setYamlInput(Storage.profileToYaml(active));
@@ -180,7 +240,6 @@ const App: React.FC = () => {
   };
 
   const startNewChat = () => {
-    // Ensure we have a profile context when starting chat, even if it's Guest
     if (!profile) setProfile(GUEST_PROFILE);
 
     const globalPref = Storage.getGlobalLengthPreference();
@@ -214,7 +273,7 @@ const App: React.FC = () => {
     };
     setCurrentConversation(newConv);
     Storage.saveConversation(newConv);
-    setView(AppView.CHAT);
+    changeView(AppView.CHAT);
     return newConv;
   };
 
@@ -222,28 +281,22 @@ const App: React.FC = () => {
     const conversation = conversationOverride || currentConversation;
     if (!messageText.trim() || !conversation) return;
     
-    // SAFETY FIX: Robustly determine profile. 
-    // If state is null (e.g. reload or race condition), check storage.
-    // If storage is null (Guest mode not saved), fallback to GUEST_PROFILE if we are already in chat.
     let activeProfile = profile || Storage.getActiveProfile();
     
-    // Fallback for Guest in Chat: If we are already in the Chat view, force Guest profile instead of redirecting
     if (!activeProfile && (view === AppView.CHAT || conversationOverride)) {
         activeProfile = GUEST_PROFILE;
         setProfile(GUEST_PROFILE);
     }
 
     if (!activeProfile) {
-        // Truly uninitialized state
         alert("Please create a profile first.");
-        setView(AppView.QUIZ);
+        changeView(AppView.QUIZ);
         return;
     }
 
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
-    // Explicit Preference Selection (via buttons or exact text)
     if (!effectivePref && (messageText === 'short' || messageText === 'long')) {
         const newPref = messageText as 'short' | 'long';
         const selectionMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || (messageText === 'short' ? t('settings_opt_short') : t('settings_opt_long')), timestamp: Date.now() };
@@ -257,12 +310,10 @@ const App: React.FC = () => {
         return; 
     } 
     
-    // Standard User Message
     const userMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || messageText, timestamp: Date.now() };
     const updatedMessages = [...conversation.messages, userMsg];
     let updatedConv = { ...conversation, messages: updatedMessages };
     
-    // Implicit Default: If preference wasn't set, assume 'short' and proceed without asking again
     if (!effectivePref) {
         effectivePref = 'short';
         updatedConv.responseLength = 'short';
@@ -272,7 +323,6 @@ const App: React.FC = () => {
     Storage.saveConversation(updatedConv);
     setInputText('');
     
-    // Send to Gemini
     let queryToSend = messageText;
     let finalPref = effectivePref;
     setIsTyping(true);
@@ -320,7 +370,7 @@ const App: React.FC = () => {
         processPendingSummaries();
     }
     setCurrentConversation(null);
-    setView(AppView.DASHBOARD);
+    changeView(AppView.DASHBOARD);
   };
 
   const handleSwitchProfile = (id: string) => { Storage.setActiveProfileId(id); refreshProfiles(); };
@@ -329,17 +379,16 @@ const App: React.FC = () => {
       const updated = Storage.saveProfileFromYaml(yamlInput);
       setProfile(updated);
       refreshProfiles(); 
-      setView(AppView.PROFILE); 
+      changeView(AppView.PROFILE); 
     } catch (e) { alert("Invalid YAML."); }
   };
-  const handleCreateNewProfile = () => { setProfile(null); setView(AppView.QUIZ); };
+  const handleCreateNewProfile = () => { setProfile(null); changeView(AppView.QUIZ); };
   
-  // LOGIC UPDATE: Route to PROFILE after Quiz
   const handleWizardComplete = (newProfile: UserProfile) => {
     Storage.saveProfile(newProfile, true);
     Storage.setActiveProfileId(newProfile.id);
     refreshProfiles();
-    setView(AppView.PROFILE); 
+    changeView(AppView.PROFILE); 
   };
 
   const handleLoadDemoProfile = (silent: boolean = false) => {
@@ -350,7 +399,7 @@ const App: React.FC = () => {
       if (targetProfile) {
         Storage.setActiveProfileId(targetProfile.id);
         refreshProfiles();
-        setView(AppView.DASHBOARD);
+        changeView(AppView.DASHBOARD);
       }
     } catch (e) { if(!silent) alert("Error loading demo."); }
   };
@@ -362,7 +411,11 @@ const App: React.FC = () => {
       }
   };
 
-  const handleNavigateToArticle = (articleId: string) => { setActiveWikiArticleId(articleId); setView(AppView.WIKI); };
+  // Navigates to wiki and sets history so 'Back' works correctly
+  const handleNavigateToArticle = (articleId: string) => { 
+      setActiveWikiArticleId(articleId); 
+      changeView(AppView.WIKI);
+  };
 
   if (!apiKey) {
     return <Layout layoutMode={layoutMode}><ApiKeyView onSave={handleSaveKey} /></Layout>;
@@ -373,9 +426,9 @@ const App: React.FC = () => {
       {view === AppView.LANDING && (
         <LandingView 
           profile={profile}
-          onStartQuiz={() => { setProfile(null); setView(AppView.QUIZ); }}
-          onOpenGuide={() => setView(AppView.DASHBOARD)} // Returning user goes to Dashboard (Hub)
-          onBrowseWiki={() => setView(AppView.WIKI)}
+          onStartQuiz={() => { setProfile(null); changeView(AppView.QUIZ); }}
+          onOpenGuide={() => changeView(AppView.DASHBOARD)} 
+          onBrowseWiki={() => changeView(AppView.WIKI)}
           onStartChat={() => startNewChat()}
           onLoadDemo={handleLoadDemoProfile}
           onReset={handleResetData}
@@ -388,42 +441,43 @@ const App: React.FC = () => {
         <DashboardView 
           profile={profile}
           profileCompleteness={profileCompleteness}
-          onNavigateToProfile={() => setView(AppView.PROFILE)}
-          onNavigateToWiki={() => setView(AppView.WIKI)}
-          onNavigateToQuiz={() => setView(AppView.QUIZ)}
+          onNavigateToProfile={() => changeView(AppView.PROFILE)}
+          onNavigateToWiki={() => changeView(AppView.WIKI)}
+          onNavigateToQuiz={() => changeView(AppView.QUIZ)}
           onStartChat={() => startNewChat()}
-          onNavigateToHistory={() => setView(AppView.HISTORY)}
-          onNavigateToCvImport={() => setView(AppView.CV_IMPORT)}
-          onNavigateToSettings={() => setView(AppView.SETTINGS)}
-          onNavigateToLanding={() => setView(AppView.LANDING)}
+          onNavigateToHistory={() => changeView(AppView.HISTORY)}
+          onNavigateToCvImport={() => changeView(AppView.CV_IMPORT)}
+          onNavigateToSettings={() => changeView(AppView.SETTINGS)}
+          onNavigateToLanding={() => changeView(AppView.LANDING)}
         />
       )}
 
       {view === AppView.SETTINGS && (
         <SettingsView 
-          onBack={() => setView(AppView.DASHBOARD)}
+          onBack={handleGlobalBack}
           onToggleLayout={(mode) => setLayoutMode(mode)}
         />
       )}
 
       {view === AppView.HISTORY && (
-        <HistoryView onBack={() => setView(AppView.DASHBOARD)} />
+        <HistoryView onBack={handleGlobalBack} />
       )}
 
       {view === AppView.CV_IMPORT && (
-        <CvImportView onBack={() => setView(AppView.DASHBOARD)} onProfileUpdated={refreshProfiles} />
+        <CvImportView onBack={handleGlobalBack} onProfileUpdated={refreshProfiles} />
       )}
 
       {view === AppView.WIKI && (
         <WikiView 
           profile={profile}
-          onClose={() => activeWikiArticleId ? setActiveWikiArticleId(null) : setView(AppView.DASHBOARD)}
+          // The Wiki view needs to know if it should behave as a "Browser" or a "Deep Link Viewer"
+          onClose={handleGlobalBack} 
           activeArticleId={activeWikiArticleId}
           onArticleSelect={(article) => setActiveWikiArticleId(article?.id || null)}
           onStartChatWithContext={handleStartChatWithContext}
           onNavigateToChat={() => startNewChat()}
-          onNavigateToProfile={() => setView(AppView.PROFILE)}
-          onNavigateToLanding={() => setView(AppView.LANDING)}
+          onNavigateToProfile={() => changeView(AppView.PROFILE)}
+          onNavigateToLanding={() => changeView(AppView.LANDING)}
         />
       )}
 
@@ -431,12 +485,10 @@ const App: React.FC = () => {
         <ProfileWizard 
           onComplete={handleWizardComplete} 
           onCancel={() => {
-             // Logic: If user is a Guest (no profile yet), canceling the quiz should probably return them to Landing 
-             // because going to Dashboard just shows the "Take Quiz" CTA again, which is a loop.
              if (!profile || profile.id === 'guest') {
-                 setView(AppView.LANDING);
+                 changeView(AppView.LANDING);
              } else {
-                 setView(AppView.DASHBOARD);
+                 changeView(AppView.DASHBOARD);
              }
           }} 
           initialData={profile} 
@@ -449,7 +501,7 @@ const App: React.FC = () => {
           yamlInput={yamlInput}
           onYamlChange={setYamlInput}
           onSave={handleSaveProfileEdit}
-          onCancel={() => setView(AppView.PROFILE)}
+          onCancel={() => changeView(AppView.PROFILE)}
           onLoadDemo={() => handleLoadDemoProfile(false)}
         />
       )}
@@ -463,9 +515,9 @@ const App: React.FC = () => {
           onSendMessage={(text, label) => handleSendMessage(text || inputText, undefined, undefined, label)}
           onEndSession={handleEndSession}
           onNavigateToArticle={handleNavigateToArticle}
-          onNavigateToProfile={() => setView(AppView.PROFILE)}
-          onNavigateToWiki={() => setView(AppView.WIKI)}
-          onNavigateToLanding={() => setView(AppView.LANDING)}
+          onNavigateToProfile={() => changeView(AppView.PROFILE)}
+          onNavigateToWiki={() => changeView(AppView.WIKI)}
+          onNavigateToLanding={() => changeView(AppView.LANDING)}
         />
       )}
 
@@ -474,13 +526,14 @@ const App: React.FC = () => {
           profile={profile}
           profileCompleteness={profileCompleteness}
           allProfiles={allProfiles}
-          onNavigateBack={() => setView(AppView.DASHBOARD)}
+          onNavigateBack={() => changeView(AppView.DASHBOARD)}
           onSwitchProfile={handleSwitchProfile}
           onCreateProfile={handleCreateNewProfile}
-          onEditVisual={() => setView(AppView.QUIZ)}
-          onEditYaml={() => setView(AppView.PROFILE_EDIT)}
-          onNavigateToWiki={() => setView(AppView.WIKI)}
-          onNavigateToLanding={() => setView(AppView.LANDING)}
+          onEditVisual={() => changeView(AppView.QUIZ)}
+          onEditYaml={() => changeView(AppView.PROFILE_EDIT)}
+          onNavigateToWiki={() => changeView(AppView.WIKI)}
+          onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToArticle={handleNavigateToArticle}
         />
       )}
     </Layout>
