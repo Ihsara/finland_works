@@ -83,7 +83,8 @@ export const RatingScale = ({ current, onSelect, minLabel, maxLabel, t }: { curr
           <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase max-w-[100px] leading-tight">{minLabel}</span>
           <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase max-w-[100px] leading-tight text-right">{maxLabel}</span>
       </div>
-      <div className="flex justify-between items-center gap-2 sm:gap-3">
+      {/* Changed items-center to items-start to prevent icon misalignment when labels wrap */}
+      <div className="flex justify-between items-start gap-2 sm:gap-3">
         {levels.map((lvl) => {
            const isActive = current === lvl.value;
            const Icon = lvl.icon;
@@ -92,7 +93,7 @@ export const RatingScale = ({ current, onSelect, minLabel, maxLabel, t }: { curr
                key={lvl.value}
                onClick={() => onSelect(lvl.value)}
                className={`
-                  group relative flex flex-col items-center justify-center gap-2 transition-all duration-300
+                  group relative flex flex-col items-center gap-2 transition-all duration-300
                   flex-1
                `}
              >
@@ -105,7 +106,7 @@ export const RatingScale = ({ current, onSelect, minLabel, maxLabel, t }: { curr
                `}>
                   <Icon className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 ${isActive ? 'text-white scale-110' : ''}`} />
                </div>
-               <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wide ${isActive ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-600'}`}>
+               <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wide text-center leading-tight ${isActive ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-600'}`}>
                    {lvl.label}
                </span>
              </button>

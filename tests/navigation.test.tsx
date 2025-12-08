@@ -82,6 +82,7 @@ describe('Navigation & User Flow', () => {
           onEditVisual={vi.fn()}
           onEditYaml={vi.fn()}
           onNavigateToWiki={vi.fn()}
+          onNavigateToLanding={vi.fn()}
         />
       );
 
@@ -111,6 +112,7 @@ describe('Navigation & User Flow', () => {
           onEditVisual={vi.fn()}
           onEditYaml={vi.fn()}
           onNavigateToWiki={vi.fn()}
+          onNavigateToLanding={vi.fn()}
         />
       );
 

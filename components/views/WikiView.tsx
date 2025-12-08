@@ -22,6 +22,7 @@ interface WikiViewProps {
   onStartChatWithContext?: (context: string, sentence: string) => void;
   onNavigateToChat: () => void;
   onNavigateToProfile: () => void;
+  onNavigateToLanding: () => void;
 }
 
 type ViewMode = 'list' | 'icons';
@@ -45,7 +46,8 @@ const WikiView: React.FC<WikiViewProps> = ({
   onArticleSelect,
   onStartChatWithContext,
   onNavigateToChat,
-  onNavigateToProfile
+  onNavigateToProfile,
+  onNavigateToLanding
 }) => {
   const { language, t } = useLanguage();
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
@@ -275,6 +277,7 @@ const WikiView: React.FC<WikiViewProps> = ({
       if (view === AppView.WIKI) { handleBack(); }
       if (view === AppView.CHAT) onNavigateToChat();
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) onClose();
   };
 
@@ -396,6 +399,7 @@ const WikiView: React.FC<WikiViewProps> = ({
                             return (
                                 <button
                                     key={category.id}
+                                    data-testid={APP_IDS.VIEWS.WIKI.CARD_CATEGORY(category.id)}
                                     onClick={() => handleIconCategoryClick(category.id)}
                                     className={`
                                         group relative aspect-square rounded-[2rem] bg-white dark:bg-gray-800
@@ -442,7 +446,6 @@ const WikiView: React.FC<WikiViewProps> = ({
             </div>
         )}
 
-        {/* ... (Rest of component remains same, but list buttons above have updated padding) ... */}
         {/* Render for Full Screen List Mode uses same renderCategoryList function which is now updated */}
         {viewMode === 'list' && !activeArticle && !activeCategory && !activeTag && (
              <div className="w-full h-full overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 animate-in slide-in-from-right-4 duration-300">
@@ -456,7 +459,6 @@ const WikiView: React.FC<WikiViewProps> = ({
              </div>
         )}
 
-        {/* ... Other states ... */}
         {activeTag && !activeArticle && (
             <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
                 <div className="w-full p-8 md:p-12 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
@@ -494,7 +496,6 @@ const WikiView: React.FC<WikiViewProps> = ({
             </div>
         )}
 
-        {/* ... Active Category view ... */}
         {activeCategory && !activeArticle && !activeTag && (
             <div className="w-full h-full overflow-y-auto bg-white dark:bg-gray-950 animate-in fade-in slide-in-from-bottom-4 duration-300">
                 <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} border-b ${activeCategory.theme.border}`}>
@@ -524,7 +525,6 @@ const WikiView: React.FC<WikiViewProps> = ({
             </div>
         )}
 
-        {/* ... Article Reader View ... */}
         {activeArticle && (
             <div className="flex h-full relative animate-in fade-in duration-300">
                 <div className={`absolute inset-0 z-40 bg-gray-50 dark:bg-gray-900 flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:inset-auto md:transform-none md:w-80 md:border-r md:border-gray-100 dark:md:border-gray-800 md:flex ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>

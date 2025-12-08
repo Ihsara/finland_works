@@ -30,7 +30,7 @@ export const NAV_LINKS: Record<string, AppView> = {
   [SCENES.GLOBAL_NAV.LINK_KB]: AppView.WIKI,
   [SCENES.GLOBAL_NAV.LINK_CHAT]: AppView.CHAT,
   [SCENES.GLOBAL_NAV.LINK_PLAN]: AppView.PROFILE,
-  [SCENES.GLOBAL_NAV.LOGO]: AppView.DASHBOARD,
+  [SCENES.GLOBAL_NAV.LOGO]: AppView.LANDING,
 
   // SHARED / NAVBAR (Mapped via component IDs usually, but conceptual links here)
   'nav_profile': AppView.PROFILE,

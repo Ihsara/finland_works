@@ -1,0 +1,80 @@
+
+graph TD
+  %% ==========================================
+  %%  FINLAND WORKS! - NAVIGATION FLOWCHART
+  %%  Generated from System Registry (UIS)
+  %% ==========================================
+
+  %% --- SCENES (Views) ---
+  LANDING[Landing View]
+  DASHBOARD[Dashboard Hub]
+  CHAT[Chat Interface]
+  WIKI[Wiki / Knowledge Base]
+  PROFILE[Profile View]
+  QUIZ[Profile Quiz / Wizard]
+  HISTORY[History View]
+  CV_IMPORT[CV Import View]
+  SETTINGS[Settings View]
+  PROFILE_EDIT[Profile YAML Editor]
+
+  %% --- SCENE: LANDING ---
+  %% Defined in data/system/scenes/index.ts -> LANDING
+  subgraph Flow_Landing [Landing Actions]
+    direction TB
+    LANDING -- btn_landing_start_quiz --> QUIZ
+    LANDING -- btn_landing_continue --> DASHBOARD
+    LANDING -- btn_landing_start_chat --> CHAT
+    LANDING -- btn_landing_browse --> WIKI
+  end
+
+  %% --- SCENE: DASHBOARD ---
+  %% Defined in data/system/scenes/index.ts -> DASHBOARD
+  subgraph Flow_Dashboard [Dashboard Actions]
+    direction TB
+    DASHBOARD -- btn_dashboard_guide --> WIKI
+    DASHBOARD -- btn_dashboard_chat --> CHAT
+    DASHBOARD -- btn_dashboard_history --> HISTORY
+    DASHBOARD -- btn_dashboard_cv_import --> CV_IMPORT
+    DASHBOARD -- btn_dashboard_settings --> SETTINGS
+    DASHBOARD -- avatar_click --> PROFILE
+  end
+
+  %% --- COMPONENT: GLOBAL NAVIGATION BAR ---
+  %% Available in Dashboard, Wiki, Chat, Profile
+  subgraph Navbar [Global Navigation]
+    NAV_LINK_KB(nav_link_knowledge_base) -.-> WIKI
+    NAV_LINK_CHAT(nav_link_chat) -.-> CHAT
+    NAV_LINK_PLAN(nav_link_my_plan) -.-> PROFILE
+    NAV_LOGO(nav_logo_home) -.-> LANDING
+  end
+
+  %% --- SCENE: PROFILE ---
+  %% Defined in data/system/scenes/index.ts -> PROFILE
+  PROFILE -- btn_profile_take_quiz (Guest State) --> QUIZ
+  PROFILE -- "Update Profile (Visual)" --> QUIZ
+  PROFILE -- "Edit YAML" --> PROFILE_EDIT
+
+  %% --- SCENE: WIKI ---
+  WIKI -- "Ask about this (Context)" --> CHAT
+
+  %% --- SCENE: CHAT ---
+  CHAT -- btn_chat_end_session --> DASHBOARD
+
+  %% --- SCENE: QUIZ ---
+  QUIZ -- onComplete --> PROFILE
+  QUIZ -- onCancel --> LANDING
+
+  %% --- SCENE: CV IMPORT ---
+  CV_IMPORT -- onAnalyzeComplete --> PROFILE
+
+  %% --- SCENE: SETTINGS ---
+  SETTINGS -- onBack --> DASHBOARD
+
+  %% --- STYLING ---
+  classDef hub fill:#f9f,stroke:#333,stroke-width:4px,font-weight:bold;
+  classDef leaf fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
+  classDef nav fill:#fff3e0,stroke:#e65100,stroke-dasharray: 5 5;
+
+  class LANDING,DASHBOARD hub;
+  class CHAT,WIKI,PROFILE,QUIZ,HISTORY,CV_IMPORT,SETTINGS,PROFILE_EDIT leaf;
+  class NAV_LINK_KB,NAV_LINK_CHAT,NAV_LINK_PLAN,NAV_LOGO nav;

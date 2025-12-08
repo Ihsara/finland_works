@@ -20,6 +20,7 @@ interface ProfileDetailViewProps {
   onEditVisual: () => void;
   onEditYaml: () => void;
   onNavigateToWiki: () => void;
+  onNavigateToLanding: () => void;
 }
 
 export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
@@ -31,7 +32,8 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
   onCreateProfile,
   onEditVisual,
   onEditYaml,
-  onNavigateToWiki
+  onNavigateToWiki,
+  onNavigateToLanding
 }) => {
   const { t } = useLanguage();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -56,6 +58,7 @@ export const ProfileDetailView: React.FC<ProfileDetailViewProps> = ({
             onNavigate={(v) => {
                 if (v === AppView.DASHBOARD) onNavigateBack();
                 if (v === AppView.WIKI) onNavigateToWiki();
+                if (v === AppView.LANDING) onNavigateToLanding();
             }} 
         />
         

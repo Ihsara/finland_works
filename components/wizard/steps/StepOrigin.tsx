@@ -31,17 +31,17 @@ const RegionGrid: React.FC<RegionGridProps> = ({ originCountry, isEuropeSelected
                           key={r.id}
                           onClick={() => onSelect(r.id, r.value)}
                           className={`
-                              flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all duration-200 gap-3
+                              flex flex-col items-center justify-start p-6 rounded-xl border-2 transition-all duration-200 gap-3
                               ${isSelected 
                                   ? 'border-black dark:border-white bg-gray-50 dark:bg-gray-800 shadow-md ring-1 ring-black dark:ring-white' 
                                   : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 hover:-translate-y-1'
                               }
                           `}
                       >
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${r.color}`}>
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${r.color}`}>
                               <r.icon className="w-6 h-6" />
                           </div>
-                          <span className={`font-bold text-sm ${isSelected ? 'text-black dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>{r.label}</span>
+                          <span className={`font-bold text-sm text-center ${isSelected ? 'text-black dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>{r.label}</span>
                       </button>
                    );
                })}
@@ -51,7 +51,15 @@ const RegionGrid: React.FC<RegionGridProps> = ({ originCountry, isEuropeSelected
 
 const StepOrigin: React.FC<WizardStepProps> = ({ formData, handleChange, handleNext, activeSection = 'origin', setActiveSection }) => {
   const { t } = useLanguage();
-  const [originInputMode, setOriginInputMode] = useState<'search' | 'region'>('search');
+  
+  // Default to 'region', unless we have a specific country string (that isn't a Region string)
+  const [originInputMode, setOriginInputMode] = useState<'search' | 'region'>(() => {
+      if (formData.originCountry && !formData.originCountry.startsWith('Region:')) {
+          return 'search';
+      }
+      return 'region';
+  });
+
   const [showCountryList, setShowCountryList] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const countryWrapperRef = useRef<HTMLDivElement>(null);
@@ -60,13 +68,6 @@ const StepOrigin: React.FC<WizardStepProps> = ({ formData, handleChange, handleN
   const [isEuropeSelected, setIsEuropeSelected] = useState(
       formData.originCountry?.includes('Europe') || isEUCountry(formData.originCountry || '')
   );
-
-  // Effect to sync mode if data pre-filled with "Region:"
-  useEffect(() => {
-      if (formData.originCountry && formData.originCountry.startsWith('Region:')) {
-          setOriginInputMode('region');
-      }
-  }, []);
 
   const filteredCountries = formData.originCountry 
     ? COUNTRIES
@@ -98,18 +99,7 @@ const StepOrigin: React.FC<WizardStepProps> = ({ formData, handleChange, handleN
           handleChange('originCountry', `Region: ${regionName}`);
       } else {
           setIsEuropeSelected(false);
-          // If switching away from Europe, clear any EU registration that might be set
-          // The parent `handleChange` logic should ideally handle this clearing, 
-          // but we pass explicit params here to be safe.
-          // Note: Wizard logic in handleChange for originCountry handles EU detection for countries, 
-          // but for regions we manually set.
           handleChange('originCountry', `Region: ${regionName}`);
-          
-          // Hack: We need to reset residencePermitType if it was EU Registration
-          // Since handleChange is generic, we can't easily do conditional updates on other fields unless we pass object
-          // But for now, rely on the parent logic or user to fix later.
-          // Ideally handleChange supports partial updates or we call it twice.
-          // Let's assume the user will set Permit later anyway.
           
           setTimeout(() => {
              handleNext();
@@ -126,17 +116,7 @@ const StepOrigin: React.FC<WizardStepProps> = ({ formData, handleChange, handleN
   };
 
   const handleEuropeCitizenSelect = (isCitizen: boolean) => {
-      // We update both fields
       handleChange('originCountry', isCitizen ? 'Region: Europe (EU/EEA)' : 'Region: Europe (Non-EU)');
-      // We need a way to update residencePermitType too.
-      // The parent handleChange implementation for 'originCountry' does check isEUCountry,
-      // but here we are setting a Region string.
-      // The Step component logic in main Wizard handles the side effects usually.
-      // We will assume the main Wizard logic handles the EU Registration setting based on string value,
-      // OR we call handleChange for permit specifically if possible.
-      // Since we can only call one field at a time with standard handleChange, 
-      // we might need to enhance handleChange or rely on the fact that 'originCountry' change triggers logic in parent.
-      
       setTimeout(() => {
          handleNext();
       }, 350);

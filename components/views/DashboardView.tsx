@@ -20,6 +20,7 @@ interface DashboardViewProps {
   onNavigateToHistory?: () => void;
   onNavigateToCvImport?: () => void;
   onNavigateToSettings?: () => void;
+  onNavigateToLanding: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -31,7 +32,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onStartChat,
   onNavigateToHistory,
   onNavigateToCvImport,
-  onNavigateToSettings
+  onNavigateToSettings,
+  onNavigateToLanding
 }) => {
   const { t } = useLanguage();
   const isGuest = !profile || profile.id === 'guest';
@@ -40,6 +42,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       if (view === AppView.WIKI) onNavigateToWiki();
       if (view === AppView.CHAT) onStartChat();
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) { /* Already here */ }
   };
 
@@ -95,12 +98,29 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
              {isGuest ? t('dash_subtitle_guest') : t('dash_subtitle')}
           </p>
 
+          {/* Guest State CTA */}
+          {isGuest && (
+              <div className="mb-10 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
+                  <button
+                      data-testid={APP_IDS.VIEWS.PROFILE.BTN_TAKE_QUIZ}
+                      onClick={onNavigateToQuiz} 
+                      className="w-full bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center justify-center gap-2"
+                  >
+                      {t('landing_btn_quiz')} <Icons.ArrowRight className="w-5 h-5" />
+                  </button>
+                  <p className="text-xs text-gray-400 dark:text-gray-600 mt-3 font-medium">
+                      Takes 2 minutes • No account required
+                  </p>
+              </div>
+          )}
+
           {/* Primary Actions Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-8">
              {/* Guide */}
              <button
+               data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_GUIDE}
                onClick={onNavigateToWiki}
-               className="flex items-center gap-4 p-5 bg-blue-50 dark:bg-blue-900/10 rounded-2xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition text-left group"
+               className="flex items-center gap-4 p-5 bg-blue-50 dark:bg-blue-900/10 rounded-2xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition text-left group border border-transparent hover:border-blue-200 dark:hover:border-blue-800"
              >
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Icons.BookOpen className="w-6 h-6" />
@@ -113,8 +133,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
              {/* Chat */}
              <button
+               data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_CHAT}
                onClick={onStartChat}
-               className="flex items-center gap-4 p-5 bg-purple-50 dark:bg-purple-900/10 rounded-2xl hover:bg-purple-100 dark:hover:bg-purple-900/30 transition text-left group"
+               className="flex items-center gap-4 p-5 bg-purple-50 dark:bg-purple-900/10 rounded-2xl hover:bg-purple-100 dark:hover:bg-purple-900/30 transition text-left group border border-transparent hover:border-purple-200 dark:hover:border-purple-800"
              >
                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-800 text-purple-600 dark:text-purple-300 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Icons.MessageSquare className="w-6 h-6" />
@@ -130,12 +151,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {!isGuest && (
             <div className="flex gap-4">
                <button
+                 data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_HISTORY}
                  onClick={onNavigateToHistory}
                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                >
                   <Icons.History className="w-4 h-4" /> {t('dash_btn_history')}
                </button>
                <button
+                 data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_CV}
                  onClick={onNavigateToCvImport}
                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                >

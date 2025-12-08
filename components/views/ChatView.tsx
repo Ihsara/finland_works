@@ -19,6 +19,7 @@ interface ChatViewProps {
   onNavigateToArticle?: (articleId: string) => void;
   onNavigateToProfile: () => void;
   onNavigateToWiki: () => void;
+  onNavigateToLanding: () => void;
 }
 
 export const ChatView: React.FC<ChatViewProps> = ({
@@ -30,7 +31,8 @@ export const ChatView: React.FC<ChatViewProps> = ({
   onEndSession,
   onNavigateToArticle,
   onNavigateToProfile,
-  onNavigateToWiki
+  onNavigateToWiki,
+  onNavigateToLanding
 }) => {
   const { t } = useLanguage();
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -47,7 +49,15 @@ export const ChatView: React.FC<ChatViewProps> = ({
       if (view === AppView.WIKI) onNavigateToWiki();
       if (view === AppView.CHAT) { /* Already here */ }
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) onEndSession(); // Logic decision: Home = End Session
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          onSendMessage();
+      }
   };
 
   return (
@@ -164,7 +174,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
             type="text"
             value={inputText}
             onChange={(e) => onInputChange(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && onSendMessage()}
+            onKeyDown={handleKeyDown}
             placeholder={t('chat_placeholder')}
             disabled={isTyping}
             className="w-full pl-4 pr-12 py-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-base text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-500 focus:ring-2 focus:ring-black dark:focus:ring-white focus:bg-white dark:focus:bg-gray-800 focus:outline-none transition shadow-sm"

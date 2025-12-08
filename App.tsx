@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
-import { AppView, Conversation, Message, Sender, UserProfile, LayoutPreference } from './types';
+import { AppView, Conversation, Message, Sender, UserProfile, LayoutPreference, GUEST_PROFILE } from './types';
 import * as Storage from './services/storageService';
 import * as Gemini from './services/geminiService';
 import { v4 as uuidv4 } from 'uuid';
@@ -129,10 +129,11 @@ const App: React.FC = () => {
     const profiles = Storage.getAllProfiles();
     setAllProfiles(profiles);
     const active = Storage.getActiveProfile();
-    setProfile(active);
+    // Only overwrite if we found an active profile on disk, otherwise keep existing (e.g. Guest)
     if (active) {
-      setYamlInput(Storage.profileToYaml(active));
-      setProfileCompleteness(calculateProfileCompleteness(active));
+        setProfile(active);
+        setYamlInput(Storage.profileToYaml(active));
+        setProfileCompleteness(calculateProfileCompleteness(active));
     }
   };
 
@@ -179,6 +180,9 @@ const App: React.FC = () => {
   };
 
   const startNewChat = () => {
+    // Ensure we have a profile context when starting chat, even if it's Guest
+    if (!profile) setProfile(GUEST_PROFILE);
+
     const globalPref = Storage.getGlobalLengthPreference();
     let initialMessages: Message[] = [];
     if (globalPref === 'ask') {
@@ -217,12 +221,25 @@ const App: React.FC = () => {
   const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation, displayLabel?: string) => {
     const conversation = conversationOverride || currentConversation;
     if (!messageText.trim() || !conversation) return;
-    const activeProfile = profile || Storage.getActiveProfile();
+    
+    // SAFETY FIX: Robustly determine profile. 
+    // If state is null (e.g. reload or race condition), check storage.
+    // If storage is null (Guest mode not saved), fallback to GUEST_PROFILE if we are already in chat.
+    let activeProfile = profile || Storage.getActiveProfile();
+    
+    // Fallback for Guest in Chat: If we are already in the Chat view, force Guest profile instead of redirecting
+    if (!activeProfile && (view === AppView.CHAT || conversationOverride)) {
+        activeProfile = GUEST_PROFILE;
+        setProfile(GUEST_PROFILE);
+    }
+
     if (!activeProfile) {
+        // Truly uninitialized state
         alert("Please create a profile first.");
         setView(AppView.QUIZ);
         return;
     }
+
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
@@ -357,7 +374,7 @@ const App: React.FC = () => {
         <LandingView 
           profile={profile}
           onStartQuiz={() => { setProfile(null); setView(AppView.QUIZ); }}
-          onOpenGuide={() => setView(AppView.WIKI)} // Changed to direct WIKI access from Landing browse
+          onOpenGuide={() => setView(AppView.DASHBOARD)} // Returning user goes to Dashboard (Hub)
           onBrowseWiki={() => setView(AppView.WIKI)}
           onStartChat={() => startNewChat()}
           onLoadDemo={handleLoadDemoProfile}
@@ -378,6 +395,7 @@ const App: React.FC = () => {
           onNavigateToHistory={() => setView(AppView.HISTORY)}
           onNavigateToCvImport={() => setView(AppView.CV_IMPORT)}
           onNavigateToSettings={() => setView(AppView.SETTINGS)}
+          onNavigateToLanding={() => setView(AppView.LANDING)}
         />
       )}
 
@@ -405,13 +423,22 @@ const App: React.FC = () => {
           onStartChatWithContext={handleStartChatWithContext}
           onNavigateToChat={() => startNewChat()}
           onNavigateToProfile={() => setView(AppView.PROFILE)}
+          onNavigateToLanding={() => setView(AppView.LANDING)}
         />
       )}
 
       {view === AppView.QUIZ && (
         <ProfileWizard 
           onComplete={handleWizardComplete} 
-          onCancel={() => setView(AppView.DASHBOARD)} 
+          onCancel={() => {
+             // Logic: If user is a Guest (no profile yet), canceling the quiz should probably return them to Landing 
+             // because going to Dashboard just shows the "Take Quiz" CTA again, which is a loop.
+             if (!profile || profile.id === 'guest') {
+                 setView(AppView.LANDING);
+             } else {
+                 setView(AppView.DASHBOARD);
+             }
+          }} 
           initialData={profile} 
         />
       )}
@@ -438,6 +465,7 @@ const App: React.FC = () => {
           onNavigateToArticle={handleNavigateToArticle}
           onNavigateToProfile={() => setView(AppView.PROFILE)}
           onNavigateToWiki={() => setView(AppView.WIKI)}
+          onNavigateToLanding={() => setView(AppView.LANDING)}
         />
       )}
 
@@ -452,6 +480,7 @@ const App: React.FC = () => {
           onEditVisual={() => setView(AppView.QUIZ)}
           onEditYaml={() => setView(AppView.PROFILE_EDIT)}
           onNavigateToWiki={() => setView(AppView.WIKI)}
+          onNavigateToLanding={() => setView(AppView.LANDING)}
         />
       )}
     </Layout>

@@ -17,3 +17,7 @@ As a designer or product owner, think of this as the **Stable Contract between D
 *   **`scenes/`**: Defines the **Screens** (e.g., Landing, Dashboard) and the elements inside them.
 *   **`links/`**: Defines the **User Flow**. Which button leads to which screen?
 *   **`identifiers.ts`**: The technical file developers use to import these IDs safely.
+*   **`flow.mermaid`**: A visual diagram of the application's navigation flow.
+
+## Navigation Diagram
+See `flow.mermaid` for a visual representation of how the scenes connect.

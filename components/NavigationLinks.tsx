@@ -40,7 +40,7 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
       {/* Logo / Home */}
       <button
         data-testid={APP_IDS.VIEWS.GLOBAL_NAV.LOGO}
-        onClick={() => onNavigate(AppView.DASHBOARD)}
+        onClick={() => onNavigate(AppView.LANDING)}
         className="font-black text-lg md:text-xl tracking-tight mr-2 md:mr-4 hover:opacity-70 active:scale-95 transition-all flex items-center gap-2 min-h-[44px] touch-manipulation"
       >
         <span>FW</span>
