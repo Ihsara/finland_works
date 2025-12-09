@@ -19,6 +19,7 @@ interface ChatViewProps {
   onNavigateToProfile: () => void;
   onNavigateToWiki: () => void;
   onNavigateToLanding: () => void;
+  onNavigateToPlan: () => void;
 }
 
 export const ChatView: React.FC<ChatViewProps> = ({
@@ -31,7 +32,8 @@ export const ChatView: React.FC<ChatViewProps> = ({
   onNavigateToArticle,
   onNavigateToProfile,
   onNavigateToWiki,
-  onNavigateToLanding
+  onNavigateToLanding,
+  onNavigateToPlan
 }) => {
   const { t } = useLanguage();
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -48,6 +50,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
       if (view === AppView.WIKI) onNavigateToWiki();
       if (view === AppView.CHAT) { /* Already here */ }
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) onEndSession(); // Logic decision: Home = End Session
   };

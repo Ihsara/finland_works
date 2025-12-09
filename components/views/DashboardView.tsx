@@ -16,6 +16,7 @@ interface DashboardViewProps {
   onNavigateToWiki: () => void;
   onNavigateToQuiz: () => void;
   onStartChat: () => void;
+  onNavigateToPlan: () => void;
   onNavigateToHistory?: () => void;
   onNavigateToCvImport?: () => void;
   onNavigateToSettings?: () => void;
@@ -29,6 +30,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigateToWiki,
   onNavigateToQuiz,
   onStartChat,
+  onNavigateToPlan,
   onNavigateToHistory,
   onNavigateToCvImport,
   onNavigateToSettings,
@@ -45,6 +47,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       if (view === AppView.WIKI) onNavigateToWiki();
       if (view === AppView.CHAT) onStartChat();
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) { /* Already here */ }
   };

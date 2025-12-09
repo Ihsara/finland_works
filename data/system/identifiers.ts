@@ -36,6 +36,8 @@ export const APP_IDS = {
     DASHBOARD: ACTIVE_SCENES.DASHBOARD?.ID || 'scene_dashboard',
     CHAT: ACTIVE_SCENES.CHAT?.ID || 'scene_chat',
     PROFILE: ACTIVE_SCENES.PROFILE?.ID || 'scene_profile',
+    PLAN: ACTIVE_SCENES.PLAN?.ID || 'scene_plan',
+    ACHIEVEMENTS: ACTIVE_SCENES.ACHIEVEMENTS?.ID || 'scene_achievements',
     PROFILE_EDIT: ACTIVE_SCENES.PROFILE_EDIT?.ID || 'scene_profile_edit',
     QUIZ: ACTIVE_SCENES.QUIZ?.ID || 'scene_quiz',
     WIKI: ACTIVE_SCENES.WIKI?.ID || 'scene_wiki',

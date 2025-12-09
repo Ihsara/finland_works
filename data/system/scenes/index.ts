@@ -61,10 +61,22 @@ export const PROFILE = {
   ID: 'scene_profile',
   BTN_TAKE_QUIZ: 'btn_profile_take_quiz',
   BTN_GUEST_START: 'btn_profile_guest_start',
-  BTN_FEAT_KELA: 'btn_profile_feature_kela',
-  BTN_FEAT_HIDDEN: 'btn_profile_feature_hidden',
+  BTN_TO_PLAN: 'btn_profile_to_plan',
   LINK_INSTR_CV: 'link_profile_instr_cv',
   LINK_INSTR_TAX: 'link_profile_instr_tax'
+};
+
+export const PLAN = {
+  ID: 'scene_plan',
+  TAB_CAREER: 'tab_plan_career',
+  TAB_LIFE: 'tab_plan_life',
+  BTN_TROPHIES: 'btn_plan_trophies',
+};
+
+export const ACHIEVEMENTS = {
+  ID: 'scene_achievements',
+  LIST: 'list_achievements',
+  BTN_BACK: 'btn_achievements_back'
 };
 
 // Simple ID containers for scenes that don't have complex internal element targeting yet

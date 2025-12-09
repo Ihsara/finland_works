@@ -126,7 +126,10 @@ import {
   UserCheck, 
   Footprints, 
   Layers,
-  Sparkles
+  Sparkles,
+  Bus,
+  ShoppingBag,
+  Trophy
 } from 'lucide-react';
 
 export const Icons = {
@@ -255,5 +258,8 @@ export const Icons = {
   UserCheck, 
   Footprints, 
   Layers,
-  Sparkles
+  Sparkles,
+  Bus,
+  ShoppingBag,
+  Trophy
 };

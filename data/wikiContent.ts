@@ -54,7 +54,7 @@ const getLocalizedTitle = (key: string, lang: LanguageCode) => {
 export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
   {
     id: 'foundation',
-    title: getLocalizedTitle('foundation', lang), // Now maps to "Bureaucracy & Basics"
+    title: getLocalizedTitle('foundation', lang), // "Bureaucracy & Basics"
     icon: 'Landmark',
     theme: { border: 'border-blue-200', text: 'text-blue-700', hoverBg: 'bg-blue-50', shadow: 'shadow-blue-200' },
     subsections: [
@@ -214,6 +214,81 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
                 { id: 'vol_animals', icon: 'Cat', tags: ['volunteering', 'nature'], ...getLocalizedArticle('vol_animals', lang) },
                 { id: 'vol_events', icon: 'Ticket', tags: ['volunteering', 'events'], ...getLocalizedArticle('vol_events', lang) },
                 { id: 'vol_humanitarian', icon: 'Handshake', tags: ['volunteering', 'society'], ...getLocalizedArticle('vol_humanitarian', lang) }
+            ]
+        }
+    ]
+  },
+  // NEW CATEGORIES FOR "Living in Finland"
+  {
+    id: 'daily_life',
+    title: 'Daily Life',
+    icon: 'Bus',
+    theme: { border: 'border-cyan-200', text: 'text-cyan-700', hoverBg: 'bg-cyan-50', shadow: 'shadow-cyan-200' },
+    subsections: [
+        {
+            title: 'Essentials',
+            articles: [
+                { 
+                    id: 'daily_transport', 
+                    title: 'Public Transport (HSL/VR)', 
+                    summary: 'How to use trains, buses, and the zone system.',
+                    content: `# Moving Around\n\n### HSL (Helsinki Region)\n* **Zones:** Ticket price depends on zones (ABCD). Helsinki is AB.\n* **App:** Download HSL app. It is cheaper than buying from driver.\n* **Penalty:** No ticket = 80€ fine.\n\n### VR (Trains)\nFor long distance. Book early for cheap tickets.`,
+                    icon: 'Train', 
+                    tags: ['arrival', 'life'] 
+                },
+                { 
+                    id: 'daily_groceries', 
+                    title: 'Grocery Shopping', 
+                    summary: 'Weigh your own veggies and deposit bottles.', 
+                    content: `# Supermarket Rules\n\n1. **Weighing:** You must weigh fruit/veg and stick the price tag on the bag *before* the checkout.\n2. **S-Group vs K-Group:** Two main chains. Get a bonus card (S-Etukortti) if you stay long.\n3. **Alcohol:** Beer is in supermarkets until 9pm. Stronger stuff is only in **Alko** (state monopoly).`,
+                    icon: 'ShoppingBag', 
+                    tags: ['life', 'food'] 
+                },
+                {
+                    id: 'daily_pantti',
+                    title: 'Bottle Recycling (Pantti)',
+                    summary: 'Don\'t throw away cans! They are money.',
+                    content: `# Pantti System\n\nAlmost every bottle and can in Finland has a deposit value (10c to 40c).\n\n1. **Collect:** Don't crush them.\n2. **Return:** Machines are in every supermarket entrance.\n3. **Money:** You get a receipt. Use it at checkout for money off groceries.`,
+                    icon: 'Recycle',
+                    tags: ['life', 'environment']
+                }
+            ]
+        }
+    ]
+  },
+  {
+    id: 'nature',
+    title: 'Nature & Seasons',
+    icon: 'TreePine',
+    theme: { border: 'border-emerald-200', text: 'text-emerald-700', hoverBg: 'bg-emerald-50', shadow: 'shadow-emerald-200' },
+    subsections: [
+        {
+            title: 'Outdoor Life',
+            articles: [
+                { 
+                    id: 'nature_everyman', 
+                    title: 'Everyman\'s Rights', 
+                    summary: 'You can walk almost anywhere and pick berries.', 
+                    content: `# Jokamiehenoikeudet\n\nYou have the right to:\n1. **Walk:** Anywhere in forests (except private gardens).\n2. **Pick:** Berries and mushrooms freely.\n3. **Camp:** Temporarily in nature.\n\n**Rules:** Do not disturb birds, do not leave trash, do not cut trees.`,
+                    icon: 'Map', 
+                    tags: ['nature', 'legal'] 
+                },
+                { 
+                    id: 'nature_winter', 
+                    title: 'Surviving Winter', 
+                    summary: 'Darkness and Vitamin D.', 
+                    content: `# The Darkness (Kaamos)\n\nIn Nov-Jan, sunlight is rare.\n* **Vitamin D:** Take supplements. Mandatory.\n* **Reflectors:** Wear them. It's the law.\n* **Spikes:** Shoes with spikes prevent slipping on ice.`,
+                    icon: 'Snowflake', 
+                    tags: ['nature', 'health'] 
+                },
+                {
+                    id: 'nature_summer',
+                    title: 'Summer Cottages (Mökki)',
+                    summary: 'The Finnish soul lives here.',
+                    content: `# Mökki Life\n\nIn July, cities empty. Everyone goes to a cottage.\n* **Simple:** Many have no electricity or running water.\n* **Activity:** Sauna, swim, grill, repeat.`,
+                    icon: 'Sun',
+                    tags: ['nature', 'culture']
+                }
             ]
         }
     ]

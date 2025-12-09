@@ -19,11 +19,13 @@ import { ApiKeyView } from './components/views/ApiKeyView';
 import { LandingView } from './components/views/LandingView';
 import { DashboardView } from './components/views/DashboardView';
 import { ChatView } from './components/views/ChatView';
-import { ProfileDetailView } from './components/views/ProfileDetailView';
+import { ProfileDetailView } from './components/views/ProfileDetailView'; // Renamed conceptually to ProfileView
+import { PlanView } from './components/views/PlanView'; // New View
 import { ProfileEditView } from './components/views/ProfileEditView';
 import { HistoryView } from './components/views/HistoryView';
 import { CvImportView } from './components/views/CvImportView';
 import { SettingsView } from './components/views/SettingsView';
+import { AchievementsView } from './components/views/AchievementsView';
 
 marked.use({ gfm: true, breaks: true });
 
@@ -183,10 +185,10 @@ const App: React.FC = () => {
       
       // 2. Global Tab Cycle (Optional, can be disabled if confusing)
       // Only cycle main tabs if we are at root level
-      if (![AppView.DASHBOARD, AppView.PROFILE, AppView.WIKI, AppView.CHAT].includes(view)) return;
+      if (![AppView.DASHBOARD, AppView.PROFILE, AppView.WIKI, AppView.CHAT, AppView.PLAN].includes(view)) return;
       
-      // Simple Cycle: Dashboard <-> Wiki <-> Chat <-> Profile
-      const cycle = [AppView.DASHBOARD, AppView.WIKI, AppView.CHAT, AppView.PROFILE];
+      // Simple Cycle: Dashboard <-> Wiki <-> Chat <-> Plan <-> Profile
+      const cycle = [AppView.DASHBOARD, AppView.WIKI, AppView.CHAT, AppView.PLAN, AppView.PROFILE];
       const idx = cycle.indexOf(view);
       if (idx === -1) return;
 
@@ -281,11 +283,39 @@ const App: React.FC = () => {
     }
   };
 
+  // Central Notification Trigger
+  const handleUnlockAchievement = (achId: string) => {
+      // Logic to actually unlock in DB
+      if (profile && profile.id !== 'guest') {
+          const isNew = Storage.unlockAchievement(profile.id, achId);
+          if (isNew) {
+              const def = ACHIEVEMENTS[achId];
+              if (def) {
+                  setNotification({
+                      id: achId,
+                      title: def.title,
+                      icon: (Icons as any)[def.icon],
+                      color: def.color
+                  });
+              }
+          }
+      }
+  };
+
   const startNewChat = () => {
     if (!profile) setProfile(GUEST_PROFILE);
 
     const globalPref = Storage.getGlobalLengthPreference();
     let initialMessages: Message[] = [];
+
+    // Add Funny AI Greeting
+    initialMessages.push({
+        id: uuidv4(),
+        sender: Sender.MODEL,
+        text: t('chat_ai_greeting'),
+        timestamp: Date.now()
+    });
+
     if (globalPref === 'ask') {
         initialMessages.push({
             id: uuidv4(),
@@ -316,26 +346,17 @@ const App: React.FC = () => {
     setCurrentConversation(newConv);
     Storage.saveConversation(newConv);
     changeView(AppView.CHAT);
-    return newConv;
-  };
 
-  // Central Notification Trigger
-  const handleUnlockAchievement = (achId: string) => {
-      // Logic to actually unlock in DB
-      if (profile && profile.id !== 'guest') {
-          const isNew = Storage.unlockAchievement(profile.id, achId);
-          if (isNew) {
-              const def = ACHIEVEMENTS[achId];
-              if (def) {
-                  setNotification({
-                      id: achId,
-                      title: def.title,
-                      icon: (Icons as any)[def.icon],
-                      color: def.color
-                  });
-              }
-          }
-      }
+    // Track Session Count Achievement
+    if (profile && profile.id !== 'guest') {
+        Storage.trackChatSession(profile.id);
+        const progress = Storage.getWikiProgress(profile.id);
+        if (progress.globalStats.totalChatConversations === 5) {
+            handleUnlockAchievement('serial_conversationalist');
+        }
+    }
+
+    return newConv;
   };
 
   const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation, displayLabel?: string) => {
@@ -355,16 +376,10 @@ const App: React.FC = () => {
         return;
     }
 
-    // --- ACHIEVEMENT CHECK: CURIOUS MIND ---
-    // If this is the user's first message in this conversation (and it's the first conv), trigger achievement.
-    // Or simpler: just trigger it. Storage logic prevents duplicates.
-    if (activeProfile.id !== 'guest') {
-        handleUnlockAchievement('curious_mind');
-    }
-
     const globalPref = Storage.getGlobalLengthPreference();
     let effectivePref = conversation.responseLength || (globalPref !== 'ask' ? globalPref : undefined);
     
+    // Check if this message is a preference selection (short/long)
     if (!effectivePref && (messageText === 'short' || messageText === 'long')) {
         const newPref = messageText as 'short' | 'long';
         const selectionMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || (messageText === 'short' ? t('settings_opt_short') : t('settings_opt_long')), timestamp: Date.now() };
@@ -378,6 +393,7 @@ const App: React.FC = () => {
         return; 
     } 
     
+    // Process Real User Message
     const userMsg: Message = { id: uuidv4(), sender: Sender.USER, text: displayLabel || messageText, timestamp: Date.now() };
     const updatedMessages = [...conversation.messages, userMsg];
     let updatedConv = { ...conversation, messages: updatedMessages };
@@ -394,6 +410,18 @@ const App: React.FC = () => {
     let queryToSend = messageText;
     let finalPref = effectivePref;
     setIsTyping(true);
+    
+    // --- ACHIEVEMENTS: FIRST QUESTION & CHAT COUNT ---
+    if (activeProfile.id !== 'guest') {
+        handleUnlockAchievement('curious_mind'); // Unlocked on first REAL query to Gemini
+        
+        Storage.trackUserMessage(activeProfile.id);
+        const progress = Storage.getWikiProgress(activeProfile.id);
+        if (progress.globalStats.totalChatMessages === 5) {
+            handleUnlockAchievement('talkative_type');
+        }
+    }
+
     try {
       const progress = Storage.getWikiProgress(activeProfile.id);
       const allArticles = getAllFlattenedArticles(language);
@@ -519,6 +547,7 @@ const App: React.FC = () => {
           onNavigateToCvImport={() => changeView(AppView.CV_IMPORT)}
           onNavigateToSettings={() => changeView(AppView.SETTINGS)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToPlan={() => changeView(AppView.PLAN)}
         />
       )}
 
@@ -547,6 +576,7 @@ const App: React.FC = () => {
           onNavigateToChat={() => startNewChat()}
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToPlan={() => changeView(AppView.PLAN)}
           onUnlockAchievement={handleUnlockAchievement}
         />
       )}
@@ -588,6 +618,7 @@ const App: React.FC = () => {
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
           onNavigateToWiki={() => changeView(AppView.WIKI)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToPlan={() => changeView(AppView.PLAN)}
         />
       )}
 
@@ -603,8 +634,29 @@ const App: React.FC = () => {
           onEditYaml={() => changeView(AppView.PROFILE_EDIT)}
           onNavigateToWiki={() => changeView(AppView.WIKI)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToPlan={() => changeView(AppView.PLAN)}
+          onNavigateToChat={() => startNewChat()}
+          onNavigateToAchievements={() => changeView(AppView.ACHIEVEMENTS)}
+        />
+      )}
+
+      {view === AppView.PLAN && (
+        <PlanView 
+          profile={profile}
+          onNavigateToWiki={() => changeView(AppView.WIKI)}
+          onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onNavigateToProfile={() => changeView(AppView.PROFILE)}
+          onNavigateToChat={() => startNewChat()}
+          onNavigateToAchievements={() => changeView(AppView.ACHIEVEMENTS)}
           onNavigateToArticle={handleNavigateToArticle}
           onUnlockAchievement={handleUnlockAchievement}
+        />
+      )}
+
+      {view === AppView.ACHIEVEMENTS && (
+        <AchievementsView 
+          onBack={handleGlobalBack}
+          profile={profile}
         />
       )}
     </Layout>

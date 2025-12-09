@@ -29,9 +29,9 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
     },
     { 
       id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN, 
-      view: AppView.PROFILE, 
+      view: AppView.PLAN, // Now points to PLAN view
       label: t('profile_btn_plan'), // "My Plan"
-      icon: Icons.User 
+      icon: Icons.Map // Changed icon to Map to signify journey/plan
     }
   ];
 

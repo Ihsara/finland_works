@@ -60,14 +60,32 @@ export const ACHIEVEMENTS: Record<string, AchievementDef> = {
   'curious_mind': {
     id: 'curious_mind',
     title: 'Curious Mind',
-    description: 'You asked the AI Assistant your first question.',
+    description: 'You asked the AI Assistant your first real question.',
     icon: 'Sparkles',
     color: 'text-indigo-500 bg-indigo-100 border-indigo-200'
   },
+  'talkative_type': {
+    id: 'talkative_type',
+    title: 'Talkative Type',
+    description: 'You have sent 5 messages to the assistant. Keep asking!',
+    icon: 'MessageCircle',
+    color: 'text-teal-500 bg-teal-100 border-teal-200'
+  },
+  'serial_conversationalist': {
+    id: 'serial_conversationalist',
+    title: 'Serial Conversationalist',
+    description: 'You have started 5 different chat sessions.',
+    icon: 'MessageSquare',
+    color: 'text-pink-500 bg-pink-100 border-pink-200'
+  },
 
-  // Category Masters (Dynamic logic will use these templates)
+  // Category Masters
   'master_foundation': { id: 'master_foundation', title: 'Bureaucracy Slayer', description: 'Completed all Basic Essentials.', icon: 'Landmark', color: 'text-blue-600 bg-blue-100' },
   'master_job_strategy': { id: 'master_job_strategy', title: 'Headhunter', description: 'Completed Job Strategy.', icon: 'Briefcase', color: 'text-green-600 bg-green-100' },
   'master_workplace': { id: 'master_workplace', title: 'Culture Vulture', description: 'Mastered Finnish Work Culture.', icon: 'Coffee', color: 'text-orange-600 bg-orange-100' },
-  'master_life': { id: 'master_life', title: 'Local Hero', description: 'Mastered Daily Life & Balance.', icon: 'Smile', color: 'text-pink-600 bg-pink-100' },
+  
+  // New Life Achievements
+  'master_life': { id: 'master_life', title: 'Local Hero', description: 'Mastered Housing & Family.', icon: 'Home', color: 'text-pink-600 bg-pink-100' },
+  'master_daily_life': { id: 'master_daily_life', title: 'City Survivor', description: 'Mastered Groceries & Transport.', icon: 'Bus', color: 'text-cyan-600 bg-cyan-100' },
+  'master_nature': { id: 'master_nature', title: 'Forest Dweller', description: 'Mastered Nature & Winter skills.', icon: 'TreePine', color: 'text-emerald-600 bg-emerald-100' },
 };

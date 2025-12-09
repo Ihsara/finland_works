@@ -308,6 +308,9 @@ export interface WikiProgressData {
     firstSessionAt: number; 
     lastSessionAt: number;
     sessionsWithoutUpdate: number;
+    // Chat stats
+    totalChatMessages: number;
+    totalChatConversations: number;
   };
 }
 
@@ -320,9 +323,12 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
     // Migration: Ensure new fields exist
     if (!parsed.unlockedQuests) parsed.unlockedQuests = [];
     if (!parsed.achievements) parsed.achievements = [];
+    if (!parsed.globalStats) parsed.globalStats = {};
+    if (parsed.globalStats.totalChatMessages === undefined) parsed.globalStats.totalChatMessages = 0;
+    if (parsed.globalStats.totalChatConversations === undefined) parsed.globalStats.totalChatConversations = 0;
     
     // Handle migration from old V1 structure
-    if (!parsed.items && !parsed.globalStats) {
+    if (!parsed.items && !parsed.globalStats.firstSessionAt) {
       const newStructure: WikiProgressData = {
         items: {},
         unlockedQuests: [],
@@ -331,7 +337,9 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
           totalSessions: 1,
           firstSessionAt: Date.now(),
           lastSessionAt: Date.now(),
-          sessionsWithoutUpdate: 0
+          sessionsWithoutUpdate: 0,
+          totalChatMessages: 0,
+          totalChatConversations: 0
         }
       };
       Object.entries(parsed as Record<string, string>).forEach(([k, v]) => {
@@ -354,12 +362,14 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
       totalSessions: 0,
       firstSessionAt: Date.now(),
       lastSessionAt: Date.now(),
-      sessionsWithoutUpdate: 0
+      sessionsWithoutUpdate: 0,
+      totalChatMessages: 0,
+      totalChatConversations: 0
     }
   };
 };
 
-const saveWikiProgress = (profileId: string, data: WikiProgressData) => {
+export const saveWikiProgress = (profileId: string, data: WikiProgressData) => {
    localStorage.setItem(`${KEYS.WIKI_PROGRESS_PREFIX}${profileId}`, JSON.stringify(data));
 };
 
@@ -375,6 +385,18 @@ export const trackWikiSession = (profileId: string): void => {
     }
   });
 
+  saveWikiProgress(profileId, data);
+};
+
+export const trackChatSession = (profileId: string): void => {
+  const data = getWikiProgress(profileId);
+  data.globalStats.totalChatConversations = (data.globalStats.totalChatConversations || 0) + 1;
+  saveWikiProgress(profileId, data);
+};
+
+export const trackUserMessage = (profileId: string): void => {
+  const data = getWikiProgress(profileId);
+  data.globalStats.totalChatMessages = (data.globalStats.totalChatMessages || 0) + 1;
   saveWikiProgress(profileId, data);
 };
 

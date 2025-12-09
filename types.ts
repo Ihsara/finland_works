@@ -4,7 +4,9 @@ export enum AppView {
   LANDING = 'LANDING',
   DASHBOARD = 'DASHBOARD', // Main Home
   CHAT = 'CHAT',
-  PROFILE = 'PROFILE', // Visual Profile Page
+  PROFILE = 'PROFILE', // Visual Profile Page (Identity)
+  PLAN = 'PLAN', // Gamified Plan
+  ACHIEVEMENTS = 'ACHIEVEMENTS', // Dedicated Trophy Room
   PROFILE_EDIT = 'PROFILE_EDIT', // YAML Editor
   SETTINGS = 'SETTINGS',
   QUIZ = 'QUIZ',

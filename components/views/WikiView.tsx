@@ -48,6 +48,7 @@ interface WikiViewProps {
   onNavigateToChat: () => void;
   onNavigateToProfile: () => void;
   onNavigateToLanding: () => void;
+  onNavigateToPlan: () => void;
   onUnlockAchievement?: (id: string) => void;
 }
 
@@ -74,6 +75,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
   onNavigateToChat,
   onNavigateToProfile,
   onNavigateToLanding,
+  onNavigateToPlan,
   onUnlockAchievement
 }) => {
   const { language, t } = useLanguage();
@@ -330,6 +332,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
       if (view === AppView.WIKI) { handleBack(); }
       if (view === AppView.CHAT) onNavigateToChat();
       if (view === AppView.PROFILE) onNavigateToProfile();
+      if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.DASHBOARD) onClose();
   };
@@ -392,15 +395,31 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                         const isActive = activeArticle?.id === article.id;
                                         const itemData = progress.items[article.id];
                                         const status = itemData?.status;
+                                        
+                                        // Visual Status Logic
+                                        let statusClass = 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white';
+                                        if (status === 'done') statusClass = 'text-gray-900 dark:text-white bg-green-50/50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20';
+                                        if (status === 'later') statusClass = 'text-gray-900 dark:text-white bg-amber-50/50 dark:bg-amber-900/10 hover:bg-amber-100 dark:hover:bg-amber-900/20';
+                                        
+                                        if (isActive && isSidebar) {
+                                            statusClass = 'bg-white dark:bg-white/10 shadow-sm text-blue-700 dark:text-blue-300 font-bold ring-1 ring-gray-100 dark:ring-white/10';
+                                        }
+
                                         return (
                                             <button
                                                 key={article.id}
                                                 data-testid={APP_IDS.VIEWS.WIKI.ITEM_ARTICLE(article.id)}
                                                 onClick={() => { handleArticleClick(article); if (!activeTag) setActiveCategoryId(category.id); }}
-                                                className={`w-full text-left px-3 py-3 rounded-xl flex items-start gap-3 transition text-sm min-h-[48px] ${isActive && isSidebar ? 'bg-white dark:bg-white/10 shadow-sm text-blue-700 dark:text-blue-300 font-bold ring-1 ring-gray-100 dark:ring-white/10' : 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white active:bg-gray-100 dark:active:bg-white/10'}`}
+                                                className={`w-full text-left px-3 py-3 rounded-xl flex items-start gap-3 transition text-sm min-h-[48px] ${statusClass} active:bg-gray-100 dark:active:bg-white/10`}
                                             >
                                                 <span className={`mt-0.5 flex-shrink-0 ${isActive ? 'text-blue-500 dark:text-blue-400' : 'text-gray-400 dark:text-gray-600'}`}>
-                                                    {status === 'done' ? <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" /> : status === 'later' ? <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" /> : <Icons.FileText className="w-5 h-5 opacity-50" />}
+                                                    {status === 'done' ? (
+                                                        <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" /> 
+                                                    ) : status === 'later' ? (
+                                                        <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" /> 
+                                                    ) : (
+                                                        <Icons.FileText className="w-5 h-5 opacity-50" />
+                                                    )}
                                                 </span>
                                                 <span className="leading-snug">{article.title}</span>
                                             </button>
@@ -573,11 +592,32 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                      {renderIcon(cat.icon, "w-5 h-5")} {cat.title}
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                     {matches.map((article, idx) => (
-                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-5 rounded-2xl border transition-all duration-200 bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md active:scale-[0.98]`}>
+                                     {matches.map((article, idx) => {
+                                         const itemData = progress.items[article.id];
+                                         const status = itemData?.status;
+                                         
+                                         return (
+                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`
+                                                text-left group flex flex-col gap-3 p-5 rounded-2xl border-2 transition-all duration-200 
+                                                ${status === 'done' 
+                                                    ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/20 hover:border-green-300 dark:hover:border-green-700' 
+                                                    : status === 'later'
+                                                        ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/20 hover:border-amber-300 dark:hover:border-amber-700'
+                                                        : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md'
+                                                }
+                                                active:scale-[0.98]
+                                            `}>
+                                                <div className="flex justify-between items-start w-full">
+                                                    <span className={`text-sm font-bold ${status==='done' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white'}`}>
+                                                        {t('wiki_guide_prefix')} #{idx + 1}
+                                                    </span>
+                                                    {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" />}
+                                                    {status === 'later' && <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
+                                                </div>
                                                 <h4 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h4>
                                             </button>
-                                     ))}
+                                         );
+                                     })}
                                 </div>
                             </div>
                         );
@@ -602,11 +642,31 @@ export const WikiView: React.FC<WikiViewProps> = ({
                             <div key={sub.title}>
                                 <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4 px-1 border-b border-gray-100 dark:border-white/10 pb-2">{sub.title}</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {sub.articles.map((article, idx) => (
-                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`text-left group flex flex-col gap-3 p-6 rounded-2xl border transition-all duration-200 bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md active:scale-[0.98]`}>
+                                    {sub.articles.map((article, idx) => {
+                                        const itemData = progress.items[article.id];
+                                        const status = itemData?.status;
+                                        return (
+                                            <button key={article.id} onClick={() => handleArticleClick(article)} className={`
+                                                text-left group flex flex-col gap-3 p-6 rounded-2xl border-2 transition-all duration-200
+                                                ${status === 'done' 
+                                                    ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/20 hover:border-green-300 dark:hover:border-green-700' 
+                                                    : status === 'later'
+                                                        ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/20 hover:border-amber-300 dark:hover:border-amber-700'
+                                                        : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:shadow-md'
+                                                }
+                                                active:scale-[0.98]
+                                            `}>
+                                                <div className="flex justify-between items-start w-full">
+                                                    <span className={`text-sm font-bold ${status==='done' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-black dark:group-hover:text-white'}`}>
+                                                        {t('wiki_guide_prefix')} #{idx + 1}
+                                                    </span>
+                                                    {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" />}
+                                                    {status === 'later' && <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
+                                                </div>
                                                 <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h3>
                                             </button>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
