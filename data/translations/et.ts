@@ -38,6 +38,32 @@ export const et: TranslationResource = {
     net_opt_hobbies: "Hobid & Tegevused",
     net_opt_parents: "Lapsevanemad",
     net_opt_introvert: "Introvertidele",
+    feedback_action: "Anna tagasisidet",
+
+    // Gamified Planner
+    quest_level: "Tase {level} Avastaja",
+    quest_xp: "{current}/{max} XP järgmise tasemeni",
+    quest_tab_board: "Karjääri teekond",
+    quest_tab_achievements: "Saavutused",
+    quest_tab_life: "Elu & Heaolu",
+    quest_priority_title: "Prioriteetsed ülesanded",
+    quest_priority_subtitle: "Salvestatud hilisemaks",
+    quest_empty_priority: "Pole ülesandeid. Tubli töö!",
+    quest_empty_log: "Pole saavutusi. Alusta oma teekonda!",
+    quest_btn_mark_done: "Märgi tehtuks",
+    quest_btn_read: "Loe juhendit",
+    quest_achievement_unlocked: "Saavutus avatud!",
+    quest_fun_fact_title: "Kas teadsid?",
+    quest_btn_unlock: "Ava & Loe",
+    quest_locked_msg: "Puuduta avamiseks!",
+    
+    // New Rubric Labels
+    plan_track_career: "Karjääri teekond",
+    plan_track_life: "Põhjamaade elu",
+    plan_step_completed: "Tehtud",
+    plan_step_locked: "Lukus",
+    plan_step_available: "Saadaval",
+    plan_btn_return: "Tagasi plaani"
   },
   wiki: {
     titles: {
@@ -106,7 +132,7 @@ export const et: TranslationResource = {
       'social_kela_card': {
         title: 'Kela-kaart',
         summary: 'Sinine kaart tõestab, et kuulud Soome ravikindlustussüsteemi.',
-        content: `# Mis see on?\nSinine kaart, mis tõendab sinu kuulumist Soome sotsiaalkindlustusse.\n\n### Kasutamine\nNäita seda:\n1. **Apteegis:** Saad retseptiravimitelt kohest soodustust.\n2. **Erakliinikus:** Saad kuludest väikese osa tagasi.`
+        content: `# Mis see on?\nSinine kaart, mis tõendab sinu kuulumist Soome sotsiaalkindlustusse.\n\n### Kasutamine\nNäita seda:\n1. **Apteekis:** Saad retseptiravimitelt kohest soodustust.\n2. **Erakliinikus:** Saad kuludest väikese osa tagasi.`
       },
       'social_health': {
         title: 'Avalik vs. Töötervishoid',
@@ -155,7 +181,7 @@ export const et: TranslationResource = {
       },
       'job_cover_letter': {
         title: 'Kaaskiri',
-        summary: 'Ära korda CV-d. Vasta "Miks meie?" ja "Miks sina?".',
+        summary: 'Ära korda CV-d. Vasta "Miksi meie?" ja "Miks sina?".',
         content: `# Struktuur\n1. **Konks:** Miks tahad just *seda* tööd?\n2. **Väärtus:** Mis probleeme sa lahendad?\n3. **Isiksus:** Kas sobid tiimi?\n\n### Vihje\nHoia alla 1 lehekülje.`
       },
       'job_interview': {
@@ -241,7 +267,7 @@ export const et: TranslationResource = {
       'prof_engineering': {
         title: 'Inseneeria Soomes',
         summary: 'Suur sektor. Inglise keel levinud.',
-        content: `# Hiiglased\nKone, Wärtsilä, Nokia.\n\n### Kultuur\nFaktipõhine. Hinnatakse täpsust, mitte müügijuttu.`
+        content: `# Hiiglased\nKone, Wärtsilä, Nokia, Metso.\n\n### Kultuur\nFaktipõhine. Valmistele tekniset yksityiskohdat. Tarkkuutta arvostetaan myyntipuheiden sijaan.`
       },
       'prof_business': {
         title: 'Äri & Rahandus',

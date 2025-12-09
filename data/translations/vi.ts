@@ -39,6 +39,31 @@ export const vi: TranslationResource = {
     net_opt_parents: "Kết nối cho Cha mẹ",
     net_opt_introvert: "Mẹo cho người hướng nội",
     feedback_action: "Gửi phản hồi",
+
+    // Gamified Planner
+    quest_level: "Nhà thám hiểm Cấp {level}",
+    quest_xp: "{current}/{max} XP để lên cấp",
+    quest_tab_board: "Hành trình sự nghiệp",
+    quest_tab_achievements: "Thành tựu",
+    quest_tab_life: "Cuộc sống & Sức khỏe",
+    quest_priority_title: "Nhiệm vụ ưu tiên",
+    quest_priority_subtitle: "Mục đã lưu",
+    quest_empty_priority: "Không có nhiệm vụ ưu tiên. Làm tốt lắm!",
+    quest_empty_log: "Chưa có thành tựu. Hãy bắt đầu hành trình!",
+    quest_btn_mark_done: "Đánh dấu xong",
+    quest_btn_read: "Đọc hướng dẫn",
+    quest_achievement_unlocked: "Đạt thành tựu!",
+    quest_fun_fact_title: "Bạn có biết?",
+    quest_btn_unlock: "Mở khóa & Đọc",
+    quest_locked_msg: "Chạm để mở bí mật!",
+    
+    // New Rubric Labels
+    plan_track_career: "Con đường sự nghiệp",
+    plan_track_life: "Cuộc sống Bắc Âu",
+    plan_step_completed: "Hoàn thành",
+    plan_step_locked: "Đã khóa",
+    plan_step_available: "Có sẵn",
+    plan_btn_return: "Quay lại"
   },
   wiki: {
     titles: {
@@ -205,7 +230,7 @@ export const vi: TranslationResource = {
         content: `### Sự thẳng thắn\nMột người Phần Lan có thể nói: *"Báo cáo này thiếu X."*\nHọ không thô lỗ. Họ chỉ đang nêu sự thật để sửa vấn đề hiệu quả. Họ tách biệt công việc và con người.`
       },
       'culture_names': {
-        title: 'Tên gọi',
+        title: 'Xưng hô tên',
         summary: 'Rất không trang trọng. Hiếm khi dùng chức danh.',
         content: `### Chào Sếp\nMọi người dùng tên riêng. Bạn gọi CEO là "Matti", không phải "Ngài Korhonen". Bạn có thể dùng "sinä" (bạn) với hầu hết mọi người.`
       },
@@ -220,7 +245,7 @@ export const vi: TranslationResource = {
         content: `### Nghi thức\nHầu hết hợp đồng có hai lần nghỉ 10-15 phút.\n\n* **Xã giao:** Đây là lúc gắn kết thật sự. Đừng ngồi một mình tại bàn làm việc.\n* **Caffein:** Người Phần Lan uống nhiều cà phê nhất thế giới.`
       },
       'culture_afterwork': {
-        title: 'Sau giờ làm (AW)',
+        title: 'Tiệc sau giờ làm (AW)',
         summary: 'Đồ uống nhẹ nhàng vào thứ Sáu.',
         content: `### Không khí\nThường rất thoải mái. Uống bia hay nước ngọt đều được. Chủ yếu là thư giãn, không phải say xỉn.`
       },
@@ -231,7 +256,7 @@ export const vi: TranslationResource = {
       },
       'culture_smalltalk': {
         title: 'Sự im lặng & Xã giao',
-        summary: 'Im lặng không ngại ngùng. Đó là khoảng nghỉ dễ chịu.',
+        summary: 'Sự im lặng không ngại ngùng. Đó là khoảng nghỉ dễ chịu.',
         content: `### Đừng lấp đầy khoảng trống\nNếu bạn đi thang máy với người Phần Lan, không cần nói chuyện. Một cái gật đầu là đủ. Chúng tôi trân trọng lời nói; chúng tôi không lãng phí chúng.`
       },
       'culture_party': {
@@ -247,7 +272,7 @@ export const vi: TranslationResource = {
       'prof_business': {
         title: 'Kinh doanh & Tài chính',
         summary: 'Thường yêu cầu tiếng Phần Lan, trừ Startup.',
-        content: `### Rào cản\nCác vai trò truyền thống (Nhân sự, Kế toán, Ngân hàng) cần tiếng Phần lưu loát.\n\n### Cơ hội\nTìm các vị trí *Bán hàng quốc tế*, *Phân tích kinh doanh* nơi ngôn ngữ mẹ đẻ của bạn là tài sản.`
+        content: `### Rào cản\nCác vai trò truyền thống (Nhân sự, Kế toán, Ngân hàng) cần tiếng Phần lưu loát.\n\n### Cơ hội\nTìm các vị trí *Bán hàng quốc tế*, *Phân tích kinh doanh* hoặc *Xuất khẩu* nơi ngôn ngữ mẹ đẻ của bạn là tài sản.`
       },
       'prof_it': {
         title: 'CNTT & Công nghệ',

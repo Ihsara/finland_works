@@ -30,12 +30,48 @@ export const tr: TranslationResource = {
     wizard_rating_winter: "Kış", wizard_rating_thaw: "Erime", wizard_rating_growth: "Büyüme", wizard_rating_bloom: "Çiçeklenme", wizard_rating_summer: "Yaz",
     history_title: "Geçmiş", history_empty: "Sohbet yok.", history_tab_summary: "Özet", history_tab_transcript: "Metin", history_no_summary: "Özet yok.", history_generating: "Yazıyor...", history_generating_desc: "Arka planda.",
     cv_title: "CV Analiz", cv_subtitle: "CV metnini yapıştır.", cv_placeholder: "Metin...", cv_btn_analyze: "Analiz Et", cv_btn_processing: "İşleniyor...", cv_warning_key: "API Anahtarı gerek.", cv_key_update: "Güncelle", cv_key_required: "Anahtar Gerekli", cv_key_desc: "Güvenlik için.", cv_key_placeholder: "Anahtar...", cv_key_save: "Kaydet", cv_alert_success: "Kaydedildi.", cv_alert_error: "Hata.", cv_btn_manage_key: "API Anahtarı",
-    settings_title: "Ayarlar", settings_sect_general: "Genel", settings_sect_appearance: "Görünüm", settings_sect_data: "Veri", settings_length_label: "Uzunluk", settings_theme_label: "Tema", settings_theme_system: "Sistem", settings_theme_light: "Açık", settings_theme_dark: "Koyu", settings_opt_ask: "Sor", settings_opt_short: "Kısa", settings_opt_long: "Uzun", settings_clear_data: "Verileri Sil", settings_clear_data_desc: "Her şeyi siler.", settings_btn_clear: "Temizle"
+    settings_title: "Ayarlar", settings_sect_general: "Genel", settings_sect_appearance: "Görünüm", settings_sect_data: "Veri", settings_length_label: "Uzunluk", settings_theme_label: "Tema", settings_theme_system: "Sistem", settings_theme_light: "Açık", settings_theme_dark: "Koyu", settings_opt_ask: "Sor", settings_opt_short: "Kısa", settings_opt_long: "Uzun", settings_clear_data: "Verileri Sil", settings_clear_data_desc: "Her şeyi siler.", settings_btn_clear: "Temizle",
+    net_intro: "Ağ oluşturmaya hoş geldiniz. Yolunuzu seçin.",
+    net_header: "Bugün neye odaklanalım?",
+    net_opt_design: "Tasarım Topluluğu",
+    net_opt_linkedin: "LinkedIn Stratejisi",
+    net_opt_hobbies: "Hobiler & Aktiviteler",
+    net_opt_parents: "Ebeveynler için Ağ",
+    net_opt_introvert: "İçe Dönükler için İpuçları",
+    feedback_action: "Geri Bildirim",
+    net_intro_deep: 'Ağ Kurmak Neden Önemli', net_design: 'Tasarım Topluluğu', net_parents: 'Ebeveynler için Ağ', net_introvert: 'Düşük Baskılı Ağ', net_hobbies: 'Hobi ile Ağ Kurma', net_plan: 'Eylem Planın',
+    net_cold_msg: 'Soğuk Mesaj Sanatı', net_places: 'Ağ Mekanları', net_prof_style: 'Fin Profesyonel Tarzı',
+    net_hackathons: 'Hackathonlar & Junction', net_slush: 'Slush: Anti-Konferans', net_school: 'Okulda Ağ Kurma',
+
+    // Gamified Planner
+    quest_level: "Seviye {level} Kaşif",
+    quest_xp: "{current}/{max} XP sonraki seviyeye",
+    quest_tab_board: "Kariyer Yolculuğu",
+    quest_tab_achievements: "Başarılar",
+    quest_tab_life: "Yaşam & Refah",
+    quest_priority_title: "Öncelikli Görevler",
+    quest_priority_subtitle: "Sonrası için kaydedilenler",
+    quest_empty_priority: "Öncelikli görev yok. İyi iş!",
+    quest_empty_log: "Henüz başarı yok. Yolculuğuna başla!",
+    quest_btn_mark_done: "Tamamlandı İşaretle",
+    quest_btn_read: "Rehberi Oku",
+    quest_achievement_unlocked: "Başarı Kilidi Açıldı!",
+    quest_fun_fact_title: "Biliyor muydunuz?",
+    quest_btn_unlock: "Kilidi Aç & Oku",
+    quest_locked_msg: "Bir sırrı açmak için dokun!",
+    
+    // New Rubric Labels
+    plan_track_career: "Kariyer Yolu",
+    plan_track_life: "Kuzey Yaşamı",
+    plan_step_completed: "Tamamlandı",
+    plan_step_locked: "Kilitli",
+    plan_step_available: "Mevcut",
+    plan_btn_return: "Plana Dön"
   },
   wiki: {
     titles: {
       foundation: 'Temeller', job_strategy: 'İş Arama', workplace: 'İş Kültürü', industries: 'Sektörler', life: 'Yaşam',
-      identity: 'Kimlik', security: 'Sosyal Güvenlik', market: 'Pazar', tools: 'Araçlar', rights: 'Haklar',
+      identity: 'Kimlik', security: 'Sosyal Güvenlik', market: 'Pazar', tools: 'Araçlar', rights: 'Haklar', networking: 'Ağ Oluşturma & Gizli Pazar',
       social: 'Sosyal', norms: 'Kurallar', specialist: 'Uzman', hands_on: 'El İşi', housing: 'Konut',
       family: 'Aile', language: 'Dil',
       social_unemployment: 'İşsizlik Maaşı', social_housing: 'Kira Yardımı', social_pension: 'Emeklilik', social_kela_card: 'Kela Kartı', social_health: 'Sağlık Hizmetleri',
@@ -47,10 +83,75 @@ export const tr: TranslationResource = {
       culture_afterwork: 'İş Çıkışı', culture_sauna: 'Sauna', culture_smalltalk: 'Sessizlik', culture_party: 'Ofis Partileri',
       prof_engineering: 'Mühendislik', prof_business: 'İşletme', prof_it: 'Bilişim', prof_health: 'Sağlık', prof_service: 'Hizmet',
       housing_contracts: 'Kira Kontratı', housing_finding: 'Ev Bulma', housing_utilities: 'Faturalar', housing_recycling: 'Geri Dönüşüm', housing_sauna: 'Çamaşır & Sauna',
-      family_school: 'Okul', family_daycare: 'Kreş', family_activities: 'Hobiler', family_winter: 'Çocuklar & Kış', family_safety: 'Güvenlik'
+      family_school: 'Okul', family_daycare: 'Kreş', family_activities: 'Hobiler', family_winter: 'Çocuklar & Kış', family_safety: 'Güvenlik',
+      net_culture: 'Fin Yolu', net_linkedin_strat: 'LinkedIn Stratejisi', net_hidden: 'Gizli Pazar', net_volunteering: 'Gönüllülük'
     },
     articles: {
-      'guide_start': { title: 'Finlandiya\'ya Hoş Geldiniz! 🇫🇮', summary: 'Finlandiya güven, sessizlik ve kahve ile çalışır.', content: `# Hayatta Kalma Rehberi\n\n**Felsefe:**\nFinlandiya güven, sessizlik ve kahve ile çalışır.\n\n### Nasıl Kullanılır\n1. **Oku:** Rehberleri incele.\n2. **Sohbet:** AI'ya sor.\n3. **Profil:** Bilgilerini güncel tut.` },
+      'guide_start': { 
+        title: 'Finlandiya\'ya Hoş Geldiniz! 🇫🇮', 
+        summary: 'Finlandiya güven, sessizlik ve kahve ile çalışır.', 
+        content: `# Hayatta Kalma Rehberi\n\n**Felsefe:**\nFinlandiya güven, sessizlik ve kahve ile çalışır.\n\n### Nasıl Kullanılır\n1. **Oku:** Rehberleri incele.\n2. **Sohbet:** AI'ya sor.\n3. **Profil:** Bilgilerini güncel tut.` 
+      },
+      'net_culture': {
+        title: 'Ağ Kurma: Fin Yolu',
+        summary: 'Finler birlikte bir şeyler yaparak bağ kurar, boş konuşarak değil. Güven her şeydir.',
+        content: `### "Talkoot" Ruhu\nFinlandiya'da ağ kurmak kokteyl partilerinde kartvizit dağıtmak değildir. **Birlikte çalışmaktır**.\n\n* **Gönüllülük:** Bir etkinliğin (Slush, yerel festivaller) ekibine katılın. Bir Fin ile yan yana çalıştığınızda güven inşa edersiniz. Güven, iş tavsiyelerine yol açar.\n* **Dernekler:** Finlandiya'da her şey için bir dernek (yhdistys) vardır. Mesleğiniz için olanı bulun.`
+      },
+      'net_intro_deep': {
+        title: 'Ağ Kurmak Neden Önemli',
+        summary: 'Çoğu iş gizlidir. Ağ kurmak bunları açmanın anahtarıdır.',
+        content: `# Gizli İş Pazarı\n\nFinlandiya'da **güven** büyük bir rol oynar. İşverenler size kimin kefil olabileceğini bilmek ister. Bu nedenle, birçok iş asla iş portallarına düşmez.\n\nGizli iş pazarı, Finlandiya'daki açık iş pozisyonlarının **yüzde 70-80'ini** barındırır.`
+      },
+      'net_linkedin': {
+        title: 'LinkedIn Stratejisi',
+        summary: 'LinkedIn, Finlandiya\'daki işe alım uzmanları için ana arama motorudur.',
+        content: `### Dijital Yüzünüz\n* **Anahtar Kelimeler:** İşe alımcılar becerileri arar, unvanları değil. Başlığınızda "Java", "Proje Yönetimi" kullanın.\n* **Konum:** Finlandiya olarak ayarlayın. Yurtdışındaysanız "Helsinki" olarak değiştirin (ve "Hakkında" bölümünde taşınacağınızı belirtin) ki yerel aramalarda çıkın.\n* **Open to Work:** Yeşil banner burada kültürel olarak kabul görür ve motivasyonu gösterir.`
+      },
+      'net_hidden': {
+        title: 'Gizli Pazarı Hacklemek',
+        summary: 'İşlerin %70-80\'i ilan edilmez. Onları bulmalısınız.',
+        content: `### Piilotyöpaikat (Gizli İşler)\nŞirketler genellikle ilan vermez çünkü işe alım pahalı ve yavaştır.\n\n1. **Şirket Haritası:** Sevdiğiniz 20 şirketin listesini yapın. Henüz "Açık Pozisyonlar" sayfasına bakmayın.\n2. **Açık Başvuru (Avoin hakemus):** Takım Liderine doğrudan e-posta gönderin (İK'ya değil). "X üzerindeki çalışmalarınızı takip ediyorum. Y becerilerine sahibim. 15 dakikalık bir kahve içebilir miyiz?"\n3. **Bilgi Mülakatları:** İnsanlara işleri hakkında soru sorun, iş *istemeyin*.`
+      },
+      'net_volunteering': {
+        title: 'Gönüllülük',
+        summary: 'Entegre olmanın ve becerileri kanıtlamanın en hızlı yolu.',
+        content: `### Neden Gönüllülük?\n1. **Dil:** Fince pratiği için düşük baskılı bir ortam.\n2. **Referanslar:** İş ahlakınızı doğrulayabilecek yerel bir referans kazanırsınız.\n3. **Ağ:** Aktif insanlarla tanışırsınız.\n\n### Nerede?\nKızıl Haç, startup etkinlikleri, spor kulüpleri, kütüphaneler.`
+      },
+      'net_school': {
+        title: 'Okurken Ağ Kurmak',
+        summary: 'Okul, Finlandiya\'daki ilk profesyonel ağınızdır.',
+        content: `# Öğrenci Avantajı\n\nFinlandiya'da okumak, ağ kurmanın tartışmasız en iyi yoludur. Sınıf arkadaşlarınız gelecekteki meslektaşlarınızdır.\n\n### Strateji\nHer staj gününü bir iş görüşmesi gibi değerlendirin.`
+      },
+      'net_hackathons': {
+        title: 'Hackathonlar ve Etkinlikler',
+        summary: 'Junction ve Slush altın fırsatlardır.',
+        content: `# Teknoloji Etkinlikleri\n\n* **Junction:** Avrupa'nın önde gelen hackathon'u.\n* **Slush:** Startup etkinliği. Burada gönüllü olmak kapıları açar.`
+      },
+      'net_slush': {
+        title: 'Slush ve Girişimler',
+        summary: 'Slush\'ta gönüllü olmak çevreye girmenin efsanevi bir yoludur.',
+        content: `# Slush\n\nKasım ayında Helsinki'de düzenlenir. Karanlık, gürültülü ve lazerlerle doludur.`
+      },
+      'net_cold_msg': {
+        title: 'Soğuk Mesaj Sanatı',
+        summary: 'İnsanlara rahatsız etmeden nasıl yaklaşılır.',
+        content: `# Yabancılara Yaklaşmak\n\nFinler meşguldür ama yardımseverdir. Kısa tutun.`
+      },
+      'net_parents': {
+        title: 'Ebeveynler için Ağ',
+        summary: 'Bağlantı kurmak için günlük ritminizi kullanın.',
+        content: `# Meşgul Ebeveynler için Ağ\n\n* **Oyun Parkı Diplomasisi:** Aynı saatte aynı parka giderseniz, aynı ebeveynleri görürsünüz.\n* **Kreş Etkinlikleri:** "Talkoot" (gönüllü temizlik günü) etkinliklerine katılın. Büyük saygı kazanırsınız.`
+      },
+      'net_introvert': {
+        title: 'Düşük Baskılı Ağ',
+        summary: 'Gürültülü olmanıza gerek yok.',
+        content: `# Kendi Tarzınızda\n\n1. **Bire Bir:** Finler derin sohbeti tercih eder.\n2. **Çevrimiçi Topluluklar:** Discord veya Slack gruplarına katılın.`
+      },
+      'net_hobbies': {
+        title: 'Hobiler ve Yumuşak Ağ',
+        summary: 'İnsanlarla doğal bir şekilde tanışmak için yerel aktivitelere katılın.',
+        content: `# Doğal Olarak Tanışın\n\nFinler paylaşılan aktiviteler üzerinden bağ kurar.\n\n* **Kansalaisopisto:** Ucuz bir kurs alın.\n* **Spor:** Yeni başlayanlar grubuna katılmak anında bir sosyal çevre yaratır.`
+      },
       'bureaucracy_dvv': { title: 'DVV & Kimlik', summary: 'Resmi olarak var olmak için Kişisel Kimlik Kodu alın.', content: `# DVV 🆔\n\n**Öncelik: HEMEN**\n\n### Görev\nResmi olarak var olmak. **Kişisel Kimlik Kodu** al.\n\n### Neden?\nBanka, telefon, vergi.` },
       'bureaucracy_migri': { title: 'Migri', summary: 'Oturma İzni ve randevu ipuçları.', content: `# Migri 🛂\n\n### Görev\nOturma İzni.\n\n### İpuçları\n* **Erken Rezervasyon:** Kuyruklar uzun.\n* **Hızlı Yol:** Uzmanlar için.` },
       'bureaucracy_tax': { title: 'Vergi Kartı', summary: 'Vergi kartı olmadan vergi oranı %60\'tır.', content: `# Verokortti 💳\n\n**Kural:** Kartsız = %60 vergi.\n\n### Süreç\n1. **OmaVero**'ya gir.\n2. Geliri tahmin et.\n3. PDF al.\n4. Patrona yolla.` },
@@ -66,7 +167,6 @@ export const tr: TranslationResource = {
       'job_networking': { title: 'Ağ Kurma', summary: 'Doğrudan ve işlevsel olun.', content: `# Networking 🤝\n\nFinler net hedefleri sever. Gönüllülük harikadır.` },
       'job_cover_letter': { title: 'Ön Yazı', summary: 'Kısa ve "neden" odaklı.', content: `# Cover Letter 📝\n\nMaksimum 1 sayfa. Şirkete ne katacağına odaklan.` },
       'job_interview': { title: 'Mülakat', summary: 'Dürüstlük çok önemli.', content: `# Mülakat 👔\n\nBilmiyorsan söyle. Sessizlik kabul edilebilir.` },
-      'net_linkedin': { title: 'LinkedIn', summary: 'Dijital CV\'niz.', content: `# LinkedIn 🔗\n\nGüncel tut. Konumu "Finlandiya" yap.` },
       'job_recognition': { title: 'Denklik', summary: 'Doktor ve öğretmenler için şart.', content: `# Valvira & OPH 🎓\n\nDüzenlenmiş meslekler için onay gerekir.` },
       'job_cv_tips': { title: 'Finlandiya CV', summary: 'Basit, fotoğraflı, maks 2 sayfa.', content: `# CV 📄\n\nFotoğraf ekle. Madde işareti kullan. Kısa tut.` },
       'work_contract': { title: 'Sözleşme', summary: 'Her zaman yazılı.', content: `# Sözleşme ✍️\n\nTES (Toplu Sözleşme) kontrol et. Asgari maaşı o belirler.` },

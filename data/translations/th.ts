@@ -39,6 +39,31 @@ export const th: TranslationResource = {
     net_opt_parents: "เครือข่ายสำหรับผู้ปกครอง",
     net_opt_introvert: "เคล็ดลับสำหรับคนโลกส่วนตัวสูง",
     feedback_action: "ส่งความคิดเห็น",
+
+    // Gamified Planner
+    quest_level: "นักสำรวจระดับ {level}",
+    quest_xp: "{current}/{max} XP เพื่อเลื่อนระดับ",
+    quest_tab_board: "เส้นทางอาชีพ",
+    quest_tab_achievements: "ความสำเร็จ",
+    quest_tab_life: "ชีวิตและความเป็นอยู่",
+    quest_priority_title: "ภารกิจสำคัญ",
+    quest_priority_subtitle: "รายการที่บันทึกไว้",
+    quest_empty_priority: "ไม่มีภารกิจค้าง ทำได้ดีมาก!",
+    quest_empty_log: "ยังไม่มีความสำเร็จ เริ่มต้นการเดินทางของคุณ!",
+    quest_btn_mark_done: "ทำเครื่องหมายว่าเสร็จ",
+    quest_btn_read: "อ่านคู่มือ",
+    quest_achievement_unlocked: "ปลดล็อกความสำเร็จ!",
+    quest_fun_fact_title: "รู้หรือไม่?",
+    quest_btn_unlock: "ปลดล็อกและอ่าน",
+    quest_locked_msg: "แตะเพื่อดูความลับ!",
+    
+    // New Rubric Labels
+    plan_track_career: "เส้นทางอาชีพ",
+    plan_track_life: "ชีวิตนอร์ดิก",
+    plan_step_completed: "เสร็จสิ้น",
+    plan_step_locked: "ล็อกอยู่",
+    plan_step_available: "ว่าง",
+    plan_btn_return: "กลับไปที่แผน"
   },
   wiki: {
     titles: {
@@ -235,7 +260,7 @@ export const th: TranslationResource = {
         content: `### อย่าพยายามกลบเกลื่อน\nถ้าอยู่ในลิฟต์กับคนฟินน์ ไม่ต้องชวนคุย แค่พยักหน้าก็พอ เราเห็นค่าของคำพูด ไม่พูดเรื่องดินฟ้าอากาศถ้าไม่จำเป็น`
       },
       'culture_party': {
-        title: 'ปาร์ตี้บริษัท (Pikkujoulut)',
+        title: 'ปาร์ตี้บริษัท',
         summary: 'ปาร์ตี้ "คริสต์มาสน้อย" เดือนธันวาอาจจะหลุดโลก',
         content: `### ข้อยกเว้น\nคนฟินน์ขี้อาย ยกเว้นที่ *Pikkujoulut* ปาร์ตี้ประจำปีนี้มักมีแอลกอฮอล์เพียบ และเพื่อนร่วมงานอาจเปิดเผยกว่าปกติ อะไรเกิดที่นี่ ก็ให้จบที่นี่`
       },

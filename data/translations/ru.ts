@@ -38,6 +38,32 @@ export const ru: TranslationResource = {
     net_opt_hobbies: "Хобби и Активности",
     net_opt_parents: "Нетворкинг для родителей",
     net_opt_introvert: "Советы для интровертов",
+    feedback_action: "Дать отзыв",
+
+    // Gamified Planner
+    quest_level: "Уровень {level} Исследователь",
+    quest_xp: "{current}/{max} XP до след. уровня",
+    quest_tab_board: "Карьерный путь",
+    quest_tab_achievements: "Достижения",
+    quest_tab_life: "Жизнь и Благополучие",
+    quest_priority_title: "Приоритетные задачи",
+    quest_priority_subtitle: "Сохранено на потом",
+    quest_empty_priority: "Нет задач. Отличная работа!",
+    quest_empty_log: "Нет достижений. Начните свой путь!",
+    quest_btn_mark_done: "Отметить как сделанное",
+    quest_btn_read: "Читать гид",
+    quest_achievement_unlocked: "Достижение разблокировано!",
+    quest_fun_fact_title: "Знаете ли вы?",
+    quest_btn_unlock: "Открыть и читать",
+    quest_locked_msg: "Нажмите, чтобы узнать!",
+    
+    // New Rubric Labels
+    plan_track_career: "Карьерный путь",
+    plan_track_life: "Северная жизнь",
+    plan_step_completed: "Готово",
+    plan_step_locked: "Заблокировано",
+    plan_step_available: "Доступно",
+    plan_btn_return: "Вернуться к плану"
   },
   wiki: {
     titles: {
@@ -169,7 +195,7 @@ export const ru: TranslationResource = {
         content: `### Регулируемые профессии\nДля медицины/образования диплом должен быть признан **OPH** или **Valvira**.\n\n### Общие роли\nДля IT или бизнеса официальное признание редко нужно. Важнее навыки.`
       },
       'work_contract': { 
-        title: 'Трудовой договор', 
+        title: 'Контракт', 
         summary: 'Всегда письменный. Читайте внимательно. Проверьте TES.',
         content: `### Ключевые элементы\n1. **Срок:** Постоянный или Временный.\n2. **TES:** Коллективный договор. Определяет мин. зарплату и отпуск.\n3. **Испытательный срок:** Макс 6 месяцев.\n\n**Не начинайте работать без контракта.**` 
       },

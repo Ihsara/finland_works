@@ -7,9 +7,54 @@ export const fi: TranslationResource = {
     dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin omaan Suomi-oppaaseesi.", dash_subtitle_guest: "Luodaan profiili, niin päästään alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa", dash_btn_ask: "Kysy AI:lta", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
     dash_education: "Koulutus", dash_profession: "Ammatti", dash_languages: "Kielet", dash_narrative_aspirations: "Tavoitteet", dash_narrative_challenges: "Haasteet",
     chat_placeholder: "Kysy jotain...", chat_end_session: "Lopeta", chat_header_assistant: "Assistentti", chat_prompt_context_inquiry: "Kerro lisää kohdasta \"{sentence}\"", chat_ask_length: "Lyhyt vai pitkä vastaus?", chat_length_set_confirm: "Selvä. Säädän vastauksen pituutta.", chat_empty_state: "Aloita keskustelu kysymällä jotain alla.",
+    chat_ai_greeting: "Beep boop! 🤖 Muistutus: En ole ihminen! Mutta teen parhaani auttaakseni sinua navigoimaan Suomessa.",
     btn_back_dashboard: "Takaisin", btn_save: "Tallenna",
     profile_btn_guide: "Oppaani", profile_btn_guide_desc: "Suositellut artikkelit", profile_btn_plan: "Suunnitelmani", profile_btn_plan_desc: "Tulossa pian", profile_sect_languages: "Kielitaito", profile_sect_skills: "Taidot", profile_sect_narrative: "Tarina", profile_label_aspirations: "Toiveet", profile_label_challenges: "Pelot / Haasteet", profile_label_education: "Koulutus", profile_label_profession: "Ammatti", profile_completeness: "{percentage}% valmis", profile_completeness_hint: "Vastaa vielä pariin kysymykseen", profile_btn_update: "Päivitä profiili", profile_btn_continue: "Jatka",
-    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Räätälöity: {name}", wiki_explore_cats: "Selaa aiheita", wiki_explore_subtitle: "Valitse aihe syventyäksesi.", wiki_full_index: "Hakemisto", wiki_full_index_subtitle: "Selaa kaikkia.", wiki_nav_list: "Lista", wiki_nav_icons: "Kuvakkeet", wiki_section_chapters: "Luvut", wiki_btn_mark_done: "Tehty", wiki_btn_later: "Myöhemmin", wiki_btn_saved: "Tallennettu", wiki_btn_completed: "Valmis", wiki_ctx_ask: "Kysy tästä", wiki_topic_label: "Aihe: {tag}", wiki_topic_desc: "Yleiskatsaus & Artikkelit", wiki_guide_prefix: "OPAS", wiki_stat_articles: "artikkelia", wiki_stat_complete: "valmis", wiki_section_prefix: "Osa",
+    
+    // Profile Guest View
+    profile_guest_title: "Valmistaudu elämääsi ja uraasi Suomessa",
+    profile_guest_subtitle: "Vastaa muutamaan kysymykseen ja saat henkilökohtaisen 1 vuoden integraatiosuunnitelman",
+    profile_guest_btn_start: "Aloita",
+    profile_guest_col1: "Lakisääteiset perusasiat",
+    profile_guest_col2: "Työvälineet",
+    profile_guest_col3: "Elämä & Yhteisö",
+    profile_guest_item_kela: "Kela", profile_guest_item_tax: "Verokortti", profile_guest_item_id: "Henkilötunnus",
+    profile_guest_item_contacts: "Kontaktit", profile_guest_item_cv: "CV", profile_guest_item_portfolio: "Portfolio",
+    profile_guest_item_hobbies: "Harrastukset", profile_guest_item_events: "Tapahtumat", profile_guest_item_volunteering: "Vapaaehtoistyö",
+    profile_features_title: "TÄRKEIMMÄT OMINAISUUDET (DEMO)",
+    profile_feat_kela: "Hae Kela-korttia",
+    profile_feat_hidden: "Piilotyöpaikkatyökalu",
+    profile_instr_title: "YKSITYISKOHTAISET OHJEET",
+    profile_instr_cv: "Kuinka kirjoittaa suomalainen CV",
+    profile_instr_tax: "Kuinka saada verokortti",
+    profile_btn_explore: "Tutki kaikkia ohjeita",
+
+    // Gamified Planner
+    quest_level: "Taso {level} Tutkimusmatkailija",
+    quest_xp: "{current}/{max} XP seuraavalle tasolle",
+    quest_tab_board: "Urapolku",
+    quest_tab_achievements: "Saavutukset",
+    quest_tab_life: "Elämä & Hyvinvointi",
+    quest_priority_title: "Prioriteettitehtävät",
+    quest_priority_subtitle: "Kohteet jotka tallensit myöhemmäksi",
+    quest_empty_priority: "Ei aktiivisia prioriteettitehtäviä. Hyvää työtä!",
+    quest_empty_log: "Ei suoritettuja tehtäviä vielä. Aloita matkasi!",
+    quest_btn_mark_done: "Merkitse tehdyksi",
+    quest_btn_read: "Lue opas",
+    quest_achievement_unlocked: "Saavutus avattu!",
+    quest_fun_fact_title: "Tiesitkö?",
+    quest_btn_unlock: "Avaa & Lue",
+    quest_locked_msg: "Napauta paljastaaksesi salaisuuden!",
+    
+    // New Rubric Labels
+    plan_track_career: "Urapolku",
+    plan_track_life: "Pohjoismainen elämä",
+    plan_step_completed: "Valmis",
+    plan_step_locked: "Lukittu",
+    plan_step_available: "Saatavilla",
+    plan_btn_return: "Palaa suunnitelmaan",
+
+    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Räätälöity: {name}", wiki_explore_cats: "Selaa aiheita", wiki_explore_subtitle: "Valitse aihe syventyäksesi.", wiki_full_index: "Hakemisto", wiki_full_index_subtitle: "Selaa kaikkia.", wiki_nav_list: "Lista", wiki_nav_icons: "Kuvakkeet", wiki_section_chapters: "Luvut", wiki_btn_mark_done: "Tehty", wiki_btn_later: "Myöhemmin", wiki_btn_saved: "Tallennettu", wiki_btn_completed: "Valmis", wiki_ctx_ask: "Kysy tästä", wiki_topic_label: "Aihe: {tag}", wiki_topic_desc: "Yleiskatsaus & Artikkelit", wiki_guide_prefix: "OPAS", wiki_stat_articles: "artikkelia", wiki_stat_complete: "valmis", wiki_section_prefix: "Osa", wiki_stat_articles_suffix: "artikkelia",
     wizard_header_quiz: "Kysely", wizard_greeting_short: "Moi, {name}!", wizard_title_init: "Luo profiili", wizard_title_custom: "Luodaan {name}", wizard_phase_identity: "VAIHE 1: IDENTITEETTI", wizard_phase_demo: "VAIHE 2: TAUSTA", wizard_phase_status: "VAIHE 3: STATUS", wizard_phase_skills: "VAIHE 4: TAIDOT", wizard_phase_mindset: "VAIHE 5: ASENNE", wizard_phase_vision: "VAIHE 6: VISIO", wizard_nickname_hint: "* Voit käyttää lempinimeä.", wizard_btn_ask: "Kysy", wizard_btn_next: "Seuraava", wizard_btn_prev: "Edellinen", wizard_btn_submit: "Lähetä", wizard_btn_finish_early: "Tallenna & Lopeta", wizard_btn_generate_name: "Luo nimi", wizard_ribbon_greeting: "Hauska tutustua, {name}!", wizard_title_name: "Mikä on nimesi?", wizard_desc_name: "Kirjoita nimesi tai valitse lempinimi", wizard_placeholder_name: "Nimesi",
     wizard_step2_title: "Minkä ikäinen olet?", wizard_step2_desc: "Valitse ikäryhmä", wizard_step2_placeholder: "Ikä (esim. 29)",
     wizard_step3_title: "Siviilisääty?",
@@ -48,7 +93,7 @@ export const fi: TranslationResource = {
       foundation: 'Byrokratia & Perusasiat', job_strategy: 'Työnhakustrategia', workplace: 'Työkulttuuri', industries: 'Toimialaoppaat', life: 'Elämä & Tasapaino',
       identity: 'Henkilöllisyys & luvat', security: 'Sosiaaliturva', market: 'Markkina', tools: 'Työkalut', rights: 'Oikeudet', networking: 'Verkostoituminen & Piilotyöpaikat',
       social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijaroolit', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
-      family: 'Perheen tuki', language: 'Kieli',
+      family: 'Perheen tuki', language: 'Kieli', giving: 'Vapaaehtoistyö',
       social_unemployment: 'Työttömyysturva', social_housing: 'Asumistuki', social_pension: 'Eläkejärjestelmä', social_kela_card: 'Kela-kortti', social_health: 'Julkinen terveydenhuolto',
       bureaucracy_dvv: 'DVV & Henkilötunnus', bureaucracy_migri: 'Maahanmuutto (Migri)', bureaucracy_tax: 'Verokortti', bureaucracy_bank: 'Pankkitilin avaaminen',
       job_te_office: 'TE-toimisto', job_portals: 'Työnhakuportaalit', job_entrepreneurship: 'Yrittäjyys', 
@@ -59,7 +104,10 @@ export const fi: TranslationResource = {
       culture_afterwork: 'Afterwork', culture_sauna: 'Saunadiplomatia', culture_smalltalk: 'Hiljaisuus & Small Talk', culture_party: 'Työpaikan juhlat',
       prof_engineering: 'Insinöörityö', prof_business: 'Kaupallinen ala', prof_it: 'IT & Teknologia', prof_health: 'Terveys & Hoito', prof_service: 'Palveluala',
       housing_contracts: 'Vuokrasopimukset', housing_finding: 'Asunnon etsintä', housing_utilities: 'Sähkö & Vesi', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
-      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset & Urheilu', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus'
+      family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset & Urheilu', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus',
+      vol_redcross: 'Punainen Risti', vol_animals: 'Eläinsuojelu', vol_events: 'Tapahtumat', vol_humanitarian: 'Avustustyö',
+      daily_transport: 'Julkinen liikenne', daily_groceries: 'Ruokakaupat', daily_pantti: 'Pullonpalautus',
+      nature_everyman: 'Jokamiehenoikeudet', nature_winter: 'Talvesta selviytyminen', nature_summer: 'Mökkielämä'
     },
     articles: {
       'guide_start': { 
@@ -356,6 +404,56 @@ export const fi: TranslationResource = {
         title: 'Turvallisuus & Itsenäisyys',
         summary: 'Suomi on erittäin turvallinen. Lapset menevät kouluun yksin.',
         content: `# Itsenäisyys\nÄlä panikoi, jos näet 7-vuotiaan yksin metrossa. Se on normaalia. Yhteiskunta pitää heidät turvassa.`
+      },
+      'vol_redcross': {
+        title: 'Punainen Risti',
+        summary: 'Helpoin tapa tavata paikallisia ja tehdä hyvää.',
+        content: `# Punainen Risti\nYksi Suomen suurimmista järjestöistä. He etsivät jatkuvasti vapaaehtoisia.\n\n### Toiminta\n* **Ystävätoiminta:** Vieraile yksinäisten vanhusten luona.\n* **Läksyapu:** Auta maahanmuuttajalapsia koulutehtävissä.\n* **Festivaalit:** Ensiapu ja logistiikka kesäfestivaaleilla.\n\n### Miksi liittyä?\nSe näyttää hyvältä CV:ssä ja harjoittelet suomea turvallisessa ympäristössä.`
+      },
+      'vol_animals': {
+        title: 'Eläinsuojelu',
+        summary: 'Auta eläimiä HESY:ssä ja muissa löytöeläintaloissa.',
+        content: `# HESY (Helsingin eläinsuojeluyhdistys)\nJos rakastat eläimiä, tämä on sinulle.\n\n### Mitä voit tehdä?\n* **Kissojen sosiaalistaminen:** Kyllä, silitä kissoja totuttaaksesi ne ihmisiin.\n* **Koirien ulkoilutus:** Hyvää liikuntaa ja seuraa.\n* **Siivous:** Auta pitämään tarha puhtaana.\n\nYleensä vaatii sitoutumista (esim. kerran viikossa).`
+      },
+      'vol_events': {
+        title: 'Tapahtumavapaaehtoisuus',
+        summary: 'Slush, Flow Festival, Nordic Business Forum.',
+        content: `# Pikakaista verkostoihin\nIsot tapahtumat pyörivät vapaaehtoisvoimin.\n\n### Diili\nTeet 2-3 vuoroa. Vastineeksi saat:\n* Ilmaisen lipun lopputapahtumaan.\n* Ilmaista ruokaa & eksklusiiviset bileet.\n* **Alumniverkosto:** Tämä on kultakaivos. Monet löytävät töitä kanssavapaaehtoisten kautta.`
+      },
+      'vol_humanitarian': {
+        title: 'Avustustyö',
+        summary: 'Leipäjonot ja asunnottomien auttaminen.',
+        content: `# Haavoittuvimpien auttaminen\nJärjestöt kuten **Hurstin Apu** organisoivat ruoanjakelua vähävaraisille.\n\n### Todellisuus\nSe on kovaa työtä, mutta erittäin palkitsevaa. Näet yhteiskunnan puolen, joka on usein piilossa. Se maadoittaa ja yhdistää sinut ihmisiin, jotka todella välittävät toisista.`
+      },
+      'daily_transport': { 
+        title: 'Julkinen liikenne (HSL/VR)', 
+        summary: 'Miten käyttää junia, busseja ja vyöhykejärjestelmää.',
+        content: `# Liikkuminen\n\n### HSL (Helsingin seutu)\n* **Vyöhykkeet:** Lipun hinta riippuu vyöhykkeistä (ABCD). Helsinki on AB.\n* **Sovellus:** Lataa HSL-sovellus. Se on halvempi kuin kuljettajalta ostaminen.\n* **Sakko:** Ei lippua = 80€ tarkastusmaksu.\n\n### VR (Junat)\nPitkille matkoille. Varaa ajoissa halpojen lippujen saamiseksi.`,
+      },
+      'daily_groceries': { 
+        title: 'Ruokakaupat', 
+        summary: 'Punnitse vihannekset ja palauta pullot.', 
+        content: `# Supermarketin säännöt\n\n1. **Punnitus:** Sinun täytyy punnita hedelmät/vihannekset ja liimata hintalappu pussiin *ennen* kassaa.\n2. **S-Ryhmä vs K-Ryhmä:** Kaksi pääketjua. Hanki bonuskortti (S-Etukortti) jos jäät pidemmäksi aikaa.\n3. **Alkoholi:** Olutta saa kaupoista klo 21 asti. Vahvemmat vain **Alkosta** (valtion monopoli).`,
+      },
+      'daily_pantti': {
+        title: 'Pullonpalautus (Pantti)',
+        summary: 'Älä heitä tölkkejä pois! Ne ovat rahaa.',
+        content: `# Pantti-järjestelmä\n\nLähes jokaisella pullolla ja tölkillä on panttiarvo (10c - 40c).\n\n1. **Kerää:** Älä rutista niitä.\n2. **Palauta:** Automaatit ovat jokaisen kaupan eteisessä.\n3. **Raha:** Saat kuitin. Käytä se kassalla vähentääksesi ruokaostosten hintaa.`,
+      },
+      'nature_everyman': { 
+        title: 'Jokamiehenoikeudet', 
+        summary: 'Voit kävellä melkein missä vain ja poimia marjoja.', 
+        content: `# Jokamiehenoikeudet\n\nSinulla on oikeus:\n1. **Kävellä:** Missä tahansa metsässä (paitsi yksityispihoilla).\n2. **Poimia:** Marjoja ja sieniä vapaasti.\n3. **Leiriytyä:** Tilapäisesti luontoon.\n\n**Säännöt:** Älä häiritse lintuja, älä jätä roskia, älä kaada puita.`, 
+      },
+      'nature_winter': { 
+        title: 'Talvesta selviytyminen', 
+        summary: 'Pimeys ja D-vitamiini.', 
+        content: `# Pimeys (Kaamos)\n\nMarras-tammikuussa auringonvalo on harvinaista.\n* **D-vitamiini:** Ota lisiä. Pakollinen.\n* **Heijastimet:** Käytä niitä. Se on laki.\n* **Nastat:** Nastakengät estävät liukastumisen jäällä.`, 
+      },
+      'nature_summer': {
+        title: 'Mökkielämä',
+        summary: 'Suomalainen sielu asuu täällä.',
+        content: `# Mökkielämä\n\nHeinäkuussa kaupungit tyhjenevät. Kaikki menevät mökille.\n* **Yksinkertaista:** Monilla ei ole sähköä tai juoksevaa vettä.\n* **Aktiviteetti:** Sauna, uinti, grillaus, toista.`,
       }
     }
   }
