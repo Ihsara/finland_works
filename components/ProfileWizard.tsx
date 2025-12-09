@@ -8,6 +8,7 @@ import { LanguageSelector } from './LanguageSelector';
 import { generateRandomNicknameIndices, getNickname } from '../data/nicknameData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Logo } from './wizard/shared/WizardUI';
+import { unlockAchievement } from '../services/storageService';
 
 // Step Components
 import StepName from './wizard/steps/StepName';
@@ -172,8 +173,30 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
         const ages = currentData.childAgeGroups.join(', ');
         finalMarital = `${finalMarital}, with ${count} children${ages ? ` (${ages})` : ''}`;
     }
+    
+    // Critical fix: If the user was in "Guest" mode (id='guest'), we MUST generate a new ID
+    // to "graduate" them to a real user. Otherwise, the app still thinks they are a guest
+    // and hides the Plan view.
+    const newId = (initialData?.id && initialData.id !== 'guest') ? initialData.id : uuidv4();
+
+    // --- ACHIEVEMENT CHECKS ---
+    
+    // 1. Created Profile (Save & Exit or Finish)
+    unlockAchievement(newId, 'planner_initiated');
+
+    // 2. Custom Name (Not Randomized)
+    // If nicknameIndices is null, user typed it manually. If it exists, they used the generator.
+    if (!currentData.nicknameIndices && currentData.name.trim().length > 0) {
+        unlockAchievement(newId, 'true_identity');
+    }
+
+    // 3. Full Completion
+    if (step === totalSteps) {
+        unlockAchievement(newId, 'quiz_master');
+    }
+
     const profile: UserProfile = {
-      id: initialData?.id || uuidv4(),
+      id: newId,
       name: currentData.name || 'Friend',
       ageRange: currentData.ageRange || 'Unknown',
       originCountry: currentData.originCountry || 'Abroad',
@@ -269,23 +292,30 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
           </div>
        </div>
 
-       <div className="p-6 md:p-8 max-w-3xl mx-auto w-full flex gap-4 items-center bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl sticky bottom-0 border-t border-gray-100 dark:border-white/10 z-20" key={`footer`}>
+       <div className="p-4 md:p-8 max-w-3xl mx-auto w-full flex gap-3 items-center bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl sticky bottom-0 border-t border-gray-100 dark:border-white/10 z-20" key={`footer`}>
           <button 
             onClick={handleBack}
             disabled={step === 1}
-            className={`px-6 py-3 rounded-full border font-bold transition flex items-center gap-2 min-h-[50px] ${step === 1 ? 'border-transparent text-transparent cursor-default' : 'border-gray-200 dark:border-white/20 text-gray-900 dark:text-white hover:border-gray-900 dark:hover:border-white hover:bg-gray-50 dark:hover:bg-white/10'}`}
+            className={`px-4 sm:px-6 py-3 rounded-full border font-bold transition flex items-center gap-2 min-h-[50px] ${step === 1 ? 'border-transparent text-transparent cursor-default' : 'border-gray-200 dark:border-white/20 text-gray-900 dark:text-white hover:border-gray-900 dark:hover:border-white hover:bg-gray-50 dark:hover:bg-white/10'}`}
           >
-            <Icons.ArrowLeft className="w-4 h-4" /> {t('wizard_btn_prev')}
+            <Icons.ArrowLeft className="w-4 h-4" /> 
+            <span className="hidden sm:inline">{t('wizard_btn_prev')}</span>
           </button>
           
           {step > 1 && step < totalSteps && (
-            <button onClick={finishWizard} className="hidden sm:block px-4 py-3 text-sm font-bold text-gray-500 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-white ml-auto mr-4">
-               {t('wizard_btn_finish_early')}
+            <button 
+                onClick={finishWizard} 
+                className="ml-auto mr-2 sm:mr-4 px-4 py-2 rounded-full font-bold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all flex items-center gap-2 min-h-[44px]"
+                title={t('wizard_btn_finish_early')}
+            >
+               <span className="hidden sm:inline underline">{t('wizard_btn_finish_early')}</span>
+               <Icons.Save className="w-5 h-5 sm:hidden" />
             </button>
           )}
 
-          <button onClick={handleNext} className={`px-8 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg flex items-center gap-2 min-h-[50px] ${step < totalSteps && step <= 1 ? 'ml-auto' : ''}`}>
-            {step === totalSteps ? t('wizard_btn_submit') : t('wizard_btn_next')}
+          <button onClick={handleNext} className={`px-6 sm:px-8 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg flex items-center gap-2 min-h-[50px] ${step < totalSteps && step <= 1 ? 'ml-auto' : ''}`}>
+            <span className="hidden sm:inline">{step === totalSteps ? t('wizard_btn_submit') : t('wizard_btn_next')}</span>
+            <span className="sm:hidden">{step === totalSteps ? 'Finish' : 'Next'}</span>
             {step !== totalSteps && <Icons.ArrowRight className="w-4 h-4" />}
           </button>
        </div>

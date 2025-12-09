@@ -169,9 +169,7 @@ export const getAllProfiles = (): UserProfile[] => {
     }
   }
 
-  // 3. Ensure Default Profile ("Gabriela") Exists
-  // This ensures that even if the user deletes everything or starts fresh, 
-  // the demo profile is available as an option.
+  // 3. Ensure Default Profile ("Gabriela" or similar) Exists
   const defaultId = 'demo-gabriela';
   const hasDefault = profiles.some(p => p.id === defaultId);
   
@@ -179,7 +177,6 @@ export const getAllProfiles = (): UserProfile[] => {
     try {
         const defaultProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
         defaultProfile.id = defaultId; 
-        // DO NOT make active by default. User must choose it.
         saveProfile(defaultProfile, false);
         profiles.push(defaultProfile);
     } catch (e) {
@@ -195,16 +192,11 @@ export const getActiveProfile = (): UserProfile | null => {
   const all = getAllProfiles();
   
   if (activeId) {
-    // If the active ID corresponds to a valid profile, return it
     const found = all.find(p => p.id === activeId);
     if (found) return found;
-    
-    // If active ID is stale (profile deleted), clear it
     localStorage.removeItem(KEYS.ACTIVE_PROFILE_ID);
   }
   
-  // DO NOT auto-select the first profile. 
-  // This ensures the App stays in "Guest" / "No Profile" state on fresh load.
   return null;
 };
 
@@ -215,36 +207,24 @@ export const deleteProfile = (id: string): void => {
   }
 };
 
-// Utility to get YAML representation for the editor
 export const profileToYaml = (profile: UserProfile): string => {
   return jsYaml.dump(profile);
 };
 
-// Utility to parse YAML from editor and save
 export const saveProfileFromYaml = (yamlStr: string): UserProfile => {
   const profile = jsYaml.load(yamlStr) as UserProfile;
   if (!profile.id) {
-    // Try to preserve existing ID if we are editing an existing profile? 
-    // For now, ensure it has one.
     profile.id = uuidv4(); 
   }
-  // If we are editing YAML, we assume the user wants to keep working on this profile
   saveProfile(profile, true);
   return profile;
 };
 
-// --- Reset / Cache Management ---
 export const resetApplicationData = (): void => {
-  // 1. Clear all local storage
   localStorage.clear();
-  
-  // 2. Re-inject "Gabriela" so she is available as a sample
   try {
     const defaultProfile = jsYaml.load(DEFAULT_PROFILE_YAML) as UserProfile;
-    // Ensure ID matches the default ID constant logic used in getAllProfiles
     defaultProfile.id = 'demo-gabriela'; 
-    
-    // Manually save without calling saveProfile helper initially to avoid circular deps or UUID gen
     localStorage.setItem(`${KEYS.PROFILES_PREFIX}${defaultProfile.id}`, JSON.stringify(defaultProfile));
   } catch (e) {
     console.error("Failed to restore default profile during reset", e);
@@ -314,18 +294,20 @@ export type WikiItemStatus = 'done' | 'later' | undefined;
 
 export interface WikiItemData {
   status: WikiItemStatus;
-  lastUpdated: number; // Timestamp of last status change
-  markedLaterAt?: number; // Timestamp when it was marked as 'later'
-  viewsSinceLater: number; // How many times user opened guide while this was 'later'
+  lastUpdated: number; 
+  markedLaterAt?: number; 
+  viewsSinceLater: number; 
 }
 
 export interface WikiProgressData {
   items: Record<string, WikiItemData>;
+  unlockedQuests: string[]; // IDs of soft-locked quests that have been unlocked by user
+  achievements: string[]; // IDs of unlocked achievements
   globalStats: {
-    totalSessions: number; // How many times they opened the Wiki view
-    firstSessionAt: number; // Timestamp of very first visit
-    lastSessionAt: number; // Timestamp of current/last visit
-    sessionsWithoutUpdate: number; // Consecutive sessions where NOTHING was changed
+    totalSessions: number;
+    firstSessionAt: number; 
+    lastSessionAt: number;
+    sessionsWithoutUpdate: number;
   };
 }
 
@@ -335,11 +317,16 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
   
   if (data) {
     const parsed = JSON.parse(data);
-    // Handle migration from old V1 structure (simple record) to V2
+    // Migration: Ensure new fields exist
+    if (!parsed.unlockedQuests) parsed.unlockedQuests = [];
+    if (!parsed.achievements) parsed.achievements = [];
+    
+    // Handle migration from old V1 structure
     if (!parsed.items && !parsed.globalStats) {
-      // It's likely old format
       const newStructure: WikiProgressData = {
         items: {},
+        unlockedQuests: [],
+        achievements: [],
         globalStats: {
           totalSessions: 1,
           firstSessionAt: Date.now(),
@@ -347,7 +334,6 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
           sessionsWithoutUpdate: 0
         }
       };
-      // Convert old entries
       Object.entries(parsed as Record<string, string>).forEach(([k, v]) => {
         newStructure.items[k] = {
           status: v as WikiItemStatus,
@@ -360,9 +346,10 @@ export const getWikiProgress = (profileId: string): WikiProgressData => {
     return parsed;
   }
   
-  // Default Empty
   return {
     items: {},
+    unlockedQuests: [],
+    achievements: [],
     globalStats: {
       totalSessions: 0,
       firstSessionAt: Date.now(),
@@ -376,15 +363,12 @@ const saveWikiProgress = (profileId: string, data: WikiProgressData) => {
    localStorage.setItem(`${KEYS.WIKI_PROGRESS_PREFIX}${profileId}`, JSON.stringify(data));
 };
 
-// Call this when the User opens the Wiki View
 export const trackWikiSession = (profileId: string): void => {
   const data = getWikiProgress(profileId);
-  
   data.globalStats.totalSessions += 1;
   data.globalStats.lastSessionAt = Date.now();
-  data.globalStats.sessionsWithoutUpdate += 1; // We assume no update yet; if they update, we reset this.
+  data.globalStats.sessionsWithoutUpdate += 1; 
 
-  // Increment anxiety counters for items marked "later"
   Object.values(data.items).forEach(item => {
     if (item.status === 'later') {
       item.viewsSinceLater = (item.viewsSinceLater || 0) + 1;
@@ -396,8 +380,6 @@ export const trackWikiSession = (profileId: string): void => {
 
 export const saveWikiArticleStatus = (profileId: string, articleId: string, status: WikiItemStatus): void => {
   const data = getWikiProgress(profileId);
-  
-  // Reset the "Stagnation" counter because the user just did something!
   data.globalStats.sessionsWithoutUpdate = 0;
 
   const existing = data.items[articleId] || { status: undefined, lastUpdated: 0, viewsSinceLater: 0 };
@@ -409,13 +391,11 @@ export const saveWikiArticleStatus = (profileId: string, articleId: string, stat
   };
 
   if (status === 'later') {
-    // If it was already later, keep the original timestamp, otherwise set new
     if (existing.status !== 'later') {
         newItem.markedLaterAt = Date.now();
         newItem.viewsSinceLater = 0;
     }
   } else {
-    // If moving to done or undefined, clear 'later' metrics
     newItem.markedLaterAt = undefined;
     newItem.viewsSinceLater = 0;
   }
@@ -427,4 +407,25 @@ export const saveWikiArticleStatus = (profileId: string, articleId: string, stat
   }
   
   saveWikiProgress(profileId, data);
+};
+
+export const unlockQuest = (profileId: string, questId: string): void => {
+    const data = getWikiProgress(profileId);
+    if (!data.unlockedQuests.includes(questId)) {
+        data.unlockedQuests.push(questId);
+        saveWikiProgress(profileId, data);
+    }
+};
+
+// Returns TRUE if the achievement was newly unlocked
+export const unlockAchievement = (profileId: string, achievementId: string): boolean => {
+    const data = getWikiProgress(profileId);
+    if (!data.achievements) data.achievements = []; // Safety init
+    
+    if (!data.achievements.includes(achievementId)) {
+        data.achievements.push(achievementId);
+        saveWikiProgress(profileId, data);
+        return true;
+    }
+    return false;
 };

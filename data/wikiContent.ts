@@ -183,7 +183,7 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
   },
   {
     id: 'life',
-    title: getLocalizedTitle('life', lang),
+    title: getLocalizedTitle('life', lang), // "Nordic Life & Impact"
     icon: 'Smile',
     theme: { border: 'border-pink-200', text: 'text-pink-700', hoverBg: 'bg-pink-50', shadow: 'shadow-pink-200' },
     subsections: [
@@ -205,6 +205,15 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
                 { id: 'family_activities', icon: 'Music', tags: ['family', 'leisure'], ...getLocalizedArticle('family_activities', lang) },
                 { id: 'family_winter', icon: 'Snowflake', tags: ['family', 'winter'], ...getLocalizedArticle('family_winter', lang) },
                 { id: 'family_safety', icon: 'ShieldCheck', tags: ['family', 'safety'], ...getLocalizedArticle('family_safety', lang) }
+            ]
+        },
+        {
+            title: getLocalizedTitle('giving', lang), // "Giving Back"
+            articles: [
+                { id: 'vol_redcross', icon: 'Heart', tags: ['volunteering', 'community'], ...getLocalizedArticle('vol_redcross', lang) },
+                { id: 'vol_animals', icon: 'Cat', tags: ['volunteering', 'nature'], ...getLocalizedArticle('vol_animals', lang) },
+                { id: 'vol_events', icon: 'Ticket', tags: ['volunteering', 'events'], ...getLocalizedArticle('vol_events', lang) },
+                { id: 'vol_humanitarian', icon: 'Handshake', tags: ['volunteering', 'society'], ...getLocalizedArticle('vol_humanitarian', lang) }
             ]
         }
     ]

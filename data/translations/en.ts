@@ -51,10 +51,13 @@ export const en: TranslationResource = {
     quest_btn_mark_done: "Mark Done",
     quest_btn_read: "Read Guide",
     quest_achievement_unlocked: "Achievement Unlocked!",
+    quest_fun_fact_title: "Did you know?",
+    quest_btn_unlock: "Unlock & Read",
+    quest_locked_msg: "Tap to reveal a secret!",
     
     // New Rubric Labels
     plan_track_career: "Career Path",
-    plan_track_life: "Life & Society",
+    plan_track_life: "Nordic Life & Impact",
     plan_step_completed: "Completed",
     plan_step_locked: "Locked",
     plan_step_available: "Available",
@@ -96,10 +99,10 @@ export const en: TranslationResource = {
   },
   wiki: {
     titles: {
-      foundation: 'Bureaucracy & Basics', job_strategy: 'Job Strategy', workplace: 'Work Culture', industries: 'Industry Guides', life: 'Life & Balance',
+      foundation: 'Bureaucracy & Basics', job_strategy: 'Job Strategy', workplace: 'Work Culture', industries: 'Industry Guides', life: 'Nordic Life & Impact',
       identity: 'Identity & Permits', security: 'Social Security', market: 'The Market', tools: 'Tools', rights: 'Rights', networking: 'Networking & Hidden Market',
       social: 'Social Rituals', norms: 'Professional Norms', specialist: 'Specialist Roles', hands_on: 'Hands-on Work', housing: 'Housing & Transport',
-      family: 'Family Support', language: 'Language',
+      family: 'Family Support', language: 'Language', giving: 'Giving Back',
       social_unemployment: 'Unemployment Benefits', social_housing: 'Housing Allowance', social_pension: 'Pension System', social_kela_card: 'Kela Card', social_health: 'Public Healthcare',
       bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Immigration (Migri)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening Bank Account',
       job_te_office: 'TE Office', job_portals: 'Job Portals', job_entrepreneurship: 'Entrepreneurship', 
@@ -110,7 +113,8 @@ export const en: TranslationResource = {
       culture_afterwork: 'Afterwork', culture_sauna: 'Sauna Diplomacy', culture_smalltalk: 'Silence & Small Talk', culture_party: 'Office Parties',
       prof_engineering: 'Engineering', prof_business: 'Business & Finance', prof_it: 'IT & Tech', prof_health: 'Health & Nursing', prof_service: 'Service Industry',
       housing_contracts: 'Rental Contracts', housing_finding: 'Finding Apartments', housing_utilities: 'Utilities', housing_recycling: 'Recycling Guide', housing_sauna: 'Laundry & Sauna',
-      family_school: 'School System', family_daycare: 'Daycare', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety'
+      family_school: 'School System', family_daycare: 'Daycare', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety',
+      vol_redcross: 'Red Cross & NGOs', vol_animals: 'Animal Shelters', vol_events: 'Event Volunteering', vol_humanitarian: 'Humanitarian Work'
     },
     articles: {
       'guide_start': { 
@@ -152,6 +156,26 @@ export const en: TranslationResource = {
         title: 'Hacking the Hidden Market',
         summary: '70-80% of jobs are not advertised. You have to find them.',
         content: `### The Hidden Job Market\nCompanies often don't advertise because hiring is expensive and slow.\n\n1. **Map Companies:** Make a list of 20 companies you like. Do not look at their "Open Jobs" page yet.\n2. **Open Application (Avoin hakemus):** Email the Team Lead directly (not HR). "I've been following your work on X. I have skills in Y. Could we have a 15 min coffee?"\n3. **Informational Interviews:** Ask people about their job, not *for* a job. "I'm new to the Finnish energy sector. Could I ask you 3 questions about how things work here?" Most people will say yes.`
+      },
+      'net_school': {
+        title: 'Networking while Studying',
+        summary: 'School is your first professional network in Finland.',
+        content: `# The Student Advantage\n\nStudying in Finland is arguably the best way to build a network. Your classmates are your future colleagues.\n\n### 1. Vocational (Amis)\n* **Key:** *Työssäoppiminen* (On-the-job learning).\n* **Strategy:** Treat every internship day as a job interview. Many students get hired by their internship places.\n\n### 2. UAS (AMK)\n* **Key:** *Thesis (Opinnäytetyö)*.\n* **Strategy:** Do your thesis for a company, not for the school shelf. It is a 3-6 month project to prove your worth.\n\n### 3. University\n* **Key:** *Subject Associations (Ainejärjestöt)*.\n* **Culture:** Join the board or organize events. It is a massive signal of activity and connects you with alumni.`
+      },
+      'net_hackathons': {
+        title: 'Hackathons & Events',
+        summary: 'Junction and Slush are golden opportunities for tech and business.',
+        content: `# Tech Events\n\nFinland has a world-class startup scene.\n\n* **Junction:** Europe's leading hackathon. You don't need to be a pro coder; designers and business people are needed too. It's a weekend to show skills to sponsoring companies.\n* **Slush:** The startup event. Volunteering here opens doors to the afterparties where real networking happens.`
+      },
+      'net_slush': {
+        title: 'Slush & Startups',
+        summary: 'Volunteering at Slush is a legendary way to enter the circle.',
+        content: `# Slush: The Anti-Conference\n\nHeld in Helsinki in November, Slush is the world's leading startup event. It is dark, loud, and full of lasers.\n\n### The Volunteer Army\nSlush is built by thousands of volunteers.\n* **Why?** You get free entry, exclusive afterparties, and join a massive alumni network.\n* **Roles:** From stage construction to guiding investors. It proves a "can-do" attitude that Finns love.`
+      },
+      'net_cold_msg': {
+        title: 'The Art of the Cold Message',
+        summary: 'How to approach people without being annoying.',
+        content: `# Approaching Strangers\n\nFinns are busy but helpful. Keep it short.\n\n### The Template\n"Hi [Name], I saw your post about [Topic]. I'm a [Skill] specialist moving to Finland. I'd love to ask one quick question about [Specific Detail]. Would you have time for a 10 min virtual coffee?"\n\n### Rules\n1. **No Fluff:** Don't praise them for 5 paragraphs.\n2. **Specific Ask:** Don't ask "Can you help me find a job?". Ask "What tool do you use for X?".`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 
@@ -256,7 +280,7 @@ export const en: TranslationResource = {
       'work_unions': {
         title: 'Trade Unions (Liitto)',
         summary: 'Highly recommended. They manage unemployment funds.',
-        content: `# Why join?\n1. **Money:** They pay earnings-related unemployment allowance (much higher than Kela).\n2. **Law:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
+        content: `# Why join?\n1. **Money:** They pay earnings-related allowance (much higher than Kela).\n2. **Law:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
       },
       'work_probation': {
         title: 'Trial Period (Koeaika)',
@@ -387,6 +411,26 @@ export const en: TranslationResource = {
         title: 'Core Values', 
         summary: 'Trust and silence are core values.', 
         content: `# Trust & Silence 🤫\n\n1. **Trust:** Do what you say.\n2. **Silence:** Do not fear the silence.` 
+      },
+      'vol_redcross': {
+        title: 'Red Cross & NGOs',
+        summary: 'The easiest way to meet locals and do good.',
+        content: `# Red Cross (Punainen Risti)\nOne of the biggest organizations in Finland. They constantly look for volunteers.\n\n### Activities\n* **Friend Visitor:** Visit lonely elderly people.\n* **Homework Help:** Help immigrant kids with school.\n* **Festivals:** First aid and logistics at summer festivals.\n\n### Why join?\nIt looks amazing on your CV and you practice Finnish in a safe environment.`
+      },
+      'vol_animals': {
+        title: 'Animal Shelters',
+        summary: 'Help animals at HESY and other shelters.',
+        content: `# HESY (Helsinki Animal Protection)\nIf you love animals, this is for you.\n\n### What can you do?\n* **Cat socializing:** Yes, pet cats to make them used to humans.\n* **Walking dogs:** Great exercise and company.\n* **Cleaning:** Helping keep the shelter clean.\n\nUsually requires commitment (e.g. once a week).`
+      },
+      'vol_events': {
+        title: 'Event Volunteering',
+        summary: 'Slush, Flow Festival, Nordic Business Forum.',
+        content: `# The Fast Track to Networks\nBig events run on volunteers.\n\n### The Deal\nYou work 2-3 shifts. In exchange, you get:\n* Free ticket to the rest of the event.\n* Free food & exclusive parties.\n* **The Alumni Network:** This is the gold mine. Many people find jobs through fellow volunteers.`
+      },
+      'vol_humanitarian': {
+        title: 'Humanitarian Work',
+        summary: 'Soup kitchens and helping the homeless.',
+        content: `# Helping the Vulnerable\nOrganizations like **Hurstin Apu** organize food distribution for the needy.\n\n### The Reality\nIt is hard work, but very rewarding. You see a side of society that is often hidden. It grounds you and connects you with people who truly care about others.`
       }
     }
   }

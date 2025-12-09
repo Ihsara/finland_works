@@ -12,6 +12,8 @@ import { getAllFlattenedArticles } from './data/wikiContent';
 import { calculateProfileCompleteness } from './utils/profileUtils';
 import { useLanguage } from './contexts/LanguageContext';
 import { extractJsonFromText, parseTaggedResponse } from './utils/textUtils';
+import { ACHIEVEMENTS } from './data/achievements';
+import { Icons } from './components/Icon';
 
 import { ApiKeyView } from './components/views/ApiKeyView';
 import { LandingView } from './components/views/LandingView';
@@ -24,6 +26,43 @@ import { CvImportView } from './components/views/CvImportView';
 import { SettingsView } from './components/views/SettingsView';
 
 marked.use({ gfm: true, breaks: true });
+
+// --- Global Components ---
+
+const AchievementToast = ({ notification, onClose }: { notification: { id: string, title: string, icon: any, color?: string } | null, onClose: () => void }) => {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        if (notification) {
+            setVisible(true);
+            const timer = setTimeout(() => {
+                setVisible(false);
+                setTimeout(onClose, 300); // Wait for fade out
+            }, 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [notification, onClose]);
+
+    if (!notification) return null;
+
+    const Icon = notification.icon || Icons.Award;
+
+    return (
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 pointer-events-none'}`}>
+            <div className="bg-white dark:bg-[#1a233b] border-2 border-yellow-400 rounded-2xl shadow-2xl p-4 flex items-center gap-4 min-w-[280px]">
+                <div className={`p-2 rounded-full ${notification.color || 'bg-yellow-100 text-yellow-600'} dark:bg-opacity-20`}>
+                    <Icon className="w-6 h-6" />
+                </div>
+                <div>
+                    <p className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">Achievement Unlocked!</p>
+                    <p className="font-bold text-gray-900 dark:text-white text-sm">{notification.title}</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- App ---
 
 const App: React.FC = () => {
   const { language, t } = useLanguage();
@@ -42,6 +81,9 @@ const App: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [yamlInput, setYamlInput] = useState('');
   const [layoutMode, setLayoutMode] = useState<LayoutPreference>('windowed');
+  
+  // Global Notification State
+  const [notification, setNotification] = useState<{ id: string, title: string, icon: any, color?: string } | null>(null);
   
   // Touch Handling for Global Gestures
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
@@ -277,6 +319,25 @@ const App: React.FC = () => {
     return newConv;
   };
 
+  // Central Notification Trigger
+  const handleUnlockAchievement = (achId: string) => {
+      // Logic to actually unlock in DB
+      if (profile && profile.id !== 'guest') {
+          const isNew = Storage.unlockAchievement(profile.id, achId);
+          if (isNew) {
+              const def = ACHIEVEMENTS[achId];
+              if (def) {
+                  setNotification({
+                      id: achId,
+                      title: def.title,
+                      icon: (Icons as any)[def.icon],
+                      color: def.color
+                  });
+              }
+          }
+      }
+  };
+
   const handleSendMessage = async (messageText: string, contextOverride?: string, conversationOverride?: Conversation, displayLabel?: string) => {
     const conversation = conversationOverride || currentConversation;
     if (!messageText.trim() || !conversation) return;
@@ -292,6 +353,13 @@ const App: React.FC = () => {
         alert("Please create a profile first.");
         changeView(AppView.QUIZ);
         return;
+    }
+
+    // --- ACHIEVEMENT CHECK: CURIOUS MIND ---
+    // If this is the user's first message in this conversation (and it's the first conv), trigger achievement.
+    // Or simpler: just trigger it. Storage logic prevents duplicates.
+    if (activeProfile.id !== 'guest') {
+        handleUnlockAchievement('curious_mind');
     }
 
     const globalPref = Storage.getGlobalLengthPreference();
@@ -423,6 +491,8 @@ const App: React.FC = () => {
 
   return (
     <Layout onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} layoutMode={layoutMode}>
+      <AchievementToast notification={notification} onClose={() => setNotification(null)} />
+
       {view === AppView.LANDING && (
         <LandingView 
           profile={profile}
@@ -470,7 +540,6 @@ const App: React.FC = () => {
       {view === AppView.WIKI && (
         <WikiView 
           profile={profile}
-          // The Wiki view needs to know if it should behave as a "Browser" or a "Deep Link Viewer"
           onClose={handleGlobalBack} 
           activeArticleId={activeWikiArticleId}
           onArticleSelect={(article) => setActiveWikiArticleId(article?.id || null)}
@@ -478,6 +547,7 @@ const App: React.FC = () => {
           onNavigateToChat={() => startNewChat()}
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
+          onUnlockAchievement={handleUnlockAchievement}
         />
       )}
 
@@ -534,6 +604,7 @@ const App: React.FC = () => {
           onNavigateToWiki={() => changeView(AppView.WIKI)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
           onNavigateToArticle={handleNavigateToArticle}
+          onUnlockAchievement={handleUnlockAchievement}
         />
       )}
     </Layout>

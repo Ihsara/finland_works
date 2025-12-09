@@ -14,6 +14,31 @@ import { NavigationLinks } from '../NavigationLinks';
 import { AppView } from '../../types';
 import { getAvatarUrl } from '../../utils/profileUtils';
 
+// Simple Confetti Component (Shared)
+const Confetti = ({ active }: { active: boolean }) => {
+    if (!active) return null;
+    return (
+        <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+                <div 
+                    key={i} 
+                    className="absolute animate-confetti" 
+                    style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `-10%`,
+                        backgroundColor: ['#FFC700', '#FF0000', '#2E3192', '#41BBC7'][Math.floor(Math.random() * 4)],
+                        width: '10px',
+                        height: '10px',
+                        animationDuration: `${Math.random() * 2 + 2}s`,
+                        animationDelay: `${Math.random() * 0.5}s`,
+                        transform: `rotate(${Math.random() * 360}deg)`
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
+
 interface WikiViewProps {
   onClose: () => void;
   profile: UserProfile | null;
@@ -23,6 +48,7 @@ interface WikiViewProps {
   onNavigateToChat: () => void;
   onNavigateToProfile: () => void;
   onNavigateToLanding: () => void;
+  onUnlockAchievement?: (id: string) => void;
 }
 
 type ViewMode = 'list' | 'icons';
@@ -47,7 +73,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
   onStartChatWithContext,
   onNavigateToChat,
   onNavigateToProfile,
-  onNavigateToLanding
+  onNavigateToLanding,
+  onUnlockAchievement
 }) => {
   const { language, t } = useLanguage();
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
@@ -59,6 +86,9 @@ export const WikiView: React.FC<WikiViewProps> = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
   
+  // Confetti State
+  const [celebrate, setCelebrate] = useState(false);
+
   const wikiCategories = useMemo(() => getWikiCategories(language), [language]);
 
   const activeCategory = useMemo(() => {
@@ -74,6 +104,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
 
   const [progress, setProgress] = useState<WikiProgressData>({ 
     items: {}, 
+    unlockedQuests: [],
+    achievements: [],
     globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
   });
 
@@ -124,7 +156,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
       }
   }, [activeArticle]);
 
-  // Safety: If activeArticleId is set but invalid (e.g. broken link), clear it
   useEffect(() => {
       if (activeArticleId && !activeArticle) {
           onArticleSelect(null);
@@ -185,10 +216,29 @@ export const WikiView: React.FC<WikiViewProps> = ({
 
   const handleToggleStatus = (status: 'done' | 'later') => {
       if (!activeArticle || !profile) return;
+      
       const currentStatus = progress.items[activeArticle.id]?.status;
       const newStatus = currentStatus === status ? undefined : status;
+      
       Storage.saveWikiArticleStatus(profile.id, activeArticle.id, newStatus);
-      setProgress(Storage.getWikiProgress(profile.id));
+      const newData = Storage.getWikiProgress(profile.id);
+      setProgress(newData);
+
+      // --- ACHIEVEMENT LOGIC ---
+      if (status === 'done' && currentStatus !== 'done') {
+          const doneCount = Object.values(newData.items).filter(i => i.status === 'done').length;
+          if (doneCount === 1 && onUnlockAchievement) {
+              onUnlockAchievement('first_step');
+          }
+          setCelebrate(true);
+          setTimeout(() => setCelebrate(false), 3000);
+      }
+
+      if (status === 'later' && currentStatus !== 'later' && onUnlockAchievement) {
+          const laterCount = Object.values(newData.items).filter(i => i.status === 'later').length;
+          if (laterCount === 1) onUnlockAchievement('time_lord');
+          if (laterCount === 10) onUnlockAchievement('backlog_champion');
+      }
   };
 
   const handleStartChat = () => {
@@ -374,6 +424,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
     >
+      <Confetti active={celebrate} />
+
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl z-50 sticky top-0">
         <div className="flex items-center gap-2">
             <button 
@@ -382,7 +434,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
             >
                 <Icons.ArrowLeft className="w-6 h-6" />
             </button>
-            {/* HIDDEN ON MOBILE to prevent crowding */}
             <h2 className="hidden md:block font-bold text-gray-900 dark:text-white text-base md:text-lg leading-tight truncate max-w-[200px] md:max-w-md animate-in fade-in">
                 {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : activeTag ? t('wiki_topic_label', { tag: activeTag }) : t('wiki_header_title')}
             </h2>
@@ -590,17 +641,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
                         </div>
                     </div>
                 </div>
-                {/* Fixed "Back to Plan" Bar for Deep Links */}
-                {activeArticleId && (
-                    <div className="absolute bottom-0 left-0 w-full p-4 bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-md border-t border-gray-200 dark:border-white/10 z-50 flex justify-center pb-[env(safe-area-inset-bottom)]">
-                        <button 
-                            onClick={onClose}
-                            className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition-all flex items-center gap-2"
-                        >
-                            <Icons.ArrowLeft className="w-4 h-4" /> {t('plan_btn_return')}
-                        </button>
-                    </div>
-                )}
                 {activeSentence && <div className="fixed z-50 sentence-popover animate-in fade-in zoom-in-95 duration-200" style={{ left: Math.min(window.innerWidth - 60, Math.max(20, activeSentence.x - 25)), top: activeSentence.y - 60 }}><button onClick={handleStartChat} className="flex items-center justify-center w-12 h-12 bg-black text-white rounded-full shadow-xl hover:bg-gray-800 active:scale-90 transition-all border-2 border-white dark:border-gray-800" title={t('wiki_ctx_ask')}><Icons.MessageSquare className="w-6 h-6" /></button><div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black"></div></div>}
             </div>
         )}
