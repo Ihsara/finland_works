@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
@@ -83,6 +82,9 @@ describe('Navigation & User Flow', () => {
           onEditYaml={vi.fn()}
           onNavigateToWiki={vi.fn()}
           onNavigateToLanding={vi.fn()}
+          onNavigateToPlan={vi.fn()}
+          onNavigateToChat={vi.fn()}
+          onNavigateToAchievements={vi.fn()}
         />
       );
 
@@ -113,6 +115,9 @@ describe('Navigation & User Flow', () => {
           onEditYaml={vi.fn()}
           onNavigateToWiki={vi.fn()}
           onNavigateToLanding={vi.fn()}
+          onNavigateToPlan={vi.fn()}
+          onNavigateToChat={vi.fn()}
+          onNavigateToAchievements={vi.fn()}
         />
       );
 

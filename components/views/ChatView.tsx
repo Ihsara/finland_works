@@ -94,7 +94,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
       {/* Messages */}
       <div 
         data-testid={APP_IDS.VIEWS.CHAT.MSG_LIST}
-        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 relative z-10"
+        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 relative z-10 scroll-smooth"
       >
         {conversation.messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-[60vh] text-center text-gray-500 dark:text-gray-400 animate-in fade-in zoom-in-95 duration-500">
@@ -177,11 +177,11 @@ export const ChatView: React.FC<ChatViewProps> = ({
             </div>
           </div>
         )}
-        <div ref={chatEndRef} />
+        <div ref={chatEndRef} className="pb-4" />
       </div>
 
       {/* Input Area */}
-      <div className="p-4 md:p-6 border-t border-gray-100 dark:border-white/10 bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl relative z-20 pb-[env(safe-area-inset-bottom)]">
+      <div className="p-4 md:p-6 border-t border-gray-100 dark:border-white/10 bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl relative z-20">
         <div className="relative max-w-4xl mx-auto">
           <input
             data-testid={APP_IDS.VIEWS.CHAT.INPUT_FIELD}

@@ -10,6 +10,8 @@ import { getWikiCategories } from '../../data/wikiContent';
 import * as Storage from '../../services/storageService';
 import { FeedbackRibbon } from '../FeedbackRibbon';
 import { getAvatarUrl } from '../../utils/profileUtils';
+import { PuzzleProgress, PuzzleModule } from '../PuzzleProgress';
+import { getPuzzleImageById } from '../../data/puzzleImages';
 
 interface PlanViewProps {
   profile: UserProfile | null;
@@ -47,6 +49,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
   const [funFact, setFunFact] = useState<{title: string, text: string, moduleId: string} | null>(null);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [showGraduation, setShowGraduation] = useState(false);
 
   const isGuest = !profile || profile.id === 'guest';
 
@@ -64,6 +67,24 @@ export const PlanView: React.FC<PlanViewProps> = ({
       if (view === AppView.PLAN) { /* Already here */ }
   };
 
+  const handleToggleArticleStatus = (e: React.MouseEvent, articleId: string) => {
+      e.stopPropagation(); // Prevent opening the module or navigating
+      if (!profile) return;
+
+      const currentStatus = wikiProgress?.items[articleId]?.status;
+      const newStatus = currentStatus === 'done' ? undefined : 'done'; // Toggle Done/Undone
+      
+      Storage.saveWikiArticleStatus(profile.id, articleId, newStatus);
+      const newData = Storage.getWikiProgress(profile.id);
+      setWikiProgress(newData);
+
+      // Trigger achievement check
+      if (newStatus === 'done' && onUnlockAchievement) {
+          const doneCount = Object.values(newData.items).filter(i => i.status === 'done').length;
+          if (doneCount === 1) onUnlockAchievement('first_step');
+      }
+  };
+
   const planData = useMemo(() => {
       if (!profile || isGuest) return null;
       
@@ -71,7 +92,6 @@ export const PlanView: React.FC<PlanViewProps> = ({
       const progress = wikiProgress?.items || {};
       
       const careerCats = categories.filter(c => ['foundation', 'job_strategy', 'workplace', 'industries'].includes(c.id));
-      // Expanded Life Track
       const lifeCats = categories.filter(c => ['life', 'family', 'daily_life', 'nature'].includes(c.id)); 
 
       const processCategory = (cat: any) => {
@@ -92,12 +112,46 @@ export const PlanView: React.FC<PlanViewProps> = ({
       const careerModules = careerCats.map(processCategory);
       const lifeModules = lifeCats.map(processCategory);
 
-      const totalCompleted = [...careerModules, ...lifeModules].reduce((acc, m) => acc + m.completed, 0);
-      const level = 1 + Math.floor(totalCompleted / 5);
-      const xp = totalCompleted % 5;
+      // Global Progress for Puzzle
+      const allModules = [...careerModules, ...lifeModules];
+      
+      // Map to PuzzleModule format
+      const puzzleModules: PuzzleModule[] = allModules.map(m => ({
+          id: m.id,
+          title: m.title,
+          icon: m.icon,
+          percent: m.percent,
+          total: m.total,
+          completed: m.completed
+      }));
 
-      return { careerModules, lifeModules, level, xp };
+      const grandTotal = allModules.reduce((acc, m) => acc + m.total, 0);
+      const grandCompleted = allModules.reduce((acc, m) => acc + m.completed, 0);
+      const grandPercent = grandTotal > 0 ? Math.round((grandCompleted / grandTotal) * 100) : 0;
+
+      const level = 1 + Math.floor(grandCompleted / 5);
+      const xp = grandCompleted % 5;
+
+      return { careerModules, lifeModules, puzzleModules, level, xp, grandPercent };
   }, [profile, isGuest, wikiProgress, language, onUnlockAchievement]);
+
+  // Check for Graduation (100%)
+  useEffect(() => {
+      if (planData?.grandPercent === 100 && onUnlockAchievement) {
+          const isNew = Storage.unlockAchievement(profile!.id, 'sisu_graduate');
+          if (isNew) {
+              setShowGraduation(true);
+              onUnlockAchievement('sisu_graduate');
+          }
+      }
+  }, [planData?.grandPercent]);
+
+  // Get Background Image from Profile ID
+  const puzzleImageUrl = useMemo(() => {
+      if (!profile) return undefined;
+      const imgDef = getPuzzleImageById(profile.puzzleImageId);
+      return imgDef.url;
+  }, [profile]);
 
   const toggleModule = (id: string) => {
       setExpandedModules(prev => ({ ...prev, [id]: !prev[id] }));
@@ -152,7 +206,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                   className="w-full p-5 flex items-center justify-between text-left"
               >
                   <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center relative ${statusColor}`}>
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center relative flex-shrink-0 ${statusColor}`}>
                           {(() => {
                               const IconComponent = (Icons as any)[module.icon] || Icons.FileText;
                               return <IconComponent className="w-6 h-6" />;
@@ -162,14 +216,9 @@ export const PlanView: React.FC<PlanViewProps> = ({
                                   <Icons.Lock className="w-3 h-3 text-gray-500 dark:text-gray-400" />
                               </div>
                           )}
-                          {hasOngoing && !isComplete && !isLocked && (
-                              <div className="absolute -top-1 -right-1 bg-amber-100 dark:bg-amber-900 rounded-full p-1 border border-white dark:border-gray-900">
-                                  <Icons.Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                              </div>
-                          )}
                       </div>
-                      <div>
-                          <h3 className="font-bold text-lg text-gray-900 dark:text-white">{module.title}</h3>
+                      <div className="min-w-0">
+                          <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate pr-2">{module.title}</h3>
                           {isLocked ? (
                               <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide flex items-center gap-1">
                                   <Icons.Lock className="w-3 h-3" /> Locked
@@ -184,7 +233,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                           )}
                       </div>
                   </div>
-                  <div className="text-gray-400">
+                  <div className="text-gray-400 flex-shrink-0">
                       {isExpanded ? <Icons.ChevronDown className="w-5 h-5" /> : <Icons.ChevronRight className="w-5 h-5" />}
                   </div>
               </button>
@@ -194,21 +243,21 @@ export const PlanView: React.FC<PlanViewProps> = ({
                       {module.articles.map((article: any) => {
                           const status = wikiProgress?.items[article.id]?.status;
                           const isDone = status === 'done';
-                          const isLater = status === 'later';
                           
                           return (
                               <div key={article.id} className="flex items-center justify-between p-3 hover:bg-white dark:hover:bg-white/5 rounded-xl transition group">
                                   <button 
                                       onClick={() => onNavigateToArticle && onNavigateToArticle(article.id)}
-                                      className="flex-1 text-left flex items-center gap-3"
+                                      className="flex-1 text-left flex items-center gap-3 min-w-0"
                                   >
-                                      <div className={`w-2 h-2 rounded-full ${isDone ? 'bg-green-500' : isLater ? 'bg-amber-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
-                                      <span className={`text-sm font-medium ${isDone ? 'text-gray-500 line-through decoration-gray-300' : 'text-gray-900 dark:text-white'}`}>{article.title}</span>
+                                      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isDone ? 'bg-green-500' : status === 'later' ? 'bg-amber-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                                      <span className={`text-sm font-medium truncate ${isDone ? 'text-gray-500 line-through decoration-gray-300' : 'text-gray-900 dark:text-white'}`}>{article.title}</span>
                                   </button>
                                   <button
-                                      className={`p-2 rounded-full cursor-default ${isDone ? 'text-green-500' : 'text-gray-300 dark:text-gray-600'}`}
+                                      onClick={(e) => handleToggleArticleStatus(e, article.id)}
+                                      className={`p-2 rounded-full flex-shrink-0 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors ${isDone ? 'text-green-500' : 'text-gray-300 dark:text-gray-600'}`}
                                   >
-                                      {isDone ? <Icons.CheckCircle className="w-5 h-5" /> : <Icons.CheckSquare className="w-5 h-5" />}
+                                      {isDone ? <Icons.CheckCircle className="w-6 h-6" strokeWidth={2.5} /> : <Icons.CheckSquare className="w-6 h-6" strokeWidth={1.5} />}
                                   </button>
                               </div>
                           );
@@ -229,6 +278,38 @@ export const PlanView: React.FC<PlanViewProps> = ({
       data-scene-id={APP_IDS.SCENES.PLAN}
       className="flex flex-col h-full bg-gray-50 dark:bg-[#0b1021] relative overflow-hidden transition-colors duration-700"
     >
+        {/* Graduation Modal */}
+        {showGraduation && (
+            <div className="absolute inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-700">
+                <div className="bg-white dark:bg-[#151b2e] rounded-[2rem] p-8 md:p-12 max-w-lg w-full text-center shadow-2xl relative overflow-hidden border border-yellow-400/30">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-yellow-400/10 via-transparent to-purple-500/10 animate-pulse pointer-events-none"></div>
+                    
+                    <div className="mb-6 flex justify-center">
+                        <div className="w-24 h-24 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                            <Icons.Crown className="w-12 h-12 text-white" />
+                        </div>
+                    </div>
+                    
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 font-serif">
+                        Sisu Master!
+                    </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                        You have completed the entire survival guide. You've unlocked the secrets of bureaucracy, work culture, and life in the North.
+                        <br/><br/>
+                        <span className="font-bold text-black dark:text-white">You are ready for your Year One in Finland.</span>
+                    </p>
+                    
+                    <button 
+                        onClick={() => setShowGraduation(false)}
+                        className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-xl"
+                    >
+                        Embark on the Journey
+                    </button>
+                </div>
+            </div>
+        )}
+
+        {/* Fun Fact Modal */}
         {funFact && (
             <div className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/20 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
                 <div className="bg-white dark:bg-[#151b2e] rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-gray-200 dark:border-white/10 relative overflow-hidden">
@@ -277,7 +358,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                 
                 <button 
                     onClick={onNavigateToProfile}
-                    className="relative p-1 rounded-full border-2 border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white transition overflow-hidden"
+                    className="relative p-1 rounded-full border-2 border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white transition overflow-hidden flex-shrink-0"
                 >
                     <img src={getAvatarUrl(profile)} alt="Avatar" className="w-8 h-8 rounded-full bg-white" />
                 </button>
@@ -288,71 +369,68 @@ export const PlanView: React.FC<PlanViewProps> = ({
 
         <div className="flex-1 overflow-y-auto relative z-10 w-full p-4 md:p-8">
             <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
-                {/* Gamified Header */}
-                <div className="bg-white dark:bg-[#151b2e] rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-white/10 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10">
-                        <Icons.Map className="w-64 h-64 text-black dark:text-white transform translate-x-12 -translate-y-12" />
-                    </div>
-                    
-                    <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                        <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                                    {t('quest_level', { level: planData?.level.toString() || '1' })}
-                                </span>
-                                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
-                                    {t('quest_xp', { current: (planData?.xp || 0).toString(), max: '5' })}
-                                </span>
-                            </div>
-                            <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2 font-serif">
-                                {t('profile_btn_plan')}
-                            </h1>
-                            <p className="text-gray-600 dark:text-gray-400 max-w-md">
-                                {t('dash_subtitle')}
-                            </p>
+                
+                {/* 1. The Puzzle Progress - Enhanced Visuals */}
+                {planData && <PuzzleProgress modules={planData.puzzleModules} imageUrl={puzzleImageUrl} />}
+
+                {/* 2. Gamified Stats Header */}
+                <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight font-serif">
+                            {t('profile_btn_plan')}
+                        </h1>
+                        <div className="flex items-center gap-2 mt-2">
+                            <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                                {t('quest_level', { level: planData?.level.toString() || '1' })}
+                            </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                                {t('quest_xp', { current: (planData?.xp || 0).toString(), max: '5' })}
+                            </span>
                         </div>
-                        <button 
-                            data-testid={APP_IDS.VIEWS.PLAN.BTN_TROPHIES}
-                            onClick={onNavigateToAchievements}
-                            className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition shadow-sm z-10"
-                        >
-                            <Icons.Trophy className="w-5 h-5" />
-                            {t('quest_tab_achievements')}
-                        </button>
                     </div>
+                    <button 
+                        data-testid={APP_IDS.VIEWS.PLAN.BTN_TROPHIES}
+                        onClick={onNavigateToAchievements}
+                        className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition shadow-sm w-full md:w-auto justify-center"
+                    >
+                        <Icons.Trophy className="w-5 h-5" />
+                        {t('quest_tab_achievements')}
+                    </button>
                 </div>
 
-                {/* Main Tabs */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div className="flex gap-2 p-1 bg-gray-100 dark:bg-white/5 rounded-full">
-                        <button 
-                            onClick={() => setActiveTab('career')} 
-                            className={`px-6 py-3 rounded-full font-bold text-sm transition whitespace-nowrap flex items-center gap-2 ${activeTab === 'career' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
-                        >
-                            <Icons.Briefcase className="w-4 h-4" />
-                            {t('plan_track_career')}
-                        </button>
-                        <button 
-                            onClick={() => setActiveTab('life')} 
-                            className={`px-6 py-3 rounded-full font-bold text-sm transition whitespace-nowrap flex items-center gap-2 ${activeTab === 'life' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
-                        >
-                            <Icons.Coffee className="w-4 h-4" />
-                            {t('plan_track_life')}
-                        </button>
+                {/* 3. Main Tabs & Filter */}
+                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
+                    <div className="p-1 bg-gray-100 dark:bg-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto">
+                        <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
+                            <button 
+                                onClick={() => setActiveTab('career')} 
+                                className={`px-3 py-3 rounded-xl sm:rounded-full font-bold text-sm transition flex items-center justify-center gap-2 w-full sm:w-auto ${activeTab === 'career' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
+                            >
+                                <Icons.Briefcase className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{t('plan_track_career')}</span>
+                            </button>
+                            <button 
+                                onClick={() => setActiveTab('life')} 
+                                className={`px-3 py-3 rounded-xl sm:rounded-full font-bold text-sm transition flex items-center justify-center gap-2 w-full sm:w-auto ${activeTab === 'life' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
+                            >
+                                <Icons.Coffee className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{t('plan_track_life')}</span>
+                            </button>
+                        </div>
                     </div>
 
                     <button 
                         onClick={() => setShowCompleted(!showCompleted)}
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-lg transition ${showCompleted ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                        className={`flex items-center justify-center sm:justify-start gap-2 text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-lg transition w-full sm:w-auto ${showCompleted ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
                     >
                         <div className={`w-4 h-4 rounded border flex items-center justify-center ${showCompleted ? 'bg-green-500 border-green-500' : 'border-gray-400'}`}>
                             {showCompleted && <Icons.CheckCircle className="w-3 h-3 text-white" />}
                         </div>
-                        Show Completed
+                        <span>Show Completed</span>
                     </button>
                 </div>
 
-                {/* Modules Grid */}
+                {/* 4. Modules Grid */}
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 pb-20">
                     {activeTab === 'career' && filterModules(planData?.careerModules || []).map((m: any, i: number) => renderModuleCard(m, i, true))}
                     {activeTab === 'life' && filterModules(planData?.lifeModules || []).map((m: any, i: number) => renderModuleCard(m, i, false))}

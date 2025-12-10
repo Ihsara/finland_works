@@ -127,6 +127,9 @@ export interface UserProfile {
   confidenceCareer?: string;
   infoLevel?: string;
   primaryExcitement?: string;
+  
+  // Visuals
+  puzzleImageId?: string; // ID of the background image for the plan puzzle
 }
 
 // Default Profile Data (YAML Template)
@@ -160,6 +163,7 @@ confidenceLife: I’m somewhat confident but need support
 confidenceCareer: I have some ideas but need direction
 infoLevel: Somewhat informed
 primaryExcitement: Nature, culture, and lifestyle
+puzzleImageId: helsinki_iso
 `.trim();
 
 export const TEMPLATE_PROFILE_YAML = `
@@ -190,6 +194,7 @@ confidenceLife: [e.g. I feel lost]
 confidenceCareer: [e.g. Unsure where to start]
 infoLevel: [e.g. Not informed at all]
 primaryExcitement: [e.g. Quality of life]
+puzzleImageId: [auto-generated]
 `.trim();
 
 export const GUEST_PROFILE: UserProfile = {

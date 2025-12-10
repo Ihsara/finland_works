@@ -63,7 +63,16 @@ const WikiView: React.FC<WikiViewProps> = ({
   // Progress State
   const [progress, setProgress] = useState<WikiProgressData>({ 
     items: {}, 
-    globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
+    unlockedQuests: [],
+    achievements: [],
+    globalStats: { 
+      totalSessions: 0, 
+      firstSessionAt: 0, 
+      lastSessionAt: 0, 
+      sessionsWithoutUpdate: 0,
+      totalChatMessages: 0,
+      totalChatConversations: 0
+    } 
   });
 
   // Initialize & Progress Tracking

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from '../Icon';
 import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../../data/wikiContent';
@@ -108,7 +107,14 @@ export const WikiView: React.FC<WikiViewProps> = ({
     items: {}, 
     unlockedQuests: [],
     achievements: [],
-    globalStats: { totalSessions: 0, firstSessionAt: 0, lastSessionAt: 0, sessionsWithoutUpdate: 0 } 
+    globalStats: { 
+      totalSessions: 0, 
+      firstSessionAt: 0, 
+      lastSessionAt: 0, 
+      sessionsWithoutUpdate: 0,
+      totalChatMessages: 0,
+      totalChatConversations: 0
+    } 
   });
 
   const tagCloudData = useMemo(() => {
@@ -708,3 +714,5 @@ export const WikiView: React.FC<WikiViewProps> = ({
     </div>
   );
 };
+
+export default WikiView;

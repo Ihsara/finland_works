@@ -129,7 +129,10 @@ import {
   Sparkles,
   Bus,
   ShoppingBag,
-  Trophy
+  Trophy,
+  Bot,
+  Crown,
+  Puzzle
 } from 'lucide-react';
 
 export const Icons = {
@@ -261,5 +264,8 @@ export const Icons = {
   Sparkles,
   Bus,
   ShoppingBag,
-  Trophy
+  Trophy,
+  Bot,
+  Crown,
+  Puzzle
 };

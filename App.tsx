@@ -40,7 +40,7 @@ const AchievementToast = ({ notification, onClose }: { notification: { id: strin
             const timer = setTimeout(() => {
                 setVisible(false);
                 setTimeout(onClose, 300); // Wait for fade out
-            }, 4000);
+            }, 3000); // Reduced to 3s
             return () => clearTimeout(timer);
         }
     }, [notification, onClose]);
@@ -351,6 +351,10 @@ const App: React.FC = () => {
     if (profile && profile.id !== 'guest') {
         Storage.trackChatSession(profile.id);
         const progress = Storage.getWikiProgress(profile.id);
+        
+        // Unlock First Contact Achievement for opening first chat
+        handleUnlockAchievement('ai_first_contact');
+
         if (progress.globalStats.totalChatConversations === 5) {
             handleUnlockAchievement('serial_conversationalist');
         }
@@ -484,7 +488,7 @@ const App: React.FC = () => {
     Storage.saveProfile(newProfile, true);
     Storage.setActiveProfileId(newProfile.id);
     refreshProfiles();
-    changeView(AppView.PROFILE); 
+    changeView(AppView.PLAN); 
   };
 
   const handleLoadDemoProfile = (silent: boolean = false) => {
@@ -495,7 +499,7 @@ const App: React.FC = () => {
       if (targetProfile) {
         Storage.setActiveProfileId(targetProfile.id);
         refreshProfiles();
-        changeView(AppView.DASHBOARD);
+        changeView(AppView.PLAN);
       }
     } catch (e) { if(!silent) alert("Error loading demo."); }
   };

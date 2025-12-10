@@ -57,6 +57,13 @@ export const ACHIEVEMENTS: Record<string, AchievementDef> = {
   },
   
   // Chat Interactions
+  'ai_first_contact': {
+    id: 'ai_first_contact',
+    title: 'Beep Boop!',
+    description: 'You made first contact with the AI. It comes in peace.',
+    icon: 'Bot',
+    color: 'text-indigo-600 bg-indigo-100 border-indigo-200'
+  },
   'curious_mind': {
     id: 'curious_mind',
     title: 'Curious Mind',
@@ -88,4 +95,13 @@ export const ACHIEVEMENTS: Record<string, AchievementDef> = {
   'master_life': { id: 'master_life', title: 'Local Hero', description: 'Mastered Housing & Family.', icon: 'Home', color: 'text-pink-600 bg-pink-100' },
   'master_daily_life': { id: 'master_daily_life', title: 'City Survivor', description: 'Mastered Groceries & Transport.', icon: 'Bus', color: 'text-cyan-600 bg-cyan-100' },
   'master_nature': { id: 'master_nature', title: 'Forest Dweller', description: 'Mastered Nature & Winter skills.', icon: 'TreePine', color: 'text-emerald-600 bg-emerald-100' },
+
+  // FINAL COMPLETION
+  'sisu_graduate': {
+    id: 'sisu_graduate',
+    title: 'Year One: Complete',
+    description: 'You have mastered the basics. You are ready for your life in Finland.',
+    icon: 'Crown',
+    color: 'text-yellow-600 bg-yellow-100 border-yellow-200 ring-2 ring-yellow-400'
+  }
 };

@@ -9,6 +9,7 @@ import { generateRandomNicknameIndices, getNickname } from '../data/nicknameData
 import { useLanguage } from '../contexts/LanguageContext';
 import { Logo } from './wizard/shared/WizardUI';
 import { unlockAchievement } from '../services/storageService';
+import { getRandomPuzzleImageId } from '../data/puzzleImages';
 
 // Step Components
 import StepName from './wizard/steps/StepName';
@@ -175,25 +176,21 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     }
     
     // Critical fix: If the user was in "Guest" mode (id='guest'), we MUST generate a new ID
-    // to "graduate" them to a real user. Otherwise, the app still thinks they are a guest
-    // and hides the Plan view.
     const newId = (initialData?.id && initialData.id !== 'guest') ? initialData.id : uuidv4();
 
     // --- ACHIEVEMENT CHECKS ---
-    
-    // 1. Created Profile (Save & Exit or Finish)
     unlockAchievement(newId, 'planner_initiated');
-
-    // 2. Custom Name (Not Randomized)
-    // If nicknameIndices is null, user typed it manually. If it exists, they used the generator.
     if (!currentData.nicknameIndices && currentData.name.trim().length > 0) {
         unlockAchievement(newId, 'true_identity');
     }
-
-    // 3. Full Completion
     if (step === totalSteps) {
         unlockAchievement(newId, 'quiz_master');
     }
+
+    // Determine Puzzle Image (Randomize for new users if not set)
+    // We exclude 'helsinki_iso' for new users to keep that unique to the Demo or specific users, 
+    // OR we include it. Let's make it random but different from demo if possible.
+    const puzzleImageId = initialData?.puzzleImageId || getRandomPuzzleImageId('helsinki_iso'); 
 
     const profile: UserProfile = {
       id: newId,
@@ -212,7 +209,8 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
       confidenceLife: currentData.confidenceLife,
       confidenceCareer: currentData.confidenceCareer,
       infoLevel: currentData.infoLevel,
-      primaryExcitement: currentData.primaryExcitement
+      primaryExcitement: currentData.primaryExcitement,
+      puzzleImageId: puzzleImageId
     };
     onComplete(profile);
   };
