@@ -86,7 +86,7 @@ export const PuzzleProgress: React.FC<PuzzleProgressProps> = ({ modules, imageUr
       </div>
 
       {/* 3. The Grid of Modules */}
-      <div className="absolute inset-0 z-20 grid grid-cols-2 sm:grid-cols-4 gap-[2px]">
+      <div className="absolute inset-0 z-20 grid grid-cols-2 sm:grid-cols-4 gap-0">
         {modules.map((module) => {
           const isDone = module.percent === 100;
           const Icon = (Icons as any)[module.icon] || Icons.Star;
@@ -99,7 +99,7 @@ export const PuzzleProgress: React.FC<PuzzleProgressProps> = ({ modules, imageUr
           return (
             <div 
               key={module.id}
-              className="relative flex items-center justify-center overflow-hidden"
+              className="relative flex items-center justify-center overflow-hidden border-r border-b border-white/5 last:border-0"
             >
                {/* 
                   The "Cover" Tile. 
@@ -107,7 +107,7 @@ export const PuzzleProgress: React.FC<PuzzleProgressProps> = ({ modules, imageUr
                   - If DONE: It fades out completely (opacity-0).
                */}
                <div className={`
-                  absolute inset-0 bg-[#1a233b] transition-all duration-1000 ease-in-out border border-white/5
+                  absolute inset-0 bg-[#1a233b] transition-all duration-1000 ease-in-out
                   ${isDone ? 'opacity-0 scale-150' : 'opacity-95 backdrop-blur-md'}
                `}></div>
 

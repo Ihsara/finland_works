@@ -40,7 +40,7 @@ export const en: TranslationResource = {
     profile_btn_explore: "Explore all instructions",
 
     // Gamified Planner
-    quest_level: "Level {level} Explorer",
+    quest_level: "Level {level}",
     quest_xp: "{current}/{max} XP to next level",
     quest_tab_board: "Career Journey",
     quest_tab_achievements: "Achievements",
@@ -115,7 +115,9 @@ export const en: TranslationResource = {
       prof_engineering: 'Engineering', prof_business: 'Business & Finance', prof_it: 'IT & Tech', prof_health: 'Health & Nursing', prof_service: 'Service Industry',
       housing_contracts: 'Rental Contracts', housing_finding: 'Finding Apartments', housing_utilities: 'Utilities', housing_recycling: 'Recycling Guide', housing_sauna: 'Laundry & Sauna',
       family_school: 'School System', family_daycare: 'Daycare', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety',
-      vol_redcross: 'Red Cross & NGOs', vol_animals: 'Animal Shelters', vol_events: 'Event Volunteering', vol_humanitarian: 'Humanitarian Work'
+      vol_redcross: 'Red Cross & NGOs', vol_animals: 'Animal Shelters', vol_events: 'Event Volunteering', vol_humanitarian: 'Humanitarian Work',
+      daily_transport: 'Public Transport', daily_groceries: 'Grocery Shopping', daily_pantti: 'Bottle Recycling',
+      nature_everyman: "Everyman's Rights", nature_winter: 'Surviving Winter', nature_summer: 'Summer Cottages'
     },
     articles: {
       'guide_start': { 
@@ -432,6 +434,36 @@ export const en: TranslationResource = {
         title: 'Humanitarian Work',
         summary: 'Soup kitchens and helping the homeless.',
         content: `# Helping the Vulnerable\nOrganizations like **Hurstin Apu** organize food distribution for the needy.\n\n### The Reality\nIt is hard work, but very rewarding. You see a side of society that is often hidden. It grounds you and connects you with people who truly care about others.`
+      },
+      'daily_transport': { 
+        title: 'Public Transport (HSL/VR)', 
+        summary: 'How to use trains, buses, and the zone system.',
+        content: `# Moving Around\n\n### HSL (Helsinki Region)\n* **Zones:** Ticket price depends on zones (ABCD). Helsinki is AB.\n* **App:** Download HSL app. It is cheaper than buying from driver.\n* **Penalty:** No ticket = 80€ fine.\n\n### VR (Trains)\nFor long distance. Book early for cheap tickets.`,
+      },
+      'daily_groceries': { 
+        title: 'Grocery Shopping', 
+        summary: 'Weigh your own veggies and deposit bottles.', 
+        content: `# Supermarket Rules\n\n1. **Weighing:** You must weigh fruit/veg and stick the price tag on the bag *before* the checkout.\n2. **S-Group vs K-Group:** Two main chains. Get a bonus card (S-Etukortti) if you stay long.\n3. **Alcohol:** Beer is in supermarkets until 9pm. Stronger stuff is only in **Alko** (state monopoly).`,
+      },
+      'daily_pantti': {
+        title: 'Bottle Recycling (Pantti)',
+        summary: 'Don\'t throw away cans! They are money.',
+        content: `# Pantti System\n\nAlmost every bottle and can in Finland has a deposit value (10c - 40c).\n\n1. **Collect:** Don't crush them.\n2. **Return:** Machines are in every supermarket entrance.\n3. **Money:** You get a receipt. Use it at checkout for money off groceries.`,
+      },
+      'nature_everyman': { 
+        title: 'Everyman\'s Rights', 
+        summary: 'You can walk almost anywhere and pick berries.', 
+        content: `# Jokamiehenoikeudet\n\nYou have the right to:\n1. **Walk:** Anywhere in forests (except private gardens).\n2. **Pick:** Berries and mushrooms freely.\n3. **Camp:** Temporarily in nature.\n\n**Rules:** Do not disturb birds, do not leave trash, do not cut trees.`, 
+      },
+      'nature_winter': { 
+        title: 'Surviving Winter', 
+        summary: 'Darkness and Vitamin D.', 
+        content: `# The Darkness (Kaamos)\n\nIn Nov-Jan, sunlight is rare.\n* **Vitamin D:** Take supplements. Mandatory.\n* **Reflectors:** Wear them. It's the law.\n* **Spikes:** Shoes with spikes prevent slipping on ice.`, 
+      },
+      'nature_summer': {
+        title: 'Summer Cottages (Mökki)',
+        summary: 'The Finnish soul lives here.',
+        content: `# Mökki Life\n\nIn July, cities empty. Everyone goes to a cottage.\n* **Simple:** Many have no electricity or running water.\n* **Activity:** Sauna, swim, grill, repeat.`,
       }
     }
   }

@@ -30,7 +30,7 @@ export const fi: TranslationResource = {
     profile_btn_explore: "Tutki kaikkia ohjeita",
 
     // Gamified Planner
-    quest_level: "Taso {level} Tutkimusmatkailija",
+    quest_level: "Taso {level}",
     quest_xp: "{current}/{max} XP seuraavalle tasolle",
     quest_tab_board: "Urapolku",
     quest_tab_achievements: "Saavutukset",
@@ -128,7 +128,7 @@ export const fi: TranslationResource = {
       'net_linkedin': {
         title: 'LinkedIn-strategia',
         summary: 'LinkedIn on rekrytoijien tärkein hakukone Suomessa.',
-        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat taidoilla, eivät titteleillä. Varmista, että otsikkosi on tarkka (esim. "UX Designer").\n* **Sijainti:** Aseta se Suomeen. Jos olet ulkomailla, vaihda se muotoon "Helsinki" (ja mainitse esittelyssä, että olet muuttamassa), jotta näyt paikallisissa hauissa.\n* **Open to Work:** Vihreä banneri on täällä kulttuurisesti hyväksytty. Se osoittaa motivaatiota.\n* **Aktiivisuus:** Kommentoi paikallisia julkaisuja. Se tekee sinusta näkyvän kirjoittajan verkostolle.`
+        content: `### Digitaaliset kasvosi\n* **Avainsanat:** Rekrytoijat hakevat englanniksi. Varmista, että otsikkosi on tarkka (esim. "UX Designer").\n* **Sijainti:** Aseta se Suomeen. Jos olet ulkomailla, vaihda se muotoon "Helsinki" (ja mainitse esittelyssä, että olet muuttamassa), jotta näyt paikallisissa hauissa.\n* **Open to Work:** Käytä vihreää banneria. Se on täällä hyväksytty tapa kertoa käytettävyydestä.\n* **Aktiivisuus:** Kommentoi paikallisia julkaisuja. Se tekee sinusta näkyvän kirjoittajan verkostolle.`
       },
       'net_hidden': {
         title: 'Piilotyöpaikkojen hakkerointi',
@@ -333,7 +333,7 @@ export const fi: TranslationResource = {
       'prof_engineering': {
         title: 'Insinöörityö Suomessa',
         summary: 'Valtava sektori. Englantia käytetään laajasti.',
-        content: `# Jätit\nKone, Wärtsilä, Nokia, Metso.\n\n### Kulttuuri\nFaktapohjaista. Valmistele tekniset yksityiskohdat. Tarkkuutta arvostetaan myyntipuheiden sijaan.`
+        content: `# Jätit\nKone, Wärtsilä, Nokia, Metso.\n\n### Kulttuuri\nFaktipõhine. Valmistele tekniset yksityiskohdat. Tarkkuutta arvostetaan myyntipuheiden sijaan.`
       },
       'prof_business': {
         title: 'Kaupallinen ala',

@@ -32,6 +32,15 @@ const FUN_FACTS = {
     life: "Finland has over 3 million saunas for 5.5 million people. That's more than one sauna for every two people!",
 };
 
+// Finnish Cultural Ranks
+const SISU_RANKS = [
+    "Turisti 📷",      // Tourist
+    "Tulokas 🏠",      // Newcomer
+    "Kuntalainen 🏙️",  // Resident/Citizen
+    "Tietäjä 🧠",      // Sage (Kalevala reference)
+    "Sisu Mestari 🔥"  // Sisu Master
+];
+
 export const PlanView: React.FC<PlanViewProps> = ({
   profile,
   onNavigateToWiki,
@@ -273,6 +282,9 @@ export const PlanView: React.FC<PlanViewProps> = ({
       return modules.filter(m => m.percent < 100);
   };
 
+  const currentLevelIndex = planData ? Math.min(planData.level - 1, SISU_RANKS.length - 1) : 0;
+  const currentRankTitle = SISU_RANKS[currentLevelIndex];
+
   return (
     <div 
       data-scene-id={APP_IDS.SCENES.PLAN}
@@ -379,11 +391,18 @@ export const PlanView: React.FC<PlanViewProps> = ({
                         <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight font-serif">
                             {t('profile_btn_plan')}
                         </h1>
-                        <div className="flex items-center gap-2 mt-2">
-                            <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        <div className="flex items-center flex-wrap gap-2 mt-2">
+                            {/* Standard Level Badge */}
+                            <span className="bg-black/5 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 {t('quest_level', { level: planData?.level.toString() || '1' })}
                             </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                            
+                            {/* Finnish Rank Badge */}
+                            <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm">
+                                {currentRankTitle}
+                            </span>
+
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono ml-1">
                                 {t('quest_xp', { current: (planData?.xp || 0).toString(), max: '5' })}
                             </span>
                         </div>
