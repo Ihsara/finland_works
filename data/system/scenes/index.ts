@@ -89,6 +89,6 @@ export const API_KEY = { ID: 'scene_api_key_entry' };
 export const GLOBAL_NAV = {
   LINK_KB: 'nav_link_knowledge_base',
   LINK_CHAT: 'nav_link_chat',
-  LINK_PLAN: 'nav_link_my_plan',
+  LINK_SETTINGS: 'nav_link_settings', // Replaced LINK_PLAN
   LOGO: 'nav_logo_home'
 };

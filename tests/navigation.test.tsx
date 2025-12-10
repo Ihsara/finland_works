@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
@@ -27,7 +28,7 @@ describe('Navigation & User Flow', () => {
   });
 
   describe('Global Navigation Bar', () => {
-    it('renders the three core pillars: Guide, Chat, and Plan', () => {
+    it('renders the three core pillars: Guide, Chat, and Settings', () => {
       render(
         <NavigationLinks 
           currentView={AppView.DASHBOARD} 
@@ -37,7 +38,7 @@ describe('Navigation & User Flow', () => {
 
       expect(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_KB)).toBeInTheDocument();
       expect(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_CHAT)).toBeInTheDocument();
-      expect(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN)).toBeInTheDocument();
+      expect(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_SETTINGS)).toBeInTheDocument();
     });
 
     it('highlights the active view correctly', () => {
@@ -62,8 +63,8 @@ describe('Navigation & User Flow', () => {
         />
       );
 
-      fireEvent.click(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN));
-      expect(handleNav).toHaveBeenCalledWith(AppView.PROFILE);
+      fireEvent.click(screen.getByTestId(APP_IDS.VIEWS.GLOBAL_NAV.LINK_SETTINGS));
+      expect(handleNav).toHaveBeenCalledWith(AppView.SETTINGS);
     });
   });
 

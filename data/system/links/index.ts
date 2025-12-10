@@ -29,7 +29,7 @@ export const NAV_LINKS: Record<string, AppView> = {
   // GLOBAL NAV LINKS
   [SCENES.GLOBAL_NAV.LINK_KB]: AppView.WIKI,
   [SCENES.GLOBAL_NAV.LINK_CHAT]: AppView.CHAT,
-  [SCENES.GLOBAL_NAV.LINK_PLAN]: AppView.PROFILE,
+  [SCENES.GLOBAL_NAV.LINK_SETTINGS]: AppView.SETTINGS, // Updated mapping
   [SCENES.GLOBAL_NAV.LOGO]: AppView.LANDING,
 
   // SHARED / NAVBAR (Mapped via component IDs usually, but conceptual links here)

@@ -28,10 +28,10 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
       icon: Icons.MessageSquare 
     },
     { 
-      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN, 
-      view: AppView.PLAN, // Now points to PLAN view
-      label: t('profile_btn_plan'), // "My Plan"
-      icon: Icons.Map // Changed icon to Map to signify journey/plan
+      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_SETTINGS, // Updated ID
+      view: AppView.SETTINGS, // Updated View
+      label: t('settings_title'), // "Settings"
+      icon: Icons.Settings // Updated Icon
     }
   ];
 
