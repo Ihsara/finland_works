@@ -9,7 +9,7 @@ interface LayoutProps {
   layoutMode?: LayoutPreference;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, onTouchStart, onTouchEnd, layoutMode = 'windowed' }) => {
+const Layout: React.FC<LayoutProps> = ({ children, onTouchStart, onTouchEnd, layoutMode = 'fullscreen' }) => {
   return (
     <div className={`fixed inset-0 bg-gray-100 dark:bg-black transition-colors duration-300 ${layoutMode === 'windowed' ? 'md:flex md:items-center md:justify-center' : ''}`}>
       {/* 
@@ -19,15 +19,18 @@ const Layout: React.FC<LayoutProps> = ({ children, onTouchStart, onTouchEnd, lay
         3. pb-[env(safe-area-inset-bottom)]: Adds padding for home indicator.
         
         Layout Modes:
-        - 'windowed' (Default): md:h-[90vh] floating card on desktop. Simulates mobile app feel.
-        - 'fullscreen': Full width/height on all devices. Standard desktop app feel.
+        - 'windowed': md:h-[90vh] floating card on desktop. Simulates mobile app feel.
+        - 'fullscreen' (Default): Full width/height on all devices. Standard web app feel.
       */}
       <div 
         className={`
-          w-full h-[100dvh] bg-white dark:bg-gray-950 flex flex-col overflow-hidden relative 
+          w-full bg-white dark:bg-gray-950 flex flex-col overflow-hidden relative 
           pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] md:pt-0 md:pb-0 
           transition-all duration-300 ease-in-out
-          ${layoutMode === 'windowed' ? 'md:h-[90vh] md:max-w-6xl md:rounded-3xl md:shadow-2xl md:border md:border-gray-200 dark:md:border-gray-800' : 'h-full'}
+          ${layoutMode === 'windowed' 
+            ? 'h-[100dvh] md:h-[90vh] md:max-w-6xl md:rounded-3xl md:shadow-2xl md:border md:border-gray-200 dark:md:border-gray-800' 
+            : 'h-full w-full'
+          }
         `}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}

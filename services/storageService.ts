@@ -79,7 +79,7 @@ export const getLayoutPreference = (): LayoutPreference => {
   if (stored === 'fullscreen' || stored === 'windowed') {
     return stored as LayoutPreference;
   }
-  return 'windowed'; // Default
+  return 'fullscreen'; // Default to fullscreen for all devices
 };
 
 export const saveLayoutPreference = (pref: LayoutPreference): void => {
