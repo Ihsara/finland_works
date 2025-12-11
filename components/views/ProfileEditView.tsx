@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Icons } from '../Icon';
-import { LanguageSelector } from '../LanguageSelector';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -26,15 +25,15 @@ export const ProfileEditView: React.FC<ProfileEditViewProps> = ({
 
   return (
     <div className="flex flex-col h-full animate-in fade-in duration-500">
-      <div className="p-4 md:p-6 border-b border-gray-100 flex justify-between items-center bg-white z-50">
+      {/* Header - Standardized Padding */}
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-100 flex justify-between items-center bg-white z-50">
         <div className="flex items-center gap-3">
           <h2 className="text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900">
             <Icons.Edit3 className="w-5 h-5" /> {t('dash_edit_profile')} (YAML)
           </h2>
         </div>
         <div className="flex items-center gap-3">
-          <LanguageSelector />
-          <button onClick={onCancel} className="text-gray-600 hover:text-gray-800">
+          <button onClick={onCancel} className="text-gray-600 hover:text-gray-800 p-2 hover:bg-gray-100 rounded-lg transition h-10 w-10 flex items-center justify-center">
             <Icons.X className="w-6 h-6" />
           </button>
         </div>

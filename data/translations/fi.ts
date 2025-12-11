@@ -3,6 +3,7 @@ import { TranslationResource } from "./types";
 
 export const fi: TranslationResource = {
   ui: {
+    nav_guide: "Opas", nav_chat: "Chat", nav_plan: "Suunnitelma", nav_profile: "Profiili",
     landing_welcome: "Tervetuloa!", landing_subtitle: "Löydä oma polkusi Suomeen", landing_btn_quiz: "Aloita kysely", landing_btn_continue: "Avaa oppaani", landing_btn_ask: "Aloita chat", landing_btn_browse: "Selaa opasta", landing_load_sample: "Lataa esimerkki", landing_erase: "Tyhjennä tiedot", landing_add_key: "Lisää API-avain", landing_choose_lang: "Kieli",
     dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin omaan Suomi-oppaaseesi.", dash_subtitle_guest: "Luodaan profiili, niin päästään alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa", dash_btn_ask: "Kysy AI:lta", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
     dash_education: "Koulutus", dash_profession: "Ammatti", dash_languages: "Kielet", dash_narrative_aspirations: "Tavoitteet", dash_narrative_challenges: "Haasteet",
@@ -95,7 +96,7 @@ export const fi: TranslationResource = {
       social: 'Sosiaaliset rituaalit', norms: 'Ammatilliset normit', specialist: 'Asiantuntijaroolit', hands_on: 'Käytännön työ', housing: 'Asuminen & Liikenne',
       family: 'Perheen tuki', language: 'Kieli', giving: 'Vapaaehtoistyö',
       social_unemployment: 'Työttömyysturva', social_housing: 'Asumistuki', social_pension: 'Eläkejärjestelmä', social_kela_card: 'Kela-kortti', social_health: 'Julkinen terveydenhuolto',
-      bureaucracy_dvv: 'DVV & Henkilötunnus', bureaucracy_migri: 'Maahanmuutto (Migri)', bureaucracy_tax: 'Verokortti', bureaucracy_bank: 'Pankkitilin avaaminen',
+      bureaucracy_dvv: 'DVV & Henkilötunnus', bureaucracy_migri: 'Maahanmuutto (Migri)', bureaucracy_tax: 'Verokortti', bureaucracy_bank: 'Pankkitilin avaaminen', bureaucracy_ihh: 'International House',
       job_te_office: 'TE-toimisto', job_portals: 'Työnhakuportaalit', job_entrepreneurship: 'Yrittäjyys', 
       net_culture: 'Suomalainen tapa', net_linkedin: 'LinkedIn-strategia', net_hidden: 'Piilotyöpaikat', net_volunteering: 'Vapaaehtoistyö',
       job_cover_letter: 'Hakemuskirje', job_interview: 'Työhaastattelu', job_recognition: 'Tutkintojen tunnustaminen', job_cv_tips: 'Suomalainen CV',
@@ -114,6 +115,11 @@ export const fi: TranslationResource = {
         title: 'Tervetuloa Suomeen! 🇫🇮', 
         summary: 'Suomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä opas on selviytymis-manuaalisi.', 
         content: `# Selviytymisopas\n\n**Filosofia:**\nSuomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä on yhteiskunta, jossa järjestelmät toimivat, mutta sinun on tiedettävä, miten niitä käytetään. Luottamus on vuorovaikutuksen valuutta, ja hiljaisuus on kunnioituksen merkki.\n\n### Kuinka käyttää tätä sovellusta\n1. **Lue:** Selaa oppaita byrokratiasta ja työkulttuurista.\n2. **Chat:** Kysy AI-assistentilta juuri sinun tilanteestasi.\n3. **Profiili:** Pidä tietosi ajan tasalla saadaksesi tarkkoja neuvoja.\n\n*Sisu* on kaikki mitä tarvitset!` 
+      },
+      'bureaucracy_ihh': {
+        title: 'International House Helsinki (IHH)',
+        summary: 'Pääkaupunkiseudun palvelupiste maahanmuuttajille.',
+        content: `# Kaikki palvelut yhden katon alla\n\nJos asut Helsingissä, Espoossa tai Vantaalla, **International House Helsinki (IHH)** on paras ystäväsi.\n\n### Mikä se on?\nPalvelupiste, joka kokoaa yhteen viranomaiset: DVV, Vero, Kela, Migri ja TE-palvelut.\n\n### Mitä voit tehdä?\n1. **Rekisteröinti:** Hanki henkilötunnus (DVV).\n2. **Verotus:** Hanki verokortti.\n3. **Sosiaaliturva:** Neuvontaa Kela-asioissa.\n4. **Työ:** Työnhakuvalmennus.\n\n### Tärkeää\nUseimmat palvelut vaativat ajanvarauksen. Sijainti: **Lintulahdenkuja 2, Helsinki**.`
       },
       'net_culture': {
         title: 'Verkostoituminen: Suomalainen tapa',
@@ -404,6 +410,11 @@ export const fi: TranslationResource = {
         title: 'Turvallisuus & Itsenäisyys',
         summary: 'Suomi on erittäin turvallinen. Lapset menevät kouluun yksin.',
         content: `# Itsenäisyys\nÄlä panikoi, jos näet 7-vuotiaan yksin metrossa. Se on normaalia. Yhteiskunta pitää heidät turvassa.`
+      },
+      'culture_essentials': { 
+        title: 'Arvot', 
+        summary: 'Luottamus ja hiljaisuus ovat ydin-arvoja.', 
+        content: `# Luottamus & Hiljaisuus 🤫\n\n1. **Luottamus:** Tee mitä lupaat.\n2. **Hiljaisuus:** Älä pelkää hiljaisuutta.` 
       },
       'vol_redcross': {
         title: 'Punainen Risti',

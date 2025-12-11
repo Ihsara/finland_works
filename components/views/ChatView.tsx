@@ -76,12 +76,12 @@ export const ChatView: React.FC<ChatViewProps> = ({
          <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-purple-300/20 dark:bg-purple-600/10 blur-[120px] rounded-full animate-pulse duration-[10000ms]"></div>
       </div>
 
-      {/* Header */}
-      <div className="p-4 md:p-6 border-b border-gray-100/50 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
+      {/* Header - Standardized Padding */}
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-100/50 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
         <button 
             data-testid={APP_IDS.VIEWS.CHAT.BTN_END}
             onClick={onEndSession}
-            className="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-red-50 dark:hover:bg-red-900/20 transition shadow-sm"
+            className="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-red-50 dark:hover:bg-red-900/20 transition shadow-sm h-10"
         >
             <Icons.ArrowLeft className="w-4 h-4" /> <span className="hidden md:inline">{t('btn_back_dashboard')}</span>
         </button>

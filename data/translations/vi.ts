@@ -3,6 +3,7 @@ import { TranslationResource } from "./types";
 
 export const vi: TranslationResource = {
   ui: {
+    nav_guide: "Cẩm nang", nav_chat: "Chat", nav_plan: "Kế hoạch", nav_profile: "Hồ sơ",
     landing_welcome: "Chào mừng!", landing_subtitle: "Tìm con đường sự nghiệp tại Phần Lan", landing_btn_quiz: "Kể về bạn", landing_btn_continue: "Mở hướng dẫn", landing_btn_ask: "Hỏi AI", landing_btn_browse: "Xem cẩm nang", landing_load_sample: "Tải hồ sơ mẫu", landing_erase: "Xóa dữ liệu", landing_add_key: "Thêm khóa API", landing_choose_lang: "Chọn ngôn ngữ",
     dash_greeting: "Chào, {name}!", dash_greeting_guest: "Xin chào!", dash_subtitle: "Chào mừng trở lại với người hướng dẫn của bạn.", dash_subtitle_guest: "Hãy tạo hồ sơ để bắt đầu hành trình.", dash_btn_guide: "Mở Cẩm Nang", dash_btn_browse: "Xem Cẩm Nang", dash_btn_ask: "Trò chuyện AI", dash_btn_history: "Lịch sử", dash_btn_cv: "Nhập CV", dash_switch_profile: "Đổi hồ sơ", dash_new_profile: "Mới", dash_edit_profile: "Sửa", dash_profile_overview: "Hồ sơ",
     dash_education: "Học vấn", dash_profession: "Nghề nghiệp", dash_languages: "Ngôn ngữ", dash_narrative_aspirations: "Nguyện vọng", dash_narrative_challenges: "Thử thách",
@@ -39,10 +40,13 @@ export const vi: TranslationResource = {
     net_opt_parents: "Kết nối cho Cha mẹ",
     net_opt_introvert: "Mẹo cho người hướng nội",
     feedback_action: "Gửi phản hồi",
+    net_intro_deep: 'Tại sao kết nối quan trọng', net_design: 'Cộng đồng Thiết kế', net_parents: 'Kết nối cho Cha mẹ', net_introvert: 'Kết nối áp lực thấp', net_hobbies: 'Kết nối qua sở thích', net_plan: 'Kế hoạch hành động',
+    net_cold_msg: 'Nghệ thuật nhắn tin', net_places: 'Địa điểm kết nối', net_prof_style: 'Phong cách chuyên nghiệp Phần Lan',
+    net_hackathons: 'Hackathon & Junction', net_slush: 'Slush: Hội nghị kiểu mới', net_school: 'Kết nối khi đi học',
 
     // Gamified Planner
-    quest_level: "Nhà thám hiểm Cấp {level}",
-    quest_xp: "{current}/{max} XP để lên cấp",
+    quest_level: "Cấp độ {level}",
+    quest_xp: "{current}/{max} XP lên cấp",
     quest_tab_board: "Hành trình sự nghiệp",
     quest_tab_achievements: "Thành tựu",
     quest_tab_life: "Cuộc sống & Sức khỏe",
@@ -58,8 +62,8 @@ export const vi: TranslationResource = {
     quest_locked_msg: "Chạm để mở bí mật!",
     
     // New Rubric Labels
-    plan_track_career: "Con đường sự nghiệp",
-    plan_track_life: "Cuộc sống Bắc Âu",
+    plan_track_career: "Sự nghiệp",
+    plan_track_life: "Cuộc sống",
     plan_step_completed: "Hoàn thành",
     plan_step_locked: "Đã khóa",
     plan_step_available: "Có sẵn",
@@ -72,7 +76,7 @@ export const vi: TranslationResource = {
       social: 'Nghi thức xã hội', norms: 'Quy tắc nghề nghiệp', specialist: 'Chuyên gia', hands_on: 'Lao động phổ thông', housing: 'Nhà ở & Đi lại',
       family: 'Gia đình', language: 'Ngôn ngữ',
       social_unemployment: 'Trợ cấp thất nghiệp', social_housing: 'Trợ cấp nhà ở', social_pension: 'Hệ thống lương hưu', social_kela_card: 'Thẻ Kela', social_health: 'Y tế công cộng',
-      bureaucracy_dvv: 'Mã số định danh (DVV)', bureaucracy_migri: 'Cục di trú (Migri)', bureaucracy_tax: 'Thẻ thuế', bureaucracy_bank: 'Mở tài khoản ngân hàng',
+      bureaucracy_dvv: 'Mã số định danh (DVV)', bureaucracy_migri: 'Cục di trú (Migri)', bureaucracy_tax: 'Thẻ thuế', bureaucracy_bank: 'Mở tài khoản ngân hàng', bureaucracy_ihh: 'International House',
       job_te_office: 'Văn phòng TE', job_portals: 'Trang web việc làm', job_entrepreneurship: 'Khởi nghiệp', 
       net_culture: 'Cách của người Phần Lan', net_linkedin: 'Chiến lược LinkedIn', net_hidden: 'Thị trường việc làm ẩn', net_volunteering: 'Tình nguyện',
       job_cover_letter: 'Thư xin việc', job_interview: 'Phỏng vấn', job_recognition: 'Công nhận bằng cấp', job_cv_tips: 'CV kiểu Phần Lan',
@@ -88,6 +92,11 @@ export const vi: TranslationResource = {
         title: 'Chào mừng đến Phần Lan! 🇫🇮', 
         summary: 'Phần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê. Hướng dẫn này giúp bạn hiểu các quy tắc ngầm.', 
         content: `### Cẩm nang sinh tồn\n\n**Triết lý:**\nPhần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê. Đây là một xã hội nơi mọi hệ thống đều hoạt động tốt, nhưng bạn cần biết cách sử dụng chúng.\n\n### Cách sử dụng ứng dụng này:\n1. **Đọc:** Xem các hướng dẫn về thủ tục và văn hóa.\n2. **Chat:** Hỏi Trợ lý AI về tình huống cụ thể của bạn.\n3. **Hồ sơ:** Cập nhật thông tin để nhận lời khuyên chính xác.` 
+      },
+      'bureaucracy_ihh': {
+        title: 'International House Helsinki (IHH)',
+        summary: 'Điểm dịch vụ một cửa cho người mới đến vùng thủ đô.',
+        content: `# Một mái nhà, nhiều dịch vụ\n\nNếu bạn sống ở Helsinki, Espoo, hoặc Vantaa, **International House Helsinki (IHH)** là nơi quan trọng nhất.\n\n### Nó là gì?\nĐiểm dịch vụ tập hợp các cơ quan chính: DVV, Thuế (Vero), Kela, Migri và Văn phòng TE.\n\n### Bạn có thể làm gì?\n1. **Đăng ký:** Lấy mã số định danh cá nhân (DVV).\n2. **Thuế:** Làm thẻ thuế.\n3. **An sinh xã hội:** Tư vấn về quyền lợi Kela.\n4. **Việc làm:** Hướng dẫn tìm việc.\n\n### Quan trọng\nHầu hết các dịch vụ cần đặt lịch trước. Địa chỉ: **Lintulahdenkuja 2, Helsinki**.`
       },
       'net_culture': {
         title: 'Kết nối: Cách của người Phần Lan',
@@ -332,12 +341,67 @@ export const vi: TranslationResource = {
       'family_winter': {
         title: 'Trẻ em & Mùa đông',
         summary: 'Không có thời tiết xấu, chỉ có quần áo không phù hợp.',
-        content: `### Quần áo\n* **Lớp:** Lớp len, lớp nỉ, lớp ngoài chống thấm.\n* **Haalari:** Bộ đồ liền thân là đồng phục chuẩn của trẻ em.\n* **Phản quang:** Bắt buộc để an toàn trong bóng tối.`
+        content: `### Quần áo\n* **Lớp:** Lớp len, lớp nỉ, lớp ngoài chống thấm.\n* **Haalari:** Bộ đồ liền thân là đồng phục chuẩn của trẻ em.\n* **Heijastimet:** Bắt buộc để an toàn trong bóng tối.`
       },
       'family_safety': {
         title: 'An toàn & Độc lập',
         summary: 'Phần Lan rất an toàn. Trẻ em tự đi học.',
         content: `### Độc lập\nĐừng hoảng hốt nếu thấy trẻ 7 tuổi đi tàu điện ngầm một mình. Đó là bình thường. Xã hội giữ an toàn cho chúng.`
+      },
+      'culture_essentials': { 
+        title: 'Giá trị cốt lõi', 
+        summary: 'Tin tưởng và yên lặng là giá trị cốt lõi.', 
+        content: `# Tin tưởng & Yên lặng 🤫\n\n1. **Tin tưởng:** Làm điều bạn nói.\n2. **Yên lặng:** Đừng sợ sự im lặng.` 
+      },
+      'vol_redcross': {
+        title: 'Hội Chữ Thập Đỏ',
+        summary: 'Cách dễ nhất để gặp người bản địa và làm việc tốt.',
+        content: `# Hội Chữ Thập Đỏ (Punainen Risti)\nMột trong những tổ chức lớn nhất Phần Lan. Họ luôn tìm kiếm tình nguyện viên.\n\n### Hoạt động\n* **Thăm người già:** Trò chuyện với người già neo đơn.\n* **Gia sư:** Giúp trẻ em nhập cư học bài.\n* **Lễ hội:** Sơ cứu và hậu cần tại lễ hội mùa hè.\n\n### Tại sao nên tham gia?\nNó rất tốt cho CV và bạn được thực hành tiếng Phần trong môi trường an toàn.`
+      },
+      'vol_animals': {
+        title: 'Trại Cứu Hộ Động Vật',
+        summary: 'Giúp đỡ động vật tại HESY và các trại khác.',
+        content: `# HESY (Bảo vệ Động vật Helsinki)\nNếu bạn yêu động vật, đây là nơi dành cho bạn.\n\n### Bạn có thể làm gì?\n* **Xã hội hóa mèo:** Vuốt ve mèo để chúng quen với con người.\n* **Dắt chó đi dạo:** Tập thể dục và có bạn đồng hành.\n* **Dọn dẹp:** Giúp giữ trại sạch sẽ.\n\nThường yêu cầu cam kết (ví dụ: mỗi tuần một lần).`
+      },
+      'vol_events': {
+        title: 'Tình nguyện Sự kiện',
+        summary: 'Slush, Lễ hội Flow, Diễn đàn Kinh doanh Bắc Âu.',
+        content: `# Đường tắt đến Mạng lưới\nCác sự kiện lớn vận hành nhờ tình nguyện viên.\n\n### Thỏa thuận\nBạn làm việc 2-3 ca. Đổi lại, bạn nhận được:\n* Vé miễn phí tham dự phần còn lại của sự kiện.\n* Đồ ăn miễn phí & tiệc độc quyền.\n* **Mạng lưới Cựu thành viên:** Đây là mỏ vàng. Nhiều người tìm được việc qua bạn bè tình nguyện.`
+      },
+      'vol_humanitarian': {
+        title: 'Công tác Nhân đạo',
+        summary: 'Bếp ăn từ thiện và giúp người vô gia cư.',
+        content: `# Giúp đỡ người yếu thế\nCác tổ chức như **Hurstin Apu** tổ chức phát thực phẩm cho người nghèo.\n\n### Thực tế\nCông việc vất vả nhưng rất ý nghĩa. Bạn thấy một khía cạnh khác của xã hội thường bị che giấu. Nó giúp bạn thực tế hơn và kết nối với những người thực sự quan tâm đến người khác.`
+      },
+      'daily_transport': { 
+        title: 'Giao thông công cộng (HSL/VR)', 
+        summary: 'Cách sử dụng tàu hỏa, xe buýt và hệ thống vùng.',
+        content: `# Di chuyển\n\n### HSL (Vùng Helsinki)\n* **Vùng:** Giá vé phụ thuộc vào vùng (ABCD). Helsinki là AB.\n* **Ứng dụng:** Tải ứng dụng HSL. Rẻ hơn mua từ tài xế.\n* **Phạt:** Không vé = phạt 80€.\n\n### VR (Tàu hỏa)\nCho đường dài. Đặt sớm để có vé rẻ.`,
+      },
+      'daily_groceries': { 
+        title: 'Đi siêu thị', 
+        summary: 'Cân rau củ và trả vỏ chai.', 
+        content: `# Quy tắc Siêu thị\n\n1. **Cân:** Bạn phải cân rau củ và dán tem giá lên túi *trước khi* ra quầy thanh toán.\n2. **S-Group vs K-Group:** Hai chuỗi chính. Lấy thẻ thành viên (S-Etukortti) nếu ở lâu.\n3. **Rượu bia:** Bia bán ở siêu thị đến 9h tối. Đồ mạnh hơn chỉ có ở **Alko** (độc quyền nhà nước).`,
+      },
+      'daily_pantti': {
+        title: 'Tái chế vỏ chai (Pantti)',
+        summary: 'Đừng vứt lon đi! Chúng là tiền.',
+        content: `# Hệ thống Pantti\n\nHầu như mọi chai và lon ở Phần Lan đều có giá trị cọc (10c - 40c).\n\n1. **Thu gom:** Đừng làm bẹp chúng.\n2. **Trả lại:** Máy trả vỏ ở cửa siêu thị.\n3. **Tiền:** Bạn nhận biên lai. Dùng nó để trừ tiền mua hàng.`,
+      },
+      'nature_everyman': { 
+        title: 'Quyền Mọi người', 
+        summary: 'Bạn có thể đi bộ hầu như mọi nơi và hái quả.', 
+        content: `# Jokamiehenoikeudet\n\nBạn có quyền:\n1. **Đi bộ:** Bất cứ đâu trong rừng (trừ sân nhà riêng).\n2. **Hái:** Quả mọng và nấm tự do.\n3. **Cắm trại:** Tạm thời trong thiên nhiên.\n\n**Quy tắc:** Không làm phiền chim, không xả rác, không chặt cây.`, 
+      },
+      'nature_winter': { 
+        title: 'Sống sót qua Mùa Đông', 
+        summary: 'Bóng tối và Vitamin D.', 
+        content: `# Bóng tối (Kaamos)\n\nTháng 11-1, ánh nắng rất hiếm.\n* **Vitamin D:** Uống bổ sung. Bắt buộc.\n* **Phản quang:** Đeo nó. Đó là luật.\n* **Đinh:** Giày có đinh giúp không trượt ngã trên băng.`, 
+      },
+      'nature_summer': {
+        title: 'Nhà mùa hè (Mökki)',
+        summary: 'Tâm hồn Phần Lan sống ở đây.',
+        content: `# Cuộc sống Mökki\n\nTháng 7, thành phố vắng tanh. Mọi người đi nhà gỗ.\n* **Đơn giản:** Nhiều nơi không có điện hoặc nước máy.\n* **Hoạt động:** Sauna, bơi, nướng thịt, lặp lại.`,
       }
     }
   }

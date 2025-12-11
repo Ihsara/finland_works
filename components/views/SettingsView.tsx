@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
 import { LengthPreference, ThemePreference, LayoutPreference } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { SUPPORTED_LANGUAGES } from '../../data/languages';
 import { 
     getGlobalLengthPreference, 
     saveGlobalLengthPreference,
@@ -62,10 +63,12 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
 };
 
 export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayout }) => {
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const [prefLength, setPrefLength] = useState<LengthPreference>('ask');
   const [prefTheme, setPrefTheme] = useState<ThemePreference>('system');
   const [prefLayout, setPrefLayout] = useState<LayoutPreference>('windowed');
+  // Local state for language to allow "Save" flow, defaulting to current context
+  const [prefLanguage, setPrefLanguage] = useState(language); 
   const [expandedSection, setExpandedSection] = useState<string | null>('general');
 
   useEffect(() => {
@@ -78,6 +81,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
     saveGlobalLengthPreference(prefLength);
     saveThemePreference(prefTheme);
     saveLayoutPreference(prefLayout);
+    
+    // Apply Language Change on Save
+    if (prefLanguage !== language) {
+        setLanguage(prefLanguage);
+    }
     
     if (onToggleLayout) onToggleLayout(prefLayout);
     
@@ -117,8 +125,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#0b1021] animate-in fade-in duration-500">
-        <div className="px-6 py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
-            <button onClick={onBack} className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg">
+        {/* Header - Standardized Padding */}
+        <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
+            <button onClick={onBack} className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg h-10">
                 <Icons.ArrowLeft className="w-5 h-5" />
                 <span>{t('btn_back_dashboard')}</span>
             </button>
@@ -128,7 +137,36 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
         <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto py-6">
                 <AccordionSection id="general" title={t('settings_sect_general')} icon={Icons.Settings} isOpen={expandedSection === 'general'} onToggle={toggleSection}>
-                     <div className="space-y-4 pt-4">
+                     <div className="space-y-6 pt-4">
+                         
+                         {/* Language Selector */}
+                         <div>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">{t('landing_choose_lang')}</label>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                {SUPPORTED_LANGUAGES.filter(l => l.supported).map(langOption => {
+                                    const isSelected = prefLanguage === langOption.code;
+                                    return (
+                                        <button
+                                            key={langOption.code}
+                                            onClick={() => setPrefLanguage(langOption.code)}
+                                            className={`
+                                                flex items-center gap-2 p-3 rounded-xl border transition-all text-left
+                                                ${isSelected 
+                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 ring-1 ring-blue-500' 
+                                                    : 'border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300'
+                                                }
+                                            `}
+                                        >
+                                            <span className="text-xl leading-none">{langOption.flag}</span>
+                                            <span className="text-xs font-bold truncate">{langOption.nativeName}</span>
+                                            {isSelected && <Icons.CheckCircle className="w-4 h-4 ml-auto text-blue-500" />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                         </div>
+
+                         {/* Length Preference */}
                          <div>
                              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_length_label')}</label>
                              <div className="grid grid-cols-1 gap-2">

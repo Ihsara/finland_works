@@ -34,12 +34,12 @@ export const AchievementsView: React.FC<AchievementsViewProps> = ({ onBack, prof
       data-scene-id={APP_IDS.SCENES.ACHIEVEMENTS}
       className="flex flex-col h-full bg-gray-50 dark:bg-[#0b1021] animate-in fade-in duration-500"
     >
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
+      {/* Header - Standardized Padding */}
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-100 dark:border-white/10 flex items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl sticky top-0 z-20">
         <button 
           data-testid={APP_IDS.VIEWS.ACHIEVEMENTS.BTN_BACK}
           onClick={onBack} 
-          className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg"
+          className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white transition font-medium px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg h-10"
         >
           <Icons.ArrowLeft className="w-5 h-5" />
           <span>{t('btn_back_dashboard')}</span>

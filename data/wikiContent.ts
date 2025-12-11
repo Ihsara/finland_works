@@ -64,7 +64,8 @@ export const getWikiCategories = (lang: LanguageCode): WikiCategory[] => [
                 { id: 'bureaucracy_dvv', icon: 'Fingerprint', tags: ['mandatory', 'arrival', 'legal'], ...getLocalizedArticle('bureaucracy_dvv', lang) },
                 { id: 'bureaucracy_migri', icon: 'Plane', tags: ['mandatory', 'arrival', 'legal'], ...getLocalizedArticle('bureaucracy_migri', lang) },
                 { id: 'bureaucracy_tax', icon: 'CreditCard', tags: ['mandatory', 'work', 'finance'], ...getLocalizedArticle('bureaucracy_tax', lang) },
-                { id: 'bureaucracy_bank', icon: 'Landmark', tags: ['mandatory', 'finance', 'arrival'], ...getLocalizedArticle('bureaucracy_bank', lang) }
+                { id: 'bureaucracy_bank', icon: 'Landmark', tags: ['mandatory', 'finance', 'arrival'], ...getLocalizedArticle('bureaucracy_bank', lang) },
+                { id: 'bureaucracy_ihh', icon: 'Building', tags: ['mandatory', 'arrival', 'help'], ...getLocalizedArticle('bureaucracy_ihh', lang) }
             ]
         },
         {

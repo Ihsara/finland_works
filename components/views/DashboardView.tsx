@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Icons } from '../Icon';
+import { Logo } from '../Logo';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { FeedbackRibbon } from '../FeedbackRibbon';
@@ -68,13 +69,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/10">
           <button 
              onClick={onNavigateToLanding}
-             className="font-black text-lg text-gray-900 dark:text-white hover:opacity-70 transition flex items-center gap-2"
+             className="hover:opacity-70 transition flex items-center"
           >
-             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-emerald-400 dark:to-cyan-400">FW</span>
-             <span className="hidden md:inline font-normal opacity-50 text-sm border-l pl-2 border-gray-300 dark:border-gray-700 ml-1">Finland Works</span>
+             <Logo className="h-6 w-auto text-gray-900 dark:text-white" />
           </button>
 
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-2 md:gap-4 overflow-hidden">
               <NavigationLinks 
                  currentView={AppView.DASHBOARD} 
                  onNavigate={handleNav} 

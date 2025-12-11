@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Icons } from '../Icon';
-import { LanguageSelector } from '../LanguageSelector';
+import { Logo } from '../Logo';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getAvatarUrl } from '../../utils/profileUtils';
@@ -99,19 +99,17 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
             <div className="flex items-center gap-2">
                 <button 
                     onClick={onNavigateToLanding}
-                    className="font-black text-lg text-gray-900 dark:text-white hover:opacity-70 transition flex items-center gap-2"
+                    className="hover:opacity-70 transition flex items-center"
                 >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-emerald-400 dark:to-cyan-400">FW</span>
+                    <Logo className="h-6 w-auto text-gray-900 dark:text-white" />
                 </button>
             </div>
 
-            <div className="flex items-center gap-3 md:gap-4">
+            <div className="flex items-center gap-3 md:gap-4 overflow-hidden">
                 <NavigationLinks 
                     currentView={AppView.PROFILE} 
                     onNavigate={handleNav} 
                 />
-                
-                <LanguageSelector className="hidden sm:block text-gray-900 dark:text-white" />
             </div>
         </div>
 

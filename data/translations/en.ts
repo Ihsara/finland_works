@@ -3,6 +3,7 @@ import { TranslationResource } from "./types";
 
 export const en: TranslationResource = {
   ui: {
+    nav_guide: "Guide", nav_chat: "Chat", nav_plan: "Plan", nav_profile: "Profile",
     landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", 
     landing_slide1: "Your personal guide to Finland",
     landing_slide2: "Master the bureaucracy",
@@ -105,7 +106,7 @@ export const en: TranslationResource = {
       social: 'Social Rituals', norms: 'Professional Norms', specialist: 'Specialist Roles', hands_on: 'Hands-on Work', housing: 'Housing & Transport',
       family: 'Family Support', language: 'Language', giving: 'Giving Back',
       social_unemployment: 'Unemployment Benefits', social_housing: 'Housing Allowance', social_pension: 'Pension System', social_kela_card: 'Kela Card', social_health: 'Public Healthcare',
-      bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Immigration (Migri)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening Bank Account',
+      bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Immigration (Migri)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening Bank Account', bureaucracy_ihh: 'International House',
       job_te_office: 'TE Office', job_portals: 'Job Portals', job_entrepreneurship: 'Entrepreneurship', 
       net_culture: 'The Finnish Way', net_linkedin: 'LinkedIn Strategy', net_hidden: 'Hidden Job Market', net_volunteering: 'Volunteering',
       job_cover_letter: 'Cover Letter', job_interview: 'The Interview', job_recognition: 'Degree Recognition', job_cv_tips: 'Finnish CV',
@@ -124,6 +125,11 @@ export const en: TranslationResource = {
         title: 'Welcome to Finland! 🇫🇮', 
         summary: 'Finland runs on trust, silence, and coffee. This guide is your survival manual.', 
         content: `# Your Survival Manual\n\n**The Philosophy:**\nFinland runs on trust, silence, and coffee. It is a society where systems work, but you must know how to use them. Trust is the currency of interaction, and silence is a sign of respect.\n\n### How to use this app\n1. **Read:** Browse the guides on bureaucracy and work culture.\n2. **Chat:** Ask the AI Assistant about your specific situation.\n3. **Profile:** Keep your data fresh to get accurate advice.\n\n*Sisu* (Guts) is all you need!` 
+      },
+      'bureaucracy_ihh': {
+        title: 'International House Helsinki (IHH)',
+        summary: 'The one-stop shop for bureaucracy in the capital region.',
+        content: `# One Roof, Many Services\n\nIf you live in Helsinki, Espoo, or Vantaa, **International House Helsinki (IHH)** is your best friend.\n\n### What is it?\nA service point that brings together key authorities: DVV, Vero (Tax), Kela, Migri, and TE Services.\n\n### What can you do?\n1. **Register:** Get your Personal ID Code (DVV).\n2. **Tax:** Get your tax card.\n3. **Social Security:** Advice on Kela benefits.\n4. **Work:** Employment coaching.\n\n### Important\nMost services require booking an appointment in advance. It is located in **Lintulahdenkuja 2, Helsinki**.`
       },
       'net_culture': {
         title: 'Networking: The Finnish Way',
@@ -148,7 +154,7 @@ export const en: TranslationResource = {
       'net_parents': {
         title: 'Networking for Parents',
         summary: 'Limited time? Use your daily rhythm to build connections.',
-        content: `# Networking for Busy Parents\n\nWhen you're balancing work and family, traditional networking events might be impossible. But you have a secret weapon: other parents.\n\n### Micro-Interactions\n* **Playground Diplomacy:** If you see the same parent at the park (leikkipuisto) repeatedly, say "Moi". Small chats about kids often lead to "So, what do you do?"\n* **Daycare Events:** Participate in "talkoot" (volunteer cleaning/fixing days) at the daycare. It earns you massive respect and connects you with other local families.\n* **Online Groups:** Facebook groups like "Mothers in Business" (MiB) are very active and powerful professional networks in Finland.`
+        content: `# Networking for Busy Parents\n\nWhen you're balancing work, family, and settling in, traditional networking events might be impossible. But you have a secret weapon: other parents.\n\n### Micro-Interactions\n* **Playground Diplomacy:** If you see the same parent at the park (leikkipuisto) repeatedly, say "Moi". Small chats about kids often lead to "So, what do you do?"\n* **Daycare Events:** Participate in "talkoot" (volunteer cleaning/fixing days) at the daycare. It earns you massive respect and connects you with other local families.\n* **Online Groups:** Facebook groups like "Mothers in Business" (MiB) are very active and powerful professional networks in Finland.`
       },
       'net_introvert': {
         title: 'Low-Pressure Networking',

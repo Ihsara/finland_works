@@ -386,7 +386,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
                     >
                         <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-100 group-hover:text-black dark:group-hover:text-white overflow-hidden">
                             <span className="text-xs text-gray-400 dark:text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
-                            {renderIcon(category.icon as any, "w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-emerald-400 flex-shrink-0 transition-colors")}
+                            {/* COLORIZE ICON: Use category theme instead of gray */}
+                            {renderIcon(category.icon as any, `w-6 h-6 flex-shrink-0 transition-colors ${category.theme.text}`)}
                             <span className="text-sm md:text-base tracking-wide truncate">{category.title}</span>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
@@ -468,7 +469,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
             </h2>
         </div>
         
-        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0 overflow-hidden">
             <div className={`hidden sm:flex bg-gray-100 dark:bg-white/5 rounded-full p-1 border border-gray-200 dark:border-white/10 ${ (activeArticle || activeCategory || activeTag) ? 'opacity-0 pointer-events-none' : ''}`}>
                 <button onClick={handleSwitchToList} className={`flex items-center justify-center gap-2 px-3 py-2 rounded-full text-xs font-bold transition-all min-h-[36px] ${(viewMode === 'list' && !activeCategory) ? 'bg-white dark:bg-white/20 shadow-sm text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}`}>
                     <Icons.FileText className="w-3 h-3" /> {t('wiki_nav_list')}
