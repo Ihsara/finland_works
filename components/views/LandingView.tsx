@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
+import { Logo } from '../Logo';
 import { LanguageSelector } from '../LanguageSelector';
 import { UserProfile, GUEST_PROFILE } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -151,7 +152,8 @@ export const LandingView: React.FC<LandingViewProps> = ({
       </div>
 
       {/* 2. Top Navigation Bar */}
-      <div className="w-full p-4 md:p-6 flex justify-end items-center relative z-50 shrink-0">
+      <div className="w-full p-4 md:p-6 flex justify-between items-center relative z-50 shrink-0">
+          <Logo className="h-6 w-auto text-gray-900 dark:text-white" />
           <LanguageSelector className="text-gray-900 dark:text-white bg-white/70 dark:bg-black/30 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-sm" />
       </div>
 

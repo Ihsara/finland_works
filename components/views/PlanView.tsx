@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Icons } from '../Icon';
+import { Logo } from '../Logo';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { APP_IDS } from '../../data/system/identifiers';
@@ -359,9 +360,9 @@ export const PlanView: React.FC<PlanViewProps> = ({
             <div className="flex items-center gap-2">
                 <button 
                     onClick={onNavigateToLanding}
-                    className="font-black text-lg text-gray-900 dark:text-white hover:opacity-70 transition flex items-center gap-2"
+                    className="hover:opacity-70 transition flex items-center gap-2"
                 >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-emerald-400 dark:to-cyan-400">FW</span>
+                    <Logo className="h-6 w-auto text-gray-900 dark:text-white" />
                 </button>
             </div>
 

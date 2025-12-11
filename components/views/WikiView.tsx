@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from '../Icon';
+import { Logo } from '../Logo';
 import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../../data/wikiContent';
 import { marked } from 'marked';
 import { UserProfile } from '../../types';
@@ -458,15 +459,27 @@ export const WikiView: React.FC<WikiViewProps> = ({
 
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl z-50 sticky top-0">
         <div className="flex items-center gap-2">
-            <button 
-                onClick={handleBack}
-                className="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition"
-            >
-                <Icons.ArrowLeft className="w-6 h-6" />
-            </button>
-            <h2 className="hidden md:block font-bold text-gray-900 dark:text-white text-base md:text-lg leading-tight truncate max-w-[200px] md:max-w-md animate-in fade-in">
-                {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : activeTag ? t('wiki_topic_label', { tag: activeTag }) : t('wiki_header_title')}
-            </h2>
+            {/* Conditional Back Button */}
+            {(activeArticle || activeCategory || activeTag || viewMode === 'list') ? (
+                <button 
+                    onClick={handleBack}
+                    className="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition"
+                >
+                    <Icons.ArrowLeft className="w-6 h-6" />
+                </button>
+            ) : (
+                // Spacer if needed, or Logo at root
+                null
+            )}
+
+            {/* Title or Logo */}
+            {(activeArticle || activeCategory || activeTag) ? (
+                <h2 className="hidden md:block font-bold text-gray-900 dark:text-white text-base md:text-lg leading-tight truncate max-w-[200px] md:max-w-md animate-in fade-in">
+                    {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : t('wiki_topic_label', { tag: activeTag })}
+                </h2>
+            ) : (
+                <Logo className="h-6 w-auto text-gray-900 dark:text-white ml-2" />
+            )}
         </div>
         
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0 overflow-hidden">
@@ -489,6 +502,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
       <FeedbackRibbon />
 
       <div className="flex-1 overflow-hidden relative">
+        {/* ... Rest of the component remains same ... */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-50">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-white dark:to-[#0b1021]"></div>
         </div>

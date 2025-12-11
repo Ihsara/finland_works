@@ -18,60 +18,60 @@ interface PuzzleProgressProps {
 
 export const PuzzleProgress: React.FC<PuzzleProgressProps> = ({ modules, imageUrl }) => {
   const allComplete = modules.every(m => m.percent === 100);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [currentImage, setCurrentImage] = useState(imageUrl);
-
-  // Fallback image if local one fails or isn't provided
-  const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?q=80&w=2070&auto=format&fit=crop";
-
+  const [imageStatus, setImageStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  
+  // Clean effect when imageUrl changes
   useEffect(() => {
-    setCurrentImage(imageUrl || FALLBACK_IMAGE);
-  }, [imageUrl]);
-
-  useEffect(() => {
-    if (!currentImage) return;
+    if (!imageUrl) return;
     
+    setImageStatus('loading');
     const img = new Image();
-    img.src = currentImage;
+    img.src = imageUrl;
     
-    // If the image is already cached by the browser, don't show the loading skeleton
     if (img.complete) {
-        setImageLoaded(true);
+        setImageStatus('loaded');
         return;
     }
     
-    setImageLoaded(false);
-    
-    img.onload = () => {
-      setImageLoaded(true);
-    };
-    
+    img.onload = () => setImageStatus('loaded');
     img.onerror = () => {
-        // If the local image (e.g. /images/helsinki.png) fails, switch to fallback
-        if (currentImage !== FALLBACK_IMAGE) {
-            console.warn(`Failed to load puzzle image: ${currentImage}. Reverting to fallback.`);
-            setCurrentImage(FALLBACK_IMAGE);
-        }
+        console.error(`Failed to load puzzle image at: ${imageUrl}`);
+        setImageStatus('error');
     };
-  }, [currentImage]);
+  }, [imageUrl]);
 
   return (
     <div className="w-full relative overflow-hidden rounded-[2rem] shadow-2xl border-4 border-gray-900/10 dark:border-white/10 aspect-[4/3] sm:aspect-[2/1] md:aspect-[2.5/1] bg-gray-900 group">
       
-      {/* 1. The "Big Picture" (Underneath) - Lazy Loaded with Fallback */}
+      {/* 1. The "Big Picture" (Underneath) */}
       <div className="absolute inset-0 z-0 bg-[#1a233b]">
-         {/* Skeleton / Loading State */}
-         <div className={`absolute inset-0 transition-opacity duration-700 ${imageLoaded ? 'opacity-0' : 'opacity-100'}`}>
-             <div className="w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 animate-pulse"></div>
-         </div>
-
-         {/* Actual Image */}
-         {currentImage && (
+         
+         {/* A. Actual Image */}
+         {imageStatus === 'loaded' && imageUrl && (
              <img 
-                src={currentImage} 
+                src={imageUrl} 
                 alt="Finland Landscape" 
-                className={`w-full h-full object-cover transition-all duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'} ${allComplete ? 'scale-100 blur-0' : 'scale-105 blur-[1px]'}`}
+                className={`w-full h-full object-cover transition-all duration-1000 ${allComplete ? 'scale-100 blur-0' : 'scale-105 blur-[1px]'}`}
              />
+         )}
+
+         {/* B. Loading Skeleton */}
+         {imageStatus === 'loading' && (
+             <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-gray-900 animate-pulse flex items-center justify-center">
+                 <Icons.Image className="w-12 h-12 text-gray-700 animate-bounce" />
+             </div>
+         )}
+
+         {/* C. Error / Missing File State */}
+         {imageStatus === 'error' && (
+             <div className="absolute inset-0 bg-gray-800 flex flex-col items-center justify-center text-center p-4">
+                 <Icons.ImageOff className="w-12 h-12 text-gray-500 mb-2" />
+                 <p className="text-gray-400 font-bold text-sm">Image Not Found</p>
+                 <p className="text-gray-600 text-xs font-mono mt-1">{imageUrl}</p>
+                 <p className="text-yellow-500 text-[10px] mt-2 max-w-xs">
+                    Please save your image file to <b>public{imageUrl}</b>
+                 </p>
+             </div>
          )}
          
          {/* Overlay to ensure icons pop even on completed image */}

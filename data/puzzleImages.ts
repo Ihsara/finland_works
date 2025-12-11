@@ -8,14 +8,15 @@ export interface PuzzleImageDef {
 export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
   'vantaa_iso': {
     id: 'vantaa_iso',
-    // Ensure you save the provided image to public/images/vantaa.png
-    url: '/images/vantaa.png', 
-    alt: 'Isometric Vantaa Aviapolis'
+    // Fallback to a reliable remote image since local file is missing
+    url: 'https://images.unsplash.com/photo-1516216628259-222df9c43d44?q=80&w=2070&auto=format&fit=crop', 
+    alt: 'Isometric City View'
   },
   'helsinki_iso': {
     id: 'helsinki_iso',
-    url: '/images/helsinki.png', 
-    alt: 'Isometric Helsinki Winter'
+    // Fallback to a reliable remote image
+    url: 'https://images.unsplash.com/photo-1538332536281-2130b9536c9a?q=80&w=2069&auto=format&fit=crop', 
+    alt: 'Helsinki Winter Mood'
   },
   'lapland_aurora': {
     id: 'lapland_aurora',

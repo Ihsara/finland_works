@@ -132,7 +132,10 @@ import {
   Bot,
   Crown,
   Puzzle,
-  RefreshCw
+  RefreshCw,
+  Image,
+  ImageOff,
+  Dumbbell
 } from 'lucide-react';
 
 export const Icons = {
@@ -263,10 +266,13 @@ export const Icons = {
   Layers,
   Sparkles,
   Bus,
-  ShoppingBag,
+  ShoppingBag, 
   Trophy,
   Bot,
   Crown,
   Puzzle,
-  RefreshCw
+  RefreshCw,
+  Image,
+  ImageOff,
+  Dumbbell
 };

@@ -16,23 +16,13 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
 
   const navItems = [
     { 
-      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_KB, 
-      view: AppView.WIKI, 
-      label: t('nav_guide'), 
-      icon: Icons.BookOpen 
+      // Reuse LOGO ID for Home logic or create a new one, usually Dashboard doesn't have a dedicated nav ID in global_nav but we map it here
+      id: 'nav_link_dashboard', 
+      view: AppView.DASHBOARD, 
+      label: "", // Home usually has no text label in this style, or 'Home'
+      icon: Icons.Home 
     },
-    { 
-      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_CHAT, 
-      view: AppView.CHAT, 
-      label: t('nav_chat'),
-      icon: Icons.MessageSquare 
-    },
-    { 
-      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN, 
-      view: AppView.PLAN, 
-      label: t('nav_plan'),
-      icon: Icons.Map 
-    },
+    // Removed direct links to Guide, Chat, and Plan as requested to simplify the nav bar
     { 
       id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PROFILE, 
       view: AppView.PROFILE, 
@@ -51,7 +41,7 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
     <div className={`flex items-center gap-1 bg-gray-100/80 dark:bg-white/5 backdrop-blur-md rounded-full p-1.5 border border-gray-200/50 dark:border-white/10 touch-manipulation overflow-x-auto no-scrollbar max-w-[calc(100vw-80px)] md:max-w-none ${className}`}>
       {navItems.map((item) => {
         const isActive = currentView === item.view;
-        // Only show text if active AND label exists (Settings has empty label)
+        // Only show text if active AND label exists (Settings/Home has empty label)
         const showText = isActive && item.label.length > 0;
 
         return (
@@ -59,7 +49,7 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
             key={item.id}
             data-testid={item.id}
             onClick={() => onNavigate(item.view)}
-            title={item.label || 'Settings'}
+            title={item.label || 'View'}
             className={`
               group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out flex-shrink-0
               h-10 

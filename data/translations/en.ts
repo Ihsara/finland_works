@@ -36,7 +36,7 @@ export const en: TranslationResource = {
     profile_feat_kela: "Apply for Kela Card",
     profile_feat_hidden: "Hidden Job Market Tool",
     profile_instr_title: "STEP-BY-STEP INSTRUCTIONS",
-    profile_instr_cv: "How to write your Finnish CV",
+    profile_instr_cv: "How to write Finnish CV",
     profile_instr_tax: "How to get a tax card",
     profile_btn_explore: "Explore all instructions",
 
@@ -64,6 +64,40 @@ export const en: TranslationResource = {
     plan_step_locked: "Locked",
     plan_step_available: "Available",
     plan_btn_return: "Return to Plan",
+
+    // NEW DASHBOARD CONTENT
+    dash_hero_title: "PREPARE FOR YOUR LIFE AND CAREER IN FINLAND",
+    dash_hero_subtitle: "Answer a few questions and get your personalized 1-year integration plan",
+    dash_hero_btn: "Start",
+    dash_intro_text: "Discover Vantaa and Finland with confidence. Get guidance on legal essentials, find the right job with tailored tools, and connect with your community through hobbies, events, and volunteering.",
+    dash_intro_tags: "STUDENTS • SPOUSES OF WORKERS • PROFESSIONALS • JOBSEEKERS",
+    
+    dash_sect_kb_title: "KNOWLEDGE BASE",
+    dash_sect_kb_desc: "Essential information about working and living in Finland.",
+    dash_card_networking: "Networking",
+    dash_card_culture: "Work Culture",
+    dash_card_recruitment: "Recruitment",
+    dash_card_rights: "Work Rights",
+    dash_btn_explore: "Explore All",
+
+    dash_sect_guides_title: "STEP-BY-STEP GUIDES",
+    dash_card_guide_cv: "How to write Finnish CV",
+    dash_card_guide_tax: "How to get a tax card",
+    dash_card_guide_kela: "How to get a Kela card",
+
+    dash_sect_living_title: "LIVING IN VANTAA",
+    dash_sect_living_subtitle: "Based on your profile",
+    dash_card_living_events: "Events & Meetups",
+    dash_card_living_sports: "Sports & Hobby Clubs",
+    dash_card_living_community: "Community Groups",
+
+    dash_sect_features_title: "KEY FEATURES (DEMO)",
+    dash_feat_hidden_job: "Hidden Job Market Tool",
+    dash_feat_apply_kela: "Apply for Kela Card",
+
+    dash_footer_ask: "ASK ME SOMETHING",
+    dash_footer_hint: "My answers will be more accurate if you take the Quiz",
+    dash_btn_go_chat: "Go to Chat",
 
     wiki_header_title: "Finland Works!", wiki_header_subtitle: "Curated for {name}", wiki_explore_cats: "Explore Topics", wiki_explore_subtitle: "Pick a topic to dive in.", wiki_full_index: "Index", wiki_full_index_subtitle: "Browse everything.", wiki_nav_list: "List", wiki_nav_icons: "Icons", wiki_section_chapters: "Chapters", wiki_btn_mark_done: "Done", wiki_btn_later: "Later", wiki_btn_saved: "Saved", wiki_btn_completed: "Completed", wiki_ctx_ask: "Ask about this", wiki_topic_label: "Topic: {tag}", wiki_topic_desc: "Overview & Articles", wiki_guide_prefix: "GUIDE", wiki_stat_articles: "articles", wiki_stat_complete: "done", wiki_section_prefix: "Section",
     wizard_header_quiz: "Questionnaire", wizard_greeting_short: "Hi, {name}!", wizard_title_init: "Create Profile", wizard_title_custom: "Building {name}", wizard_phase_identity: "PHASE 1: IDENTITY", wizard_phase_demo: "PHASE 2: BACKGROUND", wizard_phase_status: "PHASE 3: STATUS", wizard_phase_skills: "PHASE 4: SKILLS", wizard_phase_mindset: "PHASE 5: MINDSET", wizard_phase_vision: "PHASE 6: VISION", wizard_nickname_hint: "* You can use a nickname.", wizard_btn_ask: "Ask", wizard_btn_next: "Next", wizard_btn_prev: "Back", wizard_btn_submit: "Submit", wizard_btn_finish_early: "Save & Finish", wizard_btn_generate_name: "Generate name", wizard_ribbon_greeting: "Nice to meet you, {name}!", wizard_title_name: "What is your name?", wizard_desc_name: "Type your name or pick a nickname", wizard_placeholder_name: "Your name",
@@ -108,7 +142,7 @@ export const en: TranslationResource = {
       social_unemployment: 'Unemployment Benefits', social_housing: 'Housing Allowance', social_pension: 'Pension System', social_kela_card: 'Kela Card', social_health: 'Public Healthcare',
       bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Immigration (Migri)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening Bank Account', bureaucracy_ihh: 'International House',
       job_te_office: 'TE Office', job_portals: 'Job Portals', job_entrepreneurship: 'Entrepreneurship', 
-      net_culture: 'The Finnish Way', net_linkedin: 'LinkedIn Strategy', net_hidden: 'Hidden Job Market', net_volunteering: 'Volunteering',
+      net_culture: 'The Finnish Way', net_linkedin: 'LinkedIn Strategy', net_hidden: 'Hidden Job Market', net_volunteering: 'Voluntariado',
       job_cover_letter: 'Cover Letter', job_interview: 'The Interview', job_recognition: 'Degree Recognition', job_cv_tips: 'Finnish CV',
       work_contract: 'Employment Contract', work_hours: 'Working Hours', work_holidays: 'Holidays', work_unions: 'Unions', work_probation: 'Probation Period',
       culture_meetings: 'Meeting Culture', culture_feedback: 'Giving Feedback', culture_names: 'Names & Titles', culture_punctuality: 'Punctuality', culture_coffee: 'Coffee Breaks',
