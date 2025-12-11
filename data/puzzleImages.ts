@@ -6,9 +6,14 @@ export interface PuzzleImageDef {
 }
 
 export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
+  'vantaa_iso': {
+    id: 'vantaa_iso',
+    // Ensure you save the provided image to public/images/vantaa.png
+    url: '/images/vantaa.png', 
+    alt: 'Isometric Vantaa Aviapolis'
+  },
   'helsinki_iso': {
     id: 'helsinki_iso',
-    // Updated to .png matching the local file provided
     url: '/images/helsinki.png', 
     alt: 'Isometric Helsinki Winter'
   },
@@ -29,7 +34,7 @@ export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
   }
 };
 
-export const DEFAULT_PUZZLE_ID = 'helsinki_iso';
+export const DEFAULT_PUZZLE_ID = 'vantaa_iso';
 
 export const getRandomPuzzleImageId = (excludeId?: string): string => {
   const keys = Object.keys(PUZZLE_IMAGES);

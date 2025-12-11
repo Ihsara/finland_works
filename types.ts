@@ -163,7 +163,7 @@ confidenceLife: I’m somewhat confident but need support
 confidenceCareer: I have some ideas but need direction
 infoLevel: Somewhat informed
 primaryExcitement: Nature, culture, and lifestyle
-puzzleImageId: helsinki_iso
+puzzleImageId: vantaa_iso
 `.trim();
 
 export const TEMPLATE_PROFILE_YAML = `
