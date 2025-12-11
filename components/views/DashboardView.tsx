@@ -48,6 +48,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       if (view === AppView.PROFILE) onNavigateToProfile();
       if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
+      if (view === AppView.SETTINGS && onNavigateToSettings) onNavigateToSettings();
       if (view === AppView.DASHBOARD) { /* Already here */ }
   };
 
@@ -78,16 +79,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                  currentView={AppView.DASHBOARD} 
                  onNavigate={handleNav} 
               />
-              {onNavigateToSettings && (
-                  <button 
-                    data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_SETTINGS}
-                    onClick={onNavigateToSettings}
-                    className="p-2.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    title="Settings"
-                  >
-                      <Icons.Settings className="w-5 h-5" />
-                  </button>
-              )}
           </div>
         </div>
 

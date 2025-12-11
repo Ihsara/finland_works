@@ -21,6 +21,7 @@ interface PlanViewProps {
   onNavigateToChat: () => void;
   onNavigateToAchievements: () => void;
   onNavigateToArticle?: (articleId: string) => void;
+  onNavigateToSettings?: () => void;
   onUnlockAchievement?: (id: string) => void;
 }
 
@@ -49,6 +50,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
   onNavigateToChat,
   onNavigateToAchievements,
   onNavigateToArticle,
+  onNavigateToSettings,
   onUnlockAchievement
 }) => {
   const { t, language } = useLanguage();
@@ -73,6 +75,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
       if (view === AppView.CHAT) onNavigateToChat();
       if (view === AppView.PROFILE) onNavigateToProfile();
       if (view === AppView.LANDING) onNavigateToLanding();
+      if (view === AppView.SETTINGS && onNavigateToSettings) onNavigateToSettings();
       if (view === AppView.PLAN) { /* Already here */ }
   };
 

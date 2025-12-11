@@ -26,6 +26,7 @@ interface ProfileViewProps {
   onNavigateToPlan: () => void;
   onNavigateToChat: () => void;
   onNavigateToAchievements: () => void;
+  onNavigateToSettings?: () => void;
 }
 
 export const ProfileDetailView: React.FC<ProfileViewProps> = ({
@@ -41,7 +42,8 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
   onNavigateToLanding,
   onNavigateToPlan,
   onNavigateToChat,
-  onNavigateToAchievements
+  onNavigateToAchievements,
+  onNavigateToSettings
 }) => {
   const { t } = useLanguage();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = React.useState(false);
@@ -77,6 +79,7 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
       if (view === AppView.PROFILE) { /* Already here */ }
       if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
+      if (view === AppView.SETTINGS && onNavigateToSettings) onNavigateToSettings();
       if (view === AppView.DASHBOARD) onNavigateBack();
   };
 

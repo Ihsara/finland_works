@@ -38,11 +38,17 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
       view: AppView.PROFILE, 
       label: t('dash_profile_overview'), // "Profile"
       icon: Icons.User
+    },
+    {
+      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_SETTINGS,
+      view: AppView.SETTINGS,
+      label: t('settings_title'), // "Settings"
+      icon: Icons.Settings
     }
   ];
 
   return (
-    <div className={`flex items-center gap-1 bg-gray-100/80 dark:bg-white/5 backdrop-blur-md rounded-full p-1.5 border border-gray-200/50 dark:border-white/10 touch-manipulation ${className}`}>
+    <div className={`flex items-center gap-1 bg-gray-100/80 dark:bg-white/5 backdrop-blur-md rounded-full p-1.5 border border-gray-200/50 dark:border-white/10 touch-manipulation overflow-x-auto no-scrollbar max-w-[calc(100vw-80px)] md:max-w-none ${className}`}>
       {navItems.map((item) => {
         const isActive = currentView === item.view;
         return (
@@ -52,17 +58,28 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
             onClick={() => onNavigate(item.view)}
             title={item.label}
             className={`
-              relative flex items-center justify-center rounded-full transition-all duration-200
-              w-11 h-11
-              active:scale-95
+              group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out
+              h-11 px-3 md:px-0 md:w-11 md:hover:w-auto
+              active:scale-95 flex-shrink-0
               ${isActive 
                 ? 'bg-white dark:bg-white/20 text-black dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10' 
                 : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
               }
             `}
           >
-            <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-blue-600 dark:text-emerald-300' : ''}`} />
-            <span className="sr-only">{item.label}</span>
+            <item.icon className={`w-5 h-5 transition-colors flex-shrink-0 ${isActive ? 'text-blue-600 dark:text-emerald-300' : ''}`} />
+            
+            <span className={`
+                whitespace-nowrap overflow-hidden transition-all duration-300 font-medium text-xs ml-2 md:ml-0
+                
+                // Mobile Behavior: Always visible
+                opacity-100 max-w-[100px]
+                
+                // Desktop Behavior: Hidden by default, visible on hover
+                md:opacity-0 md:max-w-0 md:group-hover:max-w-[100px] md:group-hover:opacity-100 md:group-hover:ml-2
+            `}>
+                {item.label}
+            </span>
           </button>
         );
       })}

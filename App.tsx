@@ -165,6 +165,13 @@ const App: React.FC = () => {
       }
   };
 
+  // Helper for Landing Page Navigation
+  // Ensures that when entering the app from Landing, the "Back" button goes to Dashboard (Home), not Landing.
+  const navigateFromLanding = (target: AppView) => {
+      setViewHistory([AppView.DASHBOARD]);
+      setView(target);
+  };
+
   // --- GESTURES & SHORTCUTS ---
 
   const handleNavigation = (direction: 'next' | 'prev') => {
@@ -302,7 +309,7 @@ const App: React.FC = () => {
       }
   };
 
-  const startNewChat = () => {
+  const startNewChat = (fromLanding: boolean = false) => {
     if (!profile) setProfile(GUEST_PROFILE);
 
     const globalPref = Storage.getGlobalLengthPreference();
@@ -345,7 +352,14 @@ const App: React.FC = () => {
     };
     setCurrentConversation(newConv);
     Storage.saveConversation(newConv);
-    changeView(AppView.CHAT);
+    
+    if (fromLanding) {
+        // If starting from Landing, set history to Dashboard so back goes Home
+        setViewHistory([AppView.DASHBOARD]);
+        setView(AppView.CHAT);
+    } else {
+        changeView(AppView.CHAT);
+    }
 
     // Track Session Count Achievement
     if (profile && profile.id !== 'guest') {
@@ -528,10 +542,15 @@ const App: React.FC = () => {
       {view === AppView.LANDING && (
         <LandingView 
           profile={profile}
-          onStartQuiz={() => { setProfile(null); changeView(AppView.QUIZ); }}
+          onStartQuiz={() => { 
+              setProfile(null); 
+              navigateFromLanding(AppView.QUIZ);
+          }}
           onOpenGuide={() => changeView(AppView.DASHBOARD)} 
-          onBrowseWiki={() => changeView(AppView.WIKI)}
-          onStartChat={() => startNewChat()}
+          onBrowseWiki={() => {
+              navigateFromLanding(AppView.WIKI);
+          }}
+          onStartChat={() => startNewChat(true)}
           onLoadDemo={handleLoadDemoProfile}
           onReset={handleResetData}
           onOpenSettings={() => changeView(AppView.SETTINGS)}
@@ -581,6 +600,7 @@ const App: React.FC = () => {
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
           onNavigateToPlan={() => changeView(AppView.PLAN)}
+          onNavigateToSettings={() => changeView(AppView.SETTINGS)}
           onUnlockAchievement={handleUnlockAchievement}
         />
       )}
@@ -589,8 +609,11 @@ const App: React.FC = () => {
         <ProfileWizard 
           onComplete={handleWizardComplete} 
           onCancel={() => {
+             // If cancelling quiz (likely started from Landing as Guest), 
+             // go to Dashboard instead of back to Landing to serve as Home
              if (!profile || profile.id === 'guest') {
-                 changeView(AppView.LANDING);
+                 setProfile(GUEST_PROFILE);
+                 changeView(AppView.DASHBOARD);
              } else {
                  changeView(AppView.DASHBOARD);
              }
@@ -623,6 +646,7 @@ const App: React.FC = () => {
           onNavigateToWiki={() => changeView(AppView.WIKI)}
           onNavigateToLanding={() => changeView(AppView.LANDING)}
           onNavigateToPlan={() => changeView(AppView.PLAN)}
+          onNavigateToSettings={() => changeView(AppView.SETTINGS)}
         />
       )}
 
@@ -641,6 +665,7 @@ const App: React.FC = () => {
           onNavigateToPlan={() => changeView(AppView.PLAN)}
           onNavigateToChat={() => startNewChat()}
           onNavigateToAchievements={() => changeView(AppView.ACHIEVEMENTS)}
+          onNavigateToSettings={() => changeView(AppView.SETTINGS)}
         />
       )}
 
@@ -652,6 +677,7 @@ const App: React.FC = () => {
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
           onNavigateToChat={() => startNewChat()}
           onNavigateToAchievements={() => changeView(AppView.ACHIEVEMENTS)}
+          onNavigateToSettings={() => changeView(AppView.SETTINGS)}
           onNavigateToArticle={handleNavigateToArticle}
           onUnlockAchievement={handleUnlockAchievement}
         />

@@ -91,5 +91,6 @@ export const GLOBAL_NAV = {
   LINK_CHAT: 'nav_link_chat',
   LINK_PLAN: 'nav_link_my_plan',
   LINK_PROFILE: 'nav_link_profile',
+  LINK_SETTINGS: 'nav_link_settings',
   LOGO: 'nav_logo_home'
 };

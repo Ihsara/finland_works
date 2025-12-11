@@ -49,6 +49,7 @@ interface WikiViewProps {
   onNavigateToProfile: () => void;
   onNavigateToLanding: () => void;
   onNavigateToPlan: () => void;
+  onNavigateToSettings?: () => void;
   onUnlockAchievement?: (id: string) => void;
 }
 
@@ -76,6 +77,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
   onNavigateToProfile,
   onNavigateToLanding,
   onNavigateToPlan,
+  onNavigateToSettings,
   onUnlockAchievement
 }) => {
   const { language, t } = useLanguage();
@@ -341,6 +343,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
       if (view === AppView.PROFILE) onNavigateToProfile();
       if (view === AppView.PLAN) onNavigateToPlan();
       if (view === AppView.LANDING) onNavigateToLanding();
+      if (view === AppView.SETTINGS && onNavigateToSettings) onNavigateToSettings();
       if (view === AppView.DASHBOARD) onClose();
   };
 
