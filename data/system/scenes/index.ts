@@ -15,7 +15,7 @@ export const LANDING = {
   BTN_BROWSE: 'btn_landing_browse',
   LINK_SAMPLE: 'link_landing_load_sample',
   LINK_RESET: 'link_landing_reset_data',
-  LINK_KEY: 'link_landing_add_key'
+  LINK_SETTINGS: 'link_landing_settings'
 };
 
 export const DASHBOARD = {
@@ -89,6 +89,7 @@ export const API_KEY = { ID: 'scene_api_key_entry' };
 export const GLOBAL_NAV = {
   LINK_KB: 'nav_link_knowledge_base',
   LINK_CHAT: 'nav_link_chat',
-  LINK_SETTINGS: 'nav_link_settings', // Replaced LINK_PLAN
+  LINK_PLAN: 'nav_link_my_plan',
+  LINK_PROFILE: 'nav_link_profile',
   LOGO: 'nav_logo_home'
 };

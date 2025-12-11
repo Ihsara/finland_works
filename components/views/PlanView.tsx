@@ -367,13 +367,6 @@ export const PlanView: React.FC<PlanViewProps> = ({
                     currentView={AppView.PLAN} 
                     onNavigate={handleNav} 
                 />
-                
-                <button 
-                    onClick={onNavigateToProfile}
-                    className="relative p-1 rounded-full border-2 border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white transition overflow-hidden flex-shrink-0"
-                >
-                    <img src={getAvatarUrl(profile)} alt="Avatar" className="w-8 h-8 rounded-full bg-white" />
-                </button>
             </div>
         </div>
 

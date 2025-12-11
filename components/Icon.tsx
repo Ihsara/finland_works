@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   User, 
@@ -132,7 +131,8 @@ import {
   Trophy,
   Bot,
   Crown,
-  Puzzle
+  Puzzle,
+  RefreshCw
 } from 'lucide-react';
 
 export const Icons = {
@@ -267,5 +267,6 @@ export const Icons = {
   Trophy,
   Bot,
   Crown,
-  Puzzle
+  Puzzle,
+  RefreshCw
 };

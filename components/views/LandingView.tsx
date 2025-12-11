@@ -14,9 +14,48 @@ interface LandingViewProps {
   onStartChat: () => void;
   onLoadDemo: (silent: boolean) => void;
   onReset: () => void;
-  onClearKey: () => void;
+  onOpenSettings: () => void;
   onSetGuest: (p: UserProfile) => void;
 }
+
+// Internal Component: Rotating City Name
+const CitySlideshow = () => {
+  const [index, setIndex] = useState(0);
+  const cities = ["Finland", "Vantaa"];
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % cities.length);
+        setVisible(true);
+      }, 500); // Duration matches transition
+    }, 4000); // 4 seconds per slide
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span className="inline-grid grid-cols-1 justify-items-end">
+      {/* Invisible spacer to reserve width of the longest city */}
+      <span className="col-start-1 row-start-1 opacity-0 pointer-events-none select-none" aria-hidden="true">Finland</span>
+      
+      {/* Animated visible text */}
+      <span className={`
+        col-start-1 row-start-1
+        inline-block transition-all duration-500 ease-in-out transform
+        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+        bg-clip-text text-transparent bg-gradient-to-r 
+        ${index === 0 
+          ? 'from-blue-600 to-indigo-600 dark:from-emerald-200 dark:via-teal-200 dark:to-cyan-200' 
+          : 'from-fuchsia-600 to-pink-600 dark:from-fuchsia-300 dark:to-pink-300' 
+        }
+      `}>
+        {cities[index]}
+      </span>
+    </span>
+  );
+};
 
 // Internal Component: Compact Rotating Button (Horizontal on Mobile, Vertical on Desktop)
 const RotatingButtonContent = ({ 
@@ -85,7 +124,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
   onStartChat,
   onLoadDemo,
   onReset,
-  onClearKey,
+  onOpenSettings,
   onSetGuest
 }) => {
   const { t, language } = useLanguage();
@@ -124,9 +163,10 @@ export const LandingView: React.FC<LandingViewProps> = ({
           <div className="text-center mb-8 md:mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <h1 
               data-testid={APP_IDS.VIEWS.LANDING.HERO_TITLE}
-              className={`text-5xl md:text-8xl font-bold text-gray-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-emerald-200 dark:via-teal-200 dark:to-cyan-200 tracking-tight drop-shadow-sm ${headingFont}`}
+              className={`text-5xl md:text-8xl font-bold tracking-tight drop-shadow-sm ${headingFont}`}
             >
-              Finland Works!
+              <CitySlideshow />
+              <span className="text-gray-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-gray-100 dark:to-gray-300"> Works!</span>
             </h1>
           </div>
 
@@ -218,11 +258,11 @@ export const LandingView: React.FC<LandingViewProps> = ({
                 </button>
                 <span className="opacity-30">/</span>
                 <button 
-                    data-testid={APP_IDS.VIEWS.LANDING.LINK_KEY}
-                    onClick={onClearKey} 
+                    data-testid={APP_IDS.VIEWS.LANDING.LINK_SETTINGS}
+                    onClick={onOpenSettings} 
                     className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                 >
-                    {t('landing_add_key')}
+                    {t('settings_title')}
                 </button>
               </div>
           </div>

@@ -28,15 +28,21 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
       icon: Icons.MessageSquare 
     },
     { 
-      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_SETTINGS, // Updated ID
-      view: AppView.SETTINGS, // Updated View
-      label: t('settings_title'), // "Settings"
-      icon: Icons.Settings // Updated Icon
+      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PLAN, 
+      view: AppView.PLAN, 
+      label: t('profile_btn_plan'), // "My Plan"
+      icon: Icons.Map 
+    },
+    { 
+      id: APP_IDS.VIEWS.GLOBAL_NAV.LINK_PROFILE, 
+      view: AppView.PROFILE, 
+      label: t('dash_profile_overview'), // "Profile"
+      icon: Icons.User
     }
   ];
 
   return (
-    <div className={`flex bg-gray-100/50 dark:bg-white/5 backdrop-blur-sm rounded-full p-1 border border-gray-200/50 dark:border-white/10 touch-manipulation ${className}`}>
+    <div className={`flex items-center gap-1 bg-gray-100/80 dark:bg-white/5 backdrop-blur-md rounded-full p-1.5 border border-gray-200/50 dark:border-white/10 touch-manipulation ${className}`}>
       {navItems.map((item) => {
         const isActive = currentView === item.view;
         return (
@@ -44,9 +50,10 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
             key={item.id}
             data-testid={item.id}
             onClick={() => onNavigate(item.view)}
+            title={item.label}
             className={`
-              flex items-center gap-2 px-3 py-2 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-200
-              min-h-[40px] min-w-[44px] justify-center
+              relative flex items-center justify-center rounded-full transition-all duration-200
+              w-11 h-11
               active:scale-95
               ${isActive 
                 ? 'bg-white dark:bg-white/20 text-black dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10' 
@@ -54,8 +61,8 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ currentView, o
               }
             `}
           >
-            <item.icon className={`w-4 h-4 md:w-4 md:h-4 ${isActive ? 'text-blue-600 dark:text-emerald-300' : ''}`} />
-            <span className={`${isActive ? 'inline' : 'hidden sm:inline'}`}>{item.label}</span>
+            <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-blue-600 dark:text-emerald-300' : ''}`} />
+            <span className="sr-only">{item.label}</span>
           </button>
         );
       })}

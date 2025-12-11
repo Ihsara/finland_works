@@ -1,10 +1,49 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
 
 interface ApiKeyViewProps {
   onSave: (key: string) => void;
 }
+
+// Reusing the CitySlideshow logic here for consistency
+const CitySlideshow = () => {
+  const [index, setIndex] = useState(0);
+  const cities = ["Finland", "Vantaa"];
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % cities.length);
+        setVisible(true);
+      }, 500); 
+    }, 4000); 
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span className="inline-grid grid-cols-1 justify-items-end">
+      {/* Invisible spacer to reserve width of the longest city */}
+      <span className="col-start-1 row-start-1 opacity-0 pointer-events-none select-none" aria-hidden="true">Finland</span>
+      
+      {/* Animated visible text */}
+      <span className={`
+        col-start-1 row-start-1
+        inline-block transition-all duration-500 ease-in-out transform
+        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+        bg-clip-text text-transparent bg-gradient-to-r 
+        ${index === 0 
+          ? 'from-blue-600 to-indigo-600 dark:from-emerald-200 dark:via-teal-200 dark:to-cyan-200' 
+          : 'from-fuchsia-600 to-pink-600 dark:from-fuchsia-300 dark:to-pink-300' 
+        }
+      `}>
+        {cities[index]}
+      </span>
+    </span>
+  );
+};
 
 export const ApiKeyView: React.FC<ApiKeyViewProps> = ({ onSave }) => {
   const [keyInput, setKeyInput] = useState('');
@@ -19,7 +58,10 @@ export const ApiKeyView: React.FC<ApiKeyViewProps> = ({ onSave }) => {
       </div>
       
       <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Finland Works!</h1>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">
+            <CitySlideshow />
+            <span> Works!</span>
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto leading-relaxed">
             To ensure your privacy, this app runs locally. Please provide your Google Gemini API Key to start. 
             This key is stored only on your device.

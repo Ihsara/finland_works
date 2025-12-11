@@ -3,7 +3,6 @@ import React from 'react';
 import { Icons } from '../Icon';
 import { UserProfile } from '../../types';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { getAvatarUrl } from '../../utils/profileUtils';
 import { FeedbackRibbon } from '../FeedbackRibbon';
 import { APP_IDS } from '../../data/system/identifiers';
 import { NavigationLinks } from '../NavigationLinks';
@@ -74,7 +73,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
              <span className="hidden md:inline font-normal opacity-50 text-sm border-l pl-2 border-gray-300 dark:border-gray-700 ml-1">Finland Works</span>
           </button>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
               <NavigationLinks 
                  currentView={AppView.DASHBOARD} 
                  onNavigate={handleNav} 
@@ -83,25 +82,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <button 
                     data-testid={APP_IDS.VIEWS.DASHBOARD.BTN_SETTINGS}
                     onClick={onNavigateToSettings}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition text-gray-600 dark:text-gray-400"
+                    className="p-2.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                     title="Settings"
                   >
                       <Icons.Settings className="w-5 h-5" />
                   </button>
               )}
-              <button 
-                data-testid={APP_IDS.VIEWS.DASHBOARD.AVATAR}
-                onClick={onNavigateToProfile}
-                className="p-1 hover:scale-105 transition transform duration-200 group relative"
-              >
-                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 dark:border-white/20 group-hover:border-blue-500 dark:group-hover:border-emerald-400 shadow-sm">
-                  <img 
-                    src={getAvatarUrl(profile)} 
-                    alt="Avatar" 
-                    className="w-full h-full object-cover bg-white dark:bg-gray-800"
-                  />
-                </div>
-              </button>
           </div>
         </div>
 

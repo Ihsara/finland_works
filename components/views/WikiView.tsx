@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from '../Icon';
 import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../../data/wikiContent';
@@ -478,13 +479,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
                 currentView={AppView.WIKI} 
                 onNavigate={handleNav}
             />
-            
-            <button 
-                onClick={onNavigateToProfile}
-                className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200 dark:border-white/20 hover:border-blue-500 transition"
-            >
-                <img src={getAvatarUrl(profile)} alt="" className="w-full h-full object-cover" />
-            </button>
         </div>
       </div>
 
@@ -714,5 +708,3 @@ export const WikiView: React.FC<WikiViewProps> = ({
     </div>
   );
 };
-
-export default WikiView;

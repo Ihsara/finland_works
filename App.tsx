@@ -534,7 +534,7 @@ const App: React.FC = () => {
           onStartChat={() => startNewChat()}
           onLoadDemo={handleLoadDemoProfile}
           onReset={handleResetData}
-          onClearKey={() => setApiKey(null)}
+          onOpenSettings={() => changeView(AppView.SETTINGS)}
           onSetGuest={(p) => setProfile(p)}
         />
       )}

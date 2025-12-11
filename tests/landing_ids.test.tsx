@@ -20,7 +20,7 @@ describe('Landing View - System ID Compliance', () => {
     onStartChat: vi.fn(),
     onLoadDemo: vi.fn(),
     onReset: vi.fn(),
-    onClearKey: vi.fn(),
+    onOpenSettings: vi.fn(),
     onSetGuest: vi.fn()
   };
 
@@ -41,15 +41,19 @@ describe('Landing View - System ID Compliance', () => {
 
     const sampleBtn = screen.getByTestId(APP_IDS.VIEWS.LANDING.LINK_SAMPLE);
     const resetBtn = screen.getByTestId(APP_IDS.VIEWS.LANDING.LINK_RESET);
-    const keyBtn = screen.getByTestId(APP_IDS.VIEWS.LANDING.LINK_KEY);
+    const settingsBtn = screen.getByTestId(APP_IDS.VIEWS.LANDING.LINK_SETTINGS);
 
     expect(sampleBtn).toBeInTheDocument();
     expect(resetBtn).toBeInTheDocument();
-    expect(keyBtn).toBeInTheDocument();
+    expect(settingsBtn).toBeInTheDocument();
 
     // Verify functionality
     fireEvent.click(sampleBtn);
     expect(mockProps.onLoadDemo).toHaveBeenCalled();
+    
+    // Verify settings click
+    fireEvent.click(settingsBtn);
+    expect(mockProps.onOpenSettings).toHaveBeenCalled();
   });
 
   it('renders Continue button ID when profile exists', () => {

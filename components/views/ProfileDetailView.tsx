@@ -109,13 +109,6 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                 />
                 
                 <LanguageSelector className="hidden sm:block text-gray-900 dark:text-white" />
-                
-                <button 
-                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                    className="relative p-1 rounded-full border-2 border-black dark:border-white hover:opacity-80 transition overflow-hidden"
-                >
-                    <img src={getAvatarUrl(profile)} alt="Avatar" className="w-8 h-8 rounded-full bg-white" />
-                </button>
             </div>
         </div>
 
@@ -158,13 +151,40 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                     {/* Identity Card */}
                     <div className="bg-white dark:bg-[#151b2e] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm">
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-                            <div className="flex-shrink-0 text-center">
-                                <div className="w-32 h-32 rounded-full border-4 border-gray-100 dark:border-white/10 overflow-hidden bg-gray-50 mx-auto mb-4">
+                            <div className="flex-shrink-0 text-center relative group">
+                                <div className="w-32 h-32 rounded-full border-4 border-gray-100 dark:border-white/10 overflow-hidden bg-gray-50 mx-auto mb-4 relative">
                                     <img src={getAvatarUrl(profile)} alt="" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer" onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
+                                        <Icons.RefreshCw className="w-8 h-8 text-white" />
+                                    </div>
                                 </div>
                                 <div className="bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-block">
                                     {profile?.id === 'demo-gabriela' ? 'Demo User' : 'Local User'}
                                 </div>
+                                
+                                {/* Profile Switcher Modal */}
+                                {isProfileMenuOpen && (
+                                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-[#1a233b] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 z-50 p-2 animate-in fade-in zoom-in-95 duration-200 mt-2">
+                                        <div className="text-xs font-bold text-gray-400 uppercase tracking-wider px-3 py-2">Switch Profile</div>
+                                        {allProfiles.map(p => (
+                                            <button
+                                                key={p.id}
+                                                onClick={() => {
+                                                    onSwitchProfile(p.id);
+                                                    setIsProfileMenuOpen(false);
+                                                }}
+                                                className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 transition ${profile?.id === p.id ? 'bg-gray-100 dark:bg-white/10 font-bold' : 'hover:bg-gray-50 dark:hover:bg-white/5'}`}
+                                            >
+                                                <img src={getAvatarUrl(p)} className="w-6 h-6 rounded-full bg-gray-200" alt="" />
+                                                <span className="truncate text-sm text-gray-900 dark:text-white">{p.name}</span>
+                                            </button>
+                                        ))}
+                                        <div className="border-t border-gray-100 dark:border-white/10 my-2"></div>
+                                        <button onClick={onCreateProfile} className="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 text-blue-600 dark:text-blue-400 font-bold text-sm">
+                                            <Icons.Plus className="w-4 h-4" /> {t('dash_new_profile')}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             <div className="flex-1 space-y-6 w-full text-center md:text-left">
                                 <div>
@@ -257,30 +277,6 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                 </div>
             )}
         </div>
-
-        {/* Profile Switcher Modal */}
-        {isProfileMenuOpen && (
-            <div className="absolute top-16 right-4 w-64 bg-white dark:bg-[#1a233b] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 z-50 p-2 animate-in fade-in zoom-in-95 duration-200">
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider px-3 py-2">Switch Profile</div>
-                {allProfiles.map(p => (
-                    <button
-                        key={p.id}
-                        onClick={() => {
-                            onSwitchProfile(p.id);
-                            setIsProfileMenuOpen(false);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 transition ${profile?.id === p.id ? 'bg-gray-100 dark:bg-white/10 font-bold' : 'hover:bg-gray-50 dark:hover:bg-white/5'}`}
-                    >
-                        <img src={getAvatarUrl(p)} className="w-6 h-6 rounded-full bg-gray-200" alt="" />
-                        <span className="truncate text-sm text-gray-900 dark:text-white">{p.name}</span>
-                    </button>
-                ))}
-                <div className="border-t border-gray-100 dark:border-white/10 my-2"></div>
-                <button onClick={onCreateProfile} className="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-white/5 text-blue-600 dark:text-blue-400 font-bold text-sm">
-                    <Icons.Plus className="w-4 h-4" /> {t('dash_new_profile')}
-                </button>
-            </div>
-        )}
     </div>
   );
 };
