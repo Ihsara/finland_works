@@ -107,6 +107,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigateToLanding
 }) => {
   const { t } = useLanguage();
+  const isGuest = !profile || profile.id === 'guest';
 
   const handleHomeClick = () => {
       // Scroll to top instead of navigating away, as this is the homepage
@@ -150,40 +151,53 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
         </header>
 
-        {/* 2. Hero Section */}
-        <section className="pt-12 pb-20 md:pt-20 md:pb-24 px-4 md:px-8 bg-white dark:bg-[#0b1021] transition-colors duration-500">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
-                <div className="flex-1 max-w-2xl">
-                    <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-[0.9] tracking-tight mb-8">
-                        {t('dash_hero_title')}
+        {/* 2. Hero Section - Conditional Logic */}
+        {isGuest ? (
+            <section className="pt-12 pb-20 md:pt-20 md:pb-24 px-4 md:px-8 bg-white dark:bg-[#0b1021] transition-colors duration-500">
+                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div className="flex-1 max-w-2xl">
+                        <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-[0.9] tracking-tight mb-8">
+                            {t('dash_hero_title')}
+                        </h1>
+                        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg leading-relaxed">
+                            {t('dash_hero_subtitle')}
+                        </p>
+                        <button 
+                            onClick={onNavigateToQuiz}
+                            className="bg-[#FCD34D] text-black text-lg font-bold py-4 px-10 rounded-full hover:bg-[#FBBF24] hover:scale-105 active:scale-95 transition-all shadow-lg border-2 border-transparent dark:border-yellow-300/20"
+                        >
+                            {t('dash_hero_btn')}
+                        </button>
+                    </div>
+                    <div className="flex-shrink-0 w-64 md:w-96 relative">
+                        <Moose className="w-full h-auto drop-shadow-xl" />
+                    </div>
+                </div>
+            </section>
+        ) : (
+            <section className="pt-12 pb-4 px-4 md:px-8 bg-white dark:bg-[#0b1021] transition-colors duration-500">
+                 <div className="max-w-6xl mx-auto">
+                    <h1 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white font-serif tracking-tight">
+                        {t('dash_greeting', { name: profile ? profile.name.split(' ')[0] : 'Friend' })}
                     </h1>
-                    <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg leading-relaxed">
-                        {t('dash_hero_subtitle')}
-                    </p>
-                    <button 
-                        onClick={onNavigateToQuiz}
-                        className="bg-[#FCD34D] text-black text-lg font-bold py-4 px-10 rounded-full hover:bg-[#FBBF24] hover:scale-105 active:scale-95 transition-all shadow-lg border-2 border-transparent dark:border-yellow-300/20"
-                    >
-                        {t('dash_hero_btn')}
-                    </button>
-                </div>
-                <div className="flex-shrink-0 w-64 md:w-96 relative">
-                    <Moose className="w-full h-auto drop-shadow-xl" />
-                </div>
-            </div>
-        </section>
+                    <p className="text-lg text-gray-500 dark:text-gray-400 mt-2 font-medium">{t('dash_subtitle')}</p>
+                 </div>
+            </section>
+        )}
 
-        {/* 3. Intro Banner */}
-        <section className="bg-gray-100 dark:bg-white/5 py-12 px-4 md:px-8 border-y border-transparent dark:border-white/5">
-            <div className="max-w-4xl mx-auto text-center">
-                <p className="text-xl md:text-2xl font-medium text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
-                    {t('dash_intro_text')}
-                </p>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">
-                    {t('dash_intro_tags')}
-                </p>
-            </div>
-        </section>
+        {/* 3. Intro Banner (Only for Guest) */}
+        {isGuest && (
+            <section className="bg-gray-100 dark:bg-white/5 py-12 px-4 md:px-8 border-y border-transparent dark:border-white/5">
+                <div className="max-w-4xl mx-auto text-center">
+                    <p className="text-xl md:text-2xl font-medium text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
+                        {t('dash_intro_text')}
+                    </p>
+                    <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">
+                        {t('dash_intro_tags')}
+                    </p>
+                </div>
+            </section>
+        )}
 
         {/* 4. Knowledge Base (Green) */}
         <Section 

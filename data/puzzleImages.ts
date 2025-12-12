@@ -9,7 +9,8 @@ export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
   'vantaa_iso': {
     id: 'vantaa_iso',
     // Fallback to a reliable remote image since local file is missing
-    url: 'https://images.unsplash.com/photo-1516216628259-222df9c43d44?q=80&w=2070&auto=format&fit=crop', 
+    // Changed to a stable Helsinki aerial view
+    url: 'https://images.unsplash.com/photo-1523374228107-6e44bd2b524e?q=80&w=2070&auto=format&fit=crop', 
     alt: 'Isometric City View'
   },
   'helsinki_iso': {

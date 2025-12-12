@@ -24,6 +24,7 @@ interface PlanViewProps {
   onNavigateToArticle?: (articleId: string) => void;
   onNavigateToSettings?: () => void;
   onUnlockAchievement?: (id: string) => void;
+  onNavigateToDashboard: () => void;
 }
 
 const FUN_FACTS = {
@@ -52,7 +53,8 @@ export const PlanView: React.FC<PlanViewProps> = ({
   onNavigateToAchievements,
   onNavigateToArticle,
   onNavigateToSettings,
-  onUnlockAchievement
+  onUnlockAchievement,
+  onNavigateToDashboard
 }) => {
   const { t, language } = useLanguage();
   // Simplified tabs: Career vs Life
@@ -78,6 +80,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
       if (view === AppView.LANDING) onNavigateToLanding();
       if (view === AppView.SETTINGS && onNavigateToSettings) onNavigateToSettings();
       if (view === AppView.PLAN) { /* Already here */ }
+      if (view === AppView.DASHBOARD) onNavigateToDashboard();
   };
 
   const handleToggleArticleStatus = (e: React.MouseEvent, articleId: string) => {

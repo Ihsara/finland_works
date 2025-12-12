@@ -429,7 +429,7 @@ const App: React.FC = () => {
     let finalPref = effectivePref;
     setIsTyping(true);
     
-    // --- ACHIEVEMENTS: FIRST QUESTION & CHAT COUNT ---
+    // --- ACHIEVEMENT CHECKS: FIRST QUESTION & CHAT COUNT ---
     if (activeProfile.id !== 'guest') {
         handleUnlockAchievement('curious_mind'); // Unlocked on first REAL query to Gemini
         
@@ -513,7 +513,7 @@ const App: React.FC = () => {
       if (targetProfile) {
         Storage.setActiveProfileId(targetProfile.id);
         refreshProfiles();
-        changeView(AppView.PLAN);
+        changeView(AppView.DASHBOARD);
       }
     } catch (e) { if(!silent) alert("Error loading demo."); }
   };
@@ -680,6 +680,7 @@ const App: React.FC = () => {
           onNavigateToSettings={() => changeView(AppView.SETTINGS)}
           onNavigateToArticle={handleNavigateToArticle}
           onUnlockAchievement={handleUnlockAchievement}
+          onNavigateToDashboard={() => changeView(AppView.DASHBOARD)}
         />
       )}
 
