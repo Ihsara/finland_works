@@ -1,19 +1,20 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Icons } from '../Icon';
-import { Logo } from '../Logo';
 import { getWikiCategories, WikiCategory, WikiArticle, getAllFlattenedArticles } from '../../data/wikiContent';
 import { marked } from 'marked';
 import { UserProfile } from '../../types';
 import * as Storage from '../../services/storageService';
 import { WikiProgressData } from '../../services/storageService';
+import { LanguageSelector } from '../LanguageSelector';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { wrapSentencesInHtml } from '../../utils/textUtils';
-import { FeedbackRibbon } from '../FeedbackRibbon';
-import { APP_IDS } from '../../data/system/identifiers';
 import { NavigationLinks } from '../NavigationLinks';
 import { AppView } from '../../types';
-import { getAvatarUrl } from '../../utils/profileUtils';
+import { Logo } from '../Logo';
+import { APP_IDS } from '../../data/system/identifiers';
+import { FeedbackRibbon } from '../FeedbackRibbon';
+import { CVPreview } from '../tools/CVPreview';
 
 // Simple Confetti Component (Shared)
 const Confetti = ({ active }: { active: boolean }) => {
@@ -44,6 +45,7 @@ interface WikiViewProps {
   onClose: () => void;
   profile: UserProfile | null;
   activeArticleId: string | null;
+  viewConfig?: { categoryId?: string, tag?: string } | null;
   onArticleSelect: (article: WikiArticle | null) => void;
   onStartChatWithContext?: (context: string, sentence: string) => void;
   onNavigateToChat: () => void;
@@ -72,6 +74,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
   onClose, 
   profile, 
   activeArticleId,
+  viewConfig,
   onArticleSelect,
   onStartChatWithContext,
   onNavigateToChat,
@@ -81,7 +84,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
   onNavigateToSettings,
   onUnlockAchievement
 }) => {
-  const { language, t } = useLanguage();
+  const { language, t, headingFont } = useLanguage();
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
@@ -90,8 +93,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
   const [activeSentence, setActiveSentence] = useState<{text: string, x: number, y: number} | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const touchStartRef = useRef<{ x: number, y: number } | null>(null);
-  
-  // Confetti State
   const [celebrate, setCelebrate] = useState(false);
 
   const wikiCategories = useMemo(() => getWikiCategories(language), [language]);
@@ -136,6 +137,20 @@ export const WikiView: React.FC<WikiViewProps> = ({
     return Object.entries(counts).map(([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count);
   }, [language]);
 
+  // Effect to apply view configuration from props (Deep Linking)
+  useEffect(() => {
+    if (viewConfig) {
+        if (viewConfig.categoryId) {
+            setActiveCategoryId(viewConfig.categoryId);
+            setActiveTag(null);
+            setOpenCategories(prev => ({ ...prev, [viewConfig.categoryId!]: true }));
+        } else if (viewConfig.tag) {
+            setActiveTag(viewConfig.tag);
+            setActiveCategoryId(null);
+        }
+    }
+  }, [viewConfig]);
+
   useEffect(() => {
     if (!profile) {
       const initialOpen: Record<string, boolean> = {};
@@ -160,7 +175,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
       if (activeArticle) {
           setIsMobileMenuOpen(false);
           setActiveSentence(null);
-          // Scroll to top when article changes
           if (contentRef.current) contentRef.current.scrollTop = 0;
           if (activeArticle.categoryId) {
               setOpenCategories(prev => ({ ...prev, [activeArticle.categoryId]: true }));
@@ -371,6 +385,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
   const prevArticle = currentArticleIndex > 0 ? allArticles[currentArticleIndex - 1] : null;
   const nextArticle = currentArticleIndex > -1 && currentArticleIndex < allArticles.length - 1 ? allArticles[currentArticleIndex + 1] : null;
 
+  const proseClass = headingFont === 'font-sans' ? 'prose-headings:font-sans' : 'prose-headings:font-serif';
+
   const renderCategoryList = (isSidebar: boolean = false) => {
     return (
       <div className="space-y-3 pb-20">
@@ -387,7 +403,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
                     >
                         <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-100 group-hover:text-black dark:group-hover:text-white overflow-hidden">
                             <span className="text-xs text-gray-400 dark:text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
-                            {/* COLORIZE ICON: Use category theme instead of gray */}
                             {renderIcon(category.icon as any, `w-6 h-6 flex-shrink-0 transition-colors ${category.theme.text}`)}
                             <span className="text-sm md:text-base tracking-wide truncate">{category.title}</span>
                         </div>
@@ -408,7 +423,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                         const itemData = progress.items[article.id];
                                         const status = itemData?.status;
                                         
-                                        // Visual Status Logic
                                         let statusClass = 'text-gray-700 dark:text-gray-400 hover:bg-gray-100/50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white';
                                         if (status === 'done') statusClass = 'text-gray-900 dark:text-white bg-green-50/50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20';
                                         if (status === 'later') statusClass = 'text-gray-900 dark:text-white bg-amber-50/50 dark:bg-amber-900/10 hover:bg-amber-100 dark:hover:bg-amber-900/20';
@@ -459,7 +473,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
 
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-100 dark:border-white/10 flex justify-between items-center bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl z-50 sticky top-0">
         <div className="flex items-center gap-2">
-            {/* Conditional Back Button */}
             {(activeArticle || activeCategory || activeTag || viewMode === 'list') ? (
                 <button 
                     onClick={handleBack}
@@ -467,12 +480,8 @@ export const WikiView: React.FC<WikiViewProps> = ({
                 >
                     <Icons.ArrowLeft className="w-6 h-6" />
                 </button>
-            ) : (
-                // Spacer if needed, or Logo at root
-                null
-            )}
+            ) : null}
 
-            {/* Title or Logo */}
             {(activeArticle || activeCategory || activeTag) ? (
                 <h2 className="hidden md:block font-bold text-gray-900 dark:text-white text-base md:text-lg leading-tight truncate max-w-[200px] md:max-w-md animate-in fade-in">
                     {activeArticle ? activeArticle.title : activeCategory ? activeCategory.title : t('wiki_topic_label', { tag: activeTag })}
@@ -502,7 +511,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
       <FeedbackRibbon />
 
       <div className="flex-1 overflow-hidden relative">
-        {/* ... Rest of the component remains same ... */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-50">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-white dark:to-[#0b1021]"></div>
         </div>
@@ -511,7 +519,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
             <div className="w-full h-full overflow-y-auto p-4 md:p-8 relative z-10 animate-in fade-in zoom-in-95 duration-300">
                 <div className="max-w-6xl mx-auto">
                      <div className="mb-8 text-center">
-                         <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{t('wiki_explore_cats')}</h3>
+                         <h3 className={`text-3xl font-black text-gray-900 dark:text-white tracking-tight ${headingFont}`}>{t('wiki_explore_cats')}</h3>
                          <p className="text-gray-600 dark:text-gray-400 mt-2">{t('wiki_explore_subtitle')}</p>
                      </div>
                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 pb-20">
@@ -578,7 +586,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
              <div className="w-full h-full overflow-y-auto p-4 md:p-8 relative z-10 animate-in slide-in-from-right-4 duration-300">
                 <div className="max-w-2xl mx-auto">
                     <div className="mb-6 text-center">
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t('wiki_full_index')}</h3>
+                        <h3 className={`text-2xl font-bold text-gray-900 dark:text-white ${headingFont}`}>{t('wiki_full_index')}</h3>
                         <p className="text-gray-600 dark:text-gray-400 mt-1">{t('wiki_full_index_subtitle')}</p>
                     </div>
                     {renderCategoryList(false)}
@@ -594,7 +602,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                               <Icons.Tag className="w-10 h-10" />
                          </div>
                          <div>
-                              <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white capitalize tracking-tight">{activeTag}</h1>
+                              <h1 className={`text-3xl md:text-4xl font-black text-gray-900 dark:text-white capitalize tracking-tight ${headingFont}`}>{activeTag}</h1>
                               <p className="text-gray-500 dark:text-gray-400 font-medium mt-1">{t('wiki_topic_desc')}</p>
                          </div>
                     </div>
@@ -613,7 +621,6 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                      {matches.map((article, idx) => {
                                          const itemData = progress.items[article.id];
                                          const status = itemData?.status;
-                                         
                                          return (
                                             <button key={article.id} onClick={() => handleArticleClick(article)} className={`
                                                 text-left group flex flex-col gap-3 p-5 rounded-2xl border-2 transition-all duration-200 
@@ -632,7 +639,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                                     {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" />}
                                                     {status === 'later' && <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
                                                 </div>
-                                                <h4 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h4>
+                                                <h4 className={`font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${headingFont}`}>{article.title}</h4>
                                             </button>
                                          );
                                      })}
@@ -650,7 +657,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                     <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-end gap-6">
                         <div className={`p-6 bg-white dark:bg-white/10 rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} dark:border-white/10 ${activeCategory.theme.text} dark:text-white`}>{renderIcon(activeCategory.icon as any, "w-16 h-16")}</div>
                         <div className="text-center md:text-left flex-1">
-                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} dark:text-white mb-2`}>{activeCategory.title}</h1>
+                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} dark:text-white mb-2 ${headingFont}`}>{activeCategory.title}</h1>
                         </div>
                     </div>
                 </div>
@@ -681,7 +688,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                                     {status === 'done' && <Icons.CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400" />}
                                                     {status === 'later' && <Icons.Clock className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
                                                 </div>
-                                                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</h3>
+                                                <h3 className={`font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${headingFont}`}>{article.title}</h3>
                                             </button>
                                         );
                                     })}
@@ -711,7 +718,15 @@ export const WikiView: React.FC<WikiViewProps> = ({
                             </div>
                         </div>
                         {activeArticle.summary && <div className="mb-10 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border-l-4 border-blue-500 dark:border-blue-400"><h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Quick Summary</h3><p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed">{activeArticle.summary}</p></div>}
-                        <article className="prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none text-gray-900 dark:text-gray-200 prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:tracking-tight prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-p:text-gray-800 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-li:marker:text-gray-500 prose-strong:text-gray-900 dark:prose-strong:text-white [&>ul]:pl-4 [&>ol]:pl-4"><div dangerouslySetInnerHTML={{ __html: processedContent }} /></article>
+                        
+                        <article className={`prose prose-slate dark:prose-invert prose-sm md:prose-base max-w-none text-gray-900 dark:text-gray-200 ${proseClass} prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:tracking-tight prose-h2:text-xl md:prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-p:text-gray-800 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-800 dark:hover:prose-a:text-blue-300 prose-li:text-gray-800 dark:prose-li:text-gray-300 prose-li:marker:text-gray-500 prose-strong:text-gray-900 dark:prose-strong:text-white [&>ul]:pl-4 [&>ol]:pl-4`}>
+                            <div dangerouslySetInnerHTML={{ __html: processedContent }} />
+                        </article>
+
+                        {/* Interactive CV Generator Injection */}
+                        {activeArticle.id === 'job_cv_tips' && (
+                            <CVPreview profile={profile} />
+                        )}
                         
                         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-white/10 grid grid-cols-2 gap-4">
                             {prevArticle ? <button onClick={() => handleArticleClick(prevArticle)} className="flex flex-col items-start p-4 rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition group text-left min-h-[60px] active:scale-95"><span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1"><Icons.ArrowLeft className="w-3 h-3" /> {t('wizard_btn_prev')}</span><span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white leading-tight">{prevArticle.title}</span></button> : <div />}

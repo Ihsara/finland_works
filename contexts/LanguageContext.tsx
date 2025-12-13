@@ -7,6 +7,7 @@ interface LanguageContextType {
   language: LanguageCode;
   setLanguage: (code: LanguageCode) => void;
   t: (key: TranslationKey, params?: Record<string, string>) => string;
+  headingFont: string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -75,8 +76,14 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     return text;
   };
 
+  // Determine appropriate font class based on language script
+  // Latin/Cyrillic scripts use Serif (Playfair Display) for headings.
+  // Scripts like Arabic, Thai, Chinese use Sans (Inter) as fallback or their system default
+  // to avoid rendering issues or aesthetic clashes.
+  const headingFont = ['ar', 'fa', 'ku', 'th', 'zh'].includes(language) ? 'font-sans' : 'font-serif';
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, headingFont }}>
       {children}
     </LanguageContext.Provider>
   );

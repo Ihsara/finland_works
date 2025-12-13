@@ -56,7 +56,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
   onUnlockAchievement,
   onNavigateToDashboard
 }) => {
-  const { t, language } = useLanguage();
+  const { t, language, headingFont } = useLanguage();
   // Simplified tabs: Career vs Life
   const [activeTab, setActiveTab] = useState<'career' | 'life'>('career');
   const [wikiProgress, setWikiProgress] = useState<Storage.WikiProgressData | null>(null);
@@ -309,7 +309,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                         </div>
                     </div>
                     
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 font-serif">
+                    <h2 className={`text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 ${headingFont}`}>
                         Sisu Master!
                     </h2>
                     <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
@@ -337,7 +337,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                         <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mb-2">
                             <Icons.Lightbulb className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white">{t('quest_fun_fact_title')}</h3>
+                        <h3 className={`text-xl font-black text-gray-900 dark:text-white ${headingFont}`}>{t('quest_fun_fact_title')}</h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed italic">
                             "{funFact.text}"
                         </p>
@@ -388,7 +388,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
                 {/* 2. Gamified Stats Header */}
                 <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
                     <div>
-                        <h1 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight font-serif">
+                        <h1 className={`text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight ${headingFont}`}>
                             {t('profile_btn_plan')}
                         </h1>
                         <div className="flex items-center flex-wrap gap-2 mt-2">

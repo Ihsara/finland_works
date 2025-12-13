@@ -90,6 +90,7 @@ export const en: TranslationResource = {
     dash_card_living_events: "Events & Meetups",
     dash_card_living_sports: "Sports & Hobby Clubs",
     dash_card_living_community: "Community Groups",
+    dash_sect_events_title: "Upcoming Events in Vantaa",
 
     dash_sect_features_title: "KEY FEATURES (DEMO)",
     dash_feat_hidden_job: "Hidden Job Market Tool",
@@ -131,7 +132,17 @@ export const en: TranslationResource = {
     feedback_action: "Give Feedback",
     net_intro_deep: 'Why Networking Matters', net_design: 'Design Community', net_parents: 'Networking for Parents', net_introvert: 'Low-Pressure Networking', net_hobbies: 'Hobby Networking', net_plan: 'Your Action Plan',
     net_cold_msg: 'The Art of the Cold Message', net_places: 'Networking Venues', net_prof_style: 'Finnish Professional Style',
-    net_hackathons: 'Hackathons & Junction', net_slush: 'Slush: The Anti-Conference', net_school: 'Networking in School'
+    net_hackathons: 'Hackathons & Junction', net_slush: 'Slush: The Anti-Conference', net_school: 'Networking in School',
+    
+    // New: CV Preview
+    cv_preview_title: "Live Preview (A4)",
+    cv_btn_print: "Print PDF",
+    cv_sect_profile: "Profile",
+    cv_sect_experience: "Experience",
+    cv_sect_education: "Education",
+    cv_sect_skills: "Skills",
+    cv_sect_soft_skills: "Soft Skills",
+    cv_preview_disclaimer: "This is a simplified template. Download and edit for full details."
   },
   wiki: {
     titles: {
@@ -163,7 +174,7 @@ export const en: TranslationResource = {
       'bureaucracy_ihh': {
         title: 'International House Helsinki (IHH)',
         summary: 'The one-stop shop for bureaucracy in the capital region.',
-        content: `# One Roof, Many Services\n\nIf you live in Helsinki, Espoo, or Vantaa, **International House Helsinki (IHH)** is your best friend.\n\n### What is it?\nA service point that brings together key authorities: DVV, Vero (Tax), Kela, Migri, and TE Services.\n\n### What can you do?\n1. **Register:** Get your Personal ID Code (DVV).\n2. **Tax:** Get your tax card.\n3. **Social Security:** Advice on Kela benefits.\n4. **Work:** Employment coaching.\n\n### Important\nMost services require booking an appointment in advance. It is located in **Lintulahdenkuja 2, Helsinki**.`
+        content: `# One Roof, Many Services\n\nIf you live in Helsinki, Espoo, or Vantaa, **International House Helsinki (IHH)** is your best friend.\n\n### What is it?\nA service point that brings together key authorities: DVV, Vero (Tax), Kela, Migri, and TE Services.\n\n### What can you do?\n1. **Register:** Get your Personal ID Code (DVV).\n2. **Tax:** Get your tax card.\n3. **Social Security:** Advice on Kela benefits.\n4. **Work:** Employment coaching.\n\n### Important\nMost services require booking an appointment in advance. It is located in **Lintulahdenkuja 2, Helsinki**.\n\n### Official Resource\n[→ International House Helsinki](https://ihhelsinki.fi/)`
       },
       'net_culture': {
         title: 'Networking: The Finnish Way',
@@ -223,17 +234,17 @@ export const en: TranslationResource = {
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 
         summary: 'Get your Personal Identity Code to exist officially.', 
-        content: `**Priority: IMMEDIATE**\n\n### The Mission\nTo exist officially. Without registering at the **Digital and Population Data Services Agency (DVV)**, you are a ghost in the system.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). Format: *DDMMYY-XXXX*.\n\n### Why you need it\n1. Bank account.\n2. Phone contract.\n3. Tax card.\n4. Health services.` 
+        content: `**Priority: IMMEDIATE**\n\n### The Mission\nTo exist officially. Without registering at the **Digital and Population Data Services Agency (DVV)**, you are a ghost in the system.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). Format: *DDMMYY-XXXX*.\n\n### Why you need it\n1. Bank account.\n2. Phone contract.\n3. Tax card.\n4. Health services.\n\n### Official Resource\n[→ Registering as a foreigner (DVV)](https://dvv.fi/en/foreigner-registration)` 
       },
       'bureaucracy_migri': { 
         title: 'Migri (Immigration)', 
         summary: 'Residence Permit and booking tips.', 
-        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).` 
+        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).\n\n### Official Resource\n[→ Enter Finland (Online Service)](https://enterfinland.fi/eServices)\n[→ Migri Website](https://migri.fi/en/home)` 
       },
       'bureaucracy_tax': { 
         title: 'Tax Card', 
         summary: 'Without a tax card, you get taxed 60%. No exceptions.', 
-        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### The Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate your annual income.\n3. Download PDF.\n4. Send to payroll/boss.\n\n*Note: Finland has progressive tax. The more you earn, the higher the percentage.*` 
+        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### The Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate your annual income.\n3. Download PDF.\n4. Send to payroll/boss.\n\n*Note: Finland has progressive tax. The more you earn, the higher the percentage.*\n\n### Official Resource\n[→ Tax cards for non-Finnish speakers (Vero.fi)](https://www.vero.fi/en/individuals/tax-cards-and-tax-returns/tax_card/)` 
       },
       'bureaucracy_bank': { 
         title: 'Opening Bank Account', 
@@ -243,7 +254,7 @@ export const en: TranslationResource = {
       'social_kela_card': {
         title: 'Kela Card',
         summary: 'Blue card proving you belong to the national health insurance.',
-        content: `# What is it?\nA blue card proving you are covered by Finnish social security.\n\n### Usage\nShow it at:\n1. **Pharmacy:** Get direct reimbursement on prescribed medicine.\n2. **Private Clinics:** Get a small part of the cost deducted.`
+        content: `# What is it?\nA blue card proving you are covered by Finnish social security.\n\n### Usage\nShow it at:\n1. **Pharmacy:** Get direct reimbursement on prescribed medicine.\n2. **Private Clinics:** Get a small part of the cost deducted.\n\n### Official Resource\n[→ Kela Benefits for Immigrants](https://www.kela.fi/en/international-situations)`
       },
       'social_health': {
         title: 'Public vs. Occupational Health',
@@ -273,7 +284,7 @@ export const en: TranslationResource = {
       'job_te_office': {
         title: 'TE Services',
         summary: 'The employment office helps with integration and unemployment benefits.',
-        content: `# What they do\n* **Integration Plan:** Determine if you need Finnish courses.\n* **Jobseeker Status:** Mandatory to get money from Kela or Funds.\n* **Warning:** Follow their instructions exactly to avoid "karenssi" (losing benefits).`
+        content: `# What they do\n* **Integration Plan:** Determine if you need Finnish courses.\n* **Jobseeker Status:** Mandatory to get money from Kela or Funds.\n* **Warning:** Follow their instructions exactly to avoid "karenssi" (losing benefits).\n\n### Official Resource\n[→ Job Market Finland (Työmarkkinatori)](https://tyomarkkinatori.fi/en)`
       },
       'job_portals': {
         title: 'Where to find jobs',
@@ -288,7 +299,7 @@ export const en: TranslationResource = {
       'job_cv_tips': {
         title: 'Finnish CV Style',
         summary: 'Short, factual, and with a photo.',
-        content: `# Checklist\n1. **Length:** Max 2 pages. Ideally 1.\n2. **Photo:** Standard here. Smile, professional.\n3. **Profile:** Short summary at the top.\n4. **Skills:** List technologies or hard skills concretely.\n5. **Tone:** Humble but confident. State facts, not adjectives.`
+        content: `# Checklist\n1. **Length:** Max 2 pages. Ideally 1.\n2. **Photo:** Standard here. Smile, professional.\n3. **Profile:** Short summary at the top.\n4. **Skills:** List technologies or hard skills concretely.\n5. **Tone:** Humble but confident. State facts, not adjectives.\n\n**Check out the Live CV Preview below based on your profile!**`
       },
       'job_cover_letter': {
         title: 'Cover Letter',
@@ -478,7 +489,7 @@ export const en: TranslationResource = {
       'daily_transport': { 
         title: 'Public Transport (HSL/VR)', 
         summary: 'How to use trains, buses, and the zone system.',
-        content: `# Moving Around\n\n### HSL (Helsinki Region)\n* **Zones:** Ticket price depends on zones (ABCD). Helsinki is AB.\n* **App:** Download HSL app. It is cheaper than buying from driver.\n* **Penalty:** No ticket = 80€ fine.\n\n### VR (Trains)\nFor long distance. Book early for cheap tickets.`,
+        content: `# Moving Around\n\n### HSL (Helsinki Region)\n* **Zones:** Ticket price depends on zones (ABCD). Helsinki is AB.\n* **App:** Download HSL app. It is cheaper than buying from driver.\n* **Penalty:** No ticket = 80€ fine.\n\n### VR (Trains)\nFor long distance. Book early for cheap tickets.\n\n### Official Resource\n[→ HSL Journey Planner](https://www.hsl.fi/en)`
       },
       'daily_groceries': { 
         title: 'Grocery Shopping', 
@@ -488,7 +499,7 @@ export const en: TranslationResource = {
       'daily_pantti': {
         title: 'Bottle Recycling (Pantti)',
         summary: 'Don\'t throw away cans! They are money.',
-        content: `# Pantti System\n\nAlmost every bottle and can in Finland has a deposit value (10c - 40c).\n\n1. **Collect:** Don't crush them.\n2. **Return:** Machines are in every supermarket entrance.\n3. **Money:** You get a receipt. Use it at checkout for money off groceries.`,
+        content: `# Pantti System\n\nAlmost every bottle and can in Finland has a deposit value (10c to 40c).\n\n1. **Collect:** Don't crush them.\n2. **Return:** Machines are in every supermarket entrance.\n3. **Money:** You get a receipt. Use it at checkout for money off groceries.`,
       },
       'nature_everyman': { 
         title: 'Everyman\'s Rights', 

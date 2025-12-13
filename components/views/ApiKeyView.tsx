@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../Icon';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ApiKeyViewProps {
   onSave: (key: string) => void;
@@ -47,6 +48,7 @@ const CitySlideshow = () => {
 
 export const ApiKeyView: React.FC<ApiKeyViewProps> = ({ onSave }) => {
   const [keyInput, setKeyInput] = useState('');
+  const { headingFont } = useLanguage();
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-8 animate-in fade-in duration-500 bg-gray-50 dark:bg-[#0b1021]">
@@ -58,7 +60,7 @@ export const ApiKeyView: React.FC<ApiKeyViewProps> = ({ onSave }) => {
       </div>
       
       <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">
+          <h1 className={`text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight ${headingFont}`}>
             <CitySlideshow />
             <span> Works!</span>
           </h1>

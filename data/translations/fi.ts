@@ -119,7 +119,7 @@ export const fi: TranslationResource = {
       'bureaucracy_ihh': {
         title: 'International House Helsinki (IHH)',
         summary: 'Pääkaupunkiseudun palvelupiste maahanmuuttajille.',
-        content: `# Kaikki palvelut yhden katon alla\n\nJos asut Helsingissä, Espoossa tai Vantaalla, **International House Helsinki (IHH)** on paras ystäväsi.\n\n### Mikä se on?\nPalvelupiste, joka kokoaa yhteen viranomaiset: DVV, Vero, Kela, Migri ja TE-palvelut.\n\n### Mitä voit tehdä?\n1. **Rekisteröinti:** Hanki henkilötunnus (DVV).\n2. **Verotus:** Hanki verokortti.\n3. **Sosiaaliturva:** Neuvontaa Kela-asioissa.\n4. **Työ:** Työnhakuvalmennus.\n\n### Tärkeää\nUseimmat palvelut vaativat ajanvarauksen. Sijainti: **Lintulahdenkuja 2, Helsinki**.`
+        content: `# Kaikki palvelut yhden katon alla\n\nJos asut Helsingissä, Espoossa tai Vantaalla, **International House Helsinki (IHH)** on paras ystäväsi.\n\n### Mikä se on?\nPalvelupiste, joka kokoaa yhteen viranomaiset: DVV, Vero, Kela, Migri ja TE-palvelut.\n\n### Mitä voit tehdä?\n1. **Rekisteröinti:** Hanki henkilötunnus (DVV).\n2. **Verotus:** Hanki verokortti.\n3. **Sosiaaliturva:** Neuvontaa Kela-asioissa.\n4. **Työ:** Työnhakuvalmennus.\n\n### Tärkeää\nUseimmat palvelut vaativat ajanvarauksen. Sijainti: **Lintulahdenkuja 2, Helsinki**.\n\n### Virallinen linkki\n[→ International House Helsinki](https://ihhelsinki.fi/fi/)`
       },
       'net_culture': {
         title: 'Verkostoituminen: Suomalainen tapa',
@@ -184,17 +184,17 @@ export const fi: TranslationResource = {
       'bureaucracy_dvv': { 
         title: 'DVV & Henkilötunnus', 
         summary: 'Hanki henkilötunnus ollaksesi olemassa virallisesti.', 
-        content: `**Prioriteetti: VÄLITÖN**\n\n### Tehtävä\nOlla olemassa virallisesti. Ilman rekisteröitymistä **Digi- ja väestötietovirastoon (DVV)** olet haamu järjestelmässä.\n\n### Palkinto\nSinun **Henkilötunnus** (hetu). Muoto: *PPKKVV-XXXX*.\n\n### Miksi tarvitset sitä\n1. Pankkitili.\n2. Puhelinliittymä.\n3. Verokortti.\n4. Terveyspalvelut.` 
+        content: `**Prioriteetti: VÄLITÖN**\n\n### Tehtävä\nOlla olemassa virallisesti. Ilman rekisteröitymistä **Digi- ja väestötietovirastoon (DVV)** olet haamu järjestelmässä.\n\n### Palkinto\nSinun **Henkilötunnus** (hetu). Muoto: *PPKKVV-XXXX*.\n\n### Miksi tarvitset sitä\n1. Pankkitili.\n2. Puhelinliittymä.\n3. Verokortti.\n4. Terveyspalvelut.\n\n### Virallinen linkki\n[→ DVV: Ulkomaalaisen rekisteröinti](https://dvv.fi/ulkomaalaisen-rekisterointi)` 
       },
       'bureaucracy_migri': { 
         title: 'Migri (Maahanmuutto)', 
         summary: 'Oleskelulupa ja ajanvarausvinkit.', 
-        content: `# Migri 🛂\n\n### Tehtävä\nOleskeluluvan (oleskelulupa) saaminen.\n\n### Vinkit\n* **Enter Finland:** Käytä verkkopalvelua. Se on paljon nopeampi.\n* **Tunnistautuminen:** Sinun on käytävä palvelupisteessä todistamassa henkilöllisyytesi.\n* **Pikakaista:** Saatavilla erityisasiantuntijoille ja startup-yrittäjille (14 päivää).` 
+        content: `# Migri 🛂\n\n### Tehtävä\nOleskeluluvan (oleskelulupa) saaminen.\n\n### Vinkit\n* **Enter Finland:** Käytä verkkopalvelua. Se on paljon nopeampi.\n* **Tunnistautuminen:** Sinun on käytävä palvelupisteessä todistamassa henkilöllisyytesi.\n* **Pikakaista:** Saatavilla erityisasiantuntijoille ja startup-yrittäjille (14 päivää).\n\n### Virallinen linkki\n[→ Enter Finland](https://enterfinland.fi/)\n[→ Migri: Oleskeluluvat](https://migri.fi/etusivu)` 
       },
       'bureaucracy_tax': { 
         title: 'Verokortti', 
         summary: 'Ilman verokorttia veroprosentti on 60%. Ei poikkeuksia.', 
-        content: `# Kultainen sääntö\nEi korttia = **60% vero**. \n\n### Prosessi\n1. Kirjaudu **OmaVeroon** pankkitunnuksilla.\n2. Arvioi vuositulot.\n3. Lataa PDF.\n4. Lähetä palkanlaskentaan/pomolle.\n\n*Huom: Suomessa on progressiivinen verotus. Mitä enemmän tienaat, sitä suurempi prosentti.*` 
+        content: `# Kultainen sääntö\nEi korttia = **60% vero**. \n\n### Prosessi\n1. Kirjaudu **OmaVeroon** pankkitunnuksilla.\n2. Arvioi vuositulot.\n3. Lataa PDF.\n4. Lähetä palkanlaskentaan/pomolle.\n\n*Huom: Suomessa on progressiivinen verotus. Mitä enemmän tienaat, sitä suurempi prosentti.*\n\n### Virallinen linkki\n[→ Vero: Verokortti](https://www.vero.fi/henkiloasiakkaat/verokortti-ja-veroilmoitus/verokortti/)` 
       },
       'bureaucracy_bank': { 
         title: 'Pankkitilin avaaminen', 
@@ -204,7 +204,7 @@ export const fi: TranslationResource = {
       'social_kela_card': {
         title: 'Kela-kortti',
         summary: 'Sininen kortti todistaa, että kuulut kansalliseen sairausvakuutukseen.',
-        content: `# Mikä se on?\nSininen kortti, joka todistaa kuulumisesi Suomen sosiaaliturvaan.\n\n### Käyttö\nNäytä se:\n1. **Apteekissa:** Saat suorakorvauksen reseptilääkkeistä.\n2. **Yksityisillä lääkäriasemilla:** Saat pienen osan kuluista vähennettyä.`
+        content: `# Mikä se on?\nSininen kortti, joka todistaa kuulumisesi Suomen sosiaaliturvaan.\n\n### Käyttö\nNäytä se:\n1. **Apteekissa:** Saat suorakorvauksen reseptilääkkeistä.\n2. **Yksityisillä lääkäriasemilla:** Saat pienen osan kuluista vähennettyä.\n\n### Virallinen linkki\n[→ Kela: Maahanmuuttajat](https://www.kela.fi/maahanmuuttajat)`
       },
       'social_health': {
         title: 'Julkinen vs. Työterveys',
@@ -234,7 +234,7 @@ export const fi: TranslationResource = {
       'job_te_office': {
         title: 'TE-palvelut',
         summary: 'Työvoimatoimisto auttaa kotoutumisessa ja työttömyysturvassa.',
-        content: `# Mitä he tekevät\n* **Kotoutumissuunnitelma:** Määrittelevät tarvitsetko suomen kielen kursseja.\n* **Työnhakijastatus:** Pakollinen rahan saamiseksi Kelalta tai kassalta.\n* **Varoitus:** Noudata heidän ohjeitaan tarkasti välttääksesi karenssin.`
+        content: `# Mitä he tekevät\n* **Kotoutumissuunnitelma:** Määrittelevät tarvitsetko suomen kielen kursseja.\n* **Työnhakijastatus:** Pakollinen rahan saamiseksi Kelalta tai kassalta.\n* **Varoitus:** Noudata heidän ohjeitaan tarkasti välttääksesi karenssin.\n\n### Virallinen linkki\n[→ Työmarkkinatori](https://tyomarkkinatori.fi/)`
       },
       'job_portals': {
         title: 'Mistä löytää töitä',
@@ -284,7 +284,7 @@ export const fi: TranslationResource = {
       'work_unions': {
         title: 'Ammattiliitot',
         summary: 'Erittäin suositeltavaa. Ne hallinnoivat työttömyyskassoja.',
-        content: `# Miksi liittyä?\n1. **Raha:** He maksavat ansiosidonnaista päivärahaa (paljon korkeampi kuin Kela).\n2. **Laki:** Ilmainen lakiapu, jos työnantaja kohtelee huonosti.\n\n### Mikä liitto?\n* **YTK:** Pelkkä työttömyyskassa (halvempi).\n* **TEK:** Insinööreille.\n* **PAM:** Palvelualalle.`
+        content: `# Miksi liittyä?\n1. **Raha:** He maksavat ansiosidonnaista päivärahaa (paljon suurempi kuin Kela).\n2. **Laki:** Ilmainen lakiapu, jos työnantaja kohtelee huonosti.\n\n### Mikä liitto?\n* **YTK:** Pelkkä työttömyyskassa (halvempi).\n* **TEK:** Insinööreille.\n* **PAM:** Palvelualalle.`
       },
       'work_probation': {
         title: 'Koeaika',
@@ -439,7 +439,7 @@ export const fi: TranslationResource = {
       'daily_transport': { 
         title: 'Julkinen liikenne (HSL/VR)', 
         summary: 'Miten käyttää junia, busseja ja vyöhykejärjestelmää.',
-        content: `# Liikkuminen\n\n### HSL (Helsingin seutu)\n* **Vyöhykkeet:** Lipun hinta riippuu vyöhykkeistä (ABCD). Helsinki on AB.\n* **Sovellus:** Lataa HSL-sovellus. Se on halvempi kuin kuljettajalta ostaminen.\n* **Sakko:** Ei lippua = 80€ tarkastusmaksu.\n\n### VR (Junat)\nPitkille matkoille. Varaa ajoissa halpojen lippujen saamiseksi.`,
+        content: `# Liikkuminen\n\n### HSL (Helsingin seutu)\n* **Vyöhykkeet:** Lipun hinta riippuu vyöhykkeistä (ABCD). Helsinki on AB.\n* **Sovellus:** Lataa HSL-sovellus. Se on halvempi kuin kuljettajalta ostaminen.\n* **Sakko:** Ei lippua = 80€ tarkastusmaksu.\n\n### VR (Junat)\nPitkille matkoille. Varaa ajoissa halpojen lippujen saamiseksi.\n\n### Virallinen linkki\n[→ HSL Reittiopas](https://www.hsl.fi/)`,
       },
       'daily_groceries': { 
         title: 'Ruokakaupat', 

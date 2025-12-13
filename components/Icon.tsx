@@ -135,7 +135,11 @@ import {
   RefreshCw,
   Image,
   ImageOff,
-  Dumbbell
+  Dumbbell,
+  ExternalLink,
+  Printer,
+  Phone,
+  MapPin
 } from 'lucide-react';
 
 export const Icons = {
@@ -274,5 +278,9 @@ export const Icons = {
   RefreshCw,
   Image,
   ImageOff,
-  Dumbbell
+  Dumbbell,
+  ExternalLink,
+  Printer,
+  Phone,
+  MapPin
 };

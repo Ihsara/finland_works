@@ -45,7 +45,7 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
   onNavigateToAchievements,
   onNavigateToSettings
 }) => {
-  const { t } = useLanguage();
+  const { t, headingFont } = useLanguage();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = React.useState(false);
   const [wikiProgress, setWikiProgress] = React.useState<Storage.WikiProgressData | null>(null);
 
@@ -128,7 +128,7 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                     </div>
                     
                     <div className="max-w-xl">
-                        <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-4 font-serif">
+                        <h1 className={`text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-4 ${headingFont}`}>
                             {t('profile_guest_title')}
                         </h1>
                         <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -189,7 +189,7 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                             </div>
                             <div className="flex-1 space-y-6 w-full text-center md:text-left">
                                 <div>
-                                    <h2 className="text-3xl font-black text-gray-900 dark:text-white font-serif">{profile?.name}</h2>
+                                    <h2 className={`text-3xl font-black text-gray-900 dark:text-white ${headingFont}`}>{profile?.name}</h2>
                                     <p className="text-gray-500 dark:text-gray-400 flex items-center justify-center md:justify-start gap-2 mt-1 font-medium">
                                         <Icons.Map className="w-4 h-4" /> {profile?.originCountry} • {profile?.ageRange}
                                     </p>
@@ -235,7 +235,7 @@ export const ProfileDetailView: React.FC<ProfileViewProps> = ({
                                     {stats.totalDone} actions completed
                                 </span>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-black mb-1 font-serif">{t('profile_btn_plan')}</h2>
+                            <h2 className={`text-2xl md:text-3xl font-black mb-1 ${headingFont}`}>{t('profile_btn_plan')}</h2>
                             <p className="opacity-90 max-w-sm mb-6 text-sm md:text-base">
                                 View your progress, unlocked achievements, and next steps in your integration journey.
                             </p>

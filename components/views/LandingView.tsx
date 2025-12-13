@@ -128,11 +128,8 @@ export const LandingView: React.FC<LandingViewProps> = ({
   onOpenSettings,
   onSetGuest
 }) => {
-  const { t, language } = useLanguage();
+  const { t, headingFont } = useLanguage();
   const showGuideBtn = profile && profile.id !== 'guest';
-
-  const isLatinBased = ['en', 'fi', 'vi', 'pt-br', 'pt-pt', 'tr', 'es', 'et'].includes(language);
-  const headingFont = isLatinBased ? 'font-serif' : 'font-sans';
 
   return (
     <div 

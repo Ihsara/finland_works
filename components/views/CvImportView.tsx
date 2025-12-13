@@ -12,7 +12,7 @@ interface CvImportViewProps {
 }
 
 export const CvImportView: React.FC<CvImportViewProps> = ({ onBack, onProfileUpdated }) => {
-  const { t } = useLanguage();
+  const { t, headingFont } = useLanguage();
   const [text, setText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasKey, setHasKey] = useState(false);
@@ -74,7 +74,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ onBack, onProfileUpd
                 <Icons.ArrowLeft className="w-5 h-5" />
                 <span>{t('btn_back_dashboard')}</span>
             </button>
-            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white hidden sm:block">{t('cv_title')}</h2>
+            <h2 className={`ml-4 text-lg font-bold text-gray-900 dark:text-white hidden sm:block ${headingFont}`}>{t('cv_title')}</h2>
         </div>
         <button onClick={() => setShowKeyInput(!showKeyInput)} className="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white p-2 flex items-center gap-2 text-sm font-medium" title="Manage API Key">
             <Icons.Key className="w-4 h-4" /> <span className="hidden sm:inline">{t('cv_btn_manage_key')}</span>
@@ -104,7 +104,7 @@ export const CvImportView: React.FC<CvImportViewProps> = ({ onBack, onProfileUpd
              <div className="bg-blue-50 dark:bg-blue-900/30 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400 shadow-sm">
                  <Icons.Upload className="w-10 h-10" />
              </div>
-             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('cv_title')}</h1>
+             <h1 className={`text-2xl font-bold text-gray-900 dark:text-white mb-2 ${headingFont}`}>{t('cv_title')}</h1>
              <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">{t('cv_subtitle')}</p>
          </div>
 

@@ -13,7 +13,7 @@ interface AchievementsViewProps {
 }
 
 export const AchievementsView: React.FC<AchievementsViewProps> = ({ onBack, profile }) => {
-  const { t } = useLanguage();
+  const { t, headingFont } = useLanguage();
   const [wikiProgress, setWikiProgress] = useState<Storage.WikiProgressData | null>(null);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const AchievementsView: React.FC<AchievementsViewProps> = ({ onBack, prof
           <Icons.ArrowLeft className="w-5 h-5" />
           <span>{t('btn_back_dashboard')}</span>
         </button>
-        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4">
+        <h2 className={`ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4 ${headingFont}`}>
             {t('quest_tab_achievements')}
         </h2>
       </div>
@@ -57,7 +57,7 @@ export const AchievementsView: React.FC<AchievementsViewProps> = ({ onBack, prof
                   <div className="w-20 h-20 bg-white dark:bg-white/10 rounded-full flex items-center justify-center mb-4 shadow-sm">
                       <Icons.Trophy className="w-10 h-10 text-yellow-500" />
                   </div>
-                  <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">
+                  <h1 className={`text-3xl font-black text-gray-900 dark:text-white mb-2 ${headingFont}`}>
                       {stats.unlockedCount} / {stats.totalCount}
                   </h1>
                   <p className="text-yellow-800 dark:text-yellow-200 font-bold uppercase tracking-wider text-sm">

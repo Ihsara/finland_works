@@ -11,7 +11,7 @@ interface HistoryViewProps {
 }
 
 export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
-  const { t, language } = useLanguage();
+  const { t, language, headingFont } = useLanguage();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'summary' | 'transcript'>('summary');
@@ -63,7 +63,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
           <Icons.ArrowLeft className="w-5 h-5" />
           <span>{t('btn_back_dashboard')}</span>
         </button>
-        <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4">{t('history_title')}</h2>
+        <h2 className={`ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4 ${headingFont}`}>{t('history_title')}</h2>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
@@ -111,7 +111,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
           {selectedConv ? (
             <div className="flex flex-col h-full">
                <div className="px-6 py-4 bg-gray-50 dark:bg-[#151b2e] border-b border-gray-200 dark:border-white/10">
-                  <h3 className="font-bold text-xl text-gray-900 dark:text-white font-serif">{selectedConv.title || formatDate(selectedConv.startTime, 'short')}</h3>
+                  <h3 className={`font-bold text-xl text-gray-900 dark:text-white ${headingFont}`}>{selectedConv.title || formatDate(selectedConv.startTime, 'short')}</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">ID: {selectedConv.id.substring(0,8)}... (Technical)</p>
                </div>
 
@@ -131,7 +131,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({ onBack }) => {
                              </div>
                           ) : selectedConv.summary ? (
                             <div className="bg-gray-50 dark:bg-white/5 p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                                <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-300 dark:prose-invert prose-headings:font-serif">
+                                <div className={`prose prose-sm max-w-none text-gray-800 dark:text-gray-300 dark:prose-invert ${headingFont === 'font-sans' ? 'prose-headings:font-sans' : 'prose-headings:font-serif'}`}>
                                     <h3 className="text-gray-900 dark:text-white font-bold mb-4 flex items-center gap-2 uppercase tracking-wide text-xs">
                                         <Icons.FileText className="w-4 h-4"/> {t('history_tab_summary')}
                                     </h3>

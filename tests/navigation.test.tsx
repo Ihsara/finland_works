@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
@@ -17,7 +18,8 @@ describe('Navigation & User Flow', () => {
     useLanguageSpy.mockReturnValue({
       language: 'en',
       setLanguage: vi.fn(),
-      t: mockT
+      t: mockT,
+      headingFont: 'font-sans'
     });
   });
 

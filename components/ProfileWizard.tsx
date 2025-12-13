@@ -26,7 +26,7 @@ interface ProfileWizardProps {
 }
 
 const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, initialData }) => {
-  const { language, t } = useLanguage();
+  const { language, t, headingFont } = useLanguage();
   const [step, setStep] = useState(1);
   const totalSteps = 17;
   const [activeSection, setActiveSection] = useState<string>('origin');
@@ -270,7 +270,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                  <p className="text-xs font-bold text-blue-600 dark:text-emerald-400 uppercase tracking-widest mb-2 animate-in fade-in" key={`phase`}>
                     {getPhaseTitle()}
                  </p>
-                 <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white animate-in fade-in slide-in-from-left-2 duration-300 font-serif" key={`title-${step}`}>
+                 <h1 className={`text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white animate-in fade-in slide-in-from-left-2 duration-300 ${headingFont}`} key={`title-${step}`}>
                     {step === 1 && !formData.name ? t('wizard_title_init') : t('wizard_title_custom', { name: formData.name.split(' ')[0] || '...' })}
                  </h1>
              </div>

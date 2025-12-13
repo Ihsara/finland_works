@@ -78,6 +78,8 @@ const App: React.FC = () => {
   const [allProfiles, setAllProfiles] = useState<UserProfile[]>([]);
   const [profileCompleteness, setProfileCompleteness] = useState(0);
   const [activeWikiArticleId, setActiveWikiArticleId] = useState<string | null>(null);
+  const [wikiViewConfig, setWikiViewConfig] = useState<{ categoryId?: string, tag?: string } | null>(null);
+
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -528,6 +530,7 @@ const App: React.FC = () => {
   // Navigates to wiki and sets history so 'Back' works correctly
   const handleNavigateToArticle = (articleId: string) => { 
       setActiveWikiArticleId(articleId); 
+      setWikiViewConfig(null);
       changeView(AppView.WIKI);
   };
 
@@ -563,7 +566,23 @@ const App: React.FC = () => {
           profile={profile}
           profileCompleteness={profileCompleteness}
           onNavigateToProfile={() => changeView(AppView.PROFILE)}
-          onNavigateToWiki={() => changeView(AppView.WIKI)}
+          // Update: allow deep linking to specific articles, categories or tags
+          onNavigateToWiki={(id, type = 'article') => {
+              if (type === 'article') {
+                  setActiveWikiArticleId(id || null);
+                  setWikiViewConfig(null);
+              } else if (type === 'category') {
+                  setActiveWikiArticleId(null);
+                  setWikiViewConfig({ categoryId: id });
+              } else if (type === 'tag') {
+                  setActiveWikiArticleId(null);
+                  setWikiViewConfig({ tag: id });
+              } else {
+                  setActiveWikiArticleId(null);
+                  setWikiViewConfig(null);
+              }
+              changeView(AppView.WIKI);
+          }}
           onNavigateToQuiz={() => changeView(AppView.QUIZ)}
           onStartChat={() => startNewChat()}
           onNavigateToHistory={() => changeView(AppView.HISTORY)}
@@ -594,7 +613,11 @@ const App: React.FC = () => {
           profile={profile}
           onClose={handleGlobalBack} 
           activeArticleId={activeWikiArticleId}
-          onArticleSelect={(article) => setActiveWikiArticleId(article?.id || null)}
+          viewConfig={wikiViewConfig}
+          onArticleSelect={(article) => {
+              setActiveWikiArticleId(article?.id || null);
+              if (article) setWikiViewConfig(null); 
+          }}
           onStartChatWithContext={handleStartChatWithContext}
           onNavigateToChat={() => startNewChat()}
           onNavigateToProfile={() => changeView(AppView.PROFILE)}

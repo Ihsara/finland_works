@@ -52,7 +52,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
             </button>
             
             <div 
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
             >
                 <div className="p-5 pt-0">
                     {children}
@@ -63,7 +63,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
 };
 
 export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayout }) => {
-  const { t, language, setLanguage } = useLanguage();
+  const { t, language, setLanguage, headingFont } = useLanguage();
   const [prefLength, setPrefLength] = useState<LengthPreference>('ask');
   const [prefTheme, setPrefTheme] = useState<ThemePreference>('system');
   const [prefLayout, setPrefLayout] = useState<LayoutPreference>('windowed');
@@ -131,7 +131,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                 <Icons.ArrowLeft className="w-5 h-5" />
                 <span>{t('btn_back_dashboard')}</span>
             </button>
-            <h2 className="ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4">{t('settings_title')}</h2>
+            <h2 className={`ml-4 text-lg font-bold text-gray-900 dark:text-white border-l border-gray-200 dark:border-white/10 pl-4 ${headingFont}`}>{t('settings_title')}</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto">

@@ -21,6 +21,7 @@ describe('ProfileWizard', () => {
     useLanguageSpy.mockReturnValue({
       language: langCode as any,
       setLanguage: vi.fn(),
+      headingFont: 'font-sans',
       t: (key: string, _?: any, params?: any) => {
         let text = TRANSLATIONS[langCode as keyof typeof TRANSLATIONS]?.[key as any];
         if (!text) text = TRANSLATIONS['en'][key as any] || key;
