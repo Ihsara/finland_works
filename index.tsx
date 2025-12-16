@@ -1,10 +1,7 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { LanguageProvider } from './contexts/LanguageContext';
-// CSS is linked in index.html to avoid bundler errors
-// import './styles.css'; 
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

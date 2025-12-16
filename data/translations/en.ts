@@ -238,8 +238,8 @@ export const en: TranslationResource = {
       },
       'bureaucracy_migri': { 
         title: 'Migri (Immigration)', 
-        summary: 'Residence Permit and booking tips.', 
-        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).\n\n### Official Resource\n[→ Enter Finland (Online Service)](https://enterfinland.fi/eServices)\n[→ Migri Website](https://migri.fi/en/home)` 
+        summary: 'Residence Permit and important 2024 policy updates.', 
+        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).\n\n### ⚠️ IMPORTANT POLICY UPDATES (2024-2025)\nThe Finnish government has tightened immigration rules. Be aware of these changes:\n\n1.  **Citizenship Requirement (8 Years):** The residency period required for citizenship has been extended from **5 years to 8 years**.\n2.  **Work Permits (3-Month Rule):** If you are on a work-based residence permit and lose your job, you generally have **3 months** to find a new job. If you fail, you may have to leave. (Specialists may have 6 months).\n3.  **Stricter Permanent Residence:** Obtaining a permanent residence permit (Pysyvä oleskelulupa) now requires passing a Finnish/Swedish language test.\n4.  **Income Limits:** The income threshold for sponsorship has increased.\n\n*Always check the latest official information on [migri.fi](https://migri.fi).*` 
       },
       'bureaucracy_tax': { 
         title: 'Tax Card', 
@@ -252,9 +252,9 @@ export const en: TranslationResource = {
         content: `# The Challenge\nMoney laundering laws are strict. The bank needs to know the origin of your money.\n\n### What to bring\n1. Passport.\n2. Residence Permit.\n3. Employment Contract.\n4. Personal ID code (from DVV).\n\n### The Holy Grail\n**Bank Codes** (verkkopankkitunnukset). These allow you to log into Kela, Tax, Health, and Posti.` 
       },
       'social_kela_card': {
-        title: 'Kela Card',
-        summary: 'Blue card proving you belong to the national health insurance.',
-        content: `# What is it?\nA blue card proving you are covered by Finnish social security.\n\n### Usage\nShow it at:\n1. **Pharmacy:** Get direct reimbursement on prescribed medicine.\n2. **Private Clinics:** Get a small part of the cost deducted.\n\n### Official Resource\n[→ Kela Benefits for Immigrants](https://www.kela.fi/en/international-situations)`
+        title: 'Kela Card (Important)',
+        summary: 'Your proof of eligibility for Finnish social security and healthcare.',
+        content: `# The Kela Card (Kela-kortti)\nThis blue card is one of the most important documents you will own in Finland. It proves you are covered by the Finnish National Health Insurance (NHI).\n\n### It is NOT an ID\nYou cannot use the Kela card as identification to buy alcohol, pick up packages, or travel. It is purely for social security.\n\n### What do you get?\n1.  **Medicine Discounts:** Show the card at any pharmacy (apteekki). Kela pays a portion of the cost immediately. You only pay the "omavastuu" (deductible).\n2.  **Private Healthcare:** If you go to a private doctor (e.g., Terveystalo, Mehiläinen), show the card to get a small deduction (Kela-korvaus) from the fee.\n3.  **Taxi:** If you need a taxi for health reasons (e.g., to hospital), Kela can reimburse it if booked via Kela-taxi numbers.\n\n### European Health Insurance Card (EHIC)\nOnce you have a Kela card, order the **EHIC** (free) from Kela's website. It gives you public healthcare in other EU countries for the same price as locals when you travel.\n\n### Official Resource\n[→ Kela Benefits for Immigrants](https://www.kela.fi/en/international-situations)`
       },
       'social_health': {
         title: 'Public vs. Occupational Health',

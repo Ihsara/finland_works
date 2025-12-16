@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LayoutPreference } from '../types';
 
@@ -12,16 +11,6 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, onTouchStart, onTouchEnd, layoutMode = 'fullscreen' }) => {
   return (
     <div className={`fixed inset-0 bg-gray-100 dark:bg-black transition-colors duration-300 ${layoutMode === 'windowed' ? 'md:flex md:items-center md:justify-center' : ''}`}>
-      {/* 
-        App Container Optimization:
-        1. h-[100dvh]: Uses dynamic viewport height to fix mobile browser address bar jumping issues.
-        2. pt-[env(safe-area-inset-top)]: Adds padding for notches (iPhone).
-        3. pb-[env(safe-area-inset-bottom)]: Adds padding for home indicator.
-        
-        Layout Modes:
-        - 'windowed': md:h-[90vh] floating card on desktop. Simulates mobile app feel.
-        - 'fullscreen' (Default): Full width/height on all devices. Standard web app feel.
-      */}
       <div 
         className={`
           w-full bg-white dark:bg-gray-950 flex flex-col overflow-hidden relative 
@@ -40,5 +29,4 @@ const Layout: React.FC<LayoutProps> = ({ children, onTouchStart, onTouchEnd, lay
     </div>
   );
 };
-
 export default Layout;

@@ -100,9 +100,12 @@ const EventCard: React.FC<{ event: VantaaEvent, language: any }> = ({ event, lan
     
     const time = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
+    // Fallback URL logic to fix broken links
+    const eventUrl = event.info_url?.en || event.info_url?.fi || event.info_url?.sv || 'https://tapahtumat.vantaa.fi/en-FI';
+
     return (
         <a 
-            href={event.info_url?.fi || event.info_url?.en || '#'} 
+            href={eventUrl} 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex flex-col bg-white dark:bg-[#1a233b] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full min-w-[260px] md:min-w-0 border border-gray-100 dark:border-white/10 group"
@@ -244,12 +247,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
             </section>
         ) : (
-            <section className="pt-12 pb-4 px-4 md:px-8 bg-white dark:bg-[#0b1021] transition-colors duration-500">
-                 <div className="max-w-6xl mx-auto">
-                    <h1 className={`text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight ${headingFont}`}>
-                        {t('dash_greeting', { name: profile ? profile.name.split(' ')[0] : 'Friend' })}
-                    </h1>
-                    <p className="text-lg text-gray-500 dark:text-gray-400 mt-2 font-medium">{t('dash_subtitle')}</p>
+            <section className="pt-12 pb-8 px-4 md:px-8 bg-white dark:bg-[#0b1021] transition-colors duration-500">
+                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div>
+                        <h1 className={`text-3xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight ${headingFont}`}>
+                            {t('dash_greeting', { name: profile ? profile.name.split(' ')[0] : 'Friend' })}
+                        </h1>
+                        <p className="text-lg text-gray-500 dark:text-gray-400 mt-2 font-medium">{t('dash_subtitle')}</p>
+                    </div>
+                    <div className="flex-shrink-0 w-32 md:w-40 relative opacity-90 hover:opacity-100 transition-opacity transform hover:scale-105 duration-300">
+                        <Moose className="w-full h-auto" />
+                    </div>
                  </div>
             </section>
         )}

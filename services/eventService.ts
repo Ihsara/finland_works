@@ -11,6 +11,10 @@ export interface VantaaEvent {
   short_description: { fi?: string; en?: string };
   info_url?: { fi?: string; en?: string };
   event_status?: string; // e.g., "EventScheduled", "EventCancelled"
+  location?: {
+      address_locality?: { fi?: string; en?: string; sv?: string };
+      name?: { fi?: string; en?: string; sv?: string };
+  };
 }
 
 const API_BASE = 'https://api.hel.fi/linkedevents/v1/event/';
@@ -25,16 +29,15 @@ export const getVantaaEvents = async (lang: LanguageCode = 'en'): Promise<Vantaa
     nextMonth.setDate(today.getDate() + 30);
 
     // 3. Format Dates for LinkedEvents API (ISO 8601)
-    // We strictly use the current system time as the 'start' filter.
-    // Some APIs prefer no milliseconds, so we clean the string.
     const isoStart = today.toISOString().split('.')[0] + 'Z';
     const isoEnd = nextMonth.toISOString().split('.')[0] + 'Z';
 
     // 4. Construct Query Parameters
+    // We use 'kunta:vantaa' to specifically target the Vantaa municipality ID in LinkedEvents.
     const params = new URLSearchParams({
-      division: 'vantaa',
+      division: 'kunta:vantaa', 
       sort: 'start_time',
-      page_size: '50', // Fetch more to ensure we have enough after client-side filtering
+      page_size: '100', // Fetch more to allow for client-side filtering if needed
       start: isoStart,
       end: isoEnd,
       language: lang === 'fi' ? 'fi' : 'en',
@@ -50,15 +53,39 @@ export const getVantaaEvents = async (lang: LanguageCode = 'en'): Promise<Vantaa
     const data = await response.json();
     const rawEvents = data.data || [];
 
+    // Deduplication Set: Track Start Times.
+    // If we have already seen an event starting at this exact second, skip subsequent ones.
+    // This effectively filters out "English version" vs "Finnish version" duplicates of the same event.
+    const seenTimes = new Set<string>();
+
     // 5. Filter Client-Side for strict compliance
     const validEvents = rawEvents.filter((e: any) => {
         // Must be scheduled (not cancelled)
         if (e.event_status !== 'EventScheduled') return false;
 
         // Must strictly start in the future (relative to 'today')
-        // We use the same 'today' reference as the query to be consistent.
         const eventStart = new Date(e.start_time);
         if (eventStart < today) return false;
+
+        // Strict Location Check: Ensure it is actually in Vantaa
+        if (e.location && e.location.address_locality) {
+             const loc = e.location.address_locality;
+             const text = (loc.fi || loc.en || loc.sv || '').toLowerCase();
+             
+             // Only exclude if it EXPLICITLY says Helsinki or Espoo AND NOT Vantaa.
+             if ((text.includes('helsinki') || text.includes('espoo')) && !text.includes('vantaa')) {
+                 return false;
+             }
+        }
+
+        // AGGRESSIVE DEDUPLICATION:
+        // Use Start Time as the unique key. 
+        // We only want ONE event per time slot to diversify the dashboard.
+        const timeKey = e.start_time;
+        if (seenTimes.has(timeKey)) {
+            return false;
+        }
+        seenTimes.add(timeKey);
 
         return true;
     });
@@ -75,7 +102,8 @@ export const getEventName = (event: VantaaEvent, lang: LanguageCode): string => 
     // Fallback chain: Requested Lang -> English -> Finnish -> First Available
     if (lang === 'en') return event.name.en || event.name.fi || Object.values(event.name)[0] || 'Event';
     if (lang === 'fi') return event.name.fi || event.name.en || Object.values(event.name)[0] || 'Tapahtuma';
-    return event.name.en || event.name.fi || 'Event';
+    // Default fallback
+    return event.name.en || event.name.fi || Object.values(event.name)[0] || 'Event';
 };
 
 export const getEventDescription = (event: VantaaEvent, lang: LanguageCode): string => {

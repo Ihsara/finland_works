@@ -65,7 +65,7 @@ export const fi: TranslationResource = {
     wizard_step5_title: "Työnteko-oikeus", wizard_permit_full_title: "Rajoittamaton", wizard_permit_full_desc: "Pysyvä, Perhe, EU, tai Suomi-tutkinto", wizard_permit_restricted_title: "Rajoitettu", wizard_permit_restricted_desc: "Työlupa sidottu työnantajaan", wizard_permit_student_title: "Opiskelija", wizard_permit_student_desc: "Rajoitetut tunnit",
     wizard_step6_title: "Koulutus", wizard_step6_desc: "Mikä kuvaa sinua parhaiten?", wizard_step6_field_label: "Ala (Valinnainen)", wizard_step6_field_placeholder: "esim. Insinööri", wizard_edu_general_title: "Yleissivistävä", wizard_edu_general_desc: "Lukio. Ei ammattia.", wizard_edu_applied_title: "Ammatillinen", wizard_edu_applied_desc: "Ammattikoulu tai AMK.", wizard_edu_uni_title: "Yliopisto", wizard_edu_uni_desc: "Akateeminen tutkinto.",
     wizard_step7_title: "Ammattisi?", wizard_step7_desc: "Tai mitä työtä etsit?", wizard_step7_placeholder: "esim. Sairaanhoitaja, Koodari",
-    wizard_step8_title: "Suomen kieli", wizard_lbl_finnish_level: "Nykyinen taso", wizard_lbl_finnish_motivation: "Motivaatio", wizard_opt_lang_none: "Ei vielä", wizard_opt_lang_basics: "Perusteet (A1)", wizard_opt_lang_inter: "Keskitaso (A2-B1)", wizard_opt_lang_fluent: "Sujuva (B2+)", wizard_scale_1_motivation: "Utelias", wizard_scale_5_motivation: "Pysäyttämätön",
+    wizard_step8_title: "Suomen kieli", wizard_lbl_finnish_level: "Nykyinen taso", wizard_lbl_finnish_motivation: "Motivaatio", wizard_opt_lang_none: "Ei vielä", wizard_opt_lang_basics: "Perusteet (A1)", wizard_opt_lang_inter: "Keskitaso (A2-B1)", wizard_opt_lang_fluent: "Sujuv (B2+)", wizard_scale_1_motivation: "Utelias", wizard_scale_5_motivation: "Pysäyttämätön",
     wizard_step9_title: "Englannin kieli", wizard_opt_lang_en_none: "Ei osaa", wizard_opt_lang_en_basic: "Perusteet", wizard_opt_lang_en_working: "Työkieli", wizard_opt_lang_en_fluent: "Sujuva/Äidinkieli",
     wizard_step10_title: "Visio", wizard_step10_aspirations_label: "Toiveet", wizard_step10_aspirations_placeholder: "Mitä toivot saavuttavasi?", wizard_step10_challenges_label: "Haasteet", wizard_step10_challenges_placeholder: "Mikä huolettaa?",
     wizard_step12_title: "Fiilis Suomesta?", wizard_opt_cult_low: "Kaunis mysteeri", wizard_opt_cult_med: "Tarkkailen ilolla", wizard_opt_cult_high: "Sukellan syvään päätyyn",
@@ -188,8 +188,8 @@ export const fi: TranslationResource = {
       },
       'bureaucracy_migri': { 
         title: 'Migri (Maahanmuutto)', 
-        summary: 'Oleskelulupa ja ajanvarausvinkit.', 
-        content: `# Migri 🛂\n\n### Tehtävä\nOleskeluluvan (oleskelulupa) saaminen.\n\n### Vinkit\n* **Enter Finland:** Käytä verkkopalvelua. Se on paljon nopeampi.\n* **Tunnistautuminen:** Sinun on käytävä palvelupisteessä todistamassa henkilöllisyytesi.\n* **Pikakaista:** Saatavilla erityisasiantuntijoille ja startup-yrittäjille (14 päivää).\n\n### Virallinen linkki\n[→ Enter Finland](https://enterfinland.fi/)\n[→ Migri: Oleskeluluvat](https://migri.fi/etusivu)` 
+        summary: 'Oleskelulupa ja tärkeitä lakimuutoksia 2024.', 
+        content: `# Migri 🛂\n\n### Tehtävä\nOleskeluluvan (oleskelulupa) saaminen.\n\n### Vinkit\n* **Enter Finland:** Käytä verkkopalvelua. Se on paljon nopeampi.\n* **Tunnistautuminen:** Sinun on käytävä palvelupisteessä todistamassa henkilöllisyytesi.\n* **Pikakaista:** Saatavilla erityisasiantuntijoille ja startup-yrittäjille (14 päivää).\n\n### ⚠️ TÄRKEITÄ LAKIMUUTOKSIA (2024-2025)\nHallitus on kiristänyt maahanmuuttosääntöjä:\n\n1.  **Kansalaisuus:** Asumisaika pidennetty **5 vuodesta 8 vuoteen**.\n2.  **Työluvat (3kk sääntö):** Jos jäät työttömäksi työperäisellä luvalla, sinulla on yleensä **3 kuukautta** aikaa löytää uusi työ. (Erityisasiantuntijoilla voi olla 6kk).\n3.  **Pysyvä oleskelulupa:** Vaatii nyt kielikokeen (suomi/ruotsi) läpäisemistä.\n4.  **Tulorajat:** Toimeentulorajoja on nostettu.\n\n*Tarkista aina uusimmat tiedot osoitteesta [migri.fi](https://migri.fi).*` 
       },
       'bureaucracy_tax': { 
         title: 'Verokortti', 
@@ -202,9 +202,9 @@ export const fi: TranslationResource = {
         content: `# Haaste\nRahanpesulait ovat tiukkoja. Pankin on tiedettävä rahojesi alkuperä.\n\n### Mitä mukaan\n1. Passi.\n2. Oleskelulupa.\n3. Työsopimus.\n4. Henkilötunnus (DVV:ltä).\n\n### Graalin malja\n**Verkkopankkitunnukset**. Näillä pääset Kelaan, Veroon, Terveyspalveluihin ja Postiin.` 
       },
       'social_kela_card': {
-        title: 'Kela-kortti',
-        summary: 'Sininen kortti todistaa, että kuulut kansalliseen sairausvakuutukseen.',
-        content: `# Mikä se on?\nSininen kortti, joka todistaa kuulumisesi Suomen sosiaaliturvaan.\n\n### Käyttö\nNäytä se:\n1. **Apteekissa:** Saat suorakorvauksen reseptilääkkeistä.\n2. **Yksityisillä lääkäriasemilla:** Saat pienen osan kuluista vähennettyä.\n\n### Virallinen linkki\n[→ Kela: Maahanmuuttajat](https://www.kela.fi/maahanmuuttajat)`
+        title: 'Kela-kortti (Tärkeä)',
+        summary: 'Todistus siitä, että kuulut Suomen sosiaaliturvaan ja sairausvakuutukseen.',
+        content: `# Kela-kortti\nTämä sininen kortti on yksi tärkeimmistä dokumenteistasi. Se todistaa, että kuulut Suomen sairausvakuutuksen piiriin (SV).\n\n### Se EI ole henkilökortti\nEt voi käyttää Kela-korttia henkilöllisyystodistuksena alkoholin ostamiseen, pakettien noutamiseen tai matkustamiseen. Se on vain sosiaaliturvaa varten.\n\n### Mitä hyötyä?\n1.  **Lääkekorvaukset:** Näytä kortti apteekissa. Kela maksaa osan lääkkeen hinnasta heti. Maksat vain omavastuun.\n2.  **Yksityislääkärit:** Saat pienen "Kela-korvauksen" yksityislääkärin palkkioista suoraan kassalla.\n3.  **Kela-taksi:** Jos tarvitset taksia terveydellisistä syistä, voit saada korvauksen (tilaa Kela-taksi -numerosta).\n\n### Eurooppalainen sairaanhoitokortti (EHIC)\nKun sinulla on Kela-kortti, tilaa **Eurooppalainen sairaanhoitokortti** (ilmainen) Kelan sivuilta. Se takaa julkisen terveydenhuollon muissa EU-maissa matkustaessasi.\n\n### Virallinen linkki\n[→ Kela: Maahanmuuttajat](https://www.kela.fi/maahanmuuttajat)`
       },
       'social_health': {
         title: 'Julkinen vs. Työterveys',
