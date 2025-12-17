@@ -4,16 +4,16 @@ import { TranslationResource } from "./types";
 export const fi: TranslationResource = {
   ui: {
     nav_guide: "Opas", nav_chat: "Chat", nav_plan: "Suunnitelma", nav_profile: "Profiili",
-    landing_welcome: "Tervetuloa!", landing_subtitle: "Löydä oma polkusi Suomeen", landing_btn_quiz: "Aloita kysely", landing_btn_continue: "Avaa oppaani", landing_btn_ask: "Aloita chat", landing_btn_browse: "Selaa opasta", landing_load_sample: "Lataa esimerkki", landing_erase: "Tyhjennä tiedot", landing_add_key: "Lisää API-avain", landing_choose_lang: "Kieli",
-    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin omaan Suomi-oppaaseesi.", dash_subtitle_guest: "Luodaan profiili, niin päästään alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa", dash_btn_ask: "Kysy AI:lta", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
+    landing_welcome: "Tervetuloa!", landing_subtitle: "Löydä oma polkusi Vantaalle", landing_btn_quiz: "Aloita kysely", landing_btn_continue: "Avaa oppaani", landing_btn_ask: "Aloita chat", landing_btn_browse: "Selaa opasta", landing_load_sample: "Lataa esimerkki", landing_erase: "Tyhjennä tiedot", landing_add_key: "Lisää API-avain", landing_choose_lang: "Kieli",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Tervetuloa takaisin omaan Vantaa-oppaaseesi.", dash_subtitle_guest: "Luodaan profiili, niin päästään alkuun.", dash_btn_guide: "Avaa opas", dash_btn_browse: "Selaa", dash_btn_ask: "Kysy AI:lta", dash_btn_history: "Historia", dash_btn_cv: "Tuo CV", dash_switch_profile: "Vaihda", dash_new_profile: "Uusi", dash_edit_profile: "Muokkaa", dash_profile_overview: "Profiili",
     dash_education: "Koulutus", dash_profession: "Ammatti", dash_languages: "Kielet", dash_narrative_aspirations: "Tavoitteet", dash_narrative_challenges: "Haasteet",
     chat_placeholder: "Kysy jotain...", chat_end_session: "Lopeta", chat_header_assistant: "Assistentti", chat_prompt_context_inquiry: "Kerro lisää kohdasta \"{sentence}\"", chat_ask_length: "Lyhyt vai pitkä vastaus?", chat_length_set_confirm: "Selvä. Säädän vastauksen pituutta.", chat_empty_state: "Aloita keskustelu kysymällä jotain alla.",
-    chat_ai_greeting: "Beep boop! 🤖 Muistutus: En ole ihminen! Mutta teen parhaani auttaakseni sinua navigoimaan Suomessa.",
+    chat_ai_greeting: "Beep boop! 🤖 Olen Vantaa-integraatioassistenttisi. Miten voin auttaa?",
     btn_back_dashboard: "Takaisin", btn_save: "Tallenna",
     profile_btn_guide: "Oppaani", profile_btn_guide_desc: "Suositellut artikkelit", profile_btn_plan: "Suunnitelmani", profile_btn_plan_desc: "Tulossa pian", profile_sect_languages: "Kielitaito", profile_sect_skills: "Taidot", profile_sect_narrative: "Tarina", profile_label_aspirations: "Toiveet", profile_label_challenges: "Pelot / Haasteet", profile_label_education: "Koulutus", profile_label_profession: "Ammatti", profile_completeness: "{percentage}% valmis", profile_completeness_hint: "Vastaa vielä pariin kysymykseen", profile_btn_update: "Päivitä profiili", profile_btn_continue: "Jatka",
     
     // Profile Guest View
-    profile_guest_title: "Valmistaudu elämääsi ja uraasi Suomessa",
+    profile_guest_title: "Valmistaudu elämääsi ja uraasi Vantaalla",
     profile_guest_subtitle: "Vastaa muutamaan kysymykseen ja saat henkilökohtaisen 1 vuoden integraatiosuunnitelman",
     profile_guest_btn_start: "Aloita",
     profile_guest_col1: "Lakisääteiset perusasiat",
@@ -47,6 +47,13 @@ export const fi: TranslationResource = {
     quest_btn_unlock: "Avaa & Lue",
     quest_locked_msg: "Napauta paljastaaksesi salaisuuden!",
     
+    // Fun Facts (New)
+    quest_fact_foundation: "Suomessa henkilötunnuksesi (hetu) kertoo syntymäpäiväsi ja sukupuolesi! Välimerkki (+, -, A) kertoo vuosisadan.",
+    quest_fact_job_strategy: "70-80% Suomen työpaikoista on piilotyöpaikkoja. Ne täytetään verkostojen ja suorien kontaktien kautta.",
+    quest_fact_workplace: "Kahvitauot ovat lakisääteisiä! Melkein jokainen sopimus takaa kaksi 15 minuutin kahvitaukoa päivässä.",
+    quest_fact_industries: "Suomessa on eniten metallibändejä asukasta kohden maailmassa. Jopa Nokia oli alun perin kumisaapasfirma.",
+    quest_fact_life: "Suomessa on yli 3 miljoonaa saunaa 5,5 miljoonalle ihmiselle. Se on enemmän kuin yksi sauna kahta ihmistä kohden!",
+
     // New Rubric Labels
     plan_track_career: "Urapolku",
     plan_track_life: "Pohjoismainen elämä",
@@ -87,7 +94,19 @@ export const fi: TranslationResource = {
     feedback_action: "Anna palautetta",
     net_intro_deep: 'Miksi verkostoituminen on tärkeää', net_design: 'Design-yhteisö', net_parents: 'Verkostoituminen vanhemmille', net_introvert: 'Matala kynnys', net_hobbies: 'Harrastukset', net_plan: 'Toimintasuunnitelmasi',
     net_cold_msg: 'Suora yhteydenotto', net_places: 'Verkostoitumispaikat', net_prof_style: 'Ammatillinen tyyli',
-    net_hackathons: 'Hackathonit & Junction', net_slush: 'Slush: Anti-konferenssi', net_school: 'Verkostoituminen opiskellessa'
+    net_hackathons: 'Hackathonit & Junction', net_slush: 'Slush: Anti-konferenssi', net_school: 'Verkostoituminen opiskellessa',
+
+    // New: CV Preview
+    cv_preview_title: "Esikatselu (A4)",
+    cv_btn_print: "Tulosta PDF",
+    cv_sect_profile: "Profiili",
+    cv_sect_experience: "Työkokemus",
+    cv_sect_education: "Koulutus",
+    cv_sect_skills: "Taidot",
+    cv_sect_soft_skills: "Muut taidot",
+    cv_preview_disclaimer: "Tämä on yksinkertaistettu malli. Lataa ja muokkaa täydellistä versiota varten.",
+    cv_placeholder_name: "Alex Esimerkki",
+    cv_placeholder_summary: "Motivoitunut ammattilainen etsii työmahdollisuuksia pääkaupunkiseudulla. Innokas oppimaan ja osallistumaan suomalaiseen työelämään."
   },
   wiki: {
     titles: {
@@ -107,14 +126,45 @@ export const fi: TranslationResource = {
       housing_contracts: 'Vuokrasopimukset', housing_finding: 'Asunnon etsintä', housing_utilities: 'Sähkö & Vesi', housing_recycling: 'Kierrätysopas', housing_sauna: 'Pesutupa & Sauna',
       family_school: 'Koulujärjestelmä', family_daycare: 'Päiväkoti', family_activities: 'Harrastukset & Urheilu', family_winter: 'Lapset & Talvi', family_safety: 'Turvallisuus',
       vol_redcross: 'Punainen Risti', vol_animals: 'Eläinsuojelu', vol_events: 'Tapahtumat', vol_humanitarian: 'Avustustyö',
-      daily_transport: 'Julkinen liikenne', daily_groceries: 'Ruokakaupat', daily_pantti: 'Pullonpalautus',
-      nature_everyman: 'Jokamiehenoikeudet', nature_winter: 'Talvesta selviytyminen', nature_summer: 'Mökkielämä'
+      daily_transport: 'Julkinen liikenne (HSL)', daily_groceries: 'Ruokakaupat', daily_pantti: 'Pullonpalautus',
+      nature_everyman: 'Jokamiehenoikeudet', nature_winter: 'Talvesta selviytyminen', nature_summer: 'Mökkielämä',
+      vantaa_library_tikkurila: 'Tikkurilan kirjasto', vantaa_nature: 'Kuusijärvi & Sipoonkorpi', vantaa_ring_rail: 'Kehärata', vantaa_info_points: 'Vantaa-info', vantaa_aviapolis: 'Aviapolis', vantaa_multicultural: 'Kansainvälinen Vantaa'
     },
     articles: {
       'guide_start': { 
         title: 'Tervetuloa Suomeen! 🇫🇮', 
         summary: 'Suomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä opas on selviytymis-manuaalisi.', 
         content: `# Selviytymisopas\n\n**Filosofia:**\nSuomi toimii luottamuksella, hiljaisuudella ja kahvilla. Tämä on yhteiskunta, jossa järjestelmät toimivat, mutta sinun on tiedettävä, miten niitä käytetään. Luottamus on vuorovaikutuksen valuutta, ja hiljaisuus on kunnioituksen merkki.\n\n### Kuinka käyttää tätä sovellusta\n1. **Lue:** Selaa oppaita byrokratiasta ja työkulttuurista.\n2. **Chat:** Kysy AI-assistentilta juuri sinun tilanteestasi.\n3. **Profiili:** Pidä tietosi ajan tasalla saadaksesi tarkkoja neuvoja.\n\n*Sisu* on kaikki mitä tarvitset!` 
+      },
+      'vantaa_ring_rail': {
+        title: 'Kehärata: Vantaan sydän',
+        summary: 'Sydämenmuotoinen rautatie, joka yhdistää kaupungin maailmaan. Täällä asuessa et tarvitse autoa.',
+        content: `# Kehäradan etu\n\n**Kehärata** on enemmän kuin vain junarata; se on Vantaan selkäranka. Kartalla sydämen muotoinen rata yhdistää Helsingin päärautatieaseman, Helsinki-Vantaan lentoaseman ja Vantaan pääalueet (Tikkurila, Myyrmäki, Kivistö).\n\n### Miksi se on tärkeä sinulle\n1. **Autoton elämä:** Jos asut kävelymatkan päässä asemasta (esim. Martinlaakso, Louhela, Leinelä), et tarvitse autoa. Pääset lentokentälle tai Helsingin keskustaan 20-30 minuutissa.\n2. **Vyöhykkeet:** Suurin osa Vantaasta on **HSL:n B- ja C-vyöhykkeillä**. Vuokrat ovat halvempia kuin Helsingissä (A-vyöhyke), mutta yhteys on nopea. Junat kulkevat 10 minuutin välein ruuhka-aikoina.\n3. **Poikittaisliikenne:** Toisin kuin vanhat säteittäiset radat, Kehärata yhdistää Itä-Vantaan (Tikkurila) ja Länsi-Vantaan (Myyrmäki) suoraan.`
+      },
+      'vantaa_info_points': {
+        title: 'Vantaa-info: Byrokratia helpoksi',
+        summary: 'Matalan kynnyksen palvelupisteet, joista saat neuvoja ilman ajanvarausta.',
+        content: `# Paikallinen apupisteesi\n\nSuomalainen byrokratia voi olla pelottavaa. Kansalliset virastot kuten Migri tai Kela vaativat usein ajanvarauksen. **Vantaa-info** on erilainen.\n\n### Mikä se on?\nNämä ovat palvelupisteitä keskeisillä paikoilla: **Tikkurila (Dixi)**, **Myyrmäki (Myyrmäkitalo)** ja **Korso**. Voit usein vain kävellä sisään.\n\n### Miten he auttavat\n* **Digitaalinen tuki:** Henkilökunta auttaa käyttämään kaupungin tietokoneita lomakkeiden täyttämiseen (esim. päivähoito tai HSL-kortti).\n* **Yleisneuvonta:** Etkö tiedä mihin virastoon soittaa? Kysy täältä ensin.\n* **Monikielinen neuvonta:** Vantaa tarjoaa neuvontaa mm. arabian, somalin, venäjän, darin ja farsin kielillä. Tarkista aikataulut verkosta.\n\nJos olet hämmentynyt kaupungin kirjeestä, vie se Vantaa-infoon.`
+      },
+      'vantaa_nature': {
+        title: 'Luonto kotiovella: Kuusijärvi & Sipoonkorpi',
+        summary: 'Savusaunoja ja kansallispuisto bussimatkan päässä. Äärimmäinen mielenterveyskikka.',
+        content: `# Vihreä pako\n\nVantaa ei ole vain betonia; se on portti luontoon. **Kuusijärven** ja **Sipoonkorven kansallispuiston** yhdistelmä on ainutlaatuinen pääkaupunkiseudulla.\n\n### Kuusijärvi: Saunapääkaupunki\nItä-Vantaalla sijaitseva Kuusijärvi (Bussi 736/739) isännöi pääkaupunkiseudun ainoita yleisiä **savusaunoja**. Ne ovat auki ympäri vuoden. Talvella avantouinti on täällä suosittu rituaali, joka parantaa verenkiertoa ja mielialaa.\n\n### Sipoonkorpi: Todellinen erämaa\nKuusijärveltä voit kävellä sillan yli suoraan Sipoonkorven kansallispuistoon. Tämä on syvää metsää.\n* **Jokamiehenoikeudet:** Voit poimia mustikoita ja sieniä vapaasti.\n* **Saavutettavuus:** Toisin kuin ruuhkainen Nuuksio, Sipoonkorpi tarjoaa rauhallisia polkuja.\n* **Hyvinvointi:** Jo 15 minuuttia metsässä laskee verenpainetta. Se on Suomen helpointa terapiaa.`
+      },
+      'vantaa_aviapolis': {
+        title: 'Aviapolis: Kasvun moottori',
+        summary: 'Enemmän kuin lentokenttä. Se on Suomen nopeimmin kasvava työpaikkakeskittymä logistiikassa ja teknologiassa.',
+        content: `# Missä työt ovat\n\n**Aviapolis** on Helsinki-Vantaan lentoasemaa ympäröivä alue. Se ei ole vain kauttakulkupaikka; se on massiivinen työpaikkamoottori.\n\n### Mahdollisuus\n1. **Monipuoliset roolit:** Alueella on logistiikkakeskuksia (DHL, Posti), kaupan jättiläisiä (Jumbo, Flamingo) ja teknologiayritysten pääkonttoreita. Etsitpä varastotyötä tai insinöörin paikkaa, tämä on oikea paikka.\n2. **Kansainvälinen ilmapiiri:** Lentokentän ansiosta englanti on laajasti puhuttu ja hyväksytty työkieli monissa yrityksissä.\n3. **Työmatkat:** Jos asut lähellä (esim. **Kartanonkoski** tai **Pakkala**), voit pyöräillä töihin. Jos asut Helsingissä, kuljet *vastavirtaan* ruuhkista, mikä nopeuttaa matkaa.`
+      },
+      'vantaa_multicultural': {
+        title: 'Vantaa: Suomen kansainvälisin kaupunki',
+        summary: 'Yli 25% asukkaista on ulkomaalaistaustaisia. Monimuotoisuus on täällä normaalia.',
+        content: `# Et ole yksin\n\nVantaa on Suomen monikulttuurisin kaupunki. Yli **25%** asukkaista puhuu äidinkielenään muuta kuin suomea tai ruotsia. Joillakin alueilla luku on korkeampi.\n\n### Miksi tällä on väliä\n1. **Helpompi integraatio:** Et ole "ainoa ulkomaalainen" huoneessa. Koulut ja päiväkodit ovat tottuneet monikielisiin perheisiin ja tarjoavat tukea suomen kielen oppimiseen (S2).\n2. **Maailman maut:** Vantaalla on maan parhaita etnisiä ruokakauppoja (erityisesti Hakunilassa ja Myyrmäessä), joista löydät kotimaasi makuja.\n3. **Suvaitsevaisuus:** Monimuotoisuus on arkipäivää, ei teoriaa. Kaupunki tukee aktiivisesti monikulttuurisia yhdistyksiä ja tapahtumia.`
+      },
+      'vantaa_library_tikkurila': {
+        title: 'Tikkurilan kirjasto & Paja',
+        summary: 'Enemmän kuin kirjoja: 3D-tulostus, musiikkistudiot ja työtilat Dixissä.',
+        content: `# Tikkurilan kirjasto\n\nSijaitsee kauppakeskus Dixin 2. kerroksessa, juna-aseman vieressä. Se on paikka tekemiselle, ei vain lukemiselle.\n\n### Paja (Makerspace)\nTäällä voit luoda asioita ilmaiseksi.\n* **3D-tulostimet:** Ultimaker- ja Prusa-mallit.\n* **Ompelu:** Saumurit ja kirjontakoneet.\n* **Vinyylileikkuri:** Tee tarroja tai paitapainatuksia.\n* **Työkalut:** Rintanappikoneet, laminointilaitteet.\n\n### Kuinka varata 3D-tulostin\n1. **Hanki Helmet-kortti:** Tarvitset fyysisen kirjastokortin ja 4-numeroisen PIN-koodin.\n2. **Mene verkkoon:** Osoite on **[varaamo.vantaa.fi](https://varaamo.vantaa.fi)**.\n3. **Etsi:** Valitse "Tikkurilan kirjasto" ja etsi "3D-tulostin".\n4. **Varaa:** Valitse aika (yleensä max 4 tuntia). Se on ilmaista!\n\n**Tulostuspäivänä:** Tuo mallitiedostosi (\`.stl\` -muodossa) USB-tikulla. Henkilökunta auttaa langan (filamentin) vaihdossa. Sinun täytyy pysyä laitteen lähellä tulostuksen ajan.\n\n### Muut edut\n* **Musiikkihuoneet:** Soita rumpuja, pianoa tai laula äänieristetyissä studioissa.\n* **Työtilat:** Ilmainen WiFi, hiljaiset työpöydät ja neuvotteluhuoneet.`
       },
       'bureaucracy_ihh': {
         title: 'International House Helsinki (IHH)',
@@ -199,7 +249,7 @@ export const fi: TranslationResource = {
       'bureaucracy_bank': { 
         title: 'Pankkitilin avaaminen', 
         summary: 'Pankkitili antaa "vahvan sähköisen tunnistautumisen", avaimen kaikkiin digipalveluihin.', 
-        content: `# Haaste\nRahanpesulait ovat tiukkoja. Pankin on tiedettävä rahojesi alkuperä.\n\n### Mitä mukaan\n1. Passi.\n2. Oleskelulupa.\n3. Työsopimus.\n4. Henkilötunnus (DVV:ltä).\n\n### Graalin malja\n**Verkkopankkitunnukset**. Näillä pääset Kelaan, Veroon, Terveyspalveluihin ja Postiin.` 
+        content: `# Haaste\nRahanpesulait ovat tiukkoja. Pankin on tiedettävä rahojesi alkuperä.\n\n### Mitä mukaan\n1. Passi.\n2. Oleskelulupa.\n3. Työsopimus.\n4. Henkilötunnus (DVV).\n\n### Graalin malja\n**Verkkopankkitunnukset**. Näillä pääset Kelaan, Veroon, Terveyspalveluihin ja Postiin.` 
       },
       'social_kela_card': {
         title: 'Kela-kortti (Tärkeä)',
@@ -332,7 +382,7 @@ export const fi: TranslationResource = {
         content: `# Älä täytä tyhjiötä\nJos olet hississä suomalaisen kanssa, ei tarvitse puhua. Nyökkäys riittää. Arvostamme sanoja; emme tuhlaa niitä.`
       },
       'culture_party': {
-        title: 'Pikkujoulut',
+        title: 'Työpaikan juhlat',
         summary: 'Joulukuun pikkujoulut voivat olla villit.',
         content: `# Poikkeus\nSuomalaiset ovat pidättyväisiä, PAITSI *Pikkujouluissa*. Nämä ovat vuosittaiset joulujuhlat. Yleensä paljon alkoholia ja kollegat ovat paljon avoimempia. Mitä tapahtuu Pikkujouluissa, jää Pikkujouluihin.`
       },
@@ -407,59 +457,9 @@ export const fi: TranslationResource = {
         content: `# Vaatetus\n* **Kerrokset:** Villakerros, fleecekerros, vedenpitävä ulkokerros.\n* **Haalari:** Yksiosainen haalari on standardi lasten univormu.\n* **Heijastimet:** Pakollisia turvallisuuden vuoksi pimeässä.`
       },
       'family_safety': {
-        title: 'Turvallisuus & Itsenäisyys',
+        title: 'Turvallisuus',
         summary: 'Suomi on erittäin turvallinen. Lapset menevät kouluun yksin.',
         content: `# Itsenäisyys\nÄlä panikoi, jos näet 7-vuotiaan yksin metrossa. Se on normaalia. Yhteiskunta pitää heidät turvassa.`
-      },
-      'culture_essentials': { 
-        title: 'Arvot', 
-        summary: 'Luottamus ja hiljaisuus ovat ydin-arvoja.', 
-        content: `# Luottamus & Hiljaisuus 🤫\n\n1. **Luottamus:** Tee mitä lupaat.\n2. **Hiljaisuus:** Älä pelkää hiljaisuutta.` 
-      },
-      'vol_redcross': {
-        title: 'Punainen Risti',
-        summary: 'Helpoin tapa tavata paikallisia ja tehdä hyvää.',
-        content: `# Punainen Risti\nYksi Suomen suurimmista järjestöistä. He etsivät jatkuvasti vapaaehtoisia.\n\n### Toiminta\n* **Ystävätoiminta:** Vieraile yksinäisten vanhusten luona.\n* **Läksyapu:** Auta maahanmuuttajalapsia koulutehtävissä.\n* **Festivaalit:** Ensiapu ja logistiikka kesäfestivaaleilla.\n\n### Miksi liittyä?\nSe näyttää hyvältä CV:ssä ja harjoittelet suomea turvallisessa ympäristössä.`
-      },
-      'vol_animals': {
-        title: 'Eläinsuojelu',
-        summary: 'Auta eläimiä HESY:ssä ja muissa löytöeläintaloissa.',
-        content: `# HESY (Helsingin eläinsuojeluyhdistys)\nJos rakastat eläimiä, tämä on sinulle.\n\n### Mitä voit tehdä?\n* **Kissojen sosiaalistaminen:** Kyllä, silitä kissoja totuttaaksesi ne ihmisiin.\n* **Koirien ulkoilutus:** Hyvää liikuntaa ja seuraa.\n* **Siivous:** Auta pitämään tarha puhtaana.\n\nYleensä vaatii sitoutumista (esim. kerran viikossa).`
-      },
-      'vol_events': {
-        title: 'Tapahtumavapaaehtoisuus',
-        summary: 'Slush, Flow Festival, Nordic Business Forum.',
-        content: `# Pikakaista verkostoihin\nIsot tapahtumat pyörivät vapaaehtoisvoimin.\n\n### Diili\nTeet 2-3 vuoroa. Vastineeksi saat:\n* Ilmaisen lipun lopputapahtumaan.\n* Ilmaista ruokaa & eksklusiiviset bileet.\n* **Alumniverkosto:** Tämä on kultakaivos. Monet löytävät töitä kanssavapaaehtoisten kautta.`
-      },
-      'vol_humanitarian': {
-        title: 'Avustustyö',
-        summary: 'Leipäjonot ja asunnottomien auttaminen.',
-        content: `# Haavoittuvimpien auttaminen\nJärjestöt kuten **Hurstin Apu** organisoivat ruoanjakelua vähävaraisille.\n\n### Todellisuus\nSe on kovaa työtä, mutta erittäin palkitsevaa. Näet yhteiskunnan puolen, joka on usein piilossa. Se maadoittaa ja yhdistää sinut ihmisiin, jotka todella välittävät toisista.`
-      },
-      'daily_transport': { 
-        title: 'Julkinen liikenne (HSL/VR)', 
-        summary: 'Miten käyttää junia, busseja ja vyöhykejärjestelmää.',
-        content: `# Liikkuminen\n\n### HSL (Helsingin seutu)\n* **Vyöhykkeet:** Lipun hinta riippuu vyöhykkeistä (ABCD). Helsinki on AB.\n* **Sovellus:** Lataa HSL-sovellus. Se on halvempi kuin kuljettajalta ostaminen.\n* **Sakko:** Ei lippua = 80€ tarkastusmaksu.\n\n### VR (Junat)\nPitkille matkoille. Varaa ajoissa halpojen lippujen saamiseksi.\n\n### Virallinen linkki\n[→ HSL Reittiopas](https://www.hsl.fi/)`,
-      },
-      'daily_groceries': { 
-        title: 'Ruokakaupat', 
-        summary: 'Punnitse vihannekset ja palauta pullot.', 
-        content: `# Supermarketin säännöt\n\n1. **Punnitus:** Sinun täytyy punnita hedelmät/vihannekset ja liimata hintalappu pussiin *ennen* kassaa.\n2. **S-Ryhmä vs K-Ryhmä:** Kaksi pääketjua. Hanki bonuskortti (S-Etukortti) jos jäät pidemmäksi aikaa.\n3. **Alkoholi:** Olutta saa kaupoista klo 21 asti. Vahvemmat vain **Alkosta** (valtion monopoli).`,
-      },
-      'daily_pantti': {
-        title: 'Pullonpalautus (Pantti)',
-        summary: 'Älä heitä tölkkejä pois! Ne ovat rahaa.',
-        content: `# Pantti-järjestelmä\n\nLähes jokaisella pullolla ja tölkillä on panttiarvo (10c - 40c).\n\n1. **Kerää:** Älä rutista niitä.\n2. **Palauta:** Automaatit ovat jokaisen kaupan eteisessä.\n3. **Raha:** Saat kuitin. Käytä se kassalla vähentääksesi ruokaostosten hintaa.`,
-      },
-      'nature_everyman': { 
-        title: 'Jokamiehenoikeudet', 
-        summary: 'Voit kävellä melkein missä vain ja poimia marjoja.', 
-        content: `# Jokamiehenoikeudet\n\nSinulla on oikeus:\n1. **Kävellä:** Missä tahansa metsässä (paitsi yksityispihoilla).\n2. **Poimia:** Marjoja ja sieniä vapaasti.\n3. **Leiriytyä:** Tilapäisesti luontoon.\n\n**Säännöt:** Älä häiritse lintuja, älä jätä roskia, älä kaada puita.`, 
-      },
-      'nature_winter': { 
-        title: 'Talvesta selviytyminen', 
-        summary: 'Pimeys ja D-vitamiini.', 
-        content: `# Pimeys (Kaamos)\n\nMarras-tammikuussa auringonvalo on harvinaista.\n* **D-vitamiini:** Ota lisiä. Pakollinen.\n* **Heijastimet:** Käytä niitä. Se on laki.\n* **Nastat:** Nastakengät estävät liukastumisen jäällä.`, 
       },
       'nature_summer': {
         title: 'Mökkielämä',

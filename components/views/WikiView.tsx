@@ -58,16 +58,16 @@ interface WikiViewProps {
 
 type ViewMode = 'list' | 'icons';
 
-const TAG_METADATA: Record<string, { icon: keyof typeof Icons, border: string, text: string, hover: string, badge: string }> = {
-  "Recruitment": { icon: "Briefcase", border: "border-orange-200 dark:border-orange-500/30", text: "text-orange-600 dark:text-orange-300", hover: "group-hover:bg-orange-50 dark:group-hover:bg-orange-900/20", badge: "bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-200" },
-  "Job searching": { icon: "Search", border: "border-lime-200 dark:border-lime-500/30", text: "text-lime-600 dark:text-lime-300", hover: "group-hover:bg-lime-50 dark:group-hover:bg-lime-900/20", badge: "bg-lime-100 dark:bg-lime-900/50 text-lime-700 dark:text-lime-200" },
-  "Entrepreneurship": { icon: "Rocket", border: "border-teal-200 dark:border-teal-500/30", text: "text-teal-600 dark:text-teal-300", hover: "group-hover:bg-teal-50 dark:group-hover:bg-teal-900/20", badge: "bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-200" },
-  "Work Culture": { icon: "Coffee", border: "border-purple-200 dark:border-purple-500/30", text: "text-purple-600 dark:text-purple-300", hover: "group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20", badge: "bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-200" },
-  "Networking": { icon: "Users", border: "border-cyan-200 dark:border-cyan-500/30", text: "text-cyan-600 dark:text-cyan-300", hover: "group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/20", badge: "bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-200" },
-  "Work Rights": { icon: "Scale", border: "border-violet-200 dark:border-violet-500/30", text: "text-violet-600 dark:text-violet-300", hover: "group-hover:bg-violet-50 dark:group-hover:bg-violet-900/20", badge: "bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-200" },
-  "Volunteering Internships": { icon: "Heart", border: "border-emerald-200 dark:border-emerald-500/30", text: "text-emerald-600 dark:text-emerald-300", hover: "group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/20", badge: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-200" },
-  "Learning Finnish": { icon: "Languages", border: "border-rose-200 dark:border-rose-500/30", text: "text-rose-600 dark:text-rose-300", hover: "group-hover:bg-rose-50 dark:group-hover:bg-rose-900/20", badge: "bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-200" },
-  "Work-life Balance": { icon: "Sun", border: "border-sky-200 dark:border-sky-500/30", text: "text-sky-600 dark:text-sky-300", hover: "group-hover:bg-sky-50 dark:group-hover:bg-sky-900/20", badge: "bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-200" },
+const TAG_METADATA: Record<string, { icon: keyof typeof Icons, color: string }> = {
+  "Recruitment": { icon: "Briefcase", color: "text-green-600 dark:text-green-400" },
+  "Job searching": { icon: "Search", color: "text-blue-600 dark:text-blue-400" },
+  "Entrepreneurship": { icon: "Rocket", color: "text-purple-600 dark:text-purple-400" },
+  "Work Culture": { icon: "Coffee", color: "text-orange-600 dark:text-orange-400" },
+  "Networking": { icon: "Users", color: "text-cyan-600 dark:text-cyan-400" },
+  "Work Rights": { icon: "Scale", color: "text-red-600 dark:text-red-400" },
+  "Volunteering Internships": { icon: "Heart", color: "text-pink-600 dark:text-pink-400" },
+  "Learning Finnish": { icon: "Languages", color: "text-indigo-600 dark:text-indigo-400" },
+  "Work-life Balance": { icon: "Sun", color: "text-amber-500 dark:text-amber-400" },
 };
 
 export const WikiView: React.FC<WikiViewProps> = ({ 
@@ -403,7 +403,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                     >
                         <div className="flex items-center gap-3 font-bold text-gray-800 dark:text-gray-100 group-hover:text-black dark:group-hover:text-white overflow-hidden">
                             <span className="text-xs text-gray-400 dark:text-gray-500 font-mono w-5 flex-shrink-0">{catNumber}.</span>
-                            {renderIcon(category.icon as any, `w-6 h-6 flex-shrink-0 transition-colors ${category.theme.text}`)}
+                            {renderIcon(category.icon as any, `w-6 h-6 flex-shrink-0 transition-colors`)}
                             <span className="text-sm md:text-base tracking-wide truncate">{category.title}</span>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
@@ -527,14 +527,28 @@ export const WikiView: React.FC<WikiViewProps> = ({
                             const meta = TAG_METADATA[tag];
                             if (!meta) return null;
                             return (
-                                <button key={tag} onClick={() => handleTagClick(tag)} className={`group relative aspect-square rounded-[2rem] bg-white/80 dark:bg-white/5 backdrop-blur-md border-2 ${meta.border} flex flex-col items-center justify-center shadow-sm hover:shadow-xl transition-all duration-300 active:scale-95 overflow-hidden`}>
-                                    <div className={`mb-8 transform group-hover:scale-110 transition-transform duration-300 ${meta.text}`}>
-                                        {renderIcon(meta.icon as any, "w-12 h-12 md:w-16 md:h-16 stroke-[1.5]")}
+                                <button 
+                                    key={tag} 
+                                    onClick={() => handleTagClick(tag)} 
+                                    className={`
+                                        group relative aspect-square rounded-[2rem] 
+                                        bg-white/50 dark:bg-white/5 
+                                        border-2 border-gray-200 dark:border-white/10
+                                        hover:border-black dark:hover:border-white
+                                        hover:bg-white dark:hover:bg-white/10
+                                        flex flex-col items-center justify-center 
+                                        shadow-sm transition-all duration-300 overflow-hidden
+                                    `}
+                                >
+                                    <div className={`mb-6 transition-colors duration-300 ${meta.color}`}>
+                                        {renderIcon(meta.icon as any, "w-12 h-12 md:w-14 md:h-14 stroke-[1.5]")}
                                     </div>
-                                    <div className={`absolute top-4 right-4 ${meta.badge} text-[10px] font-bold px-2 py-1 rounded-full z-20`}>{count}</div>
-                                    <div className={`absolute inset-x-0 bottom-0 p-4 ${meta.hover} backdrop-blur-md border-t ${meta.border} rounded-b-[2rem] flex items-center justify-center`}>
-                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${meta.text}`}>{tag}</span>
+                                    <div className="absolute top-4 right-4 bg-gray-100 dark:bg-white/10 group-hover:bg-white/20 text-gray-600 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-[10px] font-bold px-2 py-1 rounded-full z-20">
+                                        {count}
                                     </div>
+                                    <span className={`text-center text-xs md:text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors duration-300 px-2`}>
+                                        {tag}
+                                    </span>
                                 </button>
                             );
                         })}
@@ -546,34 +560,28 @@ export const WikiView: React.FC<WikiViewProps> = ({
                                     data-testid={APP_IDS.VIEWS.WIKI.CARD_CATEGORY(category.id)}
                                     onClick={() => handleIconCategoryClick(category.id)}
                                     className={`
-                                        group relative aspect-square rounded-[2rem] bg-white/80 dark:bg-white/5 backdrop-blur-md
-                                        border-2 ${category.theme.border} dark:border-white/10
+                                        group relative aspect-square rounded-[2rem] 
+                                        bg-white/50 dark:bg-white/5 
+                                        border-2 border-gray-200 dark:border-white/10
+                                        hover:border-black dark:hover:border-white
+                                        hover:bg-white dark:hover:bg-white/10
                                         flex flex-col items-center justify-center 
-                                        shadow-sm ${category.theme.shadow}
-                                        transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-                                        overflow-hidden
+                                        shadow-sm transition-all duration-300 overflow-hidden
                                     `}
                                 >
-                                    <div className={`mb-4 transform group-hover:scale-110 transition-transform duration-300 ${category.theme.text} dark:text-gray-200`}>
+                                    <div className={`mb-6 ${category.theme.text} transition-colors duration-300`}>
                                         {renderIcon(category.icon as any, "w-16 h-16 md:w-20 md:h-20 stroke-[1.5]")}
                                     </div>
+                                    
                                     {progressPercent > 0 && (
-                                        <div className="absolute top-4 right-4 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-1 rounded-full z-20 border border-green-200 dark:border-green-800">
+                                        <div className="absolute top-4 right-4 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 group-hover:bg-white group-hover:text-green-600 text-[10px] font-bold px-2 py-1 rounded-full z-20">
                                             {progressPercent}%
                                         </div>
                                     )}
-                                    <div className={`
-                                        absolute inset-x-0 bottom-0 p-4 
-                                        translate-y-full group-hover:translate-y-0 
-                                        transition-transform duration-300 ease-out
-                                        ${category.theme.hoverBg} dark:bg-white/10 backdrop-blur-md
-                                        border-t ${category.theme.border} dark:border-white/10
-                                        rounded-b-[2rem]
-                                    `}>
-                                        <span className={`block text-center text-xs md:text-sm font-bold uppercase tracking-wider ${category.theme.text} dark:text-white`}>
-                                            {category.title}
-                                        </span>
-                                    </div>
+                                    
+                                    <span className={`text-center text-xs md:text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors duration-300 px-2`}>
+                                        {category.title}
+                                    </span>
                                 </button>
                             );
                         })}
@@ -614,7 +622,7 @@ export const WikiView: React.FC<WikiViewProps> = ({
                         if (matches.length === 0) return null;
                         return (
                             <div key={cat.id} className="animate-in fade-in slide-in-from-bottom-2">
-                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 dark:border-white/10 ${cat.theme.text} dark:text-white`}>
+                                <h3 className={`flex items-center gap-3 font-bold uppercase tracking-wider text-sm mb-6 pb-2 border-b border-gray-100 dark:border-white/10 text-gray-900 dark:text-white`}>
                                      {renderIcon(cat.icon, "w-5 h-5")} {cat.title}
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -653,11 +661,11 @@ export const WikiView: React.FC<WikiViewProps> = ({
 
         {activeCategory && !activeArticle && !activeTag && (
             <div className="w-full h-full overflow-y-auto bg-white/90 dark:bg-[#0b1021]/90 backdrop-blur-xl relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                <div className={`w-full p-8 md:p-12 ${activeCategory.theme.hoverBg} dark:bg-white/5 border-b ${activeCategory.theme.border} dark:border-white/10`}>
+                <div className={`w-full p-8 md:p-12 bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/10`}>
                     <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-end gap-6">
-                        <div className={`p-6 bg-white dark:bg-white/10 rounded-3xl shadow-lg border-2 ${activeCategory.theme.border} dark:border-white/10 ${activeCategory.theme.text} dark:text-white`}>{renderIcon(activeCategory.icon as any, "w-16 h-16")}</div>
+                        <div className={`p-6 bg-white dark:bg-white/10 rounded-3xl shadow-lg border-2 border-gray-100 dark:border-white/10 text-black dark:text-white`}>{renderIcon(activeCategory.icon as any, "w-16 h-16")}</div>
                         <div className="text-center md:text-left flex-1">
-                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight ${activeCategory.theme.text} dark:text-white mb-2 ${headingFont}`}>{activeCategory.title}</h1>
+                            <h1 className={`text-3xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-2 ${headingFont}`}>{activeCategory.title}</h1>
                         </div>
                     </div>
                 </div>

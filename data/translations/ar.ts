@@ -3,49 +3,73 @@ import { TranslationResource } from "./types";
 
 export const ar: TranslationResource = {
   ui: {
-    landing_welcome: "أهلاً بك!", landing_subtitle: "اعثر على طريقك للعمل في فنلندا", landing_btn_quiz: "أخبرني عن نفسك", landing_btn_continue: "استكشف دليلي", landing_btn_ask: "ابدأ محادثة", landing_btn_browse: "تصفح الدليل", landing_load_sample: "تحميل نموذج", landing_erase: "مسح البيانات", landing_add_key: "إضافة مفتاح API", landing_choose_lang: "اللغة",
+    nav_guide: "دليل", nav_chat: "محادثة", nav_plan: "خطة", nav_profile: "ملف",
+    landing_welcome: "أهلاً بك!", landing_subtitle: "اعثر على طريقك للعمل في فانتا", landing_btn_quiz: "أخبرني عن نفسك", landing_btn_continue: "دليلي", landing_btn_ask: "محادثة", landing_btn_browse: "تصفح", landing_load_sample: "تحميل نموذج", landing_erase: "مسح البيانات", landing_add_key: "مفتاح API", landing_choose_lang: "اللغة",
+    landing_slide1: "دليلك الشخصي إلى فنلندا",
+    landing_slide2: "أتقن البيروقراطية",
+    landing_slide3: "اعثر على الوظائف الخفية",
+    landing_slide4: "اضغط أدناه للبدء!",
+    landing_trust_badge: "خصوصية محلية 100%. لا تغادر البيانات جهازك.",
+    landing_btn_quiz_alt: "أنشئ خطتك", landing_btn_ask_alt: "احصل على نصيحة", landing_btn_browse_alt: "لنجعل فنلندا تعمل!",
+    
     dash_greeting: "مرحباً {name}!", dash_greeting_guest: "مرحباً!", dash_subtitle: "أهلاً بك مجدداً في دليلك الشخصي لفنلندا.", dash_subtitle_guest: "لنبني ملفك الشخصي للبدء.", dash_btn_guide: "فتح الدليل", dash_btn_browse: "تصفح", dash_btn_ask: "اسأل الذكاء الاصطناعي", dash_btn_history: "السجل", dash_btn_cv: "استيراد CV", dash_switch_profile: "تبديل", dash_new_profile: "جديد", dash_edit_profile: "تعديل", dash_profile_overview: "الملف الشخصي",
     dash_education: "التعليم", dash_profession: "المهنة", dash_languages: "اللغات", dash_narrative_aspirations: "الطموحات", dash_narrative_challenges: "التحديات",
-    chat_placeholder: "اسأل شيئاً...", chat_end_session: "إنهاء", chat_header_assistant: "المساعد", chat_prompt_context_inquiry: "أخبرني المزيد عن \"{sentence}\"", chat_ask_length: "إجابة قصيرة أم مفصلة؟", chat_empty_state: "ابدأ المحادثة بطرح سؤال أدناه.",
+    
+    // Dashboard New Content
+    dash_hero_title: "استعد لحياتك وعملك في فنلندا",
+    dash_hero_subtitle: "أجب عن بضعة أسئلة واحصل على خطة اندماج شخصية لمدة عام",
+    dash_hero_btn: "ابدأ",
+    dash_intro_text: "اكتشف فانتا وفنلندا بثقة. احصل على إرشادات حول الأساسيات القانونية، واعثر على الوظيفة المناسبة باستخدام أدوات مخصصة، وتواصل مع مجتمعك.",
+    dash_intro_tags: "الطلاب • أزواج العاملين • المهنيون • الباحثون عن عمل",
+    dash_sect_kb_title: "قاعدة المعرفة",
+    dash_sect_kb_desc: "معلومات أساسية حول العمل والحياة في فنلندا.",
+    dash_card_networking: "التواصل",
+    dash_card_culture: "ثقافة العمل",
+    dash_card_recruitment: "التوظيف",
+    dash_card_rights: "حقوق العمل",
+    dash_btn_explore: "استكشف الكل",
+    dash_sect_guides_title: "أدلة خطوة بخطوة",
+    dash_card_guide_cv: "كيفية كتابة سيرة ذاتية فنلندية",
+    dash_card_guide_tax: "كيفية الحصول على بطاقة ضريبية",
+    dash_card_guide_kela: "كيفية الحصول على بطاقة Kela",
+    dash_sect_living_title: "العيش في فانتا",
+    dash_sect_living_subtitle: "بناءً على ملفك الشخصي",
+    dash_card_living_events: "فعاليات ولقاءات",
+    dash_card_living_sports: "نوادي الرياضة والهوايات",
+    dash_card_living_community: "مجموعات المجتمع",
+    dash_sect_events_title: "الفعاليات القادمة في فانتا",
+    dash_sect_features_title: "الميزات الرئيسية (تجريبي)",
+    dash_feat_hidden_job: "أداة سوق العمل الخفي",
+    dash_feat_apply_kela: "التقديم على بطاقة Kela",
+    dash_footer_ask: "اسألني شيئاً",
+    dash_footer_hint: "ستكون إجاباتي أكثر دقة إذا قمت بإجراء الاختبار",
+    dash_btn_go_chat: "اذهب للمحادثة",
+
+    chat_placeholder: "اسأل شيئاً...", chat_end_session: "إنهاء", chat_header_assistant: "المساعد", chat_prompt_context_inquiry: "أخبرني المزيد عن \"{sentence}\"", chat_ask_length: "إجابة قصيرة أم مفصلة؟", chat_length_set_confirm: "فهمت. سأقوم بتعديل الطول.", chat_empty_state: "ابدأ المحادثة بطرح سؤال أدناه.",
+    chat_ai_greeting: "بيب بوب! 🤖 أنا مساعد الاندماج الخاص بك في فانتا. كيف يمكنني مساعدتك اليوم؟",
     btn_back_dashboard: "عودة", btn_save: "حفظ",
     profile_btn_guide: "دليلي", profile_btn_guide_desc: "مقالات مقترحة", profile_btn_plan: "خطتي", profile_btn_plan_desc: "قريباً", profile_sect_languages: "اللغات", profile_sect_skills: "المهارات", profile_sect_narrative: "قصتي", profile_label_aspirations: "الأهداف", profile_label_challenges: "المخاوف", profile_label_education: "التعليم", profile_label_profession: "المهنة", profile_completeness: "{percentage}% مكتمل", profile_completeness_hint: "أجب عن بعض الأسئلة", profile_btn_update: "تحديث", profile_btn_continue: "متابعة",
-    wiki_header_title: "Finland Works!", wiki_header_subtitle: "مخصص لـ {name}", wiki_explore_cats: "تصفح الفئات", wiki_explore_subtitle: "اختر موضوعاً.", wiki_full_index: "الفهرس", wiki_full_index_subtitle: "تصفح الكل.", wiki_nav_list: "قائمة", wiki_nav_icons: "أيقونات", wiki_section_chapters: "فصل", wiki_btn_mark_done: "تم", wiki_btn_later: "لاحقاً", wiki_btn_saved: "محفوظ", wiki_btn_completed: "مكتمل", wiki_ctx_ask: "اسأل عن هذا", wiki_topic_label: "الموضوع: {tag}", wiki_topic_desc: "نظرة عامة", wiki_guide_prefix: "دليل", wiki_stat_articles: "مقال", wiki_stat_complete: "تم", wiki_section_prefix: "قسم",
-    wizard_header_quiz: "استبيان", wizard_greeting_short: "أهلاً {name}!", wizard_title_init: "إنشاء ملف شخصي", wizard_title_custom: "إنشاء {name}", wizard_phase_identity: "المرحلة 1: الهوية", wizard_phase_demo: "المرحلة 2: الخلفية", wizard_phase_status: "المرحلة 3: الحالة", wizard_phase_skills: "المرحلة 4: المهارات", wizard_phase_mindset: "المرحلة 5: العقلية", wizard_phase_vision: "المرحلة 6: الرؤية", wizard_nickname_hint: "* يمكنك استخدام اسم مستعار.", wizard_btn_ask: "اسأل", wizard_btn_next: "التالي", wizard_btn_prev: "السابق", wizard_btn_submit: "إرسال", wizard_btn_finish_early: "حفظ وإنهاء", wizard_btn_generate_name: "اقترح اسماً", wizard_ribbon_greeting: "تشرفنا، {name}!", wizard_title_name: "ما هو اسمك؟", wizard_desc_name: "أدخل اسمك", wizard_placeholder_name: "اسمك",
-    wizard_step2_title: "كم عمرك؟", wizard_step2_desc: "اختر الفئة العمرية", wizard_step2_placeholder: "العمر",
-    wizard_step3_title: "الحالة الاجتماعية؟",
-    wizard_marital_solo_title: "وحيد", wizard_marital_solo_desc: "بدون شريك أو أطفال", wizard_marital_pair_title: "شريك / عائلة", wizard_marital_pair_desc: "شريك أو أطفال", wizard_marital_secret_title: "سر", wizard_marital_secret_desc: "لا أريد القول",
-    wizard_children_title: "هل لديك أطفال؟", wizard_children_desc: "للمساعدة في نصائح المدارس والحضانة.", wizard_children_yes: "نعم", wizard_children_no: "لا", wizard_family_details_title: "تفاصيل العائلة", wizard_family_count_label: "كم طفلاً؟", wizard_family_ages_label: "أعمارهم؟", wizard_family_ages_hint: "اختر كل ما ينطبق.", wizard_age_group_0_6: "حضانة (0-6)", wizard_age_group_7_12: "مدرسة (7-12)", wizard_age_group_13_17: "مراهقون (13-17)", wizard_age_group_18: "بالغون (18+)",
-    wizard_step4_title: "من أين أنت؟", wizard_step4_desc: "بلد المنشأ", wizard_step4_placeholder: "اسم الدولة...", wizard_step4_no_match: "غير موجود", wizard_btn_search_country: "بحث", wizard_btn_select_region: "اختر منطقة", wizard_region_europe: "أوروبا", wizard_region_americas: "الأمريكتين", wizard_region_asia: "آسيا", wizard_region_africa: "أفريقيا", wizard_region_oceania: "أوقيانوسيا", wizard_region_middle_east: "الشرق الأوسط", wizard_eu_question: "مواطن أوروبي؟", wizard_eu_yes: "نعم", wizard_eu_no: "لا",
-    wizard_step5_title: "حق العمل", wizard_permit_full_title: "غير مقيد", wizard_permit_full_desc: "إقامة دائمة، عائلة، أوروبي", wizard_permit_restricted_title: "مقيد", wizard_permit_restricted_desc: "مرتبط بصاحب عمل", wizard_permit_student_title: "طالب", wizard_permit_student_desc: "ساعات محدودة",
-    wizard_step6_title: "التعليم", wizard_step6_desc: "مستواك الدراسي؟", wizard_step6_field_label: "التخصص (اختياري)", wizard_step6_field_placeholder: "هندسة مثلاً", wizard_edu_general_title: "عام", wizard_edu_general_desc: "ثانوية.", wizard_edu_applied_title: "مهني", wizard_edu_applied_desc: "معهد مهني.", wizard_edu_uni_title: "جامعي", wizard_edu_uni_desc: "شهادة أكاديمية.",
-    wizard_step7_title: "مهنتك؟", wizard_step7_desc: "أو العمل الذي تبحث عنه؟", wizard_step7_placeholder: "طبيب، مبرمج...",
-    wizard_step8_title: "اللغة الفنلندية", wizard_lbl_finnish_level: "المستوى", wizard_lbl_finnish_motivation: "الدافع", wizard_opt_lang_none: "لا شيء", wizard_opt_lang_basics: "أساسيات", wizard_opt_lang_inter: "متوسط", wizard_opt_lang_fluent: "طلاقة", wizard_scale_1_motivation: "فضولي", wizard_scale_5_motivation: "عالي جداً",
-    wizard_step9_title: "اللغة الإنجليزية", wizard_opt_lang_en_none: "لا", wizard_opt_lang_en_basic: "بسيط", wizard_opt_lang_en_working: "عملي", wizard_opt_lang_en_fluent: "طلاقة",
-    wizard_step10_title: "الرؤية", wizard_step10_aspirations_label: "الطموح", wizard_step10_aspirations_placeholder: "ماذا تريد أن تحقق؟", wizard_step10_challenges_label: "تحديات", wizard_step10_challenges_placeholder: "ما الذي يقلقك؟",
-    wizard_step12_title: "شعورك تجاه الثقافة؟", wizard_opt_cult_low: "غموض", wizard_opt_cult_med: "مراقبة", wizard_opt_cult_high: "انغماس",
-    wizard_step13_title: "إيقاع الحياة؟", wizard_scale_1_life: "غريب", wizard_scale_5_life: "كأنه وطني",
-    wizard_step14_title: "الثقة في البحث عن عمل؟", wizard_scale_1_career: "أحتاج توجيه", wizard_scale_5_career: "لدي خطة",
-    wizard_step15_title: "وضوح المسار؟", wizard_opt_info_none: "ضبابي", wizard_opt_info_some: "يتضح", wizard_opt_info_high: "واضح جداً",
-    wizard_step16_title: "ما الذي يسعدك؟", wizard_opt_excite_career: "العمل", wizard_opt_excite_life: "الأمان", wizard_opt_excite_nature: "الطبيعة", wizard_opt_excite_adventure: "المغامرة",
-    wizard_rating_winter: "شتاء", wizard_rating_thaw: "ذوبان", wizard_rating_growth: "نمو", wizard_rating_bloom: "ازدهار", wizard_rating_summer: "صيف",
-    history_title: "السجل", history_empty: "لا محادثات.", history_tab_summary: "ملخص", history_tab_transcript: "نص", history_no_summary: "لا ملخص.", history_generating: "يكتب...", history_generating_desc: "في الخلفية.",
-    cv_title: "تحليل CV", cv_subtitle: "الصق سيرتك الذاتية.", cv_placeholder: "نص السيرة...", cv_btn_analyze: "تحليل", cv_btn_processing: "جاري المعالجة...", cv_warning_key: "مطلوب مفتاح API.", cv_key_update: "تحديث المفتاح", cv_key_required: "مطلوب مفتاح", cv_key_desc: "للحفاظ على الخصوصية.", cv_key_placeholder: "المفتاح...", cv_key_save: "حفظ", cv_alert_success: "تم الحفظ.", cv_alert_error: "فشل.", cv_btn_manage_key: "مفتاح API",
-    settings_title: "إعدادات", settings_sect_general: "عام", settings_sect_appearance: "مظهر", settings_sect_data: "بيانات", settings_length_label: "طول الرد", settings_theme_label: "سمة", 
-    settings_theme_system: "النظام", settings_theme_light: "فاتح", settings_theme_dark: "داكن", settings_opt_ask: "اسأل", settings_opt_short: "قصير", settings_opt_long: "طويل", settings_clear_data: "مسح البيانات", settings_clear_data_desc: "حذف كل شيء.", settings_btn_clear: "مسح الكل",
-    net_intro: "مرحباً بك في التواصل. اختر طريقك.",
-    net_header: "على ماذا نركز اليوم؟",
-    net_opt_design: "مجتمع التصميم",
-    net_opt_linkedin: "استراتيجية LinkedIn",
-    net_opt_hobbies: "الهوايات والأنشطة",
-    net_opt_parents: "تواصل للآباء",
-    net_opt_introvert: "نصائح للانطوائيين",
-    feedback_action: "أعط رأيك",
-    net_intro_deep: 'لماذا التواصل مهم', net_design: 'مجتمع التصميم', net_parents: 'تواصل للآباء', net_introvert: 'تواصل بضغط منخفض', net_hobbies: 'تواصل عبر الهوايات', net_plan: 'خطة العمل',
-    net_cold_msg: 'فن الرسائل الباردة', net_places: 'أماكن التواصل', net_prof_style: 'الأسلوب المهني الفنلندي',
-    net_hackathons: 'الهاكاثون & Junction', net_slush: 'Slush: مؤتمر غير تقليدي', net_school: 'التواصل في المدرسة',
+    
+    // Profile Guest View
+    profile_guest_title: "استعد لحياتك وعملك في فانتا",
+    profile_guest_subtitle: "أجب عن بضعة أسئلة واحصل على خطة اندماج شخصية لمدة عام",
+    profile_guest_btn_start: "ابدأ",
+    profile_guest_col1: "الأساسيات القانونية",
+    profile_guest_col2: "أدوات العمل",
+    profile_guest_col3: "الحياة والمجتمع",
+    profile_guest_item_kela: "Kela", profile_guest_item_tax: "بطاقة ضريبية", profile_guest_item_id: "رمز الهوية",
+    profile_guest_item_contacts: "جهات اتصال", profile_guest_item_cv: "CV", profile_guest_item_portfolio: "محفظة أعمال",
+    profile_guest_item_hobbies: "هوايات", profile_guest_item_events: "فعاليات", profile_guest_item_volunteering: "تطوع",
+    profile_features_title: "الميزات الرئيسية (تجريبي)",
+    profile_feat_kela: "التقديم على بطاقة Kela",
+    profile_feat_hidden: "أداة سوق العمل الخفي",
+    profile_instr_title: "تعليمات خطوة بخطوة",
+    profile_instr_cv: "كيفية كتابة سيرة ذاتية فنلندية",
+    profile_instr_tax: "كيفية الحصول على بطاقة ضريبية",
+    profile_btn_explore: "استكشف كل التعليمات",
 
     // Gamified Planner
-    quest_level: "مستكشف المستوى {level}",
+    quest_level: "مستوى {level}",
     quest_xp: "{current}/{max} خبرة للمستوى التالي",
     quest_tab_board: "رحلة العمل",
     quest_tab_achievements: "إنجازات",
@@ -61,332 +85,434 @@ export const ar: TranslationResource = {
     quest_btn_unlock: "فتح وقراءة",
     quest_locked_msg: "اضغط لكشف سر!",
     
+    // Fun Facts (New)
+    quest_fact_foundation: "في فنلندا، يخبر رمز الهوية الشخصي الخاص بك (henkilötunnus) تاريخ ميلادك وجنسك! الحرف الفاصل (+، -، A) يخبر القرن الذي ولدت فيه.",
+    quest_fact_job_strategy: "70-80% من الوظائف في فنلندا لا يتم الإعلان عنها علناً. يتم شغلها من خلال التواصل والاتصال المباشر.",
+    quest_fact_workplace: "استراحات القهوة قانونية في فنلندا! ينص كل عقد تقريبًا على استراحتين للقهوة مدة كل منهما 15 دقيقة يوميًا.",
+    quest_fact_industries: "فنلندا لديها أكبر عدد من فرق الميتال للفرد في العالم. حتى نوكيا كانت في الأصل شركة أحذية مطاطية.",
+    quest_fact_life: "يوجد في فنلندا أكثر من 3 ملايين ساونا لـ 5.5 مليون شخص. هذا أكثر من ساونا واحدة لكل شخصين!",
+
     // New Rubric Labels
     plan_track_career: "مسار مهني",
     plan_track_life: "حياة شمالية",
     plan_step_completed: "مكتمل",
     plan_step_locked: "مغلق",
     plan_step_available: "متاح",
-    plan_btn_return: "عودة للخطة"
+    plan_btn_return: "عودة للخطة",
+
+    // CV Preview
+    cv_preview_title: "معاينة مباشرة (A4)",
+    cv_btn_print: "طباعة PDF",
+    cv_sect_profile: "الملف الشخصي",
+    cv_sect_experience: "الخبرة",
+    cv_sect_education: "التعليم",
+    cv_sect_skills: "المهارات",
+    cv_sect_soft_skills: "مهارات شخصية",
+    cv_preview_disclaimer: "هذا نموذج مبسط. قم بالتنزيل والتعديل للحصول على التفاصيل الكاملة.",
+    cv_placeholder_name: "أحمد مثال",
+    cv_placeholder_summary: "محترف متحمس يبحث عن فرص في منطقة العاصمة هلسنكي. حريص على التعلم والمساهمة في الحياة العملية الفنلندية.",
+
+    wiki_header_title: "Finland Works!", wiki_header_subtitle: "مخصص لـ {name}", wiki_explore_cats: "تصفح الفئات", wiki_explore_subtitle: "اختر موضوعاً.", wiki_full_index: "الفهرس", wiki_full_index_subtitle: "تصفح الكل.", wiki_nav_list: "قائمة", wiki_nav_icons: "أيقونات", wiki_section_chapters: "فصول", wiki_btn_mark_done: "تم", wiki_btn_later: "لاحقاً", wiki_btn_saved: "محفوظ", wiki_btn_completed: "مكتمل", wiki_ctx_ask: "اسأل عن هذا", wiki_topic_label: "الموضوع: {tag}", wiki_topic_desc: "نظرة عامة ومقالات", wiki_guide_prefix: "دليل", wiki_stat_articles: "مقال", wiki_stat_complete: "تم", wiki_section_prefix: "قسم", wiki_stat_articles_suffix: "مقالات",
+    wizard_header_quiz: "استبيان", wizard_greeting_short: "أهلاً {name}!", wizard_title_init: "إنشاء ملف شخصي", wizard_title_custom: "إنشاء {name}", wizard_phase_identity: "المرحلة 1: الهوية", wizard_phase_demo: "المرحلة 2: الخلفية", wizard_phase_status: "المرحلة 3: الحالة", wizard_phase_skills: "المرحلة 4: المهارات", wizard_phase_mindset: "المرحلة 5: العقلية", wizard_phase_vision: "المرحلة 6: الرؤية", wizard_nickname_hint: "* يمكنك استخدام اسم مستعار.", wizard_btn_ask: "اسأل", wizard_btn_next: "التالي", wizard_btn_prev: "السابق", wizard_btn_submit: "إرسال", wizard_btn_finish_early: "حفظ وإنهاء", wizard_btn_generate_name: "اقترح اسماً", wizard_ribbon_greeting: "تشرفت بك، {name}!", wizard_title_name: "ما هو اسمك؟", wizard_desc_name: "اكتب اسمك أو اختر لقباً", wizard_placeholder_name: "اسمك",
+    wizard_step2_title: "كم عمرك؟", wizard_step2_desc: "اختر الفئة العمرية", wizard_step2_placeholder: "العمر (مثلاً 29)",
+    wizard_step3_title: "الحالة الاجتماعية؟",
+    wizard_marital_solo_title: "أعزب/مستقل", wizard_marital_solo_desc: "بدون شريك أو أطفال هنا", wizard_marital_pair_title: "شريك / عائلة", wizard_marital_pair_desc: "مع زوج/ة أو أطفال", wizard_marital_secret_title: "سري", wizard_marital_secret_desc: "معقد / لا أريد القول",
+    wizard_children_title: "هل لديك أطفال؟", wizard_children_desc: "يساعدنا هذا في نصائح المدارس والحضانة.", wizard_children_yes: "نعم", wizard_children_no: "لا", wizard_family_details_title: "تفاصيل العائلة", wizard_family_count_label: "كم عددهم؟", wizard_family_ages_label: "الأعمار؟", wizard_family_ages_hint: "اختر كل ما ينطبق.", wizard_age_group_0_6: "حضانة (0-6)", wizard_age_group_7_12: "مدرسة (7-12)", wizard_age_group_13_17: "مراهقون (13-17)", wizard_age_group_18: "بالغون (18+)",
+    wizard_step4_title: "من أين أنت؟", wizard_step4_desc: "بلد الأصل", wizard_step4_placeholder: "اسم البلد...", wizard_step4_no_match: "غير موجود", wizard_btn_search_country: "بحث", wizard_btn_select_region: "اختر المنطقة", wizard_region_europe: "أوروبا", wizard_region_americas: "الأمريكيتان", wizard_region_asia: "آسيا", wizard_region_africa: "أفريقيا", wizard_region_oceania: "أوقيانوسيا", wizard_region_middle_east: "الشرق الأوسط", wizard_eu_question: "مواطن في الاتحاد الأوروبي؟", wizard_eu_yes: "نعم", wizard_eu_no: "لا",
+    wizard_step5_title: "حق العمل", wizard_permit_full_title: "غير محدود", wizard_permit_full_desc: "دائمة، عائلة، اتحاد أوروبي", wizard_permit_restricted_title: "مقيد", wizard_permit_restricted_desc: "مرتبط بصاحب العمل", wizard_permit_student_title: "طالب", wizard_permit_student_desc: "ساعات محدودة",
+    wizard_step6_title: "أعلى مستوى تعليمي", wizard_step6_desc: "ما الذي يصفك؟", wizard_step6_field_label: "المجال (اختياري)", wizard_step6_field_placeholder: "مثل الهندسة", wizard_edu_general_title: "عام", wizard_edu_general_desc: "ثانوية عامة.", wizard_edu_applied_title: "مهني", wizard_edu_applied_desc: "مدرسة مهنية.", wizard_edu_uni_title: "جامعي", wizard_edu_uni_desc: "درجة أكاديمية.",
+    wizard_step7_title: "مهنتك؟", wizard_step7_desc: "أو العمل الذي تبحث عنه؟", wizard_step7_placeholder: "مثل ممرض، مبرمج",
+    wizard_step8_title: "اللغة الفنلندية", wizard_lbl_finnish_level: "المستوى الحالي", wizard_lbl_finnish_motivation: "الدافع", wizard_opt_lang_none: "لا شيء بعد", wizard_opt_lang_basics: "أساسيات (A1)", wizard_opt_lang_inter: "متوسط (A2-B1)", wizard_opt_lang_fluent: "طلاقة (B2+)", wizard_scale_1_motivation: "فضولي", wizard_scale_5_motivation: "لا أتوقف",
+    wizard_step9_title: "اللغة الإنجليزية", wizard_opt_lang_en_none: "لا شيء", wizard_opt_lang_en_basic: "أساسي", wizard_opt_lang_en_working: "لغة عمل", wizard_opt_lang_en_fluent: "طلاقة/لغة أم",
+    wizard_step10_title: "الرؤية", wizard_step10_aspirations_label: "الطموحات", wizard_step10_aspirations_placeholder: "ماذا تأمل أن تحقق؟", wizard_step10_challenges_label: "التحديات", wizard_step10_challenges_placeholder: "ما الذي يقلقك؟",
+    wizard_step12_title: "شعورك تجاه الثقافة؟", wizard_opt_cult_low: "لغز جميل", wizard_opt_cult_med: "مراقب سعيد", wizard_opt_cult_high: "منغمس بعمق",
+    wizard_step13_title: "إيقاع الحياة؟", wizard_scale_1_life: "غريب", wizard_scale_5_life: "مثل الوطن",
+    wizard_step14_title: "الثقة في البحث عن عمل؟", wizard_scale_1_career: "أحتاج توجيه", wizard_scale_5_career: "لدي خطة",
+    wizard_step15_title: "هل الطريق واضح؟", wizard_opt_info_none: "ضبابي قليلاً", wizard_opt_info_some: "بدأ يتضح", wizard_opt_info_high: "واضح تماماً",
+    wizard_step16_title: "ما الذي يحمسك؟", wizard_opt_excite_career: "بناء مهنة", wizard_opt_excite_life: "الأمان والسلام", wizard_opt_excite_nature: "الطبيعة", wizard_opt_excite_adventure: "المغامرة",
+    wizard_rating_winter: "شتاء", wizard_rating_thaw: "ذوبان", wizard_rating_growth: "نمو", wizard_rating_bloom: "ازدهار", wizard_rating_summer: "صيف",
+    history_title: "سجل المحادثات", history_empty: "لا توجد محادثات.", history_tab_summary: "ملخص (AI)", history_tab_transcript: "النص الكامل", history_no_summary: "لا يوجد ملخص.", history_generating: "يكتب الملخص...", history_generating_desc: "يجري في الخلفية.",
+    cv_title: "تحليل CV", cv_subtitle: "الصق نص السيرة الذاتية لملء ملفك.", cv_placeholder: "الصق النص هنا...", cv_btn_analyze: "تحليل واستيراد", cv_btn_processing: "جارٍ المعالجة...", cv_warning_key: "مطلوب مفتاح API.", cv_key_update: "تحديث المفتاح", cv_key_required: "المفتاح مطلوب", cv_key_desc: "للخصوصية، يرجى استخدام مفتاحك الخاص.", cv_key_placeholder: "الصق المفتاح...", cv_key_save: "حفظ المفتاح", cv_alert_success: "تم الحفظ.", cv_alert_error: "فشل التحليل.", cv_btn_manage_key: "مفتاح API",
+    settings_title: "الإعدادات", settings_sect_general: "عام", settings_sect_appearance: "المظهر", settings_sect_data: "البيانات", settings_length_label: "طول الإجابة", settings_theme_label: "السمة", settings_theme_system: "النظام", settings_theme_light: "فاتح", settings_theme_dark: "داكن", settings_opt_ask: "اسأل دائماً", settings_opt_short: "قصير", settings_opt_long: "مفصل", settings_clear_data: "إعادة ضبط التطبيق", settings_clear_data_desc: "سيمسح كل البيانات.", settings_btn_clear: "مسح الكل",
+    net_intro: "أهلاً بك في شبكة العلاقات. اختر مسارك.",
+    net_header: "على ماذا نركز؟",
+    net_opt_design: "مجتمع التصميم",
+    net_opt_linkedin: "استراتيجية LinkedIn",
+    net_opt_hobbies: "هوايات وأنشطة",
+    net_opt_parents: "علاقات للآباء",
+    net_opt_introvert: "نصائح للانطوائيين",
+    feedback_action: "أرسل ملاحظاتك",
+    net_intro_deep: 'لماذا العلاقات مهمة', net_design: 'مجتمع التصميم', net_parents: 'علاقات الآباء', net_introvert: 'تواصل بلا ضغط', net_hobbies: 'هوايات', net_plan: 'خطة العمل',
+    net_cold_msg: 'فن الرسائل الباردة', net_places: 'أماكن التواصل', net_prof_style: 'الأسلوب المهني الفنلندي',
+    net_hackathons: 'هاكاثون و Junction', net_slush: 'Slush: المؤتمر المختلف', net_school: 'العلاقات في الدراسة'
   },
   wiki: {
     titles: {
-      foundation: 'الأساسيات', job_strategy: 'استراتيجية العمل', workplace: 'ثقافة العمل', industries: 'الصناعات', life: 'الحياة',
-      identity: 'الهوية', security: 'الضمان الاجتماعي', market: 'السوق', tools: 'الأدوات', rights: 'الحقوق', networking: 'التواصل والسوق الخفي',
-      social: 'اجتماعي', norms: 'المعايير', specialist: 'متخصص', hands_on: 'عمل يدوي', housing: 'السكن',
-      family: 'العائلة', language: 'اللغة',
-      social_unemployment: 'البطالة', social_housing: 'دعم السكن', social_pension: 'التقاعد', social_kela_card: 'بطاقة Kela', social_health: 'الصحة',
-      bureaucracy_dvv: 'DVV والهوية', bureaucracy_migri: 'الهجرة', bureaucracy_tax: 'بطاقة الضرائب', bureaucracy_bank: 'حساب بنكي',
-      job_te_office: 'مكتب TE', job_portals: 'بوابات العمل', job_entrepreneurship: 'ريادة الأعمال', job_networking: 'التواصل',
-      job_cover_letter: 'رسالة التغطية', job_interview: 'المقابلة', job_linkedin: 'LinkedIn', job_recognition: 'الاعتراف بالشهادات', job_cv_tips: 'سيرة ذاتية فنلندية',
-      work_contract: 'العقد', work_hours: 'الساعات', work_holidays: 'العطلات', work_unions: 'النقابات', work_probation: 'فترة التجربة',
-      culture_meetings: 'الاجتماعات', culture_feedback: 'الملاحظات', culture_names: 'الأسماء', culture_punctuality: 'الالتزام بالوقت', culture_coffee: 'القهوة',
-      culture_afterwork: 'بعد العمل', culture_sauna: 'الساونا', culture_smalltalk: 'الصمت', culture_party: 'الحفلات',
-      prof_engineering: 'هندسة', prof_business: 'أعمال', prof_it: 'تقنية معلومات', prof_health: 'صحة', prof_service: 'خدمات',
-      housing_contracts: 'عقود الإيجار', housing_finding: 'إيجاد سكن', housing_utilities: 'مرافق', housing_recycling: 'إعادة التدوير', housing_sauna: 'مغسلة وساونا',
-      family_school: 'مدرسة', family_daycare: 'حضانة', family_activities: 'هوايات', family_winter: 'شتاء', family_safety: 'أمان',
-      net_culture: 'الطريقة الفنلندية', net_linkedin: 'استراتيجية LinkedIn', net_hidden: 'سوق العمل الخفي', net_volunteering: 'التطوع'
+      foundation: 'الأساسيات والبيروقراطية', job_strategy: 'استراتيجية العمل', workplace: 'ثقافة العمل', industries: 'دليل الصناعات', life: 'الحياة الشمالية',
+      identity: 'الهوية والتصاريح', security: 'الضمان الاجتماعي', market: 'السوق', tools: 'الأدوات', rights: 'الحقوق', networking: 'العلاقات والسوق الخفي',
+      social: 'طقوس اجتماعية', norms: 'أعراف مهنية', specialist: 'أدوار تخصصية', hands_on: 'عمل يدوي', housing: 'السكن والمواصلات',
+      family: 'دعم العائلة', language: 'اللغة', giving: 'رد الجميل',
+      social_unemployment: 'إعانات البطالة', social_housing: 'بدل السكن', social_pension: 'نظام التقاعد', social_kela_card: 'بطاقة Kela', social_health: 'الصحة العامة',
+      bureaucracy_dvv: 'DVV والهوية', bureaucracy_migri: 'الهجرة (Migri)', bureaucracy_tax: 'البطاقة الضريبية', bureaucracy_bank: 'فتح حساب بنكي', bureaucracy_ihh: 'البيت الدولي',
+      job_te_office: 'مكتب TE', job_portals: 'بوابات الوظائف', job_entrepreneurship: 'ريادة الأعمال', 
+      net_culture: 'الطريقة الفنلندية', net_linkedin: 'استراتيجية LinkedIn', net_hidden: 'سوق العمل الخفي', net_volunteering: 'التطوع',
+      job_cover_letter: 'رسالة التغطية', job_interview: 'المقابلة', job_recognition: 'الاعتراف بالشهادات', job_cv_tips: 'السيرة الذاتية الفنلندية',
+      work_contract: 'عقد العمل', work_hours: 'ساعات العمل', work_holidays: 'العطلات', work_unions: 'النقابات', work_probation: 'فترة التجربة',
+      culture_meetings: 'ثقافة الاجتماعات', culture_feedback: 'تقديم الملاحظات', culture_names: 'الأسماء والألقاب', culture_punctuality: 'الالتزام بالوقت', culture_coffee: 'استراحات القهوة',
+      culture_afterwork: 'بعد العمل', culture_sauna: 'دبلوماسية الساونا', culture_smalltalk: 'الصمت والحديث القصير', culture_party: 'حفلات المكتب',
+      prof_engineering: 'الهندسة', prof_business: 'الأعمال والمالية', prof_it: 'تكنولوجيا المعلومات', prof_health: 'الصحة والتمريض', prof_service: 'قطاع الخدمات',
+      housing_contracts: 'عقود الإيجار', housing_finding: 'البحث عن شقق', housing_utilities: 'المرافق', housing_recycling: 'دليل إعادة التدوير', housing_sauna: 'الغسيل والساونا',
+      family_school: 'نظام المدارس', family_daycare: 'الحضانة', family_activities: 'الهوايات والرياضة', family_winter: 'الأطفال والشتاء', family_safety: 'الأمان',
+      vol_redcross: 'الصليب الأحمر', vol_animals: 'ملاجئ الحيوانات', vol_events: 'تطوع الفعاليات', vol_humanitarian: 'العمل الإنساني',
+      daily_transport: 'النقل العام (HSL)', daily_groceries: 'التسوق', daily_pantti: 'إعادة تدوير الزجاجات',
+      nature_everyman: "حقوق الجميع", nature_winter: 'النجاة في الشتاء', nature_summer: 'الأكواخ الصيفية',
+      vantaa_library_tikkurila: 'مكتبة تيكوريلا', vantaa_nature: 'طبيعة فانتا', vantaa_ring_rail: 'قطار الحلقي', vantaa_info_points: 'معلومات فانتا', vantaa_aviapolis: 'مركز أفيبوليس', vantaa_multicultural: 'فانتا متعددة الثقافات'
     },
     articles: {
       'guide_start': { 
         title: 'أهلاً بك في فنلندا! 🇫🇮', 
-        summary: 'فنلندا تعمل بالثقة، الصمت، والقهوة.', 
-        content: `# دليل البقاء\n\n**الفلسفة:**\nفنلندا تعمل بالثقة، الصمت، والقهوة. إنه مجتمع تعمل فيه الأنظمة، لكن عليك معرفة كيفية استخدامها.\n\n### كيفية الاستخدام\n1. **اقرأ:** تصفح الأدلة.\n2. **دردش:** اسأل الذكاء الاصطناعي.\n3. **الملف الشخصي:** حدث بياناتك.` 
+        summary: 'فنلندا تعمل بالثقة، الصمت، والقهوة. هذا الدليل هو مرجعك للبقاء.', 
+        content: `# دليل البقاء\n\n**الفلسفة:**\nفنلندا تعمل بالثقة، الصمت، والقهوة. إنه مجتمع تعمل فيه الأنظمة، لكن عليك معرفة كيفية استخدامها.\n\n### كيفية استخدام هذا التطبيق\n1. **اقرأ:** تصفح الأدلة حول البيروقراطية وثقافة العمل.\n2. **محادثة:** اسأل مساعد الذكاء الاصطناعي عن وضعك الخاص.\n3. **ملف:** حافظ على تحديث بياناتك للحصول على نصائح دقيقة.\n\n*Sisu* (العزيمة) هو كل ما تحتاجه!` 
+      },
+      'vantaa_ring_rail': {
+        title: 'قلب فانتا: خط القطار الحلقي',
+        summary: 'الخط الحديدي الذي يربط المدينة بالعالم.',
+        content: `# ميزة Kehärata\n\n**خط القطار الحلقي** هو العمود الفقري لفانتا. يربط هلسنكي بالمطار ومناطق فانتا الرئيسية.\n\n### لماذا يهمك\n1. **حياة بلا سيارة:** يمكنك الوصول للمطار أو وسط هلسنكي في 30 دقيقة.\n2. **المناطق:** معظم فانتا في المنطقة B و C. الإيجارات أرخص.\n3. **التنقل:** قطارات كل 10 دقائق.`
+      },
+      'vantaa_info_points': {
+        title: 'معلومات فانتا: البيروقراطية سهلة',
+        summary: 'نقاط خدمة سهلة الوصول للمساعدة.',
+        content: `# مكتب المساعدة المحلي\n\nمراكز **Vantaa-info** موجودة في تيكوريلا ومييرماكي وكوروسو. يمكنك الدخول بدون موعد.\n\n### كيف يساعدون\n* **دعم رقمي:** ملء الاستمارات.\n* **نصيحة عامة:** لمن تتصل.\n* **لغات متعددة:** يتوفر مستشارون بلغات مثل العربية والصومالية والروسية.`
+      },
+      'vantaa_nature': {
+        title: 'طبيعة عند عتبة دارك',
+        summary: 'ساونا الدخان والحدائق الوطنية.',
+        content: `# الهروب الأخضر\n\n**Kuusijärvi** و **Sipoonkorpi** هما بوابتك للطبيعة.\n\n### Kuusijärvi\nساونا الدخان والسباحة في الشتاء.\n\n### Sipoonkorpi\nغابة عميقة، قطف التوت والفطر بحرية.`
+      },
+      'vantaa_aviapolis': {
+        title: 'Aviapolis: محرك النمو',
+        summary: 'أكثر من مجرد مطار. مركز وظائف ضخم.',
+        content: `# أين الوظائف\n\nمنطقة المطار مليئة بالخدمات اللوجستية والتكنولوجيا. الإنجليزية مقبولة جداً هنا.`
+      },
+      'vantaa_multicultural': {
+        title: 'فانتا: مدينة فنلندا الدولية',
+        summary: 'أكثر من 25% من السكان من أصول أجنبية.',
+        content: `# لست وحدك\n\nفانتا هي المدينة الأكثر تنوعاً. المدارس معتادة على تعدد اللغات، وتتوفر متاجر طعام عالمية.`
+      },
+      'vantaa_library_tikkurila': {
+        title: 'مكتبة تيكوريلا',
+        summary: 'أكثر من كتب: طباعة ثلاثية الأبعاد واستوديوهات.',
+        content: `# ورشة المدينة\n\nفي مركز Dixi. يمكنك استخدام طابعات 3D وآلات خياطة مجاناً. احجز عبر varaamo.vantaa.fi.`
+      },
+      'bureaucracy_ihh': {
+        title: 'البيت الدولي هلسنكي (IHH)',
+        summary: 'متجر واحد للبيروقراطية.',
+        content: `# كل الخدمات\n\nيجمع DVV والضرائب و Kela و Migri. يقع في هلسنكي.`
       },
       'net_culture': {
         title: 'التواصل: الطريقة الفنلندية',
-        summary: 'الفنلنديون يتواصلون عبر العمل معاً، وليس الدردشة.',
-        content: `### روح "Talkoot"\nالتواصل في فنلندا ليس توزيع بطاقات عمل. إنه **العمل معاً**.\n\n* **التطوع:** انضم لفريق في فعالية. العمل مع فنلندي يبني الثقة.\n* **الجمعيات:** توجد جمعية لكل شيء. ابحث عن جمعية مهنتك.`
+        summary: 'العمل معاً هو سر التواصل.',
+        content: `### روح العمل الجماعي\n\nالتطوع والعمل جنباً إلى جنب يبني الثقة أسرع من الكلام.`
       },
       'net_intro_deep': {
         title: 'لماذا التواصل مهم',
-        summary: 'معظم الوظائف خفية. التواصل هو المفتاح.',
-        content: `# سوق العمل الخفي\n\nفي فنلندا، **الثقة** تلعب دوراً كبيراً. أصحاب العمل يريدون معرفة من يزكيك.\n\n### لماذا؟\nسوق العمل الخفي يحتوي على **70-80 بالمائة** من الوظائف المفتوحة.`
+        summary: 'معظم الوظائف خفية.',
+        content: `# السوق الخفي\n\n70-80% من الوظائف لا يتم الإعلان عنها. العلاقات هي المفتاح.`
       },
       'net_linkedin': {
         title: 'استراتيجية LinkedIn',
-        summary: 'LinkedIn هو محرك البحث الرئيسي للموظفين.',
-        content: `### واجهتك الرقمية\n* **الكلمات المفتاحية:** يبحثون عن المهارات. استخدم "Java" أو "إدارة مشاريع".\n* **الموقع:** اجعله فنلندا. غيره إلى "هلسنكي" لتظهر في البحث المحلي.\n* **Open to Work:** الشعار الأخضر مقبول هنا ويدل على الحماس.`
+        summary: 'محرك بحث للموظفين.',
+        content: `# واجهتك الرقمية\n\nاستخدم كلمات مفتاحية بالإنجليزية. اجعل الموقع "فنلندا".`
+      },
+      'net_hobbies': {
+        title: 'هوايات وتواصل',
+        summary: 'التقِ بالناس بشكل طبيعي.',
+        content: `# اهتمامات مشتركة\n\nانضم لنادٍ رياضي أو دورة تعليمية.`
+      },
+      'net_parents': {
+        title: 'تواصل للآباء',
+        summary: 'استخدم روتينك اليومي.',
+        content: `# في الحديقة\n\nتحدث مع الآباء الآخرين في الملعب أو فعاليات الحضانة.`
+      },
+      'net_introvert': {
+        title: 'تواصل هادئ',
+        summary: 'لا داعي للصخب.',
+        content: `# طريقتك\n\nاللقاءات الفردية والمجتمعات عبر الإنترنت فعالة جداً.`
       },
       'net_hidden': {
         title: 'اختراق السوق الخفي',
-        summary: '70-80% من الوظائف لا يُعلن عنها.',
-        content: `### الوظائف الخفية\nلا تعلن الشركات غالباً لأن التوظيف مكلف.\n\n1. **خريطة الشركات:** اصنع قائمة بـ 20 شركة.\n2. **طلب مفتوح:** راسل قائد الفريق مباشرة. "أتابع عملكم. لدي مهارات. هل يمكننا شرب قهوة لـ 15 دقيقة؟"\n3. **مقابلات معلوماتية:** اسأل الناس عن عملهم، لا تطلب وظيفة.`
-      },
-      'net_volunteering': {
-        title: 'التطوع',
-        summary: 'أسرع طريقة للاندماج وإثبات المهارات.',
-        content: `### لماذا التطوع؟\n1. **اللغة:** بيئة آمنة لممارسة الفنلندية.\n2. **المراجع:** تحصل على مرجع محلي.\n3. **الشبكة:** تقابل أشخاصاً نشطين.\n\n### أين؟\nالصليب الأحمر، فعاليات الشركات الناشئة، النوادي الرياضية.`
+        summary: 'ابحث عن الشركات، لا الإعلانات.',
+        content: `### تواصل مباشر\n\nراسل مديري الفرق مباشرة بطلبات مفتوحة.`
       },
       'net_school': {
         title: 'التواصل أثناء الدراسة',
-        summary: 'المدرسة هي شبكتك المهنية الأولى.',
-        content: `# ميزة الطالب\n\nالدراسة هي أفضل طريقة لبناء شبكة علاقات.\n\n### الاستراتيجية\nعامل كل يوم تدريب كأنه مقابلة عمل.`
+        summary: 'زملاؤك هم شبكتك الأولى.',
+        content: `# ميزة الطالب\n\nالتدريب العملي هو مقابلة عمل طويلة.`
       },
       'net_hackathons': {
         title: 'الهاكاثون والفعاليات',
-        summary: 'Junction و Slush فرص ذهبية.',
-        content: `# فعاليات التقنية\n\n* **Junction:** أكبر هاكاثون في أوروبا.\n* **Slush:** حدث الشركات الناشئة.`
+        summary: 'فرص ذهبية.',
+        content: `# Junction & Slush\n\nتطوع في هذه الفعاليات لتلتقي بالمؤثرين.`
       },
       'net_slush': {
-        title: 'Slush والشركات الناشئة',
-        summary: 'التطوع في Slush طريقة أسطورية للدخول في الدائرة.',
-        content: `# Slush\n\nيُعقد في هلسنكي في نوفمبر. التطوع هنا يفتح الأبواب.`
+        title: 'Slush',
+        summary: 'حدث الشركات الناشئة.',
+        content: `# التطوع\n\nطريقة أسطورية للدخول في المجتمع التقني.`
       },
       'net_cold_msg': {
-        title: 'فن الرسائل الباردة',
-        summary: 'كيف تتواصل دون أن تكون مزعجاً.',
-        content: `# التواصل مع الغرباء\n\nالفنلنديون مشغولون لكن متعاونون. اجعل رسالتك قصيرة.`
-      },
-      'net_parents': {
-        title: 'تواصل الآباء',
-        summary: 'استخدم إيقاعك اليومي لبناء علاقات.',
-        content: `# تواصل للآباء المشغولين\n\n* **دبلوماسية الملعب:** تحدث مع الآباء الآخرين في الحديقة.\n* **فعاليات الحضانة:** شارك في أيام التطوع.`
-      },
-      'net_introvert': {
-        title: 'تواصل بضغط منخفض',
-        summary: 'لا تحتاج أن تكون صاخباً.',
-        content: `# تواصل بطريقتك\n\n1. **وجهاً لوجه:** يفضل الفنلنديون المحادثات العميقة.\n2. **مجتمعات الإنترنت:** انضم لمجموعات Discord أو Slack.`
-      },
-      'net_hobbies': {
-        title: 'الهوايات والتواصل الناعم',
-        summary: 'انضم لأنشطة محلية لتقابل الناس بشكل طبيعي.',
-        content: `# قابل الناس طبيعياً\n\nيرتبط الفنلنديون عبر الأنشطة المشتركة.\n\n* **مراكز تعليم الكبار:** خذ دورة رخيصة.\n* **الرياضة:** انضم لفريق مبتدئين.`
+        title: 'الرسائل الباردة',
+        summary: 'كيف تراسل الغرباء.',
+        content: `# كن مختصراً\n\nاسأل سؤالاً محدداً، لا تطلب وظيفة مباشرة.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV والهوية', 
-        summary: 'احصل على الرمز الشخصي لتكون موجوداً رسمياً.', 
-        content: `# DVV 🆔\n\n**الأولوية: فوراً**\n\n### المهمة\nالوجود رسمياً. احصل على **الرمز الشخصي**.\n\n### لماذا؟\nالبنك، الهاتف، الضرائب.` 
+        summary: 'احصل على رمزك الشخصي.', 
+        content: `**أولوية قصوى**\n\nبدون التسجيل، أنت غير موجود رسمياً.` 
       },
       'bureaucracy_migri': { 
-        title: 'Migri (الهجرة)', 
-        summary: 'تصريح الإقامة ونصائح الحجز.', 
-        content: `# Migri 🛂\n\n### المهمة\nتصريح الإقامة (oleskelulupa).\n\n### نصائح\n* **Enter Finland:** استخدم الخدمة الإلكترونية.\n* **الهوية:** يجب زيارة المركز.` 
+        title: 'Migri', 
+        summary: 'تصريح الإقامة.', 
+        content: `# استخدم Enter Finland\n\nالخدمة الإلكترونية أسرع.` 
       },
       'bureaucracy_tax': { 
-        title: 'بطاقة الضرائب', 
-        summary: 'بدون بطاقة، الضريبة 60%.', 
-        content: `# القاعدة الذهبية\nلا بطاقة = **60% ضريبة**.\n\n### العملية\n1. ادخل **OmaVero**.\n2. قدر الدخل.\n3. نزل PDF.\n4. ارسله للعمل.` 
+        title: 'بطاقة ضريبية', 
+        summary: 'بدونها الضريبة 60%.', 
+        content: `# ضروري\n\nاحصل عليها من OmaVero وقدمها لعملك.` 
       },
       'bureaucracy_bank': { 
         title: 'حساب بنكي', 
-        summary: 'يعطيك "هوية إلكترونية قوية".', 
-        content: `# التحدي\nقوانين غسيل الأموال صارمة.\n\n### المطلوب\nجواز سفر، إقامة، عقد عمل، رمز شخصي.\n\n### الجائزة\n**رموز بنكية**. مفتاح الخدمات الرقمية.` 
+        summary: 'مفتاح الخدمات الرقمية.', 
+        content: `# الهوية البنكية\n\nتحتاجها للدخول لكل الخدمات الحكومية.` 
       },
       'social_kela_card': {
         title: 'بطاقة Kela',
-        summary: 'إثبات التأمين الصحي.',
-        content: `# ما هي؟\nبطاقة زرقاء تثبت تغطيتك.\n\n### الاستخدام\nفي الصيدلية للحصول على خصم.`
+        summary: 'تأمينك الصحي.',
+        content: `# الخصم المباشر\n\nأظهرها في الصيدلية والعيادات.`
       },
       'social_health': {
-        title: 'الصحة العامة والمهنية',
-        summary: 'الموظفون يستخدمون الصحة المهنية. أسرع ومجاني.',
-        content: `# نظامان\n\n**1. عامة:** للجميع. رخيصة لكن بطيئة.\n**2. مهنية:** للموظفين. مجانية وسريعة.`
+        title: 'الصحة',
+        summary: 'عامة ومهنية.',
+        content: `# الصحة المهنية\n\nللموظفين، هي الأسرع والمجانية.`
       },
       'social_unemployment': {
-        title: 'إعانة البطالة',
-        summary: 'سجل في مكتب TE في اليوم الأول.',
-        content: `# القاعدة الذهبية\nسجل في **TE Services** في **أول يوم** بطالة.\n\n### من يدفع؟\n1. **الصندوق:** مرتبط بالدخل (إذا كنت عضواً).\n2. **Kela:** أساسي.`
+        title: 'إعانات البطالة',
+        summary: 'سجل في TE فوراً.',
+        content: `# اليوم الأول\n\nسجل كباحث عن عمل في يومك الأول من البطالة.`
       },
       'social_housing': {
-        title: 'دعم السكن',
-        summary: 'Kela تدفع جزءاً من الإيجار للدخل المنخفض.',
-        content: `# لمن؟\nالأسر ذات الدخل المنخفض.\n\n### التقديم\nعبر الإنترنت في Kela.`
+        title: 'بدل السكن',
+        summary: 'مساعدة في الإيجار.',
+        content: `# للدخل المحدود\n\nKela تدفع جزءاً من الإيجار.`
       },
       'social_pension': {
         title: 'التقاعد',
-        summary: 'تجمع تقاعداً من كل يورو تكسبه.',
-        content: `# كيف يعمل\nيُخصم تلقائياً. لا تفعل شيئاً.\n\n### تحقق\nفي **Tyoelake.fi**.`
+        summary: 'تراكمي.',
+        content: `# تلقائي\n\nيتم اقتطاعه من راتبك وتجميعه.`
       },
       'job_market_overview': { 
         title: 'سوق العمل', 
-        summary: 'نظرة عامة.', 
-        content: `### نظرة عامة\nيقدر السوق الفنلندي المهارات والمواقف.` 
+        summary: 'افهم المشهد.', 
+        content: `### المهارات والموقف\n\nالسوق يقدر المهارة.` 
       },
       'job_te_office': {
-        title: 'مكتب TE',
-        summary: 'يساعد في الاندماج والبطالة.',
-        content: `# ماذا يفعلون\n* **خطة الاندماج:** اللغة.\n* **حالة باحث عن عمل:** ضرورية للمال.\n* **تحذير:** اتبع تعليماتهم بدقة.`
+        title: 'خدمات TE',
+        summary: 'مكتب العمل.',
+        content: `# الاندماج\n\nيساعدون في خطط اللغة والتوظيف.`
       },
       'job_portals': {
-        title: 'أين تبحث',
-        summary: 'المواقع الرئيسية.',
-        content: `# المواقع\n* **LinkedIn:** للمختصين.\n* **Oikotie:** الأكبر.\n* **The Hub:** للشركات الناشئة.`
+        title: 'مواقع العمل',
+        summary: 'أين تبحث.',
+        content: `# المواقع\nLinkedIn, Oikotie, Duunitori.`
       },
       'job_entrepreneurship': {
         title: 'ريادة الأعمال',
-        summary: 'يوجد دعم مالي للبدء.',
-        content: `# Starttiraha\nدعم مالي لرواد الأعمال الجدد لمدة 6-12 شهراً.\n\n**مهم:** قدم الطلب **قبل** التسجيل.`
+        summary: 'منحة البدء.',
+        content: `# Starttiraha\n\nدعم مالي لرواد الأعمال الجدد.`
       },
       'job_cv_tips': {
-        title: 'سيرة ذاتية فنلندية',
-        summary: 'قصيرة، واقعية، مع صورة.',
-        content: `# القائمة\n1. **الطول:** صفحتان كحد أقصى.\n2. **صورة:** قياسي.\n3. **ملخص:** في الأعلى.`
+        title: 'نمط السيرة الذاتية',
+        summary: 'قصير ومباشر.',
+        content: `# نصائح\n\nصفحة أو صفحتين. صورة شخصية. ركز على المهارات.`
       },
       'job_cover_letter': {
         title: 'رسالة التغطية',
-        summary: 'لماذا أنت؟ ولماذا هم؟',
-        content: `# الهيكل\n1. **الخاطف:** لماذا هذه الوظيفة؟\n2. **القيمة:** ما المشاكل التي تحلها؟\n3. **الشخصية:** هل تناسب الفريق؟`
+        summary: 'لماذا أنت؟',
+        content: `# القيمة\n\nاشرح كيف ستحل مشاكلهم.`
       },
       'job_interview': {
         title: 'المقابلة',
-        summary: 'الصدق يُختبر. الصمت مقبول.',
-        content: `# التوقعات\n* **الصدق:** لا تكذب.\n* **الصمت:** لا تفزع.\n* **القهوة:** اقبلها دائماً.`
+        summary: 'الصدق.',
+        content: `# التوقعات\n\nكن صادقاً. الصمت ليس مشكلة.`
       },
       'job_recognition': {
         title: 'الاعتراف بالشهادات',
-        summary: 'حاسم للأطباء والمعلمين.',
-        content: `# المهن المنظمة\nللصحة/التعليم، يجب اعتراف **Valvira** أو **OPH**.`
+        summary: 'للمهن المنظمة.',
+        content: `# الصحة والتعليم\n\nتحتاج لمعادلة من OPH أو Valvira.`
       },
       'work_contract': { 
         title: 'عقد العمل', 
-        summary: 'مكتوب دائماً. راجع TES.', 
-        content: `# العناصر\n1. **المدة:** دائم أو مؤقت.\n2. **TES:** الاتفاقية الجماعية. تحدد الحد الأدنى.\n3. **التجربة:** ماكس 6 أشهر.` 
+        summary: 'مكتوب دائماً.', 
+        content: `# تحقق\n\nتأكد من الشروط وفترة التجربة.` 
       },
       'work_hours': {
         title: 'ساعات العمل',
-        summary: '37.5 أو 8 ساعات.',
-        content: `# التوازن\nمرونة في الدخول والخروج.`
+        summary: '37.5 ساعة.',
+        content: `# التوازن\n\nمرونة في الدوام.`
       },
       'work_holidays': {
         title: 'العطلات',
-        summary: 'سخية لكن يجب كسبها.',
-        content: `# السنة الائتمانية\nتكسب أياماً. الصيف في يوليو.`
+        summary: 'يوليو مقدس.',
+        content: `# الإجازة\n\nتتراكم أيام الإجازة مع العمل.`
       },
       'work_unions': {
         title: 'النقابات',
-        summary: 'يُنصح بها.',
-        content: `# لماذا؟\n1. **المال:** بطالة أعلى.\n2. **القانون:** مساعدة قانونية.`
+        summary: 'حماية.',
+        content: `# انضم\n\nللحماية القانونية وتأمين البطالة الأفضل.`
       },
       'work_probation': {
         title: 'فترة التجربة',
-        summary: 'عادة 6 أشهر.',
-        content: `# القواعد\nيمكن لأي طرف الإنهاء فوراً.`
+        summary: 'حتى 6 أشهر.',
+        content: `# القواعد\n\nيمكن إنهاء العقد فوراً من الطرفين.`
       },
       'culture_meetings': { 
         title: 'الاجتماعات', 
-        summary: 'فعالة ومنضبطة.', 
-        content: `# القواعد\n1. **الوقت:** دقيق.\n2. **الأجندة:** التزم بها.\n3. **الصمت:** موافقة أو تفكير.` 
+        summary: 'دقيقة.', 
+        content: `# القواعد\n\nابدأ في الوقت وانتهِ في الوقت.` 
       },
       'culture_feedback': {
         title: 'الملاحظات',
-        summary: 'مباشرة وصادقة.',
-        content: `# المباشرة\nالفنلندي مباشر. لا تأخذها بشكل شخصي.`
+        summary: 'مباشرة.',
+        content: `# لا تغضب\n\nالنقد موجه للعمل وليس للشخص.`
       },
       'culture_names': {
         title: 'الأسماء',
         summary: 'غير رسمية.',
-        content: `# مرحباً رئيس\nالجميع ينادون بالاسم الأول.`
+        content: `# الاسم الأول\n\nنادي الجميع بأسمائهم الأولى.`
       },
       'culture_punctuality': {
-        title: 'الالتزام بالوقت',
-        summary: 'تأخير 5 دقائق يعتبر تأخيراً.',
-        content: `# الاحترام\nالتأخير سرقة وقت. أرسل رسالة.`
+        title: 'دقة المواعيد',
+        summary: 'احترام.',
+        content: `# لا تتأخر\n\nالتأخير يعتبر وقاحة.`
       },
       'culture_coffee': {
-        title: 'استراحة القهوة',
+        title: 'القهوة',
         summary: 'طقس مقدس.',
-        content: `# الطقس\nاذهب مع الفريق. مكان التواصل الاجتماعي.`
+        content: `# تواصل\n\nاشرب القهوة مع الزملاء.`
       },
       'culture_afterwork': {
         title: 'بعد العمل',
-        summary: 'مشروبات الجمعة.',
-        content: `# الجو\nمريح. الكحول اختياري.`
+        summary: 'استرخاء.',
+        content: `# اختياري\n\nمشروبات غير رسمية.`
       },
       'culture_sauna': {
         title: 'الساونا',
-        summary: 'مكان المساواة.',
-        content: `# القواعد\nلا ألقاب. العري طبيعي. أحياناً للعمل.`
+        summary: 'مساواة.',
+        content: `# قواعد\n\nالجميع متساوون في الساونا.`
       },
       'culture_smalltalk': {
         title: 'الصمت',
-        summary: 'الصمت ليس محرجاً.',
-        content: `# لا تملأ الفراغ\nفي المصعد، لا داعي للكلام.`
+        summary: 'مقبول.',
+        content: `# راحة\n\nلا داعي لملء الصمت بالكلام.`
       },
       'culture_party': {
-        title: 'حفلات الشركة',
-        summary: 'حفلات الكريسماس جامحة.',
-        content: `# الاستثناء\nالفنلنديون منفتحون هنا.`
+        title: 'حفلات العمل',
+        summary: 'عيد الميلاد.',
+        content: `# استثناء\n\nوقت للمرح وكسر الحواجز.`
       },
       'prof_engineering': {
         title: 'الهندسة',
-        summary: 'قطاع ضخم. الإنجليزية شائعة.',
-        content: `# العمالقة\nKone, Nokia.\n\n### الثقافة\nتعتمد على الحقائق.`
+        summary: 'قطاع ضخم.',
+        content: `# شركات\n\nKone, Wärtsilä.`
       },
       'prof_business': {
         title: 'الأعمال',
-        summary: 'الفنلندية مطلوبة غالباً.',
-        content: `# الفرصة\nالمبيعات الدولية أو الشركات الناشئة.`
+        summary: 'اللغة مهمة.',
+        content: `# الفرص\n\nالمبيعات الدولية.`
       },
       'prof_it': {
-        title: 'تقنية المعلومات',
-        summary: 'الأسهل للإنجليزية.',
-        content: `# المركز\nتحتاج مبرمجين. الإنجليزية لغة العمل.`
+        title: 'تكنولوجيا المعلومات',
+        summary: 'الإنجليزية تكفي.',
+        content: `# طلب عالي\n\nالمبرمجون مطلوبون بشدة.`
       },
       'prof_health': {
         title: 'الصحة',
-        summary: 'نقص كبير، لكن اللغة إجبارية.',
-        content: `# الواقع\nتحتاج ترخيص ولغة.`
+        summary: 'نقص حاد.',
+        content: `# اللغة\n\nالفنلندية ضرورية جداً.`
       },
       'prof_service': {
         title: 'الخدمات',
-        summary: 'نقطة دخول شائعة.',
-        content: `# البداية\nالتنظيف والمطاعم تقبل بدون لغة أحياناً.`
+        summary: 'نقطة بداية.',
+        content: `# دخول\n\nالتنظيف والمطاعم.`
       },
       'housing_contracts': {
         title: 'عقود الإيجار',
         summary: 'آمنة.',
-        content: `# الشروط\nتأمين شهرين. تأمين منزلي إجباري.`
+        content: `# تأمين\n\nتأمين المنزل إلزامي.`
       },
       'housing_finding': {
-        title: 'إيجاد سكن',
-        summary: 'السوق سريع.',
-        content: `# البوابات\nOikotie, Vuokraovi.`
+        title: 'البحث عن سكن',
+        summary: 'سريع.',
+        content: `# كن جاهزاً\n\nالسوق يتحرك بسرعة.`
       },
       'housing_utilities': {
         title: 'المرافق',
-        summary: 'الكهرباء عقد منفصل.',
-        content: `# الكهرباء\nأنت تختار المزود.`
+        summary: 'كهرباء.',
+        content: `# عقود\n\nأنت مسؤول عن عقد الكهرباء.`
       },
       'housing_recycling': {
         title: 'إعادة التدوير',
-        summary: 'يفرزون كل شيء.',
-        content: `# الفرز\nبلاستيك، كرتون. الزجاجات لها رهن مالي.`
+        summary: 'شامل.',
+        content: `# فرز\n\nفرز النفايات بدقة.`
       },
       'housing_sauna': {
-        title: 'مغسلة وساونا',
-        summary: 'مشتركة.',
-        content: `# المبنى\nاحجز دورك.`
+        title: 'الغسيل والساونا',
+        summary: 'مشترك.',
+        content: `# حجز\n\nاحجز دورك في مرافق المبنى.`
       },
       'family_school': {
-        title: 'المدرسة',
-        summary: 'مجانية وممتازة.',
-        content: `# الأساسيات\nتبدأ في 7 سنوات. الغداء مجاني.`
+        title: 'المدارس',
+        summary: 'ممتازة ومجانية.',
+        content: `# التعليم\n\nمجاني وعالي الجودة.`
       },
       'family_daycare': {
         title: 'الحضانة',
-        summary: 'حق لكل طفل.',
-        content: `# التقديم\nقبل 4 أشهر. رخيصة.`
+        summary: 'حق للطفل.',
+        content: `# تسجيل\n\nسجل قبل 4 أشهر.`
       },
       'family_activities': {
-        title: 'الهوايات',
-        summary: 'تؤخذ بجدية.',
-        content: `# الخيارات\nمكتبات ورياضة.`
+        title: 'أنشطة',
+        summary: 'مكتبات ورياضة.',
+        content: `# وفيرة\n\nخيارات كثيرة للأطفال.`
       },
       'family_winter': {
-        title: 'الشتاء',
-        summary: 'ملابس جيدة.',
-        content: `# الملابس\nطبقات. عواكس ضوء.`
+        title: 'الشتاء والأطفال',
+        summary: 'ملابس.',
+        content: `# طبقات\n\nملابس دافئة وعواكس.`
       },
       'family_safety': {
         title: 'الأمان',
-        summary: 'آمنة جداً.',
-        content: `# الاستقلال\nالأطفال يذهبون للمدرسة وحدهم.`
+        summary: 'استقلالية.',
+        content: `# ثقة\n\nالأطفال يذهبون للمدرسة وحدهم.`
       },
       'culture_essentials': { 
         title: 'القيم', 
-        summary: 'الثقة والصمت قيم أساسية.', 
-        content: `# الثقة والصمت 🤫\n\n1. **الثقة:** افعل ما تقول.\n2. **الصمت:** لا تخف من الصمت.` 
+        summary: 'الثقة والصمت.', 
+        content: `# القيم\n\nالالتزام بالكلمة واحترام الصمت.` 
+      },
+      'nature_everyman': { 
+        title: 'حقوق الجميع', 
+        summary: 'حرية التنقل في الطبيعة.', 
+        content: `# استمتع\n\nامشِ واقطف التوت بحرية.` 
+      },
+      'nature_winter': { 
+        title: 'الشتاء', 
+        summary: 'الظلام وفيتامين د.', 
+        content: `# صحة\n\nتناول فيتامين د.` 
+      },
+      'nature_summer': {
+        title: 'الأكواخ الصيفية',
+        summary: 'الروح الفنلندية.',
+        content: `# موكي\n\nحياة بسيطة في الطبيعة.`
       }
     }
   }

@@ -9,7 +9,6 @@ export const et: TranslationResource = {
     chat_placeholder: "Küsi midagi...", chat_end_session: "Lõpeta", chat_header_assistant: "Assistent", chat_prompt_context_inquiry: "Räägi rohkem sellest: \"{sentence}\"", chat_ask_length: "Lühike või pikk vastus?", chat_empty_state: "Alusta vestlust, esitades allpool küsimuse.",
     btn_back_dashboard: "Tagasi", btn_save: "Salvesta",
     profile_btn_guide: "Minu Juhend", profile_btn_guide_desc: "Soovitatud artiklid", profile_btn_plan: "Minu Plaan", profile_btn_plan_desc: "Tulekul", profile_sect_languages: "Keeled", profile_sect_skills: "Oskused", profile_sect_narrative: "Lugu", profile_label_aspirations: "Eesmärgid", profile_label_challenges: "Hirmud / Väljakutsed", profile_label_education: "Haridus", profile_label_profession: "Amet", profile_completeness: "{percentage}% valmis", profile_completeness_hint: "Vasta veel paarile küsimusele", profile_btn_update: "Uuenda profiili", profile_btn_continue: "Jätka",
-    wiki_header_title: "Finland Works!", wiki_header_subtitle: "Koostatud: {name}", wiki_explore_cats: "Sirvi kategooriaid", wiki_explore_subtitle: "Vali teema detailideks.", wiki_full_index: "Indeks", wiki_full_index_subtitle: "Sirvi kõike.", wiki_nav_list: "Nimekiri", wiki_nav_icons: "Ikoonid", wiki_section_chapters: "Peatükid", wiki_btn_mark_done: "Tehtud", wiki_btn_later: "Hiljem", wiki_btn_saved: "Salvestatud", wiki_btn_completed: "Valmis", wiki_ctx_ask: "Küsi selle kohta", wiki_topic_label: "Teema: {tag}", wiki_topic_desc: "Ülevaade & Artiklid", wiki_guide_prefix: "JUHEND", wiki_stat_articles: "artiklit", wiki_stat_complete: "valmis", wiki_section_prefix: "Osa",
     wizard_header_quiz: "Küsimustik", wizard_greeting_short: "Tere, {name}!", wizard_title_init: "Loo profiil", wizard_title_custom: "{name} Loomine", wizard_phase_identity: "FAAS 1: IDENTITEET", wizard_phase_demo: "FAAS 2: TAUST", wizard_phase_status: "FAAS 3: STAATUS", wizard_phase_skills: "FAAS 4: OSKUSED", wizard_phase_mindset: "FAAS 5: MÕTTEVIIS", wizard_phase_vision: "FAAS 6: VISIOON", wizard_nickname_hint: "* Võid kasutada hüüdnime.", wizard_btn_ask: "Küsi", wizard_btn_next: "Edasi", wizard_btn_prev: "Tagasi", wizard_btn_submit: "Valmis", wizard_btn_finish_early: "Salvesta & Lõpeta", wizard_btn_generate_name: "Genereeri nimi", wizard_ribbon_greeting: "Meeldiv tutvuda, {name}!", wizard_title_name: "Mis on sinu nimi?", wizard_desc_name: "Sisesta nimi või vali hüüdnimi", wizard_placeholder_name: "Sinu nimi",
     wizard_step2_title: "Kui vana sa oled?", wizard_step2_desc: "Vali vanusegrupp", wizard_step2_placeholder: "Vanus (nt 29)",
     wizard_step3_title: "Perekonnaseis?",
@@ -39,12 +38,15 @@ export const et: TranslationResource = {
     net_opt_parents: "Lapsevanemad",
     net_opt_introvert: "Introvertidele",
     feedback_action: "Anna tagasisidet",
+    net_intro_deep: 'Miks võrgustik loeb', net_design: 'Disainikogukond', net_parents: 'Lapsevanemad', net_introvert: 'Introvertidele', net_hobbies: 'Hobid', net_plan: 'Sinu plaan',
+    net_cold_msg: 'Külm kontakt', net_places: 'Kohad', net_prof_style: 'Soome stiil',
+    net_hackathons: 'Häkatonid', net_slush: 'Slush', net_school: 'Kool',
 
     // Gamified Planner
     quest_level: "Tase {level} Avastaja",
     quest_xp: "{current}/{max} XP järgmise tasemeni",
     quest_tab_board: "Karjääri teekond",
-    quest_tab_achievements: "Saavutused",
+    quest_tab_achievements: "Saavutukset",
     quest_tab_life: "Elu & Heaolu",
     quest_priority_title: "Prioriteetsed ülesanded",
     quest_priority_subtitle: "Salvestatud hilisemaks",
@@ -63,7 +65,25 @@ export const et: TranslationResource = {
     plan_step_completed: "Tehtud",
     plan_step_locked: "Lukus",
     plan_step_available: "Saadaval",
-    plan_btn_return: "Tagasi plaani"
+    plan_btn_return: "Tagasi plaani",
+
+    // New keys
+    quest_fact_foundation: "Soomes näitab isikukood (henkilötunnus) sinu sünnipäeva ja sugu! Eraldusmärk (+, -, A) näitab sajandit.",
+    quest_fact_job_strategy: "70-80% töökohtadest Soomes ei kuulutata avalikult välja. Need täidetakse võrgustike ja otseste kontaktide kaudu.",
+    quest_fact_workplace: "Kohvipausid on Soomes seadusega ette nähtud! Peaaegu iga leping sätestab kaks 15-minutilist kohvipausi päevas.",
+    quest_fact_industries: "Soomes on kõige rohkem metal-bände elaniku kohta maailmas. Isegi Nokia oli algselt kummisaabaste firma.",
+    quest_fact_life: "Soomes on üle 3 miljoni sauna 5,5 miljoni inimese kohta. See on rohkem kui üks saun iga kahe inimese kohta!",
+    
+    cv_preview_title: "Eelvaade (A4)",
+    cv_btn_print: "Prindi PDF",
+    cv_sect_profile: "Profiil",
+    cv_sect_experience: "Töökogemus",
+    cv_sect_education: "Haridus",
+    cv_sect_skills: "Oskused",
+    cv_sect_soft_skills: "Pehmed oskused",
+    cv_preview_disclaimer: "See on lihtsustatud mall. Laadi alla ja muuda täielike andmete jaoks.",
+    cv_placeholder_name: "Alex Näidis",
+    cv_placeholder_summary: "Motiveeritud spetsialist otsib töövõimalusi pealinnapiirkonnas. Innukas õppima ja panustama Soome tööellu."
   },
   wiki: {
     titles: {
@@ -81,7 +101,8 @@ export const et: TranslationResource = {
       culture_afterwork: 'Pärast tööd', culture_sauna: 'Saun', culture_smalltalk: 'Small Talk', culture_party: 'Peod',
       prof_engineering: 'Inseneeria', prof_business: 'Äri', prof_it: 'IT & Tehnoloogia', prof_health: 'Tervishoid', prof_service: 'Teenindus',
       housing_contracts: 'Üürileping', housing_finding: 'Korteri leidmine', housing_utilities: 'Kommunaalid', housing_recycling: 'Taaskasutus', housing_sauna: 'Pesula & Saun',
-      family_school: 'Koolisüsteem', family_daycare: 'Lasteaed', family_activities: 'Hobid', family_winter: 'Talv & Lapsed', family_safety: 'Turvalisus'
+      family_school: 'Koolisüsteem', family_daycare: 'Lasteaed', family_activities: 'Hobid', family_winter: 'Talv & Lapsed', family_safety: 'Turvalisus',
+      vantaa_library_tikkurila: 'Tikkurila Raamatukogu', vantaa_nature: 'Vantaa Loodus', daily_transport: 'Transport (HSL)'
     },
     articles: {
       'guide_start': { 
@@ -89,25 +110,10 @@ export const et: TranslationResource = {
         summary: 'Soome toimib usaldusel, vaikusel ja kohvil.', 
         content: `# Ellujäämisjuhend\n\n**Filosoofia:**\nSoome toimib usaldusel, vaikusel ja kohvil. See on ühiskond, kus süsteemid töötavad, kuid pead teadma, kuidas neid kasutada.\n\n### Kuidas rakendust kasutada\n1. **Loe:** Sirvi juhendeid bürokraatia ja töökultuuri kohta.\n2. **Vestle:** Küsi AI assistendilt nõu oma konkreetse olukorra kohta.\n3. **Profiil:** Hoia oma andmed värsked täpsete nõuannete saamiseks.` 
       },
-      'net_culture': {
-        title: 'Võrgustike loomine: Soome viis',
-        summary: 'Soomlased loovad sidemeid ühiste tegevuste kaudu, mitte tühja jutu ajamisega.',
-        content: `### Talgute vaim\nVõrgustike loomine Soomes ei ole kokteilipeol visiitkaartide jagamine. See on **koos tegutsemine**.\n\n* **Vabatahtlik töö:** Liitu ürituste meeskonnaga (Slush, festivalid). Kui töötad soomlase kõrval, tekib usaldus. Usaldus viib töösoovitusteni.\n* **Ühingud:** Soomes on ühing (yhdistys) kõige jaoks. Leia oma erialale vastav.\n* **Kvaliteet üle kvantiteedi:** Üks sisukas kontakt on väärt rohkem kui 100 suvalist.`
-      },
-      'net_linkedin': {
-        title: 'LinkedIn strateegia',
-        summary: 'LinkedIn on peamine otsingumootor värbajatele Soomes.',
-        content: `### Sinu digitaalne nägu\n* **Märksõnad:** Värbajad otsivad oskusi, mitte tiitleid. Kasuta pealkirjas "Java", "Projektijuhtimine", "B2B müük".\n* **Asukoht:** Määra Soome. Kui oled välismaal, muuda see "Helsingiks" (ja maini kokkuvõttes kolimisplaani), et ilmuda kohalikes otsingutes.\n* **Open to Work:** Roheline bänner on siin kultuuriliselt aktsepteeritud. See näitab motivatsiooni.\n* **Aktiivsus:** Kommenteeri kohalikke postitusi. See teeb sind nähtavaks autori võrgustikule.`
-      },
-      'net_hidden': {
-        title: 'Peidetud tööturg',
-        summary: '70-80% töökohtadest ei kuulutata välja. Pead need ise leidma.',
-        content: `### Piilotyöpaikat (Peidetud töökohad)\nEttevõtted ei kuuluta tihti, sest värbamine on kallis ja aeglane.\n\n1. **Kaardista ettevõtted:** Tee nimekiri 20 ettevõttest. Ära vaata veel nende "Vabad töökohad" lehte.\n2. **Avatud avaldus (Avoin hakemus):** Saada e-kiri tiimijuhile (mitte personaliosakonda). "Olen jälginud teie tööd X vallas. Mul on oskused Y. Kas võiksime teha 15-minutilise kohvi?"\n3. **Infointervjuud:** Küsi inimestelt nende töö kohta, mitte tööd *endalt*. "Olen uus Soome energiasektoris. Kas tohiksin küsida 3 küsimust siinse töökorralduse kohta?" Enamik inimesi on nõus aitama.`
-      },
-      'net_volunteering': {
-        title: 'Vabatahtlik tegevus',
-        summary: 'Kiireim viis integreerumiseks ja oskuste tõestamiseks.',
-        content: `### Miks vabatahtlikuks?\n1. **Keel:** Madala pingega keskkond soome keele harjutamiseks.\n2. **Soovitajad:** Saad kohaliku soovitaja, kes saab kinnitada sinu tööeetikat.\n3. **Võrgustik:** Kohtud aktiivsete inimestega.\n\n### Kus?\nPunane Rist, idufirmade üritused, spordiklubid, raamatukogud.`
+      'vantaa_library_tikkurila': {
+        title: 'Tikkurila Raamatukogu: Linnatöökoda',
+        summary: 'Rohkem kui raamatud: 3D-printimine, muusikastuudiod ja tööruumid Dixis.',
+        content: `# Tikkurila Raamatukogu (Tikkurilan kirjasto)\n\nAsukoht: **Dixi** kaubanduskeskus (2. korrus), otse rongijaama kõrval. See on tegemise, mitte ainult lugemise keskus.\n\n### Töökoda (Paja)\nSiin saad tasuta asju luua.\n* **3D-printerid:** Ultimaker ja Prusa mudelid.\n* **Õmblemine:** Overlokid ja tikkimismasinad.\n* **Vinüüllõikur:** Tee kleepse või särgiprinte.\n\n### Kuidas broneerida 3D-printerit\n1. **Hangi Helmet kaart:** Vajad füüsilist kaarti ja PIN-koodi.\n2. **Mine veebi:** Aadress on **[varaamo.vantaa.fi](https://varaamo.vantaa.fi)**.\n3. **Otsi:** Vali "Tikkurilan kirjasto" ja otsi "3D-printer".\n4. **Broneeri:** Vali aeg (tavaliselt max 4 tundi). See on tasuta!\n\n**Päeval:** Võta kaasa oma mudelifail (\`.stl\` formaadis) USB-pulgal.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Isikukood', 

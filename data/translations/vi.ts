@@ -85,7 +85,8 @@ export const vi: TranslationResource = {
       culture_afterwork: 'Tiệc sau giờ làm', culture_sauna: 'Ngoại giao tắm hơi', culture_smalltalk: 'Sự im lặng & Xã giao', culture_party: 'Tiệc công ty (Pikkujoulut)',
       prof_engineering: 'Kỹ thuật', prof_business: 'Kinh doanh & Tài chính', prof_it: 'CNTT & Công nghệ', prof_health: 'Y tế & Điều dưỡng', prof_service: 'Ngành dịch vụ',
       housing_contracts: 'Hợp đồng thuê nhà', housing_finding: 'Tìm căn hộ', housing_utilities: 'Điện & Internet', housing_recycling: 'Tái chế', housing_sauna: 'Giặt ủi & Tắm hơi',
-      family_school: 'Hệ thống trường học', family_daycare: 'Nhà trẻ', family_activities: 'Sở thích & Thể thao', family_winter: 'Trẻ em & Mùa đông', family_safety: 'An toàn'
+      family_school: 'Hệ thống trường học', family_daycare: 'Nhà trẻ', family_activities: 'Sở thích & Thể thao', family_winter: 'Trẻ em & Mùa đông', family_safety: 'An toàn',
+      vantaa_library_tikkurila: 'Thư viện Tikkurila', vantaa_nature: 'Thiên nhiên Vantaa', daily_transport: 'Giao thông (HSL)'
     },
     articles: {
       'guide_start': { 
@@ -93,315 +94,315 @@ export const vi: TranslationResource = {
         summary: 'Phần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê. Hướng dẫn này giúp bạn hiểu các quy tắc ngầm.', 
         content: `### Cẩm nang sinh tồn\n\n**Triết lý:**\nPhần Lan vận hành dựa trên niềm tin, sự im lặng và cà phê. Đây là một xã hội nơi mọi hệ thống đều hoạt động tốt, nhưng bạn cần biết cách sử dụng chúng.\n\n### Cách sử dụng ứng dụng này:\n1. **Đọc:** Xem các hướng dẫn về thủ tục và văn hóa.\n2. **Chat:** Hỏi Trợ lý AI về tình huống cụ thể của bạn.\n3. **Hồ sơ:** Cập nhật thông tin để nhận lời khuyên chính xác.` 
       },
+      'vantaa_library_tikkurila': {
+        title: 'Thư viện Tikkurila: Xưởng sáng tạo',
+        summary: 'Hơn cả sách: In 3D, phòng thu âm và không gian làm việc tại Dixi.',
+        content: `# Thư viện Tikkurila (Tikkurilan kirjasto)\n\nNằm tại trung tâm thương mại **Dixi** (tầng 2), ngay cạnh ga tàu. Đây là nơi để sáng tạo, không chỉ để đọc.\n\n### Xưởng sáng tạo (Paja)\nNơi bạn có thể làm đồ miễn phí.\n* **Máy in 3D:** Ultimaker và Prusa.\n* **May vá:** Máy vắt sổ và máy thêu.\n* **Cắt Vinyl:** Làm decal hoặc in áo.\n\n### Cách đặt máy in 3D\n1. **Thẻ Helmet:** Cần thẻ cứng và mã PIN.\n2. **Online:** Vào **[varaamo.vantaa.fi](https://varaamo.vantaa.fi)**.\n3. **Tìm kiếm:** Chọn "Tikkurila Library" và tìm "3D printer".\n4. **Đặt lịch:** Chọn giờ (tối đa 4 tiếng). Miễn phí!\n\n**Ngày đến:** Mang file thiết kế (\`.stl\` format) trong USB.`
+      },
+      'vantaa_nature': {
+        title: 'Thiên nhiên Vantaa: Kuusijärvi',
+        summary: 'Xông hơi khói và công viên quốc gia.',
+        content: `# Kuusijärvi\nKhu dã ngoại nổi tiếng nhất Vantaa. Xe buýt 736/739.\n* **Xông hơi khói:** Duy nhất ở vùng thủ đô mở công khai. Quanh năm.\n* **Bơi băng:** Mùa đông hồ được đục băng.\n* **Cổng vào:** Từ đây đi bộ qua cầu là tới **Vườn quốc gia Sipoonkorpi**.`
+      },
       'bureaucracy_ihh': {
         title: 'International House Helsinki (IHH)',
         summary: 'Điểm dịch vụ một cửa cho người mới đến vùng thủ đô.',
-        content: `# Một mái nhà, nhiều dịch vụ\n\nNếu bạn sống ở Helsinki, Espoo, hoặc Vantaa, **International House Helsinki (IHH)** là nơi quan trọng nhất.\n\n### Nó là gì?\nĐiểm dịch vụ tập hợp các cơ quan chính: DVV, Thuế (Vero), Kela, Migri và Văn phòng TE.\n\n### Bạn có thể làm gì?\n1. **Đăng ký:** Lấy mã số định danh cá nhân (DVV).\n2. **Thuế:** Làm thẻ thuế.\n3. **An sinh xã hội:** Tư vấn về quyền lợi Kela.\n4. **Việc làm:** Hướng dẫn tìm việc.\n\n### Quan trọng\nHầu hết các dịch vụ cần đặt lịch trước. Địa chỉ: **Lintulahdenkuja 2, Helsinki**.`
+        content: `# Một mái nhà, nhiều dịch vụ\n\nNếu bạn sống ở Helsinki, Espoo, hoặc Vantaa, **International House Helsinki (IHH)** là nơi quan trọng nhất.\n\n### Nó là gì?\nĐiểm dịch vụ tích hợp các cơ quan chính: DVV, Thuế, Kela, Migri.\n\n### Bạn có thể làm gì?\n1. **Đăng ký:** Lấy mã số định danh (DVV).\n2. **Thuế:** Lấy thẻ thuế.\n3. **An sinh:** Tư vấn Kela.\n4. **Việc làm:** Tư vấn việc làm.\n\n### Quan trọng\nHầu hết các dịch vụ cần đặt lịch trước. Địa chỉ: **Lintulahdenkuja 2, Helsinki**.\n\n### Link chính thức\n[→ International House Helsinki](https://ihhelsinki.fi/)`
       },
       'net_culture': {
-        title: 'Kết nối: Cách của người Phần Lan',
-        summary: 'Người Phần Lan kết nối thông qua các hoạt động chung, không phải chuyện phiếm.',
-        content: `### Tinh thần "Talkoot"\nKết nối ở Phần Lan hiếm khi là việc đi loanh quanh trong tiệc tùng với danh thiếp. Đó là việc **cùng làm việc**.\n\n* **Tình nguyện:** Tham gia đội ngũ sự kiện (Slush, Nordic Business Forum, lễ hội địa phương). Khi bạn làm việc cùng người Phần Lan, bạn xây dựng niềm tin. Niềm tin dẫn đến sự giới thiệu công việc.\n* **Hiệp hội:** Phần Lan có hiệp hội (yhdistys) cho mọi thứ. Hãy tìm hiệp hội cho ngành nghề của bạn.\n* **Chất lượng hơn Số lượng:** Một mối quan hệ ý nghĩa đáng giá hơn 100 liên hệ lỏng lẻo.`
+        title: 'Kết nối: Kiểu Phần Lan',
+        summary: 'Người Phần Lan kết nối qua công việc chung, không phải tán gẫu. Niềm tin là tất cả.',
+        content: `### Tinh thần "Talkoot"\nKết nối ở Phần Lan hiếm khi là trao danh thiếp tại tiệc cocktail. Đó là **cùng làm việc**.\n\n* **Tình nguyện:** Tham gia đội ngũ sự kiện (Slush, lễ hội địa phương). Khi bạn làm việc cùng người Phần Lan, bạn xây dựng niềm tin. Niềm tin dẫn đến giới thiệu việc làm.\n* **Hiệp hội:** Phần Lan có hiệp hội (yhdistys) cho mọi thứ. Tìm hiệp hội nghề nghiệp của bạn.\n* **Chất lượng hơn số lượng:** Một kết nối ý nghĩa đáng giá hơn 100 liên hệ lỏng lẻo.`
+      },
+      'net_intro_deep': {
+        title: 'Tại sao kết nối quan trọng',
+        summary: 'Hầu hết các công việc đều ẩn. Kết nối là chìa khóa.',
+        content: `# Thị trường việc làm ẩn\n\nỞ Phần Lan, **niềm tin** đóng vai trò rất lớn. Nhà tuyển dụng muốn biết ai bảo lãnh cho bạn. Vì vậy, nhiều công việc không bao giờ lên các cổng thông tin công cộng.\n\nThị trường ẩn chứa **70-80 phần trăm** các vị trí tuyển dụng thực tế.`
       },
       'net_linkedin': {
         title: 'Chiến lược LinkedIn',
-        summary: 'LinkedIn là công cụ tìm kiếm chính cho nhà tuyển dụng ở Phần Lan.',
-        content: `### Gương mặt kỹ thuật số của bạn\n* **Từ khóa:** Nhà tuyển dụng tìm kiếm kỹ năng, không phải chức danh. Sử dụng "Java", "Quản lý dự án", "Bán hàng B2B" trong tiêu đề của bạn.\n* **Vị trí:** Đặt là Phần Lan. Nếu bạn ở nước ngoài, hãy đổi thành "Helsinki" (và ghi chú trong phần Giới thiệu là bạn đang chuyển đến) để xuất hiện trong các tìm kiếm địa phương.\n* **Open to Work:** Biểu ngữ màu xanh lá cây được chấp nhận về mặt văn hóa ở đây. Nó thể hiện động lực.\n* **Hoạt động:** Bình luận vào các bài đăng địa phương. Nó giúp bạn hiển thị với mạng lưới của tác giả.`
+        summary: 'LinkedIn là công cụ tìm kiếm chính cho nhà tuyển dụng tại Phần Lan.',
+        content: `### Gương mặt kỹ thuật số của bạn\n* **Từ khóa:** Nhà tuyển dụng tìm kiếm kỹ năng, không phải chức danh. Sử dụng "Java", "Quản lý dự án" trong tiêu đề của bạn.\n* **Địa điểm:** Đặt là Phần Lan. Nếu bạn ở nước ngoài, đổi thành "Helsinki" để xuất hiện trong tìm kiếm địa phương.\n* **Open to Work:** Banner xanh lá cây được chấp nhận về mặt văn hóa ở đây và thể hiện động lực.`
       },
       'net_hidden': {
-        title: 'Thị trường việc làm ẩn',
+        title: 'Thâm nhập thị trường ẩn',
         summary: '70-80% công việc không được quảng cáo. Bạn phải tìm ra chúng.',
-        content: `### Piilotyöpaikat (Việc làm ẩn)\nCác công ty thường không quảng cáo vì tuyển dụng đắt đỏ và chậm chạp.\n\n1. **Lập bản đồ công ty:** Lập danh sách 20 công ty bạn thích. Đừng nhìn trang "Vị trí mở" vội.\n2. **Đơn xin việc mở (Avoin hakemus):** Gửi email cho Trưởng nhóm (không phải nhân sự). "Tôi đã theo dõi công việc của các bạn về X. Tôi có kỹ năng Y. Chúng ta có thể uống cà phê 15 phút không?"\n3. **Phỏng vấn thông tin:** Hỏi mọi người về công việc của họ, không phải *xin* việc. "Tôi mới đến ngành năng lượng Phần Lan. Tôi có thể hỏi bạn 3 câu về cách hoạt động ở đây không?" Hầu hết mọi người sẽ đồng ý.`
+        content: `### Piilotyöpaikat (Việc làm ẩn)\nCác công ty thường không quảng cáo vì tuyển dụng tốn kém và chậm.\n\n1. **Bản đồ công ty:** Lập danh sách 20 công ty bạn thích. Đừng nhìn trang "Việc làm mở" vội.\n2. **Đơn ứng tuyển mở (Avoin hakemus):** Gửi email trực tiếp cho Trưởng nhóm (không phải HR). "Tôi đã theo dõi công việc X của các bạn. Tôi có kỹ năng Y. Chúng ta có thể uống cà phê 15 phút không?"\n3. **Phỏng vấn thông tin:** Hỏi mọi người về công việc của họ, không phải *xin* việc.`
       },
       'net_volunteering': {
         title: 'Tình nguyện',
         summary: 'Cách nhanh nhất để hòa nhập và chứng minh kỹ năng.',
-        content: `### Tại sao tình nguyện?\n1. **Ngôn ngữ:** Môi trường ít áp lực để thực hành tiếng Phần Lan.\n2. **Người giới thiệu:** Bạn có người tham chiếu địa phương có thể xác nhận đạo đức làm việc của bạn.\n3. **Mạng lưới:** Bạn gặp gỡ những người năng động.\n\n### Ở đâu?\nHội Chữ thập đỏ, sự kiện khởi nghiệp, câu lạc bộ thể thao, thư viện.`
+        content: `### Tại sao tình nguyện?\n1. **Ngôn ngữ:** Môi trường ít áp lực để thực hành tiếng Phần Lan.\n2. **Tham chiếu:** Bạn có người tham chiếu địa phương có thể xác nhận đạo đức làm việc.\n3. **Mạng lưới:** Bạn gặp những người năng động.\n\n### Ở đâu?\nHội Chữ thập đỏ, sự kiện khởi nghiệp, câu lạc bộ thể thao, thư viện.`
+      },
+      'net_school': {
+        title: 'Kết nối khi đi học',
+        summary: 'Trường học là mạng lưới chuyên nghiệp đầu tiên của bạn tại Phần Lan.',
+        content: `# Lợi thế sinh viên\n\nHọc tập tại Phần Lan là cách tốt nhất để xây dựng mạng lưới. Bạn cùng lớp là đồng nghiệp tương lai.\n\n### Chiến lược\nCoi mỗi ngày thực tập như một buổi phỏng vấn xin việc.`
+      },
+      'net_hackathons': {
+        title: 'Hackathon & Sự kiện',
+        summary: 'Junction và Slush là cơ hội vàng.',
+        content: `# Sự kiện công nghệ\n\n* **Junction:** Hackathon hàng đầu châu Âu.\n* **Slush:** Sự kiện khởi nghiệp. Làm tình nguyện ở đây mở ra nhiều cánh cửa.`
+      },
+      'net_slush': {
+        title: 'Slush & Khởi nghiệp',
+        summary: 'Tình nguyện tại Slush là cách huyền thoại để gia nhập giới công nghệ.',
+        content: `# Slush\n\nTổ chức tại Helsinki vào tháng 11. Tối tăm, ồn ào và đầy đèn laser.`
+      },
+      'net_cold_msg': {
+        title: 'Nghệ thuật nhắn tin làm quen',
+        summary: 'Cách tiếp cận mọi người mà không gây phiền nhiễu.',
+        content: `# Tiếp cận người lạ\n\nNgười Phần Lan bận rộn nhưng hay giúp đỡ. Hãy ngắn gọn.`
+      },
+      'net_parents': {
+        title: 'Kết nối cho Cha mẹ',
+        summary: 'Sử dụng nhịp sống hàng ngày để xây dựng quan hệ.',
+        content: `# Mạng lưới cho cha mẹ bận rộn\n\n* **Ngoại giao sân chơi:** Nếu bạn đến cùng một công viên vào cùng một giờ, bạn sẽ gặp cùng những phụ huynh.\n* **Sự kiện nhà trẻ:** Tham gia "talkoot" (ngày tình nguyện). Bạn sẽ nhận được sự tôn trọng lớn.`
+      },
+      'net_introvert': {
+        title: 'Kết nối áp lực thấp',
+        summary: 'Bạn không cần phải ồn ào.',
+        content: `# Theo cách của bạn\n\n1. **1-1:** Người Phần Lan thích trò chuyện sâu sắc hơn là tiệc tùng xã giao.\n2. **Cộng đồng trực tuyến:** Tham gia các nhóm Discord hoặc Slack chuyên ngành.`
+      },
+      'net_hobbies': {
+        title: 'Sở thích & Kết nối mềm',
+        summary: 'Tham gia hoạt động địa phương để gặp gỡ mọi người tự nhiên.',
+        content: `# Gặp gỡ tự nhiên\n\nNgười Phần Lan gắn kết qua hoạt động chung.\n\n* **Kansalaisopisto:** Học khóa học giá rẻ.\n* **Thể thao:** Tham gia nhóm người mới bắt đầu tạo ra vòng tròn xã hội ngay lập tức.`
       },
       'bureaucracy_dvv': { 
-        title: 'DVV & Mã số định danh', 
-        summary: 'Đăng ký để tồn tại hợp pháp tại Phần Lan. Nhận Mã số định danh cá nhân (henkilötunnus).', 
-        content: `**Ưu tiên: NGAY LẬP TỨC**\n\n### Nhiệm vụ\nĐăng ký để tồn tại hợp pháp. Nếu không đăng ký tại **Cơ quan Dữ liệu Dân số và Kỹ thuật số (DVV)**, bạn giống như "người vô hình" trong hệ thống.\n\n### Phần thưởng\n**Mã số định danh cá nhân** (henkilötunnus). Định dạng: *DDMMYY-XXXX*.\n\n### Quy trình\n1. **Đặt hẹn:** Đặt lịch trên web DVV trước nhiều tuần.\n2. **Giấy tờ:** Mang Hộ chiếu, Thẻ cư trú, và Hợp đồng làm việc.\n3. **Hộ khẩu (Kotikunta):** Rất quan trọng để được hưởng y tế công.` 
+        title: 'DVV & ID Cá nhân', 
+        summary: 'Lấy Mã số định danh cá nhân để tồn tại hợp pháp.', 
+        content: `# DVV 🆔\n\n**Ưu tiên: NGAY LẬP TỨC**\n\n### Nhiệm vụ\nTồn tại hợp pháp. Lấy **Mã số cá nhân**.\n\n### Tại sao?\nNgân hàng, điện thoại, thuế.` 
       },
       'bureaucracy_migri': { 
-        title: 'Cục di trú (Migri)', 
-        summary: 'Nơi xử lý Giấy phép cư trú (oleskelulupa). Hãy dùng dịch vụ Enter Finland.', 
-        content: `### Nhiệm vụ\nLấy Giấy phép cư trú (oleskelulupa).\n\n### Các bước chính\n* **Enter Finland:** Sử dụng dịch vụ trực tuyến này. Nó nhanh hơn nhiều.\n* **Xác minh:** Bạn phải đến điểm dịch vụ để chứng minh danh tính.\n* **Cửa nhanh (Fast Track):** Dành cho chuyên gia và khởi nghiệp (14 ngày).` 
+        title: 'Migri (Di trú)', 
+        summary: 'Giấy phép cư trú và mẹo đặt lịch.', 
+        content: `# Migri 🛂\n\n### Nhiệm vụ\nGiấy phép cư trú (oleskelulupa).\n\n### Mẹo\n* **Đặt sớm:** Hàng đợi dài.\n* **Fast Track:** Cho chuyên gia.` 
       },
       'bureaucracy_tax': { 
-        title: 'Thẻ thuế (Verokortti)', 
-        summary: 'Không có thẻ thuế = mất 60% lương vào thuế. Không có ngoại lệ.', 
-        content: `### Quy tắc vàng\nKhông có thẻ = **thuế 60%**. \n\n### Quy trình\n1. Đăng nhập **MyTax (OmaVero)** bằng mã ngân hàng.\n2. Ước tính thu nhập cả năm.\n3. Tải PDF.\n4. Gửi email cho bộ phận kế toán/nhân sự.\n\n*Lưu ý: Phần Lan đánh thuế lũy tiến. Thu nhập càng cao, thuế càng cao.*` 
-      },
-      'bureaucracy_bank': { 
-        title: 'Mở tài khoản ngân hàng', 
-        summary: 'Tài khoản ngân hàng cung cấp "định danh điện tử mạnh", chìa khóa cho mọi dịch vụ số.', 
-        content: `### Thử thách\nLuật chống rửa tiền rất nghiêm ngặt. Ngân hàng cần biết tiền của bạn đến từ đâu.\n\n### Cần mang gì\n1. Hộ chiếu.\n2. Giấy phép cư trú.\n3. Hợp đồng lao động.\n4. Mã số định danh (từ DVV).\n\n### Chén Thánh\n**Định danh điện tử** (verkkopankkitunnukset). Nó cho phép bạn đăng nhập Kela, Thuế, Y tế, và Bưu điện.` 
-      },
-      'social_kela_card': {
-        title: 'Thẻ Kela',
-        summary: 'Thẻ xanh chứng minh bạn thuộc hệ thống bảo hiểm y tế quốc gia.',
-        content: `### Nó là gì?\nMột chiếc thẻ màu xanh chứng minh bạn được hưởng an sinh xã hội Phần Lan.\n\n### Cách dùng\nĐưa thẻ tại: \n1. **Hiệu thuốc:** Được giảm giá trực tiếp thuốc theo toa.\n2. **Phòng khám tư:** Được giảm một phần chi phí.`
-      },
-      'social_health': {
-        title: 'Y tế công & Y tế lao động',
-        summary: 'Nhân viên nên dùng Y tế lao động (Työterveys) trước. Nhanh và miễn phí.',
-        content: `### Hai hệ thống\n\n**1. Y tế công (Terveysasema)**\n* **Cho:** Mọi cư dân.\n* **Phí:** Rẻ (~20€) hoặc miễn phí.\n* **Tốc độ:** Có thể chậm. Phải gọi điện đặt lịch.\n\n**2. Y tế lao động (Työterveys)**\n* **Cho:** Người đi làm.\n* **Phí:** Miễn phí (công ty trả).\n* **Tốc độ:** Nhanh. Thường là phòng khám tư như Terveystalo hay Mehiläinen.`
+        title: 'Thẻ thuế', 
+        summary: 'Không thẻ = 60% thuế.', 
+        content: `# Quy tắc vàng\nKhông thẻ = **60% thuế**.\n\n### Quy trình\n1. Vào **OmaVero**.\n2. Ước tính thu nhập.\n3. Tải PDF.\n4. Gửi cho sếp.` 
       },
       'social_unemployment': {
         title: 'Trợ cấp thất nghiệp',
-        summary: 'Nếu mất việc, hãy đăng ký tại Văn phòng TE ngay ngày đầu tiên.',
-        content: `### Quy tắc vàng\nĐăng ký tìm việc tại **Văn phòng TE** (te-palvelut.fi) ngay trong **ngày đầu tiên** thất nghiệp. Nếu chậm, bạn mất tiền.\n\n### Ai trả tiền?\n1. **Quỹ Công đoàn (Kassa):** Nếu bạn là thành viên (trên 26 tuần), bạn nhận trợ cấp theo lương (cao hơn).\n2. **Kela:** Nếu không là thành viên, bạn nhận trợ cấp cơ bản (thấp hơn).`
+        summary: 'Đăng ký tại Văn phòng TE ngay ngày đầu tiên thất nghiệp.',
+        content: `# Mất việc? 📉\n\n### 1. Đăng ký\nTại **Văn phòng TE** ngay ngày đầu.\n\n### 2. Ai trả?\n* **Kela:** Cơ bản.\n* **Quỹ:** Theo thu nhập (nếu là thành viên).`
       },
       'social_housing': {
         title: 'Trợ cấp nhà ở',
-        summary: 'Kela có thể trả một phần tiền thuê nhà nếu thu nhập thấp.',
-        content: `### Trợ cấp nhà ở chung\n* **Cho ai:** Hộ gia đình thu nhập thấp (sinh viên, làm bán thời gian, thất nghiệp).\n* **Tính toán:** Dựa trên tổng thu nhập và thành phố bạn sống.\n* **Đăng ký:** Online tại Kela. Cần hợp đồng thuê nhà.`
+        summary: 'Hỗ trợ từ Kela cho thuê nhà.',
+        content: `# Asumistuki 🏠\n\nNếu thu nhập thấp, Kela trả một phần tiền thuê.`
       },
       'social_pension': {
-        title: 'Hệ thống lương hưu',
-        summary: 'Bạn tích lũy lương hưu (eläke) cho mỗi euro kiếm được.',
-        content: `### Cách hoạt động\nChủ lao động tự động trừ phí lương hưu từ lương của bạn. Bạn không cần làm gì.\n\n### Kiểm tra\nXem số tiền tích lũy tại **Tyoelake.fi**.\n\n### Rời đi?\nNếu bạn chuyển sang nước khác trong EU, quyền lợi lương hưu vẫn được giữ.`
+        title: 'Lương hưu',
+        summary: 'Tích lũy lương hưu từ mỗi euro kiếm được.',
+        content: `# Cách hoạt động\nTự động trừ lương. Bạn không cần làm gì.\n\n### Kiểm tra\nTại **Tyoelake.fi**.\n\n### Rời đi?\nNếu chuyển sang nước EU khác, quyền lợi được giữ.`
+      },
+      'social_kela_card': {
+        title: 'Thẻ Kela',
+        summary: 'Bằng chứng bảo hiểm y tế quốc gia.',
+        content: `# Thẻ Kela 🏥\n\nĐưa tại hiệu thuốc để được giảm giá ngay.`
+      },
+      'social_health': {
+        title: 'Y tế',
+        summary: 'Công cộng vs Nghề nghiệp.',
+        content: `# Y tế ⚕️\n\n1. **Công cộng:** Rẻ, chờ lâu.\n2. **Nghề nghiệp:** Miễn phí cho nhân viên, nhanh.`
       },
       'job_market_overview': { 
-        title: 'Thị trường việc làm', 
-        summary: 'Hiểu về thị trường.', 
-        content: `### Tổng quan\nThị trường Phần Lan coi trọng kỹ năng và thái độ.` 
+        title: 'Thị trường lao động', 
+        summary: '70-80% công việc ẩn.', 
+        content: `# Thị trường ẩn 📉\n\n**Phần lớn việc làm không quảng cáo.**\n\n### Chiến lược\n* **Mạng lưới:** Bạn bè.\n* **Trực tiếp:** Email cho công ty.` 
       },
       'job_te_office': {
-        title: 'Dịch vụ TE (TE-toimisto)',
-        summary: 'Văn phòng việc làm giúp hội nhập và bảo hiểm thất nghiệp.',
-        content: `### Họ làm gì\n* **Kế hoạch hội nhập:** Xác định xem bạn có cần khóa tiếng Phần không.\n* **Trạng thái tìm việc:** Bắt buộc để nhận tiền từ Kela hoặc Công đoàn.\n* **Lưu ý:** Luôn làm đúng hướng dẫn của họ để tránh bị "phạt" (karenssi).`
+        title: 'Văn phòng TE',
+        summary: 'Bắt buộc để nhận trợ cấp.',
+        content: `# TE-toimisto 🏢\n\nĐăng ký để nhận quyền lợi và khóa học.`
       },
       'job_portals': {
-        title: 'Tìm việc ở đâu',
-        summary: 'Các trang web chính bạn nên biết.',
-        content: `### Trang lớn\n* **LinkedIn:** Số 1 cho việc làm tiếng Anh/chuyên gia.\n* **Oikotie Työpaikat:** Trang lớn nhất Phần Lan.\n* **Duunitori:** Rất phổ biến.\n* **The Hub:** Tốt nhất cho Startup & Công nghệ.`
+        title: 'Cổng thông tin',
+        summary: 'LinkedIn và Oikotie.',
+        content: `# Tìm ở đâu 🔍\n\n* **LinkedIn:** Chuyên gia.\n* **Oikotie:** Lớn nhất.\n* **The Hub:** Khởi nghiệp.`
       },
       'job_entrepreneurship': {
-        title: 'Khởi nghiệp (Yrittäjyys)',
-        summary: 'Phần Lan cần doanh nhân. Có tiền hỗ trợ để bắt đầu.',
-        content: `### Starttiraha (Tiền khởi nghiệp)\nNếu bạn làm doanh nhân toàn thời gian, bạn có thể nhận ~700€/tháng trong 6-12 tháng để đảm bảo cuộc sống.\n\n**Quan trọng:** Phải nộp đơn **trước khi** đăng ký công ty.`
+        title: 'Khởi nghiệp',
+        summary: 'Tiền hỗ trợ bắt đầu.',
+        content: `# Starttiraha 🚀\n\nTrợ cấp cho doanh nhân mới (6-12 tháng).`
       },
-      'job_cv_tips': {
-        title: 'CV kiểu Phần Lan',
-        summary: 'Ngắn gọn, thực tế và có ảnh.',
-        content: `### Danh sách kiểm tra\n1. **Độ dài:** Tối đa 2 trang. Tốt nhất là 1.\n2. **Ảnh:** Rất phổ biến ở đây. Cười nhẹ, chuyên nghiệp.\n3. **Hồ sơ:** Tóm tắt ngắn gọn ở đầu.\n4. **Kỹ năng:** Liệt kê công nghệ hoặc kỹ năng cứng cụ thể.\n5. **Giọng văn:** Khiêm tốn nhưng tự tin. Nói sự thật, đừng khoe khoang bằng tính từ.`
+      'job_networking': {
+        title: 'Kết nối',
+        summary: 'Hãy trực tiếp.',
+        content: `# Networking 🤝\n\nTình nguyện là chìa khóa.`
       },
       'job_cover_letter': {
-        title: 'Thư xin việc (Cover Letter)',
-        summary: 'Đừng lặp lại CV. Trả lời "Tại sao là chúng tôi?" và "Tại sao là bạn?".',
-        content: `### Cấu trúc\n1. **Mở đầu:** Tại sao bạn muốn công việc *này*?\n2. **Giá trị:** Bạn giải quyết vấn đề gì cho họ?\n3. **Tính cách:** Bạn có hợp với đội ngũ không?\n\n### Mẹo\nGiữ dưới 1 trang. Người Phần Lan thích sự ngắn gọn.`
+        title: 'Thư xin việc',
+        summary: 'Ngắn và tập trung vào "tại sao".',
+        content: `# Thư xin việc 📝\n\nTối đa 1 trang. Tập trung vào giá trị bạn mang lại.`
       },
       'job_interview': {
-        title: 'Phỏng vấn xin việc',
-        summary: 'Sự trung thực bị thử thách. Im lặng là ổn.',
-        content: `### Điều cần biết\n* **Trung thực:** Nếu không biết, hãy nói "Tôi không biết, nhưng tôi có thể học". Đừng nói dối.\n* **Im lặng:** Nếu phỏng vấn viên im lặng sau câu trả lời của bạn, đừng hoảng. Họ đang suy nghĩ. Đừng nói nhảm để lấp đầy khoảng trống.\n* **Cà phê:** Luôn nhận nếu được mời. Đó là nghi thức.`
+        title: 'Phỏng vấn',
+        summary: 'Trung thực là trên hết.',
+        content: `# Phỏng vấn 👔\n\nKhông biết thì nói không biết. Im lặng là ổn.`
       },
       'job_recognition': {
         title: 'Công nhận bằng cấp',
-        summary: 'Quan trọng cho nghề có quy định như bác sĩ, y tá, giáo viên.',
-        content: `### Nghề có quy định\nVới ngành y tế/giáo dục, bằng cấp phải được **OPH** hoặc **Valvira** công nhận.\n\n### Nghề chung\nVới IT, kinh doanh, marketing, việc công nhận chính thức hiếm khi cần thiết. Kỹ năng quan trọng hơn.`
+        summary: 'Cho bác sĩ/giáo viên.',
+        content: `# Valvira 🎓\n\nCần thiết cho các nghề có quy định.`
+      },
+      'job_cv_tips': {
+        title: 'CV Phần Lan',
+        summary: 'Ảnh và sự thật.',
+        content: `# CV 📄\n\nẢnh chuẩn. Ngắn gọn.`
       },
       'work_contract': { 
-        title: 'Hợp đồng lao động', 
-        summary: 'Luôn bằng văn bản. Đọc kỹ. Kiểm tra Thỏa ước lao động (TES).',
-        content: `### Yếu tố chính\n1. **Thời hạn:** Vĩnh viễn (toistaiseksi voimassa oleva) hoặc Có thời hạn (määräaikainen).\n2. **TES:** Thỏa ước lao động tập thể. Quyết định lương tối thiểu và ngày nghỉ.\n3. **Thử việc:** Tối đa 6 tháng.\n\n**Đừng bao giờ làm việc mà không có hợp đồng.**` 
+        title: 'Hợp đồng', 
+        summary: 'Luôn bằng văn bản.', 
+        content: `# Hợp đồng ✍️\n\nKiểm tra TES (Thỏa ước lao động tập thể).` 
       },
       'work_hours': {
-        title: 'Giờ làm việc',
-        summary: 'Tiêu chuẩn là 7.5 hoặc 8 giờ/ngày.',
-        content: `### Cân bằng\n* **Toàn thời gian:** Thường là 37.5 hoặc 40 giờ/tuần.\n* **Linh hoạt:** Nhiều công ty có "liukuma" (giờ linh hoạt). Bắt đầu 7-9, về 15-17.\n* **Ăn trưa:** Thường 30 phút (không tính lương).`
+        title: 'Giờ làm',
+        summary: '37.5h/tuần.',
+        content: `# Giờ giấc ⏰\n\nTôn trọng thời gian nghỉ.`
       },
       'work_holidays': {
-        title: 'Nghỉ phép năm',
-        summary: 'Phần Lan có chế độ nghỉ phép hào phóng, nhưng phải tích lũy.',
-        content: `### Năm tích lũy\nBạn tích lũy ngày nghỉ từ 1/4 đến 31/3 năm sau.\n* **Tiêu chuẩn:** 2.5 ngày/tháng = 30 ngày (5 tuần)/năm.\n* **Mùa hè:** Thường nghỉ vào tháng 7. Cả nước ngừng hoạt động.\n* **Tiền thưởng:** Nhiều nơi trả thêm 50% lương cho kỳ nghỉ (lomaraha).`
+        title: 'Nghỉ phép',
+        summary: '4-5 tuần/năm.',
+        content: `# Nghỉ hè ☀️\n\nTháng 7 là thiêng liêng.`
       },
       'work_unions': {
-        title: 'Công đoàn (Liitto)',
-        summary: 'Rất được khuyến khích. Họ kiểm soát quỹ thất nghiệp.',
-        content: `### Tại sao nên tham gia?\n1. **Tiền:** Họ trả trợ cấp thất nghiệp theo lương (cao hơn nhiều so với Kela).\n2. **Pháp lý:** Hỗ trợ pháp lý miễn phí nếu chủ lao động đối xử tệ.\n\n### Chọn cái nào?\n* **YTK:** Chỉ là quỹ thất nghiệp (rẻ hơn).\n* **TEK:** Cho kỹ sư.\n* **PAM:** Cho ngành dịch vụ.`
+        title: 'Công đoàn',
+        summary: 'Khuyên dùng.',
+        content: `# Công đoàn 🛡️\n\nBảo vệ pháp lý và quỹ thất nghiệp tốt hơn.`
       },
       'work_probation': {
-        title: 'Thời gian thử việc (Koeaika)',
-        summary: '6 tháng đầu thường là thử thách.',
-        content: `### Quy tắc\nTrong thời gian thử việc (max 6 tháng), **cả bạn** và chủ lao động đều có thể chấm dứt hợp đồng ngay lập tức mà không cần báo trước.`
+        title: 'Thử việc',
+        summary: '4-6 tháng.',
+        content: `# Koeaika ⏳\n\nCó thể nghỉ ngay lập tức.`
       },
       'culture_meetings': { 
-        title: 'Văn hóa họp', 
-        summary: 'Người Phần Lan đúng giờ và theo lịch trình. Ít nói chuyện phiếm.', 
-        content: `### Quy tắc\n1. **Đúng giờ:** Họp 09:00 nghĩa là có mặt lúc 08:59.\n2. **Lịch trình:** Bám sát nó.\n3. **Im lặng:** Im lặng nghĩa là đang suy nghĩ hoặc đồng ý. Không có nghĩa là có vấn đề.\n4. **Kết thúc đúng giờ:** Tôn trọng lịch của người khác.` 
+        title: 'Họp hành', 
+        summary: 'Đúng giờ và hiệu quả.', 
+        content: `# Họp 📅\n\n**Đúng giờ.** Chương trình rõ ràng.` 
       },
       'culture_feedback': {
         title: 'Phản hồi',
-        summary: 'Phản hồi rất thẳng thắn và dựa trên thực tế. Đừng để bụng.',
-        content: `### Sự thẳng thắn\nMột người Phần Lan có thể nói: *"Báo cáo này thiếu X."*\nHọ không thô lỗ. Họ chỉ đang nêu sự thật để sửa vấn đề hiệu quả. Họ tách biệt công việc và con người.`
+        summary: 'Trực tiếp.',
+        content: `# Phản hồi 🗣️\n\nNgười Phần Lan thẳng thắn. Không phải chuyện cá nhân.`
       },
       'culture_names': {
-        title: 'Xưng hô tên',
-        summary: 'Rất không trang trọng. Hiếm khi dùng chức danh.',
-        content: `### Chào Sếp\nMọi người dùng tên riêng. Bạn gọi CEO là "Matti", không phải "Ngài Korhonen". Bạn có thể dùng "sinä" (bạn) với hầu hết mọi người.`
+        title: 'Tên gọi',
+        summary: 'Thân mật.',
+        content: `# Tên 📛\n\nGọi tên riêng, kể cả sếp.`
       },
       'culture_punctuality': {
         title: 'Đúng giờ',
-        summary: 'Trễ 5 phút là trễ.',
-        content: `### Thời gian là sự tôn trọng\nĐến trễ bị coi là đánh cắp thời gian của người khác. Nếu bạn trễ 5 phút, hãy nhắn tin báo.`
+        summary: 'Thiêng liêng.',
+        content: `# Đúng giờ ⌚\n\nĐừng đến muộn.`
       },
       'culture_coffee': {
-        title: 'Nghỉ uống cà phê (Kahvitauko)',
-        summary: 'Nghi thức thiêng liêng. Thường được quy định trong luật.',
-        content: `### Nghi thức\nHầu hết hợp đồng có hai lần nghỉ 10-15 phút.\n\n* **Xã giao:** Đây là lúc gắn kết thật sự. Đừng ngồi một mình tại bàn làm việc.\n* **Caffein:** Người Phần Lan uống nhiều cà phê nhất thế giới.`
+        title: 'Cà phê',
+        summary: 'Nghi thức.',
+        content: `# Kahvi ☕\n\nGiao lưu cùng đội ngũ.`
       },
       'culture_afterwork': {
-        title: 'Tiệc sau giờ làm (AW)',
-        summary: 'Đồ uống nhẹ nhàng vào thứ Sáu.',
-        content: `### Không khí\nThường rất thoải mái. Uống bia hay nước ngọt đều được. Chủ yếu là thư giãn, không phải say xỉn.`
+        title: 'Sau giờ làm',
+        summary: 'Thứ Sáu.',
+        content: `# AW 🍻\n\nThư giãn tùy chọn.`
       },
       'culture_sauna': {
-        title: 'Ngoại giao tắm hơi',
-        summary: 'Sauna là nơi bình đẳng. Kể cả trong kinh doanh.',
-        content: `### Quy tắc\n1. **Bình đẳng:** Trong sauna, không có chức danh. CEO và thực tập sinh ngang hàng.\n2. **Khỏa thân:** Không mang tính tình dục. Chỉ là tự nhiên.\n3. **Kinh doanh:** Quyết định đôi khi được đưa ra ở đây.`
+        title: 'Xông hơi',
+        summary: 'Bình đẳng.',
+        content: `# Sauna 🧖\n\nKhỏa thân là tự nhiên. Đôi khi bàn chuyện làm ăn.`
       },
       'culture_smalltalk': {
-        title: 'Sự im lặng & Xã giao',
-        summary: 'Sự im lặng không ngại ngùng. Đó là khoảng nghỉ dễ chịu.',
-        content: `### Đừng lấp đầy khoảng trống\nNếu bạn đi thang máy với người Phần Lan, không cần nói chuyện. Một cái gật đầu là đủ. Chúng tôi trân trọng lời nói; chúng tôi không lãng phí chúng.`
+        title: 'Im lặng',
+        summary: 'Chấp nhận nó.',
+        content: `# Im lặng 🤫\n\nKhông cần lấp đầy khoảng trống.`
       },
       'culture_party': {
-        title: 'Tiệc công ty (Pikkujoulut)',
-        summary: 'Tiệc "Giáng sinh nhỏ" vào tháng 12 có thể rất hoang dã.',
-        content: `### Ngoại lệ\nNgười Phần Lan dè dặt, TRỪ lúc *Pikkujoulut*. Đây là tiệc Giáng sinh hàng năm. Thường có nhiều rượu và đồng nghiệp cởi mở hơn hẳn. Chuyện gì xảy ra ở Pikkujoulut, ở lại Pikkujoulut.`
+        title: 'Tiệc tùng',
+        summary: 'Pikkujoulut.',
+        content: `# Giáng sinh 🎄\n\nTiệc công ty điên rồ.`
       },
       'prof_engineering': {
-        title: 'Kỹ thuật tại Phần Lan',
-        summary: 'Ngành lớn. Tiếng Anh được dùng rộng rãi.',
-        content: `### Các ông lớn\nKone, Wärtsilä, Nokia, Metso.\n\n### Văn hóa\nDựa trên dữ liệu. Chuẩn bị chi tiết kỹ thuật. Sự chính xác được đánh giá cao hơn lời hay ý đẹp.`
+        title: 'Kỹ thuật',
+        summary: 'Tiếng Anh phổ biến.',
+        content: `# Kỹ thuật ⚙️\n\nKone, Nokia. Dựa trên dữ liệu.`
       },
       'prof_business': {
-        title: 'Kinh doanh & Tài chính',
-        summary: 'Thường yêu cầu tiếng Phần Lan, trừ Startup.',
-        content: `### Rào cản\nCác vai trò truyền thống (Nhân sự, Kế toán, Ngân hàng) cần tiếng Phần lưu loát.\n\n### Cơ hội\nTìm các vị trí *Bán hàng quốc tế*, *Phân tích kinh doanh* hoặc *Xuất khẩu* nơi ngôn ngữ mẹ đẻ của bạn là tài sản.`
+        title: 'Kinh doanh',
+        summary: 'Cần tiếng Phần.',
+        content: `# Kinh doanh 💼\n\nBán hàng quốc tế hoặc startup.`
       },
       'prof_it': {
-        title: 'CNTT & Công nghệ',
-        summary: 'Ngành dễ nhất cho người nói tiếng Anh.',
-        content: `### Trung tâm\nPhần Lan cần lập trình viên. Tiếng Anh là ngôn ngữ công ty tại hầu hết công ty công nghệ (Wolt, Supercell, Relex).\n\n### Tuyển dụng\nThường có bài test code. Hãy show GitHub của bạn.`
+        title: 'CNTT',
+        summary: 'Dễ nhất với tiếng Anh.',
+        content: `# IT 💻\n\nTiếng Anh là chuẩn. Ít cấp bậc.`
       },
       'prof_health': {
-        title: 'Y tế & Điều dưỡng',
-        summary: 'Thiếu nhân lực trầm trọng, nhưng bắt buộc tiếng Phần.',
-        content: `### Thực tế\nBạn cần giấy phép Valvira. Để có nó, thường cần tiếng Phần B1/B2. An toàn bệnh nhân là ưu tiên.`
+        title: 'Y tế',
+        summary: 'Bắt buộc tiếng Phần.',
+        content: `# Y tế ⚕️\n\nGiấy phép và ngôn ngữ trôi chảy.`
       },
       'prof_service': {
-        title: 'Ngành dịch vụ',
-        summary: 'Nhà hàng và dọn dẹp là điểm khởi đầu phổ biến.',
-        content: `### Nhập môn\nDọn dẹp và bếp nhà hàng thường thuê người không nói tiếng Phần. Đây là cách bắt đầu kiếm tiền trong khi học ngôn ngữ.`
+        title: 'Dịch vụ',
+        summary: 'Điểm vào phổ biến.',
+        content: `# Dịch vụ 🧹\n\nDọn dẹp và nhà bếp.`
       },
       'housing_contracts': {
-        title: 'Hợp đồng thuê nhà',
-        summary: 'An toàn và được quy định chặt chẽ.',
-        content: `### Điều khoản\n* **Cọc:** Thường là 2 tháng tiền thuê.\n* **Thông báo:** Thường là 1 tháng đối với người thuê.\n* **Bảo hiểm nhà:** Hầu như luôn bắt buộc.`
+        title: 'Thuê nhà',
+        summary: 'Đặt cọc.',
+        content: `# Hợp đồng 🏠\n\nBảo hiểm nhà bắt buộc.`
       },
       'housing_finding': {
-        title: 'Tìm căn hộ',
-        summary: 'Thị trường rất nhanh ở Helsinki.',
-        content: `### Cổng thông tin\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Mẹo\nChuẩn bị sẵn hồ sơ. Khi đi xem nhà, hãy sẵn sàng quyết định ngay.`
+        title: 'Tìm nhà',
+        summary: 'Nhanh chóng.',
+        content: `# Tìm kiếm 🔎\n\nOikotie. Phải nhanh.`
       },
       'housing_utilities': {
-        title: 'Điện & Internet',
-        summary: 'Bạn thường tự làm hợp đồng điện.',
-        content: `### Điện\nKhông bao gồm trong giá thuê. Bạn phải chọn nhà cung cấp và ký hợp đồng.\n\n### Nước\nThường là phí cố định (ví dụ 20€/người/tháng).`
+        title: 'Tiện ích',
+        summary: 'Điện riêng.',
+        content: `# Điện ⚡\n\nTự ký hợp đồng điện.`
       },
       'housing_recycling': {
-        title: 'Hướng dẫn tái chế',
-        summary: 'Người Phần Lan tái chế mọi thứ.',
-        content: `### Thùng rác\n* **Bio:** Rác thực phẩm.\n* **Muovi:** Bao bì nhựa.\n* **Kartonki:** Hộp sữa, bìa cứng.\n* **Paperi:** Giấy, báo.\n\n### Pantti\nChai và lon có tiền cọc (10c - 40c). Trả lại máy ở siêu thị để lấy tiền.`
+        title: 'Tái chế',
+        summary: 'Nghiêm túc.',
+        content: `# Tái chế ♻️\n\nPhân loại mọi thứ. Chai lọ = tiền.`
       },
       'housing_sauna': {
-        title: 'Giặt ủi & Tắm hơi',
-        summary: 'Hầu hết tòa nhà có tiện ích chung.',
-        content: `### Taloyhtiö (Công ty nhà ở)\n* **Giặt ủi:** Thường có danh sách đặt chỗ (varauslista).\n* **Lenkkisauna:** Giờ xông hơi miễn phí hàng tuần cho mọi người.\n* **Giờ riêng:** Bạn có thể đặt giờ riêng hàng tuần với phí nhỏ.`
+        title: 'Xông hơi chung',
+        summary: 'Chia sẻ.',
+        content: `# Tòa nhà 🧺\n\nĐặt lịch của bạn.`
       },
       'family_school': {
-        title: 'Hệ thống trường học',
-        summary: 'Một trong những hệ thống tốt nhất thế giới. Và miễn phí.',
-        content: `### Cơ bản\n* **Bắt đầu:** 7 tuổi.\n* **Chi phí:** Miễn phí. Bao gồm sách và bữa trưa nóng.\n* **Ngôn ngữ:** Thường là tiếng Phần hoặc Thụy Điển.`
+        title: 'Trường học',
+        summary: 'Miễn phí.',
+        content: `# Trường học 🎒\n\nTừ 7 tuổi.`
       },
       'family_daycare': {
-        title: 'Nhà trẻ (Päiväkoti)',
-        summary: 'Mọi trẻ em đều có quyền được đi nhà trẻ.',
-        content: `### Đăng ký\nNộp đơn trước 4 tháng. Được trợ giá rất nhiều.\n\n### Chi phí\nDựa trên thu nhập. Tối đa ~300€/tháng.`
+        title: 'Nhà trẻ',
+        summary: 'Quyền lợi.',
+        content: `# Nhà trẻ 🧸\n\nRẻ và tốt.`
       },
       'family_activities': {
-        title: 'Sở thích & Thể thao',
-        summary: 'Sở thích được coi trọng ở đây.',
-        content: `### Lựa chọn\n* **Thư viện:** Oodi cung cấp máy in 3D, máy may, phòng game miễn phí.\n* **Thể thao:** Bóng đá, khúc côn cầu rất lớn.\n* **Âm nhạc:** Trường nhạc (musiikkiopisto) chất lượng cao.`
+        title: 'Hoạt động',
+        summary: 'Thư viện.',
+        content: `# Giải trí ⚽\n\nThư viện và thể thao.`
       },
       'family_winter': {
-        title: 'Trẻ em & Mùa đông',
-        summary: 'Không có thời tiết xấu, chỉ có quần áo không phù hợp.',
-        content: `### Quần áo\n* **Lớp:** Lớp len, lớp nỉ, lớp ngoài chống thấm.\n* **Haalari:** Bộ đồ liền thân là đồng phục chuẩn của trẻ em.\n* **Heijastimet:** Bắt buộc để an toàn trong bóng tối.`
+        title: 'Mùa đông',
+        summary: 'Quần áo.',
+        content: `# Quần áo ❄️\n\nNhiều lớp. Phản quang.`
       },
       'family_safety': {
-        title: 'An toàn & Độc lập',
-        summary: 'Phần Lan rất an toàn. Trẻ em tự đi học.',
-        content: `### Độc lập\nĐừng hoảng hốt nếu thấy trẻ 7 tuổi đi tàu điện ngầm một mình. Đó là bình thường. Xã hội giữ an toàn cho chúng.`
+        title: 'An toàn',
+        summary: 'Cao.',
+        content: `# An toàn 🚲\n\nTrẻ em tự lập.`
       },
       'culture_essentials': { 
         title: 'Giá trị cốt lõi', 
-        summary: 'Tin tưởng và yên lặng là giá trị cốt lõi.', 
-        content: `# Tin tưởng & Yên lặng 🤫\n\n1. **Tin tưởng:** Làm điều bạn nói.\n2. **Yên lặng:** Đừng sợ sự im lặng.` 
-      },
-      'vol_redcross': {
-        title: 'Hội Chữ Thập Đỏ',
-        summary: 'Cách dễ nhất để gặp người bản địa và làm việc tốt.',
-        content: `# Hội Chữ Thập Đỏ (Punainen Risti)\nMột trong những tổ chức lớn nhất Phần Lan. Họ luôn tìm kiếm tình nguyện viên.\n\n### Hoạt động\n* **Thăm người già:** Trò chuyện với người già neo đơn.\n* **Gia sư:** Giúp trẻ em nhập cư học bài.\n* **Lễ hội:** Sơ cứu và hậu cần tại lễ hội mùa hè.\n\n### Tại sao nên tham gia?\nNó rất tốt cho CV và bạn được thực hành tiếng Phần trong môi trường an toàn.`
-      },
-      'vol_animals': {
-        title: 'Trại Cứu Hộ Động Vật',
-        summary: 'Giúp đỡ động vật tại HESY và các trại khác.',
-        content: `# HESY (Bảo vệ Động vật Helsinki)\nNếu bạn yêu động vật, đây là nơi dành cho bạn.\n\n### Bạn có thể làm gì?\n* **Xã hội hóa mèo:** Vuốt ve mèo để chúng quen với con người.\n* **Dắt chó đi dạo:** Tập thể dục và có bạn đồng hành.\n* **Dọn dẹp:** Giúp giữ trại sạch sẽ.\n\nThường yêu cầu cam kết (ví dụ: mỗi tuần một lần).`
-      },
-      'vol_events': {
-        title: 'Tình nguyện Sự kiện',
-        summary: 'Slush, Lễ hội Flow, Diễn đàn Kinh doanh Bắc Âu.',
-        content: `# Đường tắt đến Mạng lưới\nCác sự kiện lớn vận hành nhờ tình nguyện viên.\n\n### Thỏa thuận\nBạn làm việc 2-3 ca. Đổi lại, bạn nhận được:\n* Vé miễn phí tham dự phần còn lại của sự kiện.\n* Đồ ăn miễn phí & tiệc độc quyền.\n* **Mạng lưới Cựu thành viên:** Đây là mỏ vàng. Nhiều người tìm được việc qua bạn bè tình nguyện.`
-      },
-      'vol_humanitarian': {
-        title: 'Công tác Nhân đạo',
-        summary: 'Bếp ăn từ thiện và giúp người vô gia cư.',
-        content: `# Giúp đỡ người yếu thế\nCác tổ chức như **Hurstin Apu** tổ chức phát thực phẩm cho người nghèo.\n\n### Thực tế\nCông việc vất vả nhưng rất ý nghĩa. Bạn thấy một khía cạnh khác của xã hội thường bị che giấu. Nó giúp bạn thực tế hơn và kết nối với những người thực sự quan tâm đến người khác.`
-      },
-      'daily_transport': { 
-        title: 'Giao thông công cộng (HSL/VR)', 
-        summary: 'Cách sử dụng tàu hỏa, xe buýt và hệ thống vùng.',
-        content: `# Di chuyển\n\n### HSL (Vùng Helsinki)\n* **Vùng:** Giá vé phụ thuộc vào vùng (ABCD). Helsinki là AB.\n* **Ứng dụng:** Tải ứng dụng HSL. Rẻ hơn mua từ tài xế.\n* **Phạt:** Không vé = phạt 80€.\n\n### VR (Tàu hỏa)\nCho đường dài. Đặt sớm để có vé rẻ.`,
-      },
-      'daily_groceries': { 
-        title: 'Đi siêu thị', 
-        summary: 'Cân rau củ và trả vỏ chai.', 
-        content: `# Quy tắc Siêu thị\n\n1. **Cân:** Bạn phải cân rau củ và dán tem giá lên túi *trước khi* ra quầy thanh toán.\n2. **S-Group vs K-Group:** Hai chuỗi chính. Lấy thẻ thành viên (S-Etukortti) nếu ở lâu.\n3. **Rượu bia:** Bia bán ở siêu thị đến 9h tối. Đồ mạnh hơn chỉ có ở **Alko** (độc quyền nhà nước).`,
-      },
-      'daily_pantti': {
-        title: 'Tái chế vỏ chai (Pantti)',
-        summary: 'Đừng vứt lon đi! Chúng là tiền.',
-        content: `# Hệ thống Pantti\n\nHầu như mọi chai và lon ở Phần Lan đều có giá trị cọc (10c - 40c).\n\n1. **Thu gom:** Đừng làm bẹp chúng.\n2. **Trả lại:** Máy trả vỏ ở cửa siêu thị.\n3. **Tiền:** Bạn nhận biên lai. Dùng nó để trừ tiền mua hàng.`,
-      },
-      'nature_everyman': { 
-        title: 'Quyền Mọi người', 
-        summary: 'Bạn có thể đi bộ hầu như mọi nơi và hái quả.', 
-        content: `# Jokamiehenoikeudet\n\nBạn có quyền:\n1. **Đi bộ:** Bất cứ đâu trong rừng (trừ sân nhà riêng).\n2. **Hái:** Quả mọng và nấm tự do.\n3. **Cắm trại:** Tạm thời trong thiên nhiên.\n\n**Quy tắc:** Không làm phiền chim, không xả rác, không chặt cây.`, 
-      },
-      'nature_winter': { 
-        title: 'Sống sót qua Mùa Đông', 
-        summary: 'Bóng tối và Vitamin D.', 
-        content: `# Bóng tối (Kaamos)\n\nTháng 11-1, ánh nắng rất hiếm.\n* **Vitamin D:** Uống bổ sung. Bắt buộc.\n* **Phản quang:** Đeo nó. Đó là luật.\n* **Đinh:** Giày có đinh giúp không trượt ngã trên băng.`, 
-      },
-      'nature_summer': {
-        title: 'Nhà mùa hè (Mökki)',
-        summary: 'Tâm hồn Phần Lan sống ở đây.',
-        content: `# Cuộc sống Mökki\n\nTháng 7, thành phố vắng tanh. Mọi người đi nhà gỗ.\n* **Đơn giản:** Nhiều nơi không có điện hoặc nước máy.\n* **Hoạt động:** Sauna, bơi, nướng thịt, lặp lại.`,
+        summary: 'Niềm tin và sự im lặng là giá trị cốt lõi.', 
+        content: `# Niềm tin & Sự im lặng 🤫\n\n1. **Niềm tin:** Làm những gì bạn nói.\n2. **Sự im lặng:** Đừng sợ sự im lặng.` 
       }
     }
   }

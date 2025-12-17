@@ -59,27 +59,31 @@ const Section = ({
 const InfoCard = ({ 
     title, 
     icon: Icon, 
-    onClick 
+    onClick,
+    colorClass = "text-gray-900 dark:text-white"
 }: { 
     title: string, 
     icon: any, 
-    onClick: () => void 
+    onClick: () => void,
+    colorClass?: string
 }) => (
     <button 
         onClick={onClick}
         className="
             flex flex-col items-center justify-center p-6 md:p-8 
-            bg-white/50 dark:bg-white/5 
-            border-2 border-black dark:border-white/20 
+            bg-white/80 dark:bg-white/5 
+            border border-gray-100 dark:border-white/10
             rounded-3xl 
-            hover:bg-black hover:text-white hover:border-black 
-            dark:hover:bg-white dark:hover:text-black dark:hover:border-white
+            hover:shadow-xl hover:bg-white dark:hover:bg-white/10 hover:-translate-y-1
             transition-all duration-300 group h-full w-full min-h-[160px]
-            text-gray-900 dark:text-white
+            relative overflow-hidden
         "
     >
-        <Icon className="w-8 h-8 md:w-10 md:h-10 mb-4 stroke-[1.5] group-hover:scale-110 transition-transform" />
-        <span className="font-extrabold text-center text-sm md:text-base leading-tight">{title}</span>
+        {/* Subtle background glow on hover using the icon's color */}
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-current ${colorClass}`}></div>
+
+        <Icon className={`w-10 h-10 md:w-12 md:h-12 mb-4 stroke-[1.5] group-hover:scale-110 transition-transform duration-300 ${colorClass}`} />
+        <span className="font-extrabold text-center text-sm md:text-base leading-tight text-gray-900 dark:text-white">{title}</span>
     </button>
 );
 
@@ -296,21 +300,25 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     title={t('dash_card_networking')} 
                     icon={Icons.Users} 
                     onClick={() => onNavigateToWiki('Networking', 'tag')} 
+                    colorClass="text-cyan-600 dark:text-cyan-400"
                 />
                 <InfoCard 
                     title={t('dash_card_culture')} 
                     icon={Icons.Puzzle} 
-                    onClick={() => onNavigateToWiki('workplace', 'category')} 
+                    onClick={() => onNavigateToWiki('workplace', 'category')}
+                    colorClass="text-purple-600 dark:text-purple-400"
                 />
                 <InfoCard 
                     title={t('dash_card_recruitment')} 
                     icon={Icons.Search} 
-                    onClick={() => onNavigateToWiki('job_strategy', 'category')} 
+                    onClick={() => onNavigateToWiki('job_strategy', 'category')}
+                    colorClass="text-green-600 dark:text-green-400" 
                 />
                 <InfoCard 
                     title={t('dash_card_rights')} 
                     icon={Icons.ShieldCheck} 
-                    onClick={() => onNavigateToWiki('Work Rights', 'tag')} 
+                    onClick={() => onNavigateToWiki('Work Rights', 'tag')}
+                    colorClass="text-orange-600 dark:text-orange-400" 
                 />
             </div>
             <button 
@@ -336,9 +344,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             }
         >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <InfoCard title={t('dash_card_guide_cv')} icon={Icons.FileText} onClick={() => onNavigateToWiki('job_cv_tips', 'article')} />
-                <InfoCard title={t('dash_card_guide_tax')} icon={Icons.Percent} onClick={() => onNavigateToWiki('bureaucracy_tax', 'article')} />
-                <InfoCard title={t('dash_card_guide_kela')} icon={Icons.Heart} onClick={() => onNavigateToWiki('social_kela_card', 'article')} />
+                <InfoCard title={t('dash_card_guide_cv')} icon={Icons.FileText} onClick={() => onNavigateToWiki('job_cv_tips', 'article')} colorClass="text-blue-600 dark:text-blue-400" />
+                <InfoCard title={t('dash_card_guide_tax')} icon={Icons.Percent} onClick={() => onNavigateToWiki('bureaucracy_tax', 'article')} colorClass="text-red-500 dark:text-red-400" />
+                <InfoCard title={t('dash_card_guide_kela')} icon={Icons.Heart} onClick={() => onNavigateToWiki('social_kela_card', 'article')} colorClass="text-blue-500 dark:text-indigo-400" />
             </div>
         </Section>
 
@@ -388,9 +396,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             {/* Static Categories */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <InfoCard title={t('dash_card_living_events')} icon={Icons.Calendar} onClick={() => onNavigateToWiki('family_activities', 'article')} />
-                <InfoCard title={t('dash_card_living_sports')} icon={Icons.Dumbbell} onClick={() => onNavigateToWiki('family_activities', 'article')} />
-                <InfoCard title={t('dash_card_living_community')} icon={Icons.Users} onClick={() => onNavigateToWiki('net_hobbies', 'article')} />
+                <InfoCard title={t('dash_card_living_events')} icon={Icons.Calendar} onClick={() => onNavigateToWiki('family_activities', 'article')} colorClass="text-amber-500 dark:text-amber-400" />
+                <InfoCard title={t('dash_card_living_sports')} icon={Icons.Dumbbell} onClick={() => onNavigateToWiki('family_activities', 'article')} colorClass="text-emerald-500 dark:text-emerald-400" />
+                <InfoCard title={t('dash_card_living_community')} icon={Icons.Users} onClick={() => onNavigateToWiki('net_hobbies', 'article')} colorClass="text-teal-500 dark:text-teal-400" />
             </div>
         </Section>
 

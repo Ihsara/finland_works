@@ -4,7 +4,7 @@ import { TranslationResource } from "./types";
 export const en: TranslationResource = {
   ui: {
     nav_guide: "Guide", nav_chat: "Chat", nav_plan: "Plan", nav_profile: "Profile",
-    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Finland", 
+    landing_welcome: "Welcome!", landing_subtitle: "Find your way to work in Vantaa", 
     landing_slide1: "Your personal guide to Finland",
     landing_slide2: "Master the bureaucracy",
     landing_slide3: "Find hidden jobs",
@@ -13,17 +13,17 @@ export const en: TranslationResource = {
     landing_btn_quiz: "Personalize it for you!", landing_btn_quiz_alt: "Create your plan", 
     landing_btn_continue: "Open my guide", 
     landing_btn_ask: "Chat with Assistant", landing_btn_ask_alt: "Get Advice",
-    landing_btn_browse: "Browse Guide", landing_btn_browse_alt: "Make Finland works!",
+    landing_btn_browse: "Browse Guide", landing_btn_browse_alt: "Make Vantaa works!",
     landing_load_sample: "Load Sample", landing_erase: "Erase Data", landing_add_key: "Add API Key", landing_choose_lang: "Language",
-    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Finland guide.", dash_subtitle_guest: "Let's build a profile to get started.", dash_btn_guide: "Open Guide", dash_btn_browse: "Browse", dash_btn_ask: "Chat with Assistant", dash_btn_history: "History", dash_btn_cv: "Import CV", dash_switch_profile: "Switch", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "Profile",
+    dash_greeting: "Moi, {name}!", dash_greeting_guest: "Moi!", dash_subtitle: "Welcome back to your personal Vantaa guide.", dash_subtitle_guest: "Let's build a profile to get started.", dash_btn_guide: "Open Guide", dash_btn_browse: "Browse", dash_btn_ask: "Chat with Assistant", dash_btn_history: "History", dash_btn_cv: "Import CV", dash_switch_profile: "Switch", dash_new_profile: "New", dash_edit_profile: "Edit", dash_profile_overview: "Profile",
     dash_education: "Education", dash_profession: "Profession", dash_languages: "Languages", dash_narrative_aspirations: "Aspirations", dash_narrative_challenges: "Challenges",
     chat_placeholder: "Ask something...", chat_end_session: "End", chat_header_assistant: "Assistant", chat_prompt_context_inquiry: "Tell me more about \"{sentence}\"", chat_ask_length: "Short or detailed answer?", chat_length_set_confirm: "Got it. I will adjust the length.", chat_empty_state: "Start the conversation by asking a question below.",
-    chat_ai_greeting: "Beep boop! 🤖 Just a reminder: I am no human! But I'll do my best to help you navigate Finland.",
+    chat_ai_greeting: "Beep boop! 🤖 I am your Vantaa integration assistant. How can I help you today?",
     btn_back_dashboard: "Back", btn_save: "Save",
     profile_btn_guide: "My Guide", profile_btn_guide_desc: "Recommended articles", profile_btn_plan: "My Plan", profile_btn_plan_desc: "Coming soon", profile_sect_languages: "Languages", profile_sect_skills: "Skills", profile_sect_narrative: "Story", profile_label_aspirations: "Hopes", profile_label_challenges: "Fears", profile_label_education: "Education", profile_label_profession: "Profession", profile_completeness: "{percentage}% complete", profile_completeness_hint: "Answer a few more questions", profile_btn_update: "Update Profile", profile_btn_continue: "Continue",
     
     // Profile Guest View (New)
-    profile_guest_title: "Prepare for Your Life and Career in Finland",
+    profile_guest_title: "Prepare for Your Life and Career in Vantaa",
     profile_guest_subtitle: "Answer a few questions and get your personalized 1-year integration plan",
     profile_guest_btn_start: "Start",
     profile_guest_col1: "Legal Essentials",
@@ -64,6 +64,13 @@ export const en: TranslationResource = {
     plan_step_locked: "Locked",
     plan_step_available: "Available",
     plan_btn_return: "Return to Plan",
+
+    // Fun Facts (New)
+    quest_fact_foundation: "In Finland, your personal ID code (henkilötunnus) tells your birthday and gender! The separator char (+, -, A) tells the century you were born in.",
+    quest_fact_job_strategy: "70-80% of jobs in Finland are never advertised publicly. They are filled through networking and direct contact.",
+    quest_fact_workplace: "Coffee breaks are statutory in Finland! Almost every contract mandates two 15-minute coffee breaks per day.",
+    quest_fact_industries: "Finland has the most metal bands per capita in the world. Even Nokia was originally a rubber boot company.",
+    quest_fact_life: "Finland has over 3 million saunas for 5.5 million people. That's more than one sauna for every two people!",
 
     // NEW DASHBOARD CONTENT
     dash_hero_title: "PREPARE FOR YOUR LIFE AND CAREER IN FINLAND",
@@ -142,7 +149,9 @@ export const en: TranslationResource = {
     cv_sect_education: "Education",
     cv_sect_skills: "Skills",
     cv_sect_soft_skills: "Soft Skills",
-    cv_preview_disclaimer: "This is a simplified template. Download and edit for full details."
+    cv_preview_disclaimer: "This is a simplified template. Download and edit for full details.",
+    cv_placeholder_name: "Alex Esimerkki",
+    cv_placeholder_summary: "Motivated professional looking for opportunities in the Helsinki capital region. Eager to learn and contribute to Finnish working life."
   },
   wiki: {
     titles: {
@@ -162,14 +171,45 @@ export const en: TranslationResource = {
       housing_contracts: 'Rental Contracts', housing_finding: 'Finding Apartments', housing_utilities: 'Utilities', housing_recycling: 'Recycling Guide', housing_sauna: 'Laundry & Sauna',
       family_school: 'School System', family_daycare: 'Daycare', family_activities: 'Hobbies & Sports', family_winter: 'Kids & Winter', family_safety: 'Safety',
       vol_redcross: 'Red Cross & NGOs', vol_animals: 'Animal Shelters', vol_events: 'Event Volunteering', vol_humanitarian: 'Humanitarian Work',
-      daily_transport: 'Public Transport', daily_groceries: 'Grocery Shopping', daily_pantti: 'Bottle Recycling',
-      nature_everyman: "Everyman's Rights", nature_winter: 'Surviving Winter', nature_summer: 'Summer Cottages'
+      daily_transport: 'Public Transport (HSL)', daily_groceries: 'Grocery Shopping', daily_pantti: 'Bottle Recycling',
+      nature_everyman: "Everyman's Rights", nature_winter: 'Surviving Winter', nature_summer: 'Summer Cottages',
+      vantaa_library_tikkurila: 'Tikkurila Library', vantaa_nature: 'Vantaa Nature', vantaa_ring_rail: 'The Ring Rail', vantaa_info_points: 'Vantaa Info', vantaa_aviapolis: 'Aviapolis Hub', vantaa_multicultural: 'Multicultural Vantaa'
     },
     articles: {
       'guide_start': { 
         title: 'Welcome to Finland! 🇫🇮', 
         summary: 'Finland runs on trust, silence, and coffee. This guide is your survival manual.', 
         content: `# Your Survival Manual\n\n**The Philosophy:**\nFinland runs on trust, silence, and coffee. It is a society where systems work, but you must know how to use them. Trust is the currency of interaction, and silence is a sign of respect.\n\n### How to use this app\n1. **Read:** Browse the guides on bureaucracy and work culture.\n2. **Chat:** Ask the AI Assistant about your specific situation.\n3. **Profile:** Keep your data fresh to get accurate advice.\n\n*Sisu* (Guts) is all you need!` 
+      },
+      'vantaa_ring_rail': {
+        title: 'Vantaa\'s Heart: The Ring Rail Line',
+        summary: 'The heart-shaped railway that connects the city to the world. Living here means you don\'t need a car.',
+        content: `# The Kehärata Advantage\n\nThe **Ring Rail Line (Kehärata)** is more than just a train track; it is the spine of Vantaa. Shaped like a heart on the map, it connects Helsinki Central Station, Helsinki-Vantaa Airport, and the main districts of Vantaa (Tikkurila, Myyrmäki, Kivistö).\n\n### Why it matters to you\n1.  **Car-Free Life:** If you live within walking distance of a Ring Rail station (e.g., Martinlaakso, Louhela, Leinelä), you do not need a car. You can reach the airport or downtown Helsinki in 20-30 minutes.\n2.  **The Zone Sweet Spot:** Most of Vantaa is in **HSL Zones B and C**. Rents are significantly lower than in Helsinki (Zone A), but the commute is fast and reliable. Trains run every 10 minutes during peak hours.\n3.  **Cross-Town Mobility:** Unlike older radial lines that only go to Helsinki, the Ring Rail connects Vantaa's east (Tikkurila) and west (Myyrmäki) directly.`
+      },
+      'vantaa_info_points': {
+        title: 'Vantaa-info: Bureaucracy Made Easy',
+        summary: 'Low-threshold service points where you can walk in and get help with city services.',
+        content: `# Your Local Help Desk\n\nNavigating Finnish bureaucracy can be intimidating. National agencies like Migri or Kela often require appointments and strict formalities. **Vantaa-info** is different.\n\n### What is it?\nThese are low-threshold service points located in major hubs: **Tikkurila (Dixi)**, **Myyrmäki (Myyrmäkitalo)**, and **Korso**. You can often just walk in.\n\n### How they help\n*   **Digital Support:** Staff can help you use city computers to fill out online forms for daycare or HSL cards.\n*   **General Advice:** Not sure which office to call? Ask here first.\n*   **Multilingual Services:** Vantaa offers "Multilingual Advisory Services" in languages like Arabic, Somali, Russian, Dari, and Farsi. Check their weekly schedule to find a time when your language is spoken.\n\nIf you are confused by a letter from the city, take it to Vantaa-info.`
+      },
+      'vantaa_nature': {
+        title: 'Nature at Your Doorstep: Kuusijärvi & Sipoonkorpi',
+        summary: 'Smoke saunas and national parks within bus reach. The ultimate mental health hack.',
+        content: `# The Green Escape\n\nVantaa isn't just concrete; it is the gateway to the wild. The combination of **Lake Kuusijärvi** and **Sipoonkorpi National Park** is unique in the capital region.\n\n### Kuusijärvi: The Sauna Capital\nLocated in East Vantaa (Bus 736/739), Kuusijärvi hosts the only public **smoke saunas** in the capital region. They are open year-round. In winter, ice swimming here is a popular rite of passage that boosts circulation and mood.\n\n### Sipoonkorpi: True Wilderness\nFrom Kuusijärvi, you can walk across the bridge directly into Sipoonkorpi National Park. This is deep forest.\n*   **Everyman's Rights:** You can pick blueberries and mushrooms freely.\n*   **Accessibility:** Unlike Nuuksio which is often crowded, Sipoonkorpi offers quiet trails.\n*   **Wellbeing:** Spending just 15 minutes in the forest lowers blood pressure. It is the most accessible therapy in Finland.`
+      },
+      'vantaa_aviapolis': {
+        title: 'Aviapolis: The Engine of Growth',
+        summary: 'More than an airport. It is the fastest-growing job hub in Finland for logistics and tech.',
+        content: `# Where the Jobs Are\n\n**Aviapolis** is the district surrounding Helsinki-Vantaa Airport. It is not just a transit zone; it is a massive job engine.\n\n### The Opportunity\n1.  **Diverse Roles:** It hosts logistics centers (DHL, Posti), retail giants (Jumbo, Flamingo), and tech HQs. Whether you are looking for entry-level warehouse work or expert engineering roles, this is the hotspot.\n2.  **International Atmosphere:** Because of the airport, English is widely spoken and accepted as a working language in many companies here.\n3.  **Commuting:** If you live in nearby districts like **Kartanonkoski** or **Pakkala**, you can bike to work. If you live in Helsinki, you commute *against* the traffic jams, which makes travel faster.`
+      },
+      'vantaa_multicultural': {
+        title: 'Vantaa: Finland\'s International City',
+        summary: 'With over 25% foreign-background residents, diversity is the norm here.',
+        content: `# You Are Not Alone\n\nVantaa is the most multicultural city in Finland. Over **25%** of residents speak a language other than Finnish or Swedish as their mother tongue. In some districts, this number is higher.\n\n### Why this matters\n1.  **Integration is Easier:** You won't be the "only foreigner" in the room. Schools and daycares are experienced with multilingual families and have resources to support Finnish language learning (S2).\n2.  **Global Food:** Vantaa has some of the best ethnic grocery stores in the country (especially in Hakunila and Myyrmäki), stocking ingredients you might miss from home.\n3.  **Tolerance:** Diversity is a daily reality, not a theoretical concept. The city actively supports multicultural associations and events.`
+      },
+      'vantaa_library_tikkurila': {
+        title: 'Tikkurila Library: Vantaa\'s Urban Workshop',
+        summary: 'More than books: 3D printing, music studios, and workspace right at Dixi.',
+        content: `# Tikkurila Library (Tikkurilan kirjasto)\n\nLocated in the **Dixi** shopping center (2nd floor), right next to the train station. It is a modern hub for doing, not just reading.\n\n### The Makerspace (Paja)\nThis is where you can create things for free.\n* **3D Printers:** Ultimaker and Prusa models available.\n* **Sewing:** Overlockers and embroidery machines.\n* **Vinyl Cutter:** Make stickers or prints for shirts.\n* **Tools:** Button makers, laminators.\n\n### How to Book a 3D Printer\n1. **Get a Helmet Card:** You need a physical library card and a 4-digit PIN code.\n2. **Go Online:** Visit **[varaamo.vantaa.fi](https://varaamo.vantaa.fi)**.\n3. **Search:** Select "Tikkurila Library" and look for "3D printer".\n4. **Book:** Select your time slot (usually max 4 hours). It is free!\n\n**On the day:** Bring your design file (\`.stl\` format) on a USB stick. Staff will help you load the filament (plastic). You must stay nearby while it prints.\n\n### Other Perks\n* **Music Rooms:** Play drums, piano, or record singing in soundproof studios.\n* **Workspaces:** Free WiFi, quiet desks, and meeting rooms.`
       },
       'bureaucracy_ihh': {
         title: 'International House Helsinki (IHH)',
@@ -465,41 +505,6 @@ export const en: TranslationResource = {
         title: 'Core Values', 
         summary: 'Trust and silence are core values.', 
         content: `# Trust & Silence 🤫\n\n1. **Trust:** Do what you say.\n2. **Silence:** Do not fear the silence.` 
-      },
-      'vol_redcross': {
-        title: 'Red Cross & NGOs',
-        summary: 'The easiest way to meet locals and do good.',
-        content: `# Red Cross (Punainen Risti)\nOne of the biggest organizations in Finland. They constantly look for volunteers.\n\n### Activities\n* **Friend Visitor:** Visit lonely elderly people.\n* **Homework Help:** Help immigrant kids with school.\n* **Festivals:** First aid and logistics at summer festivals.\n\n### Why join?\nIt looks amazing on your CV and you practice Finnish in a safe environment.`
-      },
-      'vol_animals': {
-        title: 'Animal Shelters',
-        summary: 'Help animals at HESY and other shelters.',
-        content: `# HESY (Helsinki Animal Protection)\nIf you love animals, this is for you.\n\n### What can you do?\n* **Cat socializing:** Yes, pet cats to make them used to humans.\n* **Walking dogs:** Great exercise and company.\n* **Cleaning:** Helping keep the shelter clean.\n\nUsually requires commitment (e.g. once a week).`
-      },
-      'vol_events': {
-        title: 'Event Volunteering',
-        summary: 'Slush, Flow Festival, Nordic Business Forum.',
-        content: `# The Fast Track to Networks\nBig events run on volunteers.\n\n### The Deal\nYou work 2-3 shifts. In exchange, you get:\n* Free ticket to the rest of the event.\n* Free food & exclusive parties.\n* **The Alumni Network:** This is the gold mine. Many people find jobs through fellow volunteers.`
-      },
-      'vol_humanitarian': {
-        title: 'Humanitarian Work',
-        summary: 'Soup kitchens and helping the homeless.',
-        content: `# Helping the Vulnerable\nOrganizations like **Hurstin Apu** organize food distribution for the needy.\n\n### The Reality\nIt is hard work, but very rewarding. You see a side of society that is often hidden. It grounds you and connects you with people who truly care about others.`
-      },
-      'daily_transport': { 
-        title: 'Public Transport (HSL/VR)', 
-        summary: 'How to use trains, buses, and the zone system.',
-        content: `# Moving Around\n\n### HSL (Helsinki Region)\n* **Zones:** Ticket price depends on zones (ABCD). Helsinki is AB.\n* **App:** Download HSL app. It is cheaper than buying from driver.\n* **Penalty:** No ticket = 80€ fine.\n\n### VR (Trains)\nFor long distance. Book early for cheap tickets.\n\n### Official Resource\n[→ HSL Journey Planner](https://www.hsl.fi/en)`
-      },
-      'daily_groceries': { 
-        title: 'Grocery Shopping', 
-        summary: 'Weigh your own veggies and deposit bottles.', 
-        content: `# Supermarket Rules\n\n1. **Weighing:** You must weigh fruit/veg and stick the price tag on the bag *before* the checkout.\n2. **S-Group vs K-Group:** Two main chains. Get a bonus card (S-Etukortti) if you stay long.\n3. **Alcohol:** Beer is in supermarkets until 9pm. Stronger stuff is only in **Alko** (state monopoly).`,
-      },
-      'daily_pantti': {
-        title: 'Bottle Recycling (Pantti)',
-        summary: 'Don\'t throw away cans! They are money.',
-        content: `# Pantti System\n\nAlmost every bottle and can in Finland has a deposit value (10c to 40c).\n\n1. **Collect:** Don't crush them.\n2. **Return:** Machines are in every supermarket entrance.\n3. **Money:** You get a receipt. Use it at checkout for money off groceries.`,
       },
       'nature_everyman': { 
         title: 'Everyman\'s Rights', 

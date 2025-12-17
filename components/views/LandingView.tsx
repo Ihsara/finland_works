@@ -185,7 +185,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
                  
                  <RotatingButtonContent 
                     primaryText={t('landing_btn_browse')} 
-                    secondaryText={t('landing_btn_browse_alt') || "Make Finland works!"}
+                    secondaryText={t('landing_btn_browse_alt') || "Make Vantaa works!"}
                     icon={Icons.BookOpen}
                     fontClass={headingFont}
                     colorClass="text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30"
