@@ -70,7 +70,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
   const [prefLayout, setPrefLayout] = useState<LayoutPreference>('windowed');
   // Local state for language to allow "Save" flow, defaulting to current context
   const [prefLanguage, setPrefLanguage] = useState(language); 
-  const [expandedSection, setExpandedSection] = useState<string | null>('appearance'); // Default to appearance based on user feedback
+  const [expandedSection, setExpandedSection] = useState<string | null>('general'); // Default to general for better accessibility (Language)
 
   useEffect(() => {
     setPrefLength(getGlobalLengthPreference());
@@ -141,66 +141,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
         <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto py-6">
                 
-                <AccordionSection id="appearance" title={t('settings_sect_appearance')} icon={Icons.Eye} isOpen={expandedSection === 'appearance'} onToggle={toggleSection}>
-                    <div className="space-y-6 pt-4">
-                        <div>
-                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_theme_label')}</label>
-                             <div className="grid grid-cols-3 gap-3">
-                                 {themeOptions.map(opt => {
-                                     const isSelected = prefTheme === opt.value;
-                                     return (
-                                        <button 
-                                            key={opt.value} 
-                                            onClick={() => setPrefTheme(opt.value as ThemePreference)} 
-                                            className={`
-                                                flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all min-h-[80px]
-                                                ${isSelected 
-                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' 
-                                                    : 'border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-white/20 text-gray-600 dark:text-gray-400'
-                                                }
-                                            `}
-                                        >
-                                            <opt.icon className="w-6 h-6 mb-2" />
-                                            <span className="text-xs font-bold">{opt.label}</span>
-                                        </button>
-                                     );
-                                 })}
-                             </div>
-                        </div>
-                        <div className="hidden md:block border-t border-gray-100 dark:border-white/10 pt-4">
-                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop Layout</label>
-                             <div className="flex gap-3">
-                                <button 
-                                    onClick={() => setPrefLayout('windowed')} 
-                                    className={`
-                                        flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2
-                                        ${prefLayout === 'windowed' 
-                                            ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' 
-                                            : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-white/5'
-                                        }
-                                    `}
-                                >
-                                    <div className="w-4 h-6 border-2 border-current rounded-sm"></div>
-                                    Windowed
-                                </button>
-                                <button 
-                                    onClick={() => setPrefLayout('fullscreen')} 
-                                    className={`
-                                        flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2
-                                        ${prefLayout === 'fullscreen' 
-                                            ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' 
-                                            : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-white/5'
-                                        }
-                                    `}
-                                >
-                                    <div className="w-6 h-4 border-2 border-current rounded-sm"></div>
-                                    Full Screen
-                                </button>
-                             </div>
-                        </div>
-                    </div>
-                </AccordionSection>
-
                 <AccordionSection id="general" title={t('settings_sect_general')} icon={Icons.Settings} isOpen={expandedSection === 'general'} onToggle={toggleSection}>
                      <div className="space-y-6 pt-4">
                          {/* Language Selector */}
@@ -259,6 +199,66 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ onBack, onToggleLayo
                              </div>
                          </div>
                      </div>
+                </AccordionSection>
+
+                <AccordionSection id="appearance" title={t('settings_sect_appearance')} icon={Icons.Eye} isOpen={expandedSection === 'appearance'} onToggle={toggleSection}>
+                    <div className="space-y-6 pt-4">
+                        <div>
+                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('settings_theme_label')}</label>
+                             <div className="grid grid-cols-3 gap-3">
+                                 {themeOptions.map(opt => {
+                                     const isSelected = prefTheme === opt.value;
+                                     return (
+                                        <button 
+                                            key={opt.value} 
+                                            onClick={() => setPrefTheme(opt.value as ThemePreference)} 
+                                            className={`
+                                                flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all min-h-[80px]
+                                                ${isSelected 
+                                                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' 
+                                                    : 'border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-white/20 text-gray-600 dark:text-gray-400'
+                                                }
+                                            `}
+                                        >
+                                            <opt.icon className="w-6 h-6 mb-2" />
+                                            <span className="text-xs font-bold">{opt.label}</span>
+                                        </button>
+                                     );
+                                 })}
+                             </div>
+                        </div>
+                        <div className="hidden md:block border-t border-gray-100 dark:border-white/10 pt-4">
+                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop Layout</label>
+                             <div className="flex gap-3">
+                                <button 
+                                    onClick={() => setPrefLayout('windowed')} 
+                                    className={`
+                                        flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2
+                                        ${prefLayout === 'windowed' 
+                                            ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' 
+                                            : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-white/5'
+                                        }
+                                    `}
+                                >
+                                    <div className="w-4 h-6 border-2 border-current rounded-sm"></div>
+                                    Windowed
+                                </button>
+                                <button 
+                                    onClick={() => setPrefLayout('fullscreen')} 
+                                    className={`
+                                        flex-1 p-3 rounded-xl border-2 text-center font-bold text-xs transition-all flex items-center justify-center gap-2
+                                        ${prefLayout === 'fullscreen' 
+                                            ? 'border-black dark:border-white text-black dark:text-white bg-gray-50 dark:bg-white/5' 
+                                            : 'border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-white/5'
+                                        }
+                                    `}
+                                >
+                                    <div className="w-6 h-4 border-2 border-current rounded-sm"></div>
+                                    Full Screen
+                                </button>
+                             </div>
+                        </div>
+                    </div>
                 </AccordionSection>
 
                 <AccordionSection id="data" title={t('settings_sect_data')} icon={Icons.Database} isOpen={expandedSection === 'data'} onToggle={toggleSection}>

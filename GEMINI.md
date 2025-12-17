@@ -8,6 +8,16 @@
 - **Icons**: Lucide React.
 - **Data Persistence**: LocalStorage (Privacy-first).
 
+## Content Engineering (NEW)
+**Guides must be actionable manuals, not just descriptions.**
+1.  **Empowerment**: Write guides so the user can perform the task *by themselves* immediately after reading.
+2.  **Structure**:
+    *   **The Mission**: One sentence on *why* this matters.
+    *   **The Steps**: Numbered list (1, 2, 3) with concrete actions.
+    *   **The Keywords**: Include the Finnish term (e.g., *Verokortti*) so they know what button to click on official sites.
+    *   **The Hack**: A "Pro Tip" that locals know but immigrants usually find out the hard way.
+3.  **Tone**: Nordic Pragmatism. Direct, honest, encouraging, and devoid of fluff.
+
 ## Mobile-First & Touch Optimization (PARAMOUNT)
 **The phone is the PRIMARY device. Design for 360px width first.**
 1.  **Vertical Space**: Screens are short. Avoid massive buttons that force scrolling on landing pages. Use compact cards (`h-24` banners or `aspect-video`) on mobile.

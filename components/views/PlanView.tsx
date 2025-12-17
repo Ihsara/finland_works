@@ -57,8 +57,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
   onNavigateToDashboard
 }) => {
   const { t, language, headingFont } = useLanguage();
-  // Simplified tabs: Career vs Life
-  const [activeTab, setActiveTab] = useState<'career' | 'life'>('career');
+  const [activeTab, setActiveTab] = useState<'career' | 'life'>('life'); // Default to Life for better onboarding flow
   const [wikiProgress, setWikiProgress] = useState<Storage.WikiProgressData | null>(null);
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
   const [funFact, setFunFact] = useState<{title: string, text: string, moduleId: string} | null>(null);
@@ -66,6 +65,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
   const [showGraduation, setShowGraduation] = useState(false);
 
   const isGuest = !profile || profile.id === 'guest';
+  const hasChildren = profile?.maritalStatus.toLowerCase().includes('child') || profile?.maritalStatus.toLowerCase().includes('family');
 
   useEffect(() => {
       if (profile && !isGuest) {
@@ -84,17 +84,16 @@ export const PlanView: React.FC<PlanViewProps> = ({
   };
 
   const handleToggleArticleStatus = (e: React.MouseEvent, articleId: string) => {
-      e.stopPropagation(); // Prevent opening the module or navigating
+      e.stopPropagation(); 
       if (!profile) return;
 
       const currentStatus = wikiProgress?.items[articleId]?.status;
-      const newStatus = currentStatus === 'done' ? undefined : 'done'; // Toggle Done/Undone
+      const newStatus = currentStatus === 'done' ? undefined : 'done'; 
       
       Storage.saveWikiArticleStatus(profile.id, articleId, newStatus);
       const newData = Storage.getWikiProgress(profile.id);
       setWikiProgress(newData);
 
-      // Trigger achievement check
       if (newStatus === 'done' && onUnlockAchievement) {
           const doneCount = Object.values(newData.items).filter(i => i.status === 'done').length;
           if (doneCount === 1) onUnlockAchievement('first_step');
@@ -107,8 +106,13 @@ export const PlanView: React.FC<PlanViewProps> = ({
       const categories = getWikiCategories(language);
       const progress = wikiProgress?.items || {};
       
-      const careerCats = categories.filter(c => ['foundation', 'job_strategy', 'workplace', 'industries'].includes(c.id));
-      const lifeCats = categories.filter(c => ['life', 'family', 'daily_life', 'nature'].includes(c.id)); 
+      const careerCats = categories.filter(c => ['job_strategy', 'workplace', 'industries'].includes(c.id));
+      
+      // Personalization: Ensure 'Family' is prominent if they have kids
+      const lifeCats = categories.filter(c => {
+          if (c.id === 'family') return hasChildren;
+          return ['foundation', 'life'].includes(c.id);
+      });
 
       const processCategory = (cat: any) => {
           const allArticles = cat.subsections.flatMap((s: any) => s.articles);
@@ -128,10 +132,9 @@ export const PlanView: React.FC<PlanViewProps> = ({
       const careerModules = careerCats.map(processCategory);
       const lifeModules = lifeCats.map(processCategory);
 
-      // Global Progress for Puzzle
+      // Global Progress
       const allModules = [...careerModules, ...lifeModules];
       
-      // Map to PuzzleModule format
       const puzzleModules: PuzzleModule[] = allModules.map(m => ({
           id: m.id,
           title: m.title,
@@ -149,9 +152,8 @@ export const PlanView: React.FC<PlanViewProps> = ({
       const xp = grandCompleted % 5;
 
       return { careerModules, lifeModules, puzzleModules, level, xp, grandPercent };
-  }, [profile, isGuest, wikiProgress, language, onUnlockAchievement]);
+  }, [profile, isGuest, wikiProgress, language, onUnlockAchievement, hasChildren]);
 
-  // Check for Graduation (100%)
   useEffect(() => {
       if (planData?.grandPercent === 100 && onUnlockAchievement) {
           const isNew = Storage.unlockAchievement(profile!.id, 'sisu_graduate');
@@ -162,7 +164,6 @@ export const PlanView: React.FC<PlanViewProps> = ({
       }
   }, [planData?.grandPercent]);
 
-  // Get Background Image from Profile ID
   const puzzleImageUrl = useMemo(() => {
       if (!profile) return undefined;
       const imgDef = getPuzzleImageById(profile.puzzleImageId);
@@ -173,52 +174,19 @@ export const PlanView: React.FC<PlanViewProps> = ({
       setExpandedModules(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleModuleClick = (module: any, index: number, isCareer: boolean) => {
-      const isPermanentlyUnlocked = wikiProgress?.unlockedQuests?.includes(module.id);
-      const prevModule = isCareer ? planData!.careerModules[index - 1] : planData!.lifeModules[index - 1];
-      const isHardLocked = index > 0 && prevModule.percent < 50;
-      
-      const isLocked = isHardLocked && !isPermanentlyUnlocked;
-      
-      if (isLocked) {
-          const fact = (FUN_FACTS as any)[module.id] || "Finland has more saunas than cars!";
-          setFunFact({
-              title: module.title,
-              text: fact,
-              moduleId: module.id
-          });
-      } else {
-          toggleModule(module.id);
-      }
-  };
-
-  const unlockAndEnter = () => {
-      if (funFact && profile) {
-          Storage.unlockQuest(profile.id, funFact.moduleId);
-          setWikiProgress(Storage.getWikiProgress(profile.id));
-          setExpandedModules(prev => ({ ...prev, [funFact.moduleId]: true }));
-          setFunFact(null);
-      }
-  };
-
   const renderModuleCard = (module: any, index: number, isCareer: boolean) => {
       const isExpanded = expandedModules[module.id];
       const isComplete = module.percent === 100;
       const hasOngoing = module.saved > 0;
       
-      const isPermanentlyUnlocked = wikiProgress?.unlockedQuests?.includes(module.id);
-      const prevModule = isCareer ? planData!.careerModules[index - 1] : planData!.lifeModules[index - 1];
-      const isHardLocked = index > 0 && prevModule.percent < 50;
-      const isLocked = isHardLocked && !isPermanentlyUnlocked;
-
       let statusColor = 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'; 
       if (isComplete) statusColor = 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400';
       else if (hasOngoing) statusColor = 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
 
       return (
-          <div key={module.id} className={`bg-white dark:bg-white/5 border ${isComplete ? 'border-green-200 dark:border-green-800' : hasOngoing ? 'border-amber-200 dark:border-amber-800' : 'border-gray-200 dark:border-white/10'} rounded-2xl overflow-hidden transition-all duration-300 ${isLocked ? 'opacity-75 grayscale-[0.5]' : 'shadow-sm hover:shadow-md'}`}>
+          <div key={module.id} className={`bg-white dark:bg-white/5 border ${isComplete ? 'border-green-200 dark:border-green-800' : hasOngoing ? 'border-amber-200 dark:border-amber-800' : 'border-gray-200 dark:border-white/10'} rounded-2xl overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md`}>
               <button 
-                  onClick={() => handleModuleClick(module, index, isCareer)}
+                  onClick={() => toggleModule(module.id)}
                   className="w-full p-5 flex items-center justify-between text-left"
               >
                   <div className="flex items-center gap-4">
@@ -227,26 +195,15 @@ export const PlanView: React.FC<PlanViewProps> = ({
                               const IconComponent = (Icons as any)[module.icon] || Icons.FileText;
                               return <IconComponent className="w-6 h-6" />;
                           })()}
-                          {isLocked && (
-                              <div className="absolute -top-1 -right-1 bg-gray-200 dark:bg-gray-700 rounded-full p-1 border border-white dark:border-gray-900">
-                                  <Icons.Lock className="w-3 h-3 text-gray-500 dark:text-gray-400" />
-                              </div>
-                          )}
                       </div>
                       <div className="min-w-0">
                           <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate pr-2">{module.title}</h3>
-                          {isLocked ? (
-                              <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide flex items-center gap-1">
-                                  <Icons.Lock className="w-3 h-3" /> Locked
-                              </span>
-                          ) : (
-                              <div className="flex items-center gap-2 mt-1">
+                          <div className="flex items-center gap-2 mt-1">
                                   <div className="w-24 h-1.5 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
                                       <div className={`h-full rounded-full ${isComplete ? 'bg-green-500' : hasOngoing ? 'bg-amber-500' : 'bg-blue-500'}`} style={{ width: `${module.percent}%` }}></div>
                                   </div>
                                   <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{module.completed}/{module.total}</span>
-                              </div>
-                          )}
+                          </div>
                       </div>
                   </div>
                   <div className="text-gray-400 flex-shrink-0">
@@ -328,36 +285,6 @@ export const PlanView: React.FC<PlanViewProps> = ({
             </div>
         )}
 
-        {/* Fun Fact Modal */}
-        {funFact && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/20 dark:bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-                <div className="bg-white dark:bg-[#151b2e] rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-gray-200 dark:border-white/10 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                    <div className="flex flex-col items-center text-center gap-4">
-                        <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mb-2">
-                            <Icons.Lightbulb className="w-8 h-8" />
-                        </div>
-                        <h3 className={`text-xl font-black text-gray-900 dark:text-white ${headingFont}`}>{t('quest_fun_fact_title')}</h3>
-                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed italic">
-                            "{funFact.text}"
-                        </p>
-                        <button 
-                            onClick={unlockAndEnter}
-                            className="w-full mt-4 bg-black dark:bg-white text-white dark:text-black py-3 rounded-xl font-bold hover:scale-105 active:scale-95 transition-all"
-                        >
-                            {t('quest_btn_unlock')}
-                        </button>
-                    </div>
-                    <button 
-                        onClick={() => setFunFact(null)} 
-                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white"
-                    >
-                        <Icons.X className="w-6 h-6" />
-                    </button>
-                </div>
-            </div>
-        )}
-
         {/* Header */}
         <div className="px-4 py-3 md:px-6 md:py-4 flex justify-between items-center sticky top-0 z-20 bg-white/80 dark:bg-[#0b1021]/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/10">
             <div className="flex items-center gap-2">
@@ -382,7 +309,7 @@ export const PlanView: React.FC<PlanViewProps> = ({
         <div className="flex-1 overflow-y-auto relative z-10 w-full p-4 md:p-8">
             <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
                 
-                {/* 1. The Puzzle Progress - Enhanced Visuals */}
+                {/* 1. The Puzzle Progress */}
                 {planData && <PuzzleProgress modules={planData.puzzleModules} imageUrl={puzzleImageUrl} />}
 
                 {/* 2. Gamified Stats Header */}
@@ -392,18 +319,11 @@ export const PlanView: React.FC<PlanViewProps> = ({
                             {t('profile_btn_plan')}
                         </h1>
                         <div className="flex items-center flex-wrap gap-2 mt-2">
-                            {/* Standard Level Badge */}
                             <span className="bg-black/5 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 {t('quest_level', { level: planData?.level.toString() || '1' })}
                             </span>
-                            
-                            {/* Finnish Rank Badge */}
                             <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm">
                                 {currentRankTitle}
-                            </span>
-
-                            <span className="text-xs text-gray-500 dark:text-gray-400 font-mono ml-1">
-                                {t('quest_xp', { current: (planData?.xp || 0).toString(), max: '5' })}
                             </span>
                         </div>
                     </div>
@@ -422,18 +342,18 @@ export const PlanView: React.FC<PlanViewProps> = ({
                     <div className="p-1 bg-gray-100 dark:bg-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto">
                         <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
                             <button 
+                                onClick={() => setActiveTab('life')} 
+                                className={`px-3 py-3 rounded-xl sm:rounded-full font-bold text-sm transition flex items-center justify-center gap-2 w-full sm:w-auto ${activeTab === 'life' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
+                            >
+                                <Icons.Heart className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">Life & Foundation</span>
+                            </button>
+                            <button 
                                 onClick={() => setActiveTab('career')} 
                                 className={`px-3 py-3 rounded-xl sm:rounded-full font-bold text-sm transition flex items-center justify-center gap-2 w-full sm:w-auto ${activeTab === 'career' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
                             >
                                 <Icons.Briefcase className="w-4 h-4 flex-shrink-0" />
                                 <span className="truncate">{t('plan_track_career')}</span>
-                            </button>
-                            <button 
-                                onClick={() => setActiveTab('life')} 
-                                className={`px-3 py-3 rounded-xl sm:rounded-full font-bold text-sm transition flex items-center justify-center gap-2 w-full sm:w-auto ${activeTab === 'life' ? 'bg-white dark:bg-[#151b2e] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'}`}
-                            >
-                                <Icons.Coffee className="w-4 h-4 flex-shrink-0" />
-                                <span className="truncate">{t('plan_track_life')}</span>
                             </button>
                         </div>
                     </div>

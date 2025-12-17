@@ -162,7 +162,7 @@ export const en: TranslationResource = {
       social_unemployment: 'Unemployment Benefits', social_housing: 'Housing Allowance', social_pension: 'Pension System', social_kela_card: 'Kela Card', social_health: 'Public Healthcare',
       bureaucracy_dvv: 'DVV & Personal ID', bureaucracy_migri: 'Immigration (Migri)', bureaucracy_tax: 'Tax Card', bureaucracy_bank: 'Opening Bank Account', bureaucracy_ihh: 'International House',
       job_te_office: 'TE Office', job_portals: 'Job Portals', job_entrepreneurship: 'Entrepreneurship', 
-      net_culture: 'The Finnish Way', net_linkedin: 'LinkedIn Strategy', net_hidden: 'Hidden Job Market', net_volunteering: 'Voluntariado',
+      net_culture: 'The Finnish Way', net_linkedin: 'LinkedIn Strategy', net_hidden: 'Hidden Job Market', net_volunteering: 'Volunteering',
       job_cover_letter: 'Cover Letter', job_interview: 'The Interview', job_recognition: 'Degree Recognition', job_cv_tips: 'Finnish CV',
       work_contract: 'Employment Contract', work_hours: 'Working Hours', work_holidays: 'Holidays', work_unions: 'Unions', work_probation: 'Probation Period',
       culture_meetings: 'Meeting Culture', culture_feedback: 'Giving Feedback', culture_names: 'Names & Titles', culture_punctuality: 'Punctuality', culture_coffee: 'Coffee Breaks',
@@ -173,7 +173,9 @@ export const en: TranslationResource = {
       vol_redcross: 'Red Cross & NGOs', vol_animals: 'Animal Shelters', vol_events: 'Event Volunteering', vol_humanitarian: 'Humanitarian Work',
       daily_transport: 'Public Transport (HSL)', daily_groceries: 'Grocery Shopping', daily_pantti: 'Bottle Recycling',
       nature_everyman: "Everyman's Rights", nature_winter: 'Surviving Winter', nature_summer: 'Summer Cottages',
-      vantaa_library_tikkurila: 'Tikkurila Library', vantaa_nature: 'Vantaa Nature', vantaa_ring_rail: 'The Ring Rail', vantaa_info_points: 'Vantaa Info', vantaa_aviapolis: 'Aviapolis Hub', vantaa_multicultural: 'Multicultural Vantaa'
+      vantaa_library_tikkurila: 'Tikkurila Library', vantaa_nature: 'Vantaa Nature', vantaa_ring_rail: 'The Ring Rail', vantaa_info_points: 'Vantaa Info', vantaa_aviapolis: 'Aviapolis Hub', vantaa_multicultural: 'Multicultural Vantaa',
+      // New entries
+      vantaa_parks: 'Urban Parks & Greenery', vantaa_saunas_guide: 'Public Saunas', vantaa_libraries_services: 'Library Services', vantaa_river_seasons: 'River Vantaanjoki', vantaa_swimming_halls: 'Swimming Halls'
     },
     articles: {
       'guide_start': { 
@@ -181,110 +183,50 @@ export const en: TranslationResource = {
         summary: 'Finland runs on trust, silence, and coffee. This guide is your survival manual.', 
         content: `# Your Survival Manual\n\n**The Philosophy:**\nFinland runs on trust, silence, and coffee. It is a society where systems work, but you must know how to use them. Trust is the currency of interaction, and silence is a sign of respect.\n\n### How to use this app\n1. **Read:** Browse the guides on bureaucracy and work culture.\n2. **Chat:** Ask the AI Assistant about your specific situation.\n3. **Profile:** Keep your data fresh to get accurate advice.\n\n*Sisu* (Guts) is all you need!` 
       },
-      'vantaa_ring_rail': {
-        title: 'Vantaa\'s Heart: The Ring Rail Line',
-        summary: 'The heart-shaped railway that connects the city to the world. Living here means you don\'t need a car.',
-        content: `# The Kehärata Advantage\n\nThe **Ring Rail Line (Kehärata)** is more than just a train track; it is the spine of Vantaa. Shaped like a heart on the map, it connects Helsinki Central Station, Helsinki-Vantaa Airport, and the main districts of Vantaa (Tikkurila, Myyrmäki, Kivistö).\n\n### Why it matters to you\n1.  **Car-Free Life:** If you live within walking distance of a Ring Rail station (e.g., Martinlaakso, Louhela, Leinelä), you do not need a car. You can reach the airport or downtown Helsinki in 20-30 minutes.\n2.  **The Zone Sweet Spot:** Most of Vantaa is in **HSL Zones B and C**. Rents are significantly lower than in Helsinki (Zone A), but the commute is fast and reliable. Trains run every 10 minutes during peak hours.\n3.  **Cross-Town Mobility:** Unlike older radial lines that only go to Helsinki, the Ring Rail connects Vantaa's east (Tikkurila) and west (Myyrmäki) directly.`
+      'vantaa_parks': {
+        title: 'Vantaa Parks: Your Green Living Room',
+        summary: 'Explore Vantaa\'s extensive network of parks, from manicured gardens to wild forests. A guide for families and solo walkers.',
+        content: `# The Green City\n\nVantaa is known as a green city. You are never more than 300 meters from a green area. Parks here are safe, clean, and free for everyone.\n\n### Notable Parks\n1.  **Tikkurila Kirjastopuisto (Library Park):** Located right next to the Dixi station. It has a skate park, large grassy areas for picnics, and is a hub for youth. Safe and well-lit in the evenings.\n2.  **Soltorp (Hiekkaharju):** A quieter, more traditional park perfect for walking dogs or reading.\n3.  **Tammisto Nature Reserve:** An ancient oak forest. Strict rules apply (stay on paths), but it is magical in autumn.\n\n### For Families\nLook for **Leikkipuisto** (Play Parks). In summer, many offer free warm lunches for children under 16 (part of the city's welfare program). They are fenced and safe.\n\n### For Women & Elders\nVantaa invests heavily in lighting. Main park paths are well-lit throughout winter, making evening walks safe. Benches are frequent on main routes.`
       },
-      'vantaa_info_points': {
-        title: 'Vantaa-info: Bureaucracy Made Easy',
-        summary: 'Low-threshold service points where you can walk in and get help with city services.',
-        content: `# Your Local Help Desk\n\nNavigating Finnish bureaucracy can be intimidating. National agencies like Migri or Kela often require appointments and strict formalities. **Vantaa-info** is different.\n\n### What is it?\nThese are low-threshold service points located in major hubs: **Tikkurila (Dixi)**, **Myyrmäki (Myyrmäkitalo)**, and **Korso**. You can often just walk in.\n\n### How they help\n*   **Digital Support:** Staff can help you use city computers to fill out online forms for daycare or HSL cards.\n*   **General Advice:** Not sure which office to call? Ask here first.\n*   **Multilingual Services:** Vantaa offers "Multilingual Advisory Services" in languages like Arabic, Somali, Russian, Dari, and Farsi. Check their weekly schedule to find a time when your language is spoken.\n\nIf you are confused by a letter from the city, take it to Vantaa-info.`
+      'vantaa_saunas_guide': {
+        title: 'Public Saunas: A Hot Guide',
+        summary: 'Where to find authentic public saunas in Vantaa, including the famous smoke saunas of Kuusijärvi.',
+        content: `# Sweat like a Local\n\nMost apartments have saunas, but **public saunas** are where the community gathers. \n\n### Kuusijärvi: The Sauna Mecca\nLocated in East Vantaa (Bus 739/736).\n*   **Smoke Saunas (Savusauna):** The traditional experience. Dark, soft heat, and a distinct smoky smell. Pre-booking is recommended on weekends.\n*   **Electric Saunas:** Cheaper and always available. Men and women have separate sides.\n*   **Swimming:** The lake is open year-round. In winter, holes are cut in the ice (avanto). It is extremely good for blood circulation.\n\n### Accessibility & Rules\n*   **Nudity:** In single-sex saunas, nudity is the norm. In mixed public saunas (rare), swimsuits are worn. At Kuusijärvi, swimsuits are required in the smoke saunas because they are mixed.\n*   **Hygiene:** **Shower first** without a swimsuit. Sit on a towel (pefletti).\n*   **Hydration:** Bring a water bottle. It is safe to drink tap water.`
       },
-      'vantaa_nature': {
-        title: 'Nature at Your Doorstep: Kuusijärvi & Sipoonkorpi',
-        summary: 'Smoke saunas and national parks within bus reach. The ultimate mental health hack.',
-        content: `# The Green Escape\n\nVantaa isn't just concrete; it is the gateway to the wild. The combination of **Lake Kuusijärvi** and **Sipoonkorpi National Park** is unique in the capital region.\n\n### Kuusijärvi: The Sauna Capital\nLocated in East Vantaa (Bus 736/739), Kuusijärvi hosts the only public **smoke saunas** in the capital region. They are open year-round. In winter, ice swimming here is a popular rite of passage that boosts circulation and mood.\n\n### Sipoonkorpi: True Wilderness\nFrom Kuusijärvi, you can walk across the bridge directly into Sipoonkorpi National Park. This is deep forest.\n*   **Everyman's Rights:** You can pick blueberries and mushrooms freely.\n*   **Accessibility:** Unlike Nuuksio which is often crowded, Sipoonkorpi offers quiet trails.\n*   **Wellbeing:** Spending just 15 minutes in the forest lowers blood pressure. It is the most accessible therapy in Finland.`
+      'vantaa_libraries_services': {
+        title: 'More than Books: Library Services',
+        summary: 'Vantaa libraries (Helmet network) offer 3D printing, sewing machines, and safe spaces for everyone.',
+        content: `# The Helmet Network\n\nYour library card works in Vantaa, Helsinki, Espoo, and Kauniainen. Libraries are **community living rooms**.\n\n### Beyond Books\n1.  **Makerspaces (Paja):** Located in Tikkurila (Dixi). You can use 3D printers, laser cutters, vinyl cutters, and sewing machines for free. Bring your own materials (fabric/plastic) or pay a small fee.\n2.  **Meeting Rooms:** Soundproof rooms for study or work calls. Bookable via *Varaamo*.\n3.  **Digitization:** Convert old VHS tapes or cassettes to digital files.\n\n### Inclusivity\n*   **For Seniors:** "Digiopastus" (Digital support) helps you use smartphones and online banking.\n*   **For Youth:** Specific zones with gaming consoles and comfortable seating. No silence required.\n*   **Multilingual:** Books in dozens of languages, from Russian to Somali.`
       },
-      'vantaa_aviapolis': {
-        title: 'Aviapolis: The Engine of Growth',
-        summary: 'More than an airport. It is the fastest-growing job hub in Finland for logistics and tech.',
-        content: `# Where the Jobs Are\n\n**Aviapolis** is the district surrounding Helsinki-Vantaa Airport. It is not just a transit zone; it is a massive job engine.\n\n### The Opportunity\n1.  **Diverse Roles:** It hosts logistics centers (DHL, Posti), retail giants (Jumbo, Flamingo), and tech HQs. Whether you are looking for entry-level warehouse work or expert engineering roles, this is the hotspot.\n2.  **International Atmosphere:** Because of the airport, English is widely spoken and accepted as a working language in many companies here.\n3.  **Commuting:** If you live in nearby districts like **Kartanonkoski** or **Pakkala**, you can bike to work. If you live in Helsinki, you commute *against* the traffic jams, which makes travel faster.`
+      'vantaa_river_seasons': {
+        title: 'River Vantaanjoki: Year-Round Life',
+        summary: 'The river that defines the city. Fishing, canoeing, and winter walking.',
+        content: `# The City's Artery\n\nThe Vantaa River winds through the entire city. It is a recreational paradise.\n\n### Summer Activities\n*   **Canoeing:** You can rent kayaks at various points. The route from Pitkäkoski to Haltiala is scenic.\n*   **Fishing:** You need a permit (fisheries management fee + local permit). The river has trout and salmon.\n*   **Picnics:** The riverbanks at *Tammisto* and *Haltiala Farm* are perfect for family outings.\n\n### Winter Activities\n*   **Walking:** The paths are plowed. It is beautiful when frozen.\n*   **Skiing:** When snow is deep enough, tracks are made on the fields next to the river.\n\n### Accessibility\nThe main paths along the river are wide, flat gravel. They are excellent for **wheelchairs** and **baby strollers**.`
       },
-      'vantaa_multicultural': {
-        title: 'Vantaa: Finland\'s International City',
-        summary: 'With over 25% foreign-background residents, diversity is the norm here.',
-        content: `# You Are Not Alone\n\nVantaa is the most multicultural city in Finland. Over **25%** of residents speak a language other than Finnish or Swedish as their mother tongue. In some districts, this number is higher.\n\n### Why this matters\n1.  **Integration is Easier:** You won't be the "only foreigner" in the room. Schools and daycares are experienced with multilingual families and have resources to support Finnish language learning (S2).\n2.  **Global Food:** Vantaa has some of the best ethnic grocery stores in the country (especially in Hakunila and Myyrmäki), stocking ingredients you might miss from home.\n3.  **Tolerance:** Diversity is a daily reality, not a theoretical concept. The city actively supports multicultural associations and events.`
-      },
-      'vantaa_library_tikkurila': {
-        title: 'Tikkurila Library: Vantaa\'s Urban Workshop',
-        summary: 'More than books: 3D printing, music studios, and workspace right at Dixi.',
-        content: `# Tikkurila Library (Tikkurilan kirjasto)\n\nLocated in the **Dixi** shopping center (2nd floor), right next to the train station. It is a modern hub for doing, not just reading.\n\n### The Makerspace (Paja)\nThis is where you can create things for free.\n* **3D Printers:** Ultimaker and Prusa models available.\n* **Sewing:** Overlockers and embroidery machines.\n* **Vinyl Cutter:** Make stickers or prints for shirts.\n* **Tools:** Button makers, laminators.\n\n### How to Book a 3D Printer\n1. **Get a Helmet Card:** You need a physical library card and a 4-digit PIN code.\n2. **Go Online:** Visit **[varaamo.vantaa.fi](https://varaamo.vantaa.fi)**.\n3. **Search:** Select "Tikkurila Library" and look for "3D printer".\n4. **Book:** Select your time slot (usually max 4 hours). It is free!\n\n**On the day:** Bring your design file (\`.stl\` format) on a USB stick. Staff will help you load the filament (plastic). You must stay nearby while it prints.\n\n### Other Perks\n* **Music Rooms:** Play drums, piano, or record singing in soundproof studios.\n* **Workspaces:** Free WiFi, quiet desks, and meeting rooms.`
-      },
-      'bureaucracy_ihh': {
-        title: 'International House Helsinki (IHH)',
-        summary: 'The one-stop shop for bureaucracy in the capital region.',
-        content: `# One Roof, Many Services\n\nIf you live in Helsinki, Espoo, or Vantaa, **International House Helsinki (IHH)** is your best friend.\n\n### What is it?\nA service point that brings together key authorities: DVV, Vero (Tax), Kela, Migri, and TE Services.\n\n### What can you do?\n1. **Register:** Get your Personal ID Code (DVV).\n2. **Tax:** Get your tax card.\n3. **Social Security:** Advice on Kela benefits.\n4. **Work:** Employment coaching.\n\n### Important\nMost services require booking an appointment in advance. It is located in **Lintulahdenkuja 2, Helsinki**.\n\n### Official Resource\n[→ International House Helsinki](https://ihhelsinki.fi/)`
-      },
-      'net_culture': {
-        title: 'Networking: The Finnish Way',
-        summary: 'Finns connect through doing things together, not small talk. Trust is everything.',
-        content: `### The "Talkoot" Spirit\nNetworking in Finland is rarely about mingling with business cards at a cocktail party. It is about **working together**.\n\n* **Volunteering:** Join the team of an event (Slush, Nordic Business Forum, local festivals). When you work side-by-side with a Finn, you build trust. Trust leads to job recommendations.\n* **Associations:** Finland has an association (yhdistys) for everything. Find the one for your profession.\n* **Quality over Quantity:** One meaningful connection is worth more than 100 loose contacts.`
-      },
-      'net_intro_deep': {
-        title: 'Why Networking Matters',
-        summary: 'Most jobs are hidden. Networking is the key to unlock them.',
-        content: `# The Hidden Job Market\n\nIf there's one thing you should know, it's this: networking isn't just "nice to have" - it's one of the most powerful tools you can use.\n\nIn Finland, **trust** plays a huge role. Employers want to know who can vouch for you. Because of that, many jobs never make it to job portals – this is the so-called "hidden job market". These jobs are filled quietly through recommendations, small circles, and informal connections.\n\nThe hidden job market holds **70-80 percent** of Finland's actual open job positions.\n\n### It's Human\nNetworking here doesn't require a big personality. You can start small: join a local hobby group, attend an event at your city's international house, or say hello to someone at a meetup. Every conversation is a tiny bridge.\n\nThink of networking as planting seeds. Some grow quickly, others take time. Work and belonging go hand in hand.`
-      },
-      'net_linkedin': {
-        title: 'LinkedIn Strategy',
-        summary: 'LinkedIn is the main search engine for recruiters in Finland.',
-        content: `# Build a Finnish-Friendly LinkedIn\n\nLinkedIn is one of the strongest career tools in Finland. Because the job market is small and professional communities are tight-knit, LinkedIn functions like a public portfolio and a networking hub.\n\n### Your Quick Wins\n1. **Headline:** Keywords matter. Recruiters search for skills. Instead of just "Designer", use "Aspiring Product Designer | 3D Modeling | Graphic Design".\n2. **Location:** Set it to Finland (or Helsinki area) to appear in local searches.\n3. **Open to Work:** The green banner is culturally accepted here and shows motivation.\n4. **Activity:** Comment on local posts. A friendly message, a comment on someone's post, or sharing what you're learning builds visibility. Consistency beats showing off.\n\n### Culture Note\nFinns appreciate sincerity. You don't need to "sell" yourself aggressively. Just be clear about what you can do.`
-      },
-      'net_hobbies': {
-        title: 'Hobbies & "Soft" Networking',
-        summary: 'Join local activities to meet people naturally without pressure.',
-        content: `# Meet People Naturally\n\nNot all networking happens at business events. Some of the most meaningful connections grow out of everyday activities.\n\n### Why it works\nFinns bond over **shared activities** rather than small talk. Joining a hobby group gives you a natural reason to interact.\n\n### Ideas\n* **Adult Education Centres (Kansalaisopisto):** Take a cheap course in pottery, photography, or language. You will meet locals in a relaxed setting.\n* **Sports:** Floorball, football, or ice hockey. Joining a "beginner group" creates an instant team bond.\n* **Volunteering:** Events like festivals or charity work (Red Cross) connect you with active people.\n\nThis "soft networking" builds trust over time, which can eventually lead to job tips.`
-      },
-      'net_parents': {
-        title: 'Networking for Parents',
-        summary: 'Limited time? Use your daily rhythm to build connections.',
-        content: `# Networking for Busy Parents\n\nWhen you're balancing work, family, and settling in, traditional networking events might be impossible. But you have a secret weapon: other parents.\n\n### Micro-Interactions\n* **Playground Diplomacy:** If you see the same parent at the park (leikkipuisto) repeatedly, say "Moi". Small chats about kids often lead to "So, what do you do?"\n* **Daycare Events:** Participate in "talkoot" (volunteer cleaning/fixing days) at the daycare. It earns you massive respect and connects you with other local families.\n* **Online Groups:** Facebook groups like "Mothers in Business" (MiB) are very active and powerful professional networks in Finland.`
-      },
-      'net_introvert': {
-        title: 'Low-Pressure Networking',
-        summary: 'You don\'t need to be loud. Finland is an introvert-friendly country.',
-        content: `# Networking Your Way\n\nNot everyone likes big events. Luckily, Finnish culture respects personal space and silence.\n\n### Strategies\n1. **One-on-One:** Finns prefer deep 1-on-1 conversation over mingling. Ask one person for a "virtual coffee" (15 min call). It is less scary and more effective.\n2. **Online Communities:** Join Discord or Slack communities for your industry (e.g., IGDA for game dev, Koodiklinikka for IT). You can observe first and engage when ready.\n3. **Library Events:** Libraries like Oodi host quiet workshops and book clubs. Very low pressure environments to be around people.`
-      },
-      'net_hidden': {
-        title: 'Hacking the Hidden Market',
-        summary: '70-80% of jobs are not advertised. You have to find them.',
-        content: `### The Hidden Job Market\nCompanies often don't advertise because hiring is expensive and slow.\n\n1. **Map Companies:** Make a list of 20 companies you like. Do not look at their "Open Jobs" page yet.\n2. **Open Application (Avoin hakemus):** Email the Team Lead directly (not HR). "I've been following your work on X. I have skills in Y. Could we have a 15 min coffee?"\n3. **Informational Interviews:** Ask people about their job, not *for* a job. "I'm new to the Finnish energy sector. Could I ask you 3 questions about how things work here?" Most people will say yes.`
-      },
-      'net_school': {
-        title: 'Networking while Studying',
-        summary: 'School is your first professional network in Finland.',
-        content: `# The Student Advantage\n\nStudying in Finland is arguably the best way to build a network. Your classmates are your future colleagues.\n\n### 1. Vocational (Amis)\n* **Key:** *Työssäoppiminen* (On-the-job learning).\n* **Strategy:** Treat every internship day as a job interview. Many students get hired by their internship places.\n\n### 2. UAS (AMK)\n* **Key:** *Thesis (Opinnäytetyö)*.\n* **Strategy:** Do your thesis for a company, not for the school shelf. It is a 3-6 month project to prove your worth.\n\n### 3. University\n* **Key:** *Subject Associations (Ainejärjestöt)*.\n* **Culture:** Join the board or organize events. It is a massive signal of activity and connects you with alumni.`
-      },
-      'net_hackathons': {
-        title: 'Hackathons & Events',
-        summary: 'Junction and Slush are golden opportunities for tech and business.',
-        content: `# Tech Events\n\nFinland has a world-class startup scene.\n\n* **Junction:** Europe's leading hackathon. You don't need to be a pro coder; designers and business people are needed too. It's a weekend to show skills to sponsoring companies.\n* **Slush:** The startup event. Volunteering here opens doors to the afterparties where real networking happens.`
-      },
-      'net_slush': {
-        title: 'Slush & Startups',
-        summary: 'Volunteering at Slush is a legendary way to enter the circle.',
-        content: `# Slush: The Anti-Conference\n\nHeld in Helsinki in November, Slush is the world's leading startup event. It is dark, loud, and full of lasers.\n\n### The Volunteer Army\nSlush is built by thousands of volunteers.\n* **Why?** You get free entry, exclusive afterparties, and join a massive alumni network.\n* **Roles:** From stage construction to guiding investors. It proves a "can-do" attitude that Finns love.`
-      },
-      'net_cold_msg': {
-        title: 'The Art of the Cold Message',
-        summary: 'How to approach people without being annoying.',
-        content: `# Approaching Strangers\n\nFinns are busy but helpful. Keep it short.\n\n### The Template\n"Hi [Name], I saw your post about [Topic]. I'm a [Skill] specialist moving to Finland. I'd love to ask one quick question about [Specific Detail]. Would you have time for a 10 min virtual coffee?"\n\n### Rules\n1. **No Fluff:** Don't praise them for 5 paragraphs.\n2. **Specific Ask:** Don't ask "Can you help me find a job?". Ask "What tool do you use for X?".`
+      'vantaa_swimming_halls': {
+        title: 'Swimming Halls: Affordable Wellness',
+        summary: '5 major halls in Vantaa offering pools, gyms, and therapy. A guide for families and seniors.',
+        content: `# The Halls\nVantaa has 5 main swimming halls: **Tikkurila**, **Myyrmäki**, **Hakunila**, **Korso**, and **Martinlaakso**.\n\n### What to expect\n*   **Price:** Very affordable (~6€ adults, cheaper for kids/seniors).\n*   **Gyms:** Most halls have a gym included in the price.\n*   **Saunas:** Always included.\n\n### Specific Needs\n*   **Families:** Tikkurila and Myyrmäki have children's pools and slides. **Baby Swimming** (vauvauinti) classes are available on weekends.\n*   **Seniors:** Look for "Therapy Pools" (terapiaallas). The water is warmer (+32°C) and gentle on joints. Tikkurila and Myyrmäki have these.\n*   **Women:** Some halls offer women-only swimming shifts (naisten vuoro). Check the Vantaa.fi website for current schedules.\n*   **Accessibility:** All halls have lifts for entering the pool if you cannot use stairs.`
       },
       'bureaucracy_dvv': { 
         title: 'DVV & Personal ID', 
         summary: 'Get your Personal Identity Code to exist officially.', 
         content: `**Priority: IMMEDIATE**\n\n### The Mission\nTo exist officially. Without registering at the **Digital and Population Data Services Agency (DVV)**, you are a ghost in the system.\n\n### The Prize\nYour **Personal Identity Code** (henkilötunnus). Format: *DDMMYY-XXXX*.\n\n### Why you need it\n1. Bank account.\n2. Phone contract.\n3. Tax card.\n4. Health services.\n\n### Official Resource\n[→ Registering as a foreigner (DVV)](https://dvv.fi/en/foreigner-registration)` 
       },
+      'bureaucracy_ihh': {
+        title: 'International House Helsinki (IHH)',
+        summary: 'The one-stop shop for bureaucracy in the capital region.',
+        content: `# One Roof, Many Services\n\nIf you live in Helsinki, Espoo, or Vantaa, **International House Helsinki (IHH)** is your best friend. It brings together Migri, DVV, Vero (Tax), and Kela under one roof.\n\n### What can you do?\n1. **Register:** Get your Personal ID Code (DVV).\n2. **Tax:** Get your tax card.\n3. **Social Security:** Advice on Kela benefits.\n4. **Work:** Employment coaching.\n\n### Important\nMost services require booking an appointment in advance. Location: **Lintulahdenkuja 2, Helsinki**.`
+      },
       'bureaucracy_migri': { 
         title: 'Migri (Immigration)', 
         summary: 'Residence Permit and important 2024 policy updates.', 
-        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).\n\n### ⚠️ IMPORTANT POLICY UPDATES (2024-2025)\nThe Finnish government has tightened immigration rules. Be aware of these changes:\n\n1.  **Citizenship Requirement (8 Years):** The residency period required for citizenship has been extended from **5 years to 8 years**.\n2.  **Work Permits (3-Month Rule):** If you are on a work-based residence permit and lose your job, you generally have **3 months** to find a new job. If you fail, you may have to leave. (Specialists may have 6 months).\n3.  **Stricter Permanent Residence:** Obtaining a permanent residence permit (Pysyvä oleskelulupa) now requires passing a Finnish/Swedish language test.\n4.  **Income Limits:** The income threshold for sponsorship has increased.\n\n*Always check the latest official information on [migri.fi](https://migri.fi).*` 
+        content: `# Migri 🛂\n\n### The Mission\nGetting your Residence Permit (oleskelulupa).\n\n### Key Hacks\n* **Enter Finland:** Use the online service. It is much faster.\n* **Identification:** You must visit a service point to prove who you are.\n* **Fast Track:** Available for specialists and startup entrepreneurs (14 days).\n\n### ⚠️ IMPORTANT POLICY UPDATES (2024-2025)\nThe Finnish government has tightened immigration rules. Be aware of these changes:\n\n1.  **Citizenship Requirement:** Extended from 5 to 8 years.\n2.  **Work Permits (3-Month Rule):** If you lose your job, you generally have **3 months** to find a new one or face deportation.\n3.  **Income Limits:** Sponsorship thresholds have increased.\n\n*Always check [migri.fi](https://migri.fi) for the latest rules.*` 
       },
       'bureaucracy_tax': { 
         title: 'Tax Card', 
         summary: 'Without a tax card, you get taxed 60%. No exceptions.', 
-        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### The Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate your annual income.\n3. Download PDF.\n4. Send to payroll/boss.\n\n*Note: Finland has progressive tax. The more you earn, the higher the percentage.*\n\n### Official Resource\n[→ Tax cards for non-Finnish speakers (Vero.fi)](https://www.vero.fi/en/individuals/tax-cards-and-tax-returns/tax_card/)` 
+        content: `# The Golden Rule\nNo card = **60% tax**. \n\n### The Process\n1. Log in to **MyTax (OmaVero)** with bank codes.\n2. Estimate your annual income.\n3. Download PDF.\n4. Send to payroll/boss.\n\n*Note: Finland has progressive tax. The more you earn, the higher the percentage.*` 
       },
       'bureaucracy_bank': { 
         title: 'Opening Bank Account', 
@@ -294,7 +236,7 @@ export const en: TranslationResource = {
       'social_kela_card': {
         title: 'Kela Card (Important)',
         summary: 'Your proof of eligibility for Finnish social security and healthcare.',
-        content: `# The Kela Card (Kela-kortti)\nThis blue card is one of the most important documents you will own in Finland. It proves you are covered by the Finnish National Health Insurance (NHI).\n\n### It is NOT an ID\nYou cannot use the Kela card as identification to buy alcohol, pick up packages, or travel. It is purely for social security.\n\n### What do you get?\n1.  **Medicine Discounts:** Show the card at any pharmacy (apteekki). Kela pays a portion of the cost immediately. You only pay the "omavastuu" (deductible).\n2.  **Private Healthcare:** If you go to a private doctor (e.g., Terveystalo, Mehiläinen), show the card to get a small deduction (Kela-korvaus) from the fee.\n3.  **Taxi:** If you need a taxi for health reasons (e.g., to hospital), Kela can reimburse it if booked via Kela-taxi numbers.\n\n### European Health Insurance Card (EHIC)\nOnce you have a Kela card, order the **EHIC** (free) from Kela's website. It gives you public healthcare in other EU countries for the same price as locals when you travel.\n\n### Official Resource\n[→ Kela Benefits for Immigrants](https://www.kela.fi/en/international-situations)`
+        content: `# The Kela Card\nThis blue card proves you are covered by the Finnish National Health Insurance (NHI). **It is NOT an ID** for alcohol or travel.\n\n### What do you get?\n1.  **Medicine Discounts:** Show the card at pharmacies for immediate deduction.\n2.  **Private Healthcare:** Small reimbursements (Kela-korvaus) at private clinics.\n3.  **Taxi:** Reimbursement for health-related travel.\n\n### EHIC\nOrder the **European Health Insurance Card** (free) from Kela for travel within the EU.`
       },
       'social_health': {
         title: 'Public vs. Occupational Health',
@@ -306,205 +248,35 @@ export const en: TranslationResource = {
         summary: 'Register at TE Office on the FIRST day of unemployment.',
         content: `# The Golden Rule\nRegister as a jobseeker at **TE Services** (te-palvelut.fi) on your very **first day** of unemployment. If you delay, you lose money.\n\n### Who pays?\n1. **Union Fund (Kassa):** If you are a member (26 weeks), you get earnings-related allowance (much higher).\n2. **Kela:** If not a member, you get basic allowance (lower).`
       },
-      'social_housing': {
-        title: 'Housing Allowance',
-        summary: 'Kela can pay part of your rent if income is low.',
-        content: `# General Housing Allowance\n* **For:** Low-income households (students, part-time, unemployed).\n* **Calculation:** Depends on total income and city.\n* **Apply:** Online at Kela. You need a rental contract.`
-      },
-      'social_pension': {
-        title: 'Pension System',
-        summary: 'You accumulate pension (eläke) from every euro earned.',
-        content: `# How it works\nEmployer deducts pension fee from salary automatically. You do nothing.\n\n### Checking\nCheck your accrued amount at **Tyoelake.fi**.\n\n### Leaving?\nIf you move to another EU country, pension rights are kept.`
-      },
-      'job_market_overview': { 
-        title: 'Job Market', 
-        summary: 'Understand the landscape.', 
-        content: `### Overview\nThe Finnish market values skills and attitude. While Finnish is often a requirement, many tech and engineering companies operate in English.` 
-      },
-      'job_te_office': {
-        title: 'TE Services',
-        summary: 'The employment office helps with integration and unemployment benefits.',
-        content: `# What they do\n* **Integration Plan:** Determine if you need Finnish courses.\n* **Jobseeker Status:** Mandatory to get money from Kela or Funds.\n* **Warning:** Follow their instructions exactly to avoid "karenssi" (losing benefits).\n\n### Official Resource\n[→ Job Market Finland (Työmarkkinatori)](https://tyomarkkinatori.fi/en)`
-      },
-      'job_portals': {
-        title: 'Where to find jobs',
-        summary: 'Main portals you should know.',
-        content: `# Major Sites\n* **LinkedIn:** #1 for English/Specialist jobs.\n* **Oikotie Työpaikat:** Biggest Finnish site.\n* **Duunitori:** Also very popular.\n* **The Hub:** Best for Startup & Tech jobs.`
-      },
-      'job_entrepreneurship': {
-        title: 'Entrepreneurship',
-        summary: 'Finland needs entrepreneurs. There is money to start.',
-        content: `# Starttiraha (Startup Grant)\nIf you become a full-time entrepreneur, you can get ~700€/month for 6-12 months to secure your livelihood.\n\n**Important:** Apply **before** registering the company.`
-      },
-      'job_cv_tips': {
-        title: 'Finnish CV Style',
-        summary: 'Short, factual, and with a photo.',
-        content: `# Checklist\n1. **Length:** Max 2 pages. Ideally 1.\n2. **Photo:** Standard here. Smile, professional.\n3. **Profile:** Short summary at the top.\n4. **Skills:** List technologies or hard skills concretely.\n5. **Tone:** Humble but confident. State facts, not adjectives.\n\n**Check out the Live CV Preview below based on your profile!**`
-      },
-      'job_cover_letter': {
-        title: 'Cover Letter',
-        summary: 'Do not repeat your CV. Answer "Why us?" and "Why you?".',
-        content: `# Structure\n1. **Hook:** Why do you want *this* job?\n2. **Value:** What problems do you solve for them?\n3. **Personality:** Will you fit the team?\n\n### Tip\nKeep it under 1 page. Finns appreciate brevity.`
-      },
-      'job_interview': {
-        title: 'The Interview',
-        summary: 'Honesty is tested. Silence is okay.',
-        content: `# What to expect\n* **Honesty:** If you don't know, say "I don't know, but I can learn". Do not lie.\n* **Silence:** If the interviewer is silent after your answer, don't panic. They are thinking. Do not babble to fill the gap.\n* **Coffee:** Always accept if offered. It is a ritual.`
-      },
-      'job_recognition': {
-        title: 'Degree Recognition',
-        summary: 'Critical for regulated professions like doctors, nurses, teachers.',
-        content: `# Regulated Professions\nFor health/education, your degree must be recognized by **OPH** or **Valvira**.\n\n### General Roles\nFor IT or Business, official recognition is rarely needed. Skills matter more.`
-      },
-      'work_contract': { 
-        title: 'Employment Contract', 
-        summary: 'Always written. Read carefully. Check TES.', 
-        content: `# Key Elements\n1. **Duration:** Permanent (toistaiseksi voimassa oleva) or Fixed-term (määräaikainen).\n2. **TES:** Collective Agreement. Defines minimum salary and holidays.\n3. **Trial Period:** Max 6 months.\n\n**Never start work without a contract.**` 
-      },
-      'work_hours': {
-        title: 'Working Hours',
-        summary: 'Standard is 7.5 or 8 hours a day.',
-        content: `# Balance\n* **Full time:** Usually 37.5 or 40 hours/week.\n* **Flexibility:** Many places have "liukuma" (flex time). Come 7-9, leave 15-17.\n* **Lunch:** Usually 30 min (unpaid).`
-      },
-      'work_holidays': {
-        title: 'Annual Holidays',
-        summary: 'Finland has generous holidays, but they must be earned.',
-        content: `# Credit Year\nYou earn days from April 1st to March 31st.\n* **Standard:** 2.5 days/month = 30 days (5 weeks)/year.\n* **Summer:** Usually taken in July. The country stops.\n* **Holiday Bonus:** Many get 50% extra salary for holidays (lomaraha).`
-      },
-      'work_unions': {
-        title: 'Trade Unions (Liitto)',
-        summary: 'Highly recommended. They manage unemployment funds.',
-        content: `# Why join?\n1. **Money:** They pay earnings-related allowance (much higher than Kela).\n2. **Law:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
-      },
-      'work_probation': {
-        title: 'Trial Period (Koeaika)',
-        summary: 'First 6 months are usually probation.',
-        content: `# Rules\nDuring probation (max 6 months), **both you** and the employer can terminate the contract immediately without notice period.`
-      },
-      'culture_meetings': { 
-        title: 'Meeting Culture', 
-        summary: 'Finns are punctual and agenda-driven. Small talk is minimal.', 
-        content: `# Rules\n1. **Start on time:** 09:00 means 09:00.\n2. **Agenda:** Stick to it.\n3. **Silence:** Means agreement or thinking. Not a problem.\n4. **End on time:** Respect others' schedule.` 
-      },
-      'culture_feedback': {
-        title: 'Giving Feedback',
-        summary: 'Feedback is direct and factual. Do not take it personally.',
-        content: `# Directness\nA Finn might say: *"This report is missing X."*\nThey are not being rude. They are stating a fact to fix the problem efficiently. They separate work and person.`
-      },
-      'culture_names': {
-        title: 'Names & Titles',
-        summary: 'Very informal. Titles are rarely used.',
-        content: `# Hi Boss\nEveryone goes by first name. You call the CEO "Matti", not "Mr. Korhonen". You can use "sinä" (you) with almost everyone.`
-      },
-      'culture_punctuality': {
-        title: 'Punctuality',
-        summary: '5 minutes late is late.',
-        content: `# Time is respect\nBeing late is stealing someone else's time. If you are 5 min late, send a message.`
-      },
-      'culture_coffee': {
-        title: 'Coffee Breaks (Kahvitauko)',
-        summary: 'Sacred ritual. Often mandated by law.',
-        content: `# The Ritual\nMost contracts have two 10-15 min breaks.\n\n* **Socialize:** This is where team bonding happens. Don't sit alone at your desk.\n* **Caffeine:** Finns drink the most coffee in the world.`
-      },
-      'culture_afterwork': {
-        title: 'Afterwork (AW)',
-        summary: 'Casual drinks on Fridays.',
-        content: `# Atmosphere\nUsually very casual. Drinking alcohol or soft drinks is fine. It is about relaxing, not getting drunk.`
-      },
-      'culture_sauna': {
-        title: 'Sauna Diplomacy',
-        summary: 'Sauna is a place of equality. Even in business.',
-        content: `# Rules\n1. **Equality:** In sauna, there are no titles. CEO and intern are equal.\n2. **Nudity:** Natural, not sexual.\n3. **Business:** Decisions are sometimes made here.`
-      },
-      'culture_smalltalk': {
-        title: 'Silence & Small Talk',
-        summary: 'Silence is not awkward. It is a comfortable pause.',
-        content: `# Don't fill the void\nIf you are in an elevator with a Finn, no need to talk. A nod is enough. We value words; we don't waste them.`
-      },
-      'culture_party': {
-        title: 'Office Parties',
-        summary: '"Little Christmas" parties in December can be wild.',
-        content: `# The Exception\nFinns are reserved, EXCEPT at *Pikkujoulut*. This is the annual Christmas party. Usually lots of alcohol and colleagues are much more open. What happens at Pikkujoulut, stays at Pikkujoulut.`
-      },
-      'prof_engineering': {
-        title: 'Engineering in Finland',
-        summary: 'Huge sector. English widely used.',
-        content: `# Giants\nKone, Wärtsilä, Nokia, Metso.\n\n### Culture\nFact-based. Prepare technical details. Accuracy is valued over sales speech.`
-      },
-      'prof_business': {
-        title: 'Business & Finance',
-        summary: 'Often requires Finnish, except Startups.',
-        content: `# The Barrier\nTraditional roles (HR, Accounting, Bank) need fluent Finnish.\n\n### The Opportunity\nLook for *International Sales*, *Business Analytics* or *Export* roles where your native language is an asset.`
-      },
-      'prof_it': {
-        title: 'IT & Tech',
-        summary: 'Easiest sector for English speakers.',
-        content: `# The Hub\nFinland needs coders. English is the company language at almost all tech companies (Wolt, Supercell, Relex).\n\n### Hiring\nOften a code test. Show your GitHub.`
-      },
-      'prof_health': {
-        title: 'Health & Nursing',
-        summary: 'Huge shortage, but language is mandatory.',
-        content: `# The Reality\nYou need Valvira license. To get it, you usually need Finnish B1/B2. Patient safety is priority.`
-      },
-      'prof_service': {
-        title: 'Service Industry',
-        summary: 'Restaurants and cleaning are common entry points.',
-        content: `# Entry\nCleaning and restaurant kitchens often hire non-Finnish speakers. It is a way to start earning while learning the language.`
+      'housing_finding': {
+        title: 'Finding Apartments',
+        summary: 'The market is fast in Helsinki. Be prepared.',
+        content: `# Portals\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Strategy\n1. **Be Fast:** Good apartments go in days.\n2. **Profile:** Have a pre-written message introducing yourself (job, non-smoker, no pets helps).\n3. **Deposit:** Usually 2 months' rent.`
       },
       'housing_contracts': {
         title: 'Rental Contracts',
-        summary: 'Secure and regulated.',
-        content: `# Terms\n* **Deposit:** Usually 2 months rent.\n* **Notice:** Usually 1 calendar month for tenant.\n* **Home Insurance:** Almost always mandatory.`
+        summary: 'Secure and regulated. Know your rights.',
+        content: `# Terms\n* **Duration:** Indefinite (toistaiseksi voimassa oleva) is best.\n* **Notice:** Usually 1 calendar month for tenant.\n* **Home Insurance:** Almost always mandatory.\n* **Electricity:** You must make your own contract.`
       },
-      'housing_finding': {
-        title: 'Finding Apartments',
-        summary: 'Market is fast in Helsinki.',
-        content: `# Portals\n* **Oikotie Asunnot**\n* **Vuokraovi**\n\n### Tip\nBe fast. Go to showing with application ready.`
-      },
-      'housing_utilities': {
-        title: 'Electricity & Water',
-        summary: 'You usually make your own electricity contract.',
-        content: `# Electricity\nNot included in rent. You must choose a provider and make a contract.\n\n### Water\nOften a fixed fee (e.g. 20€/person/month).`
-      },
-      'housing_recycling': {
-        title: 'Recycling Guide',
-        summary: 'Finns recycle everything.',
-        content: `# Bins\n* **Bio:** Food waste.\n* **Muovi:** Plastic packaging.\n* **Kartonki:** Milk cartons, cardboard.\n* **Paperi:** Paper, newspapers.\n\n### Pantti\nBottles and cans have a deposit (10c - 40c). Return to machine at store for money.`
-      },
-      'housing_sauna': {
-        title: 'Laundry & Sauna',
-        summary: 'Most houses have shared facilities.',
-        content: `# Taloyhtiö (Housing Company)\n* **Laundry:** Usually a booking list.\n* **Lenkkisauna:** Free weekly sauna hour for everyone (men/women separate).\n* **Own slot:** You can book a weekly private hour for small fee.`
+      'family_daycare': {
+        title: 'Daycare (Päiväkoti)',
+        summary: 'Apply 4 months in advance. Every child has a right to a spot.',
+        content: `# The 4-Month Rule\nYou must apply for a municipal daycare place at least **four months** before you need it. \n\n### Urgent?\nIf you get a job or study place suddenly, the time is reduced to 2 weeks, but spots are harder to find.\n\n### Cost\nBased on family income and size. Maximum is ~300€/month. Low-income families pay nothing.`
       },
       'family_school': {
         title: 'School System',
         summary: 'One of the best in the world. And free.',
-        content: `# Basics\n* **Starts:** At age 7.\n* **Cost:** Free. Includes books and hot lunch.\n* **Language:** Usually Finnish or Swedish. International schools exist but have queues.`
+        content: `# Basics\n* **Starts:** Year the child turns 7.\n* **Pre-school (Eskari):** Compulsory at age 6 (free).\n* **Cost:** Free. Includes books, tools, and a hot lunch every day.\n* **Language:** Usually Finnish or Swedish. International schools exist but have queues.`
       },
-      'family_daycare': {
-        title: 'Daycare (Päiväkoti)',
-        summary: 'Every child has a right to daycare.',
-        content: `# Applying\nApply 4 months in advance. Heavily subsidized.\n\n### Cost\nBased on income. Max ~300€/month. Low income is free.`
+      'work_contract': { 
+        title: 'Employment Contract', 
+        summary: 'Always written. Read carefully. Check TES.', 
+        content: `# Key Elements\n1. **Duration:** Permanent or Fixed-term.\n2. **TES:** Collective Agreement. Defines minimum salary and holidays.\n3. **Trial Period:** Max 6 months. During this time, either side can terminate immediately.\n\n**Never start work without a written contract.**` 
       },
-      'family_activities': {
-        title: 'Hobbies & Sports',
-        summary: 'Hobbies are taken seriously here.',
-        content: `# Options\n* **Libraries:** Oodi offers 3D printers, sewing machines, gaming rooms for free.\n* **Sports:** Football, floorball, ice hockey are huge.\n* **Music:** Music schools (musiikkiopisto) are high quality.`
-      },
-      'family_winter': {
-        title: 'Kids & Winter',
-        summary: 'There is no bad weather, only bad clothes.',
-        content: `# Clothing\n* **Layers:** Wool layer, fleece layer, waterproof outer layer.\n* **Haalari:** One-piece overall is the standard kid uniform.\n* **Reflectors:** Mandatory for safety in the dark.`
-      },
-      'family_safety': {
-        title: 'Safety & Independence',
-        summary: 'Finland is super safe. Kids go to school alone.',
-        content: `# Independence\nDon't panic if you see a 7-year-old alone on the metro. It is normal. The society keeps them safe.`
-      },
-      'culture_essentials': { 
-        title: 'Core Values', 
-        summary: 'Trust and silence are core values.', 
-        content: `# Trust & Silence 🤫\n\n1. **Trust:** Do what you say.\n2. **Silence:** Do not fear the silence.` 
+      'work_unions': {
+        title: 'Trade Unions',
+        summary: 'Highly recommended. They manage unemployment funds.',
+        content: `# Why join?\n1. **Money:** They pay earnings-related allowance (much higher than Kela).\n2. **Law:** Free legal help if employer treats you badly.\n\n### Which one?\n* **YTK:** Just the fund (cheaper).\n* **TEK:** For engineers.\n* **PAM:** Service sector.`
       },
       'nature_everyman': { 
         title: 'Everyman\'s Rights', 
@@ -516,11 +288,211 @@ export const en: TranslationResource = {
         summary: 'Darkness and Vitamin D.', 
         content: `# The Darkness (Kaamos)\n\nIn Nov-Jan, sunlight is rare.\n* **Vitamin D:** Take supplements. Mandatory.\n* **Reflectors:** Wear them. It's the law.\n* **Spikes:** Shoes with spikes prevent slipping on ice.`, 
       },
-      'nature_summer': {
-        title: 'Summer Cottages (Mökki)',
-        summary: 'The Finnish soul lives here.',
-        content: `# Mökki Life\n\nIn July, cities empty. Everyone goes to a cottage.\n* **Simple:** Many have no electricity or running water.\n* **Activity:** Sauna, swim, grill, repeat.`,
-      }
+      'culture_sauna': {
+        title: 'Sauna Diplomacy',
+        summary: 'Sauna is a place of equality. Even in business.',
+        content: `# Rules\n1. **Equality:** In sauna, there are no titles. CEO and intern are equal.\n2. **Nudity:** Natural, not sexual.\n3. **Business:** Decisions are sometimes made here.`
+      },
+      'culture_coffee': {
+        title: 'Coffee Breaks',
+        summary: 'Sacred ritual. Often mandated by law.',
+        content: `# Kahvitauko\nFinns drink the most coffee in the world (12kg/year). Most contracts have two 10-15 min breaks. This is where team bonding happens. Don't sit alone at your desk.`
+      },
+      'job_market_overview': { 
+        title: 'The Hidden Job Market', 
+        summary: 'Why 80% of jobs are never advertised.', 
+        content: `# The Iceberg\nIn Finland, public job ads are just the tip of the iceberg. The "Hidden Job Market" (Piilotyöpaikat) accounts for 70-80% of hires.\n\n### Why?\n1. **Cost:** Advertising is expensive.\n2. **Trust:** Finns prefer to hire someone recommended by a network.\n\n### Strategy\nYou cannot apply to these jobs online. You must find them through networking, direct contact, and "Open Applications" (Avoin hakemus).` 
+      },
+      'job_te_office': { 
+        title: 'TE Services (TE-toimisto)', 
+        summary: 'Mandatory for unemployment benefits. Register on day 1.', 
+        content: `# Your First Stop\n**TE Services** (Employment and Economic Development Office) is the government agency for job seekers.\n\n### Why register?\n* **Money:** You CANNOT get unemployment benefits from Kela or a Union unless you are registered as an "unemployed job seeker" at TE.\n* **Integration:** They provide free Finnish language courses (Kotoutumiskoulutus).\n\n### The Process\n1. Go to [te-palvelut.fi](https://tyomarkkinatori.fi/).\n2. Log in with bank codes.\n3. Click "Ilmoittaudu työnhakijaksi" (Register as job seeker).\n4. **Do it on your first day of unemployment.** Retroactive registration is not possible.` 
+      },
+      'job_portals': { 
+        title: 'Where to find jobs', 
+        summary: 'The main aggregators and niche sites.', 
+        content: `# Major Portals\n* **LinkedIn:** Essential for white-collar, IT, and English-speaking jobs. Use "Helsinki" location to be found.\n* **Oikotie Työpaikat:** The biggest general job board in Finland.\n* **Duunitori:** Very popular, good social media integration.\n* **The Hub:** The go-to place for **Startup** jobs (mostly English speaking).\n\n### Tips\nSet up "Job Alerts" (Hakuvahti) on Oikotie and Duunitori so you get emails immediately when a job opens.` 
+      },
+      'job_entrepreneurship': { 
+        title: 'Entrepreneurship (Starttiraha)', 
+        summary: 'Get paid to start your own business.', 
+        content: `# Starttiraha (Startup Grant)\nFinland wants you to start a business. The state provides a grant (approx. 700€/month) for 6-12 months to secure your livelihood while you start.\n\n### The Catch\nYou must apply for the grant **BEFORE** you register your company (Y-tunnus). If you register first, you lose the money.\n\n### Where to get help?\n* **Uusyrityskeskus:** Free business advising. They help you write the business plan required for Starttiraha.` 
+      },
+      'job_cv_tips': { 
+        title: 'Finnish CV Style', 
+        summary: 'Keep it short, factual, and include a photo.', 
+        content: `# The Finnish Style\nFinns value efficiency. They don't want to read a novel.\n\n### Checklist\n1. **Length:** Max 2 pages. Ideally 1 page.\n2. **Photo:** Standard practice. Use a professional, smiling headshot.\n3. **Profile:** A short summary (3-4 lines) at the top about who you are.\n4. **Skills:** List "Hard Skills" (Java, Welding, Photoshop) clearly.\n5. **Tone:** Humble but confident. State facts ("I increased sales by 20%"), not adjectives ("I am an amazing super-salesman").` 
+      },
+      'job_cover_letter': { 
+        title: 'Cover Letter', 
+        summary: 'Do not repeat your CV. Answer "Why us?" and "Why you?".', 
+        content: `# The Pitch\nYour CV tells *what* you did. The Cover Letter tells *why* you fit.\n\n### Structure\n1. **The Hook:** Why do you want *this specific* job? Show you researched them.\n2. **The Value:** How can you solve their problems? Give concrete examples.\n3. **The Personality:** Will you fit the team?\n\n### Tip\nKeep it under 1 page. PDF format always.` 
+      },
+      'job_interview': { 
+        title: 'The Interview', 
+        summary: 'Honesty is tested. Silence is okay.', 
+        content: `# What to expect\n* **Honesty:** If you don't know the answer, say "I don't know, but I can learn". Do not lie or bluff. Finns value honesty above all.\n* **Silence:** If the interviewer is silent after your answer, **don't panic**. They are thinking. Do not babble to fill the silence.\n* **Coffee:** Always accept if offered. It's a ritual.` 
+      },
+      'job_recognition': { 
+        title: 'Degree Recognition', 
+        summary: 'Critical for regulated professions like doctors and teachers.', 
+        content: `# Regulated Professions\nIf you want to work as a Doctor, Nurse, Teacher, or Lawyer, your foreign degree must be recognized by the Finnish National Agency for Education (**OPH**) or **Valvira** (for health).\n\n### General Roles\nFor IT, Business, or Marketing, official recognition is rarely needed. Your skills and portfolio matter more than the stamp on your diploma.` 
+      },
+      'work_hours': { 
+        title: 'Working Hours', 
+        summary: 'Standard is 7.5 or 8 hours a day. Work-life balance is real.', 
+        content: `# The Balance\n* **Full-time:** Usually 37.5 or 40 hours/week.\n* **Flexibility:** Many offices use "liukuma" (flex time). You can arrive between 7-9 and leave between 15-17.\n* **Lunch:** Typically 30 mins. It is usually unpaid (own time), so the work day is 7.5h + 0.5h lunch.` 
+      },
+      'work_holidays': { 
+        title: 'Annual Holidays', 
+        summary: 'Finland has generous holidays, but you earn them.', 
+        content: `# The Credit Year\nYou earn holiday days from April 1st to March 31st.\n* **Standard:** 2.5 days per month worked = 30 days (5 weeks) per year.\n* **Summer:** Finns take 3-4 weeks off in **July**. The country basically stops.\n* **Holiday Bonus:** Many collective agreements include "Lomaraha" (Holiday Money), which is an extra 50% salary paid when you take holiday.` 
+      },
+      'work_probation': { 
+        title: 'Probation Period', 
+        summary: 'The first 6 months are usually a trial.', 
+        content: `# Koeaika\nDuring the probation period (max 6 months), **both you** and the employer can terminate the contract immediately without notice period. No specific reason is needed, but it cannot be discriminatory.` 
+      },
+      'culture_meetings': { 
+        title: 'Meeting Culture', 
+        summary: 'Punctual, agenda-driven, and efficient.', 
+        content: `# The Rules\n1. **Start on time:** 09:00 means 09:00. Not 09:05.\n2. **Agenda:** Stick to it. Finns like structure.\n3. **Silence:** Silence in a meeting means agreement or thinking. It does not mean something is wrong.\n4. **End on time:** Respect people's calendars.` 
+      },
+      'culture_feedback': { 
+        title: 'Giving Feedback', 
+        summary: 'Direct and factual. Don\'t take it personally.', 
+        content: `# Directness\nA Finn might say: *"This report is missing data X."*\nThey are not being rude. They are stating a fact to fix the problem efficiently. They separate the work from the person. Do not read emotional subtext where there is none.` 
+      },
+      'culture_names': { 
+        title: 'Names & Titles', 
+        summary: 'Very informal. Titles are rarely used.', 
+        content: `# Hyvä Matti\nHierarchy is low. You call the CEO by their first name. You address doctors and professors by first name. The formal "Te" (Vous/Sie) is almost extinct in workplaces.` 
+      },
+      'culture_punctuality': { 
+        title: 'Punctuality', 
+        summary: '5 minutes late is late.', 
+        content: `# Time is Respect\nIn Finland, being late is considered stealing the other person's time. If you are going to be 5 minutes late, send a message. If you are on time, you are late (aim for 5 min early).` 
+      },
+      'culture_afterwork': { 
+        title: 'Afterwork (AW)', 
+        summary: 'Casual drinks on Fridays.', 
+        content: `# The Atmosphere\n"AW" is common in cities. It is usually very casual. It is acceptable to drink alcohol or non-alcoholic drinks. It's about relaxing, not getting drunk (usually).` 
+      },
+      'culture_smalltalk': { 
+        title: 'Silence & Small Talk', 
+        summary: 'Silence is not awkward. It is a comfortable break.', 
+        content: `# Don't fill the void\nIf you are in an elevator with a Finn, you don't need to talk. A nod is enough. Finns value words; they don't use them to just fill air. If you have nothing to say, enjoy the silence together.` 
+      },
+      'culture_party': { 
+        title: 'Office Parties', 
+        summary: 'Pikkujoulut (Little Christmas) can be wild.', 
+        content: `# The Exception\nFinns are reserved, EXCEPT at *Pikkujoulut*. These are the annual Christmas parties held in Nov-Dec. There is often heavy drinking and colleagues become much more open. What happens at Pikkujoulut, stays at Pikkujoulut.` 
+      },
+      'prof_engineering': { 
+        title: 'Engineering in Finland', 
+        summary: 'A huge sector. English is widely used.', 
+        content: `# The Giants\nKone, Wärtsilä, Nokia, Metso, Valmet.\n\n### Culture\nEngineering culture here is very fact-based. Prepare to back up your claims with data. Precision is valued over sales pitches.` 
+      },
+      'prof_business': { 
+        title: 'Business & Finance', 
+        summary: 'Often requires Finnish, except in startups.', 
+        content: `# The Barrier\nTraditional roles (HR, Accounting, Banking) often require fluent Finnish due to laws and local clients.\n\n### The Opportunity\nLook for *International Sales*, *Business Analytics*, or *Export* roles where your native language and market knowledge are assets.` 
+      },
+      'prof_it': { 
+        title: 'IT & Tech', 
+        summary: 'The easiest sector for English speakers.', 
+        content: `# The Hub\nFinland is desperate for coders. English is the company language in almost all tech companies (Wolt, Supercell, Relex).\n\n### Hiring\nExpect a coding test. Show your GitHub.` 
+      },
+      'prof_health': { 
+        title: 'Health & Nursing', 
+        summary: 'Huge shortage, but language is mandatory.', 
+        content: `# The Reality\nTo work as a nurse or doctor, you need a license from **Valvira**. To get it, you usually need Finnish skills at level B1 or B2. Patient safety comes first.` 
+      },
+      'prof_service': { 
+        title: 'Service Industry', 
+        summary: 'Restaurants and cleaning are common entry points.', 
+        content: `# The Start\nCleaning and restaurant kitchens often hire non-Finnish speakers. It is hard work, but a way to start earning and get into the system (and get Occupational Health care!).` 
+      },
+      'housing_utilities': { 
+        title: 'Electricity & Internet', 
+        summary: 'You usually make your own electricity contract.', 
+        content: `# Electricity\nIt is NOT included in the rent. You must choose a provider (e.g., Helen, Fortum) and make a contract.\n\n### Water\nOften a fixed fee (e.g., 20€/person/month) added to rent.\n\n### Internet\nMany buildings have free basic internet (Taloyhtiölaajakaista). You just need to register or buy a faster speed.` 
+      },
+      'housing_recycling': { 
+        title: 'Recycling Guide', 
+        summary: 'Finns recycle everything. It is a civic duty.', 
+        content: `# The Bins\nYour building has a recycling room (Jätekatos).\n* **Bio:** Food waste (no plastic bags!).\n* **Muovi:** Plastic packaging.\n* **Kartonki:** Milk cartons, cardboard.\n* **Paperi:** Paper, newspapers.\n* **Lasi/Metalli:** Glass and Metal.\n\n### Pantti\nPlastic bottles and aluminum cans have a deposit (10c - 40c). Don't crush them! Return them to the machine at any supermarket to get money back.` 
+      },
+      'housing_sauna': { 
+        title: 'Laundry & Sauna', 
+        summary: 'Most buildings have shared facilities.', 
+        content: `# Taloyhtiö Life\n* **Pesutupa (Laundry):** Usually there is a booking list. It is cheap or free. Respect the times.\n* **Lenkkisauna:** A free weekly sauna turn for everyone (men/women separate).\n* **Oma vuoro:** You can book your own weekly private sauna hour for a small monthly fee.` 
+      },
+      'family_activities': { 
+        title: 'Hobbies & Sports', 
+        summary: 'Hobbies are taken seriously here.', 
+        content: `# Options\n* **Libraries:** Oodi and others offer 3D printers, sewing machines, and gaming rooms for free.\n* **Sports:** Football, Floorball (Salibandy), and Ice Hockey are huge.\n* **Music:** Music institutes (Musiikkiopisto) are high quality but competitive.` 
+      },
+      'family_winter': { 
+        title: 'Kids & Winter', 
+        summary: 'There is no bad weather, only bad clothes.', 
+        content: `# Clothing Strategy\n* **Layers:** Wool layer, fleece layer, waterproof outer layer.\n* **Haalari:** The one-piece overall is the standard uniform for Finnish children.\n* **Reflectors:** Essential for safety in the dark winter months.` 
+      },
+      'family_safety': { 
+        title: 'Safety', 
+        summary: 'Finland is super safe. Kids go to school alone.', 
+        content: `# Independence\nDon't panic if you see a 7-year-old taking the metro alone. It is normal here. The society is designed to be safe for them.` 
+      },
+      'vol_redcross': { 
+        title: 'Red Cross & NGOs', 
+        summary: 'Classic volunteering opportunities.', 
+        content: `# Red Cross (Punainen Risti)\nThey always need volunteers for friend visitors (ystävätoiminta) or thrift shops (Kontti).\n\n### Why?\nIt looks great on a CV and shows you care about the community.` 
+      },
+      'vol_animals': { 
+        title: 'Animal Shelters', 
+        summary: 'Help cats and dogs.', 
+        content: `# HESY\nThe Helsinki Society for Animal Protection often needs help. Walking dogs or socializing with cats. A great way to meet empathetic locals.` 
+      },
+      'vol_events': { 
+        title: 'Event Volunteering', 
+        summary: 'The best way to get free tickets and meet people.', 
+        content: `# Festivals\nFlow Festival, Slush, World Village Festival.\n\n### The Deal\nYou work 2-3 shifts, you get a free pass for the rest of the festival, food, and a staff party. The "Staff Party" is often the best place to network.` 
+      },
+      'vol_humanitarian': { 
+        title: 'Humanitarian Work', 
+        summary: 'Food aid and support.', 
+        content: `# Hurstin apu\nFamous food aid distributor in Helsinki. Hard work, but very respected.` 
+      },
+      'daily_transport': { 
+        title: 'Public Transport (HSL)', 
+        summary: 'No cash allowed. Download the app.', 
+        content: `# HSL Zones\nThe region is divided into zones A, B, C, D.\n* **Helsinki:** AB\n* **Vantaa:** BC\n* **Airport:** C\n* **All:** ABCD\n\n### The App\nDownload **HSL App**. You can buy tickets and plan routes. It is cheaper than buying from a machine.` 
+      },
+      'daily_groceries': { 
+        title: 'Grocery Shopping', 
+        summary: 'Weigh your own veggies.', 
+        content: `# The Rules\n1. **The Scale:** You must weigh your own vegetables and stick the price tag on the bag. Cashiers do not have scales.\n2. **The Duopoly:** S-Group (Prisma, S-Market, Alepa) vs K-Group (Citymarket, K-Supermarket). Get the loyalty card (S-Etukortti) if you stay long.\n3. **Alcohol:** Beer is sold in supermarkets until 9 PM. Wine and spirits only in **Alko** (state monopoly).` 
+      },
+      'daily_pantti': { 
+        title: 'Bottle Recycling', 
+        summary: 'Don\'t throw away cans! They are money.', 
+        content: `# Pantti\nAlmost every bottle and can has a deposit (10c - 40c).\n1. Collect them.\n2. Take them to the machine at any supermarket.\n3. Get a receipt.\n4. Use receipt to pay for groceries or get cash.` 
+      },
+      'nature_summer': { 
+        title: 'Summer Cottages (Mökki)', 
+        summary: 'The Finnish soul lives here.', 
+        content: `# Mökki Life\nIn July, cities empty. Everyone goes to the cottage.\n* **Basic:** Many cottages have no electricity or running water.\n* **Activities:** Sauna, swim, grill, repeat.\n* **Invite:** If a Finn invites you to their Mökki, it is a huge sign of friendship.` 
+      },
+      'vantaa_library_tikkurila': { title: 'Tikkurila Library', summary: 'Dixi.', content: 'Library info.' },
+      'vantaa_nature': { title: 'Vantaa Nature', summary: 'Kuusijärvi.', content: 'Nature info.' },
+      'vantaa_ring_rail': { title: 'The Ring Rail', summary: 'Train.', content: 'Train info.' },
+      'vantaa_info_points': { title: 'Vantaa Info', summary: 'Help.', content: 'Info points.' },
+      'vantaa_aviapolis': { title: 'Aviapolis Hub', summary: 'Airport.', content: 'Airport info.' },
+      'vantaa_multicultural': { title: 'Multicultural Vantaa', summary: 'Diverse.', content: 'Diverse info.' },
+      'net_culture': { title: 'Networking', summary: 'Info.', content: 'Net info.' },
+      'net_linkedin': { title: 'LinkedIn', summary: 'Info.', content: 'Net info.' },
+      'net_hidden': { title: 'Hidden Jobs', summary: 'Info.', content: 'Net info.' },
+      'net_volunteering': { title: 'Volunteering', summary: 'Info.', content: 'Net info.' },
     }
   }
 };

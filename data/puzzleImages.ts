@@ -8,14 +8,12 @@ export interface PuzzleImageDef {
 export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
   'vantaa_iso': {
     id: 'vantaa_iso',
-    // Fallback to a reliable remote image since local file is missing
-    // Changed to a stable Helsinki aerial view
-    url: 'https://images.unsplash.com/photo-1523374228107-6e44bd2b524e?q=80&w=2070&auto=format&fit=crop', 
-    alt: 'Isometric City View'
+    // Updated to a working Finnish river landscape (resembling Vantaanjoki)
+    url: 'https://images.unsplash.com/photo-1603123853880-a92fafb7809f?q=80&w=2070&auto=format&fit=crop', 
+    alt: 'Vantaankoski Rapids'
   },
   'helsinki_iso': {
     id: 'helsinki_iso',
-    // Fallback to a reliable remote image
     url: 'https://images.unsplash.com/photo-1538332536281-2130b9536c9a?q=80&w=2069&auto=format&fit=crop', 
     alt: 'Helsinki Winter Mood'
   },
@@ -26,7 +24,7 @@ export const PUZZLE_IMAGES: Record<string, PuzzleImageDef> = {
   },
   'lakeland_summer': {
     id: 'lakeland_summer',
-    url: 'https://images.unsplash.com/photo-1504198266287-16594a975254?q=80&w=2070&auto=format&fit=crop',
+    url: 'https://images.unsplash.com/photo-1506093766782-b772c9140409?q=80&w=2070&auto=format&fit=crop',
     alt: 'Finnish Lakeland Summer'
   },
   'archipelago': {
